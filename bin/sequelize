@@ -3,7 +3,7 @@
 var path      = require("path")
   , fs        = require("fs")
   , program   = require("commander")
-  , Sequelize = require(__dirname + '/../index')
+  , Sequelize = require('sequelize')
   , moment    = require("moment")
   , _         = Sequelize.Utils._
   , url       = require("url")
