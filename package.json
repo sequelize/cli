@@ -7,7 +7,8 @@
     "gulp": "~3.6.2",
     "gulp-help": "~0.1.3",
     "gulp-util": "~2.2.14",
-    "sequelize": "~2.0.0-dev11"
+    "sequelize": "~2.0.0-dev11",
+    "moment": "~2.6.0"
   },
   "devDependencies": {
     "expect.js": "~0.3.1",
@@ -15,7 +16,8 @@
     "mysql": "~2.1.1",
     "pg": "~3.0.3",
     "sqlite3": "~2.2.3",
-    "mariasql": "~0.1.20"
+    "mariasql": "~0.1.20",
+    "coffee-script": "~1.7.1"
   },
   "scripts": {
     "test": "mocha"
