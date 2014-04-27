@@ -1,30 +1,19 @@
 var gulp        = require('gulp')
-  , gutil       = require('gulp-util')
-  , help        = require('gulp-help')
   , path        = require('path')
-  , packageJson = require(path.resolve(__dirname, 'package.json'))
-  , noop        = function(){}
+  , fs          = require('fs')
+  , helpers     = require(path.resolve(__dirname, 'lib', 'helpers'))
 
-help(gulp, { aliases: ['h'] })
+require('gulp-help')(gulp, { aliases: ['h'] })
 
-gulp.task('version', 'Prints the version number.', [], function() {
-  console.log(packageJson.version)
-}, {
-  aliases: ['v']
-})
-
-gulp.task('init', 'Initializes the project.', function() {
-
-})
-
-gulp.task('migrate', 'Run pending migrations.', function() {
-
-})
-
-gulp.task('migrate:undo', 'Undo the last migration.', function() {
-
-})
-
-gulp.task('migration:create', 'Creates a new migration.', function() {
-
-})
+fs
+  .readdirSync(path.resolve(__dirname, 'lib', 'tasks'))
+  .filter(function(file) { return file.indexOf('.') !== 0 })
+  .map(function(file) {
+    return require(path.resolve(__dirname, 'lib', 'tasks', file))
+  })
+  .forEach(function(tasks) {
+    Object.keys(tasks).forEach(function(taskName) {
+      helpers.addTask(gulp, taskName, tasks[taskName])
+      helpers.addHelp(gulp, taskName, tasks[taskName])
+    })
+  })
