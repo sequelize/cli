@@ -9,7 +9,8 @@
     "gulp-util": "~2.2.14",
     "sequelize": "~2.0.0-dev11",
     "moment": "~2.6.0",
-    "commander": "~2.2.0"
+    "commander": "~2.2.0",
+    "yargs": "~1.2.1"
   },
   "devDependencies": {
     "expect.js": "~0.3.1",
