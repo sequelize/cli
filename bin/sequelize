@@ -11,16 +11,19 @@ if ((args[0] === '-v') || (args[0] === '-V')) {
   args = ['version']
 }
 
-var call = spawn(gulp, args, {
-  cwd: path.resolve(__dirname, '..')
-})
+args = args.concat([
+  '--gulpfile', path.resolve(__dirname, '..', 'gulpfile.js'),
+  '--cwd', process.cwd()
+])
+
+var call = spawn(gulp, args)
 
 call.stdout.on('data', function(data) {
   var lines  = data.toString().split("\n")
     , output = ""
 
   lines = lines.filter(function(line) {
-    return line.indexOf('[gulp]') === -1
+    return (line.indexOf('[gulp]') === -1) || (line.indexOf('errored') > -1)
   })
 
   output = lines.join("\n")
