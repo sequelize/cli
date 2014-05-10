@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "gulp": "~3.6.2",
-    "gulp-help": "~0.1.3",
+    "gulp-help": "~0.1.4",
     "gulp-util": "~2.2.14",
     "sequelize": "~2.0.0-dev11",
     "moment": "~2.6.0",
@@ -22,7 +22,7 @@
     "coffee-script": "~1.7.1"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "node_modules/.bin/mocha test/*.test.js"
   },
   "repository": {
     "type": "git",
