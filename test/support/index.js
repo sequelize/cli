@@ -162,7 +162,7 @@ var Support = {
   },
 
   getCliPath: function(cwd) {
-    return path.relative(cwd, path.resolve(process.cwd(), 'bin', 'sequelize'))
+    return path.resolve(cwd, path.resolve(process.cwd(), 'bin', 'sequelize'))
   },
 
   getCliCommand: function(cwd, flags) {
@@ -170,7 +170,7 @@ var Support = {
   },
 
   getSupportDirectoryPath: function() {
-    return __dirname
+    return path.resolve(__dirname)
   },
 
   resolveSupportPath: function() {
