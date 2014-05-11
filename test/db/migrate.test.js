@@ -11,8 +11,8 @@ var expect    = require('expect.js')
 ([
   'db:migrate',
   'db:migrate --coffee',
-  'db:migrate --config ../support/tmp/config/config.json',
-  'db:migrate --config ' + path.join(__dirname, 'tmp', 'config', 'config.json')
+  'db:migrate --config ../../support/tmp/config/config.json',
+  'db:migrate --config ' + Support.resolveSupportPath('tmp', 'config', 'config.json')
 ]).forEach(function(flag) {
   var cwd = Support.resolveSupportPath('tmp')
 
