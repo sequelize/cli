@@ -143,21 +143,21 @@ var Support = {
   },
 
   getTestUrl: function(config) {
-    var url,
-        dbConfig = config[config.dialect]
+    var url      = null
+      , dbConfig = config[config.dialect]
 
     if (config.dialect === 'sqlite') {
       url = 'sqlite://' + dbConfig.storage
     } else {
-
       var credentials = dbConfig.username
+
       if(dbConfig.password) {
         credentials += ":" + dbConfig.password
       }
 
-      url = config.dialect + "://" + credentials
-      + "@" + dbConfig.host + ":" + dbConfig.port + "/" + dbConfig.database
+      url = config.dialect + "://" + credentials + "@" + dbConfig.host + ":" + dbConfig.port + "/" + dbConfig.database
     }
+
     return url
   },
 
