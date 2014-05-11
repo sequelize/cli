@@ -6,85 +6,82 @@ var expect    = require('expect.js')
   , path      = require('path')
   , os        = require('os')
   , cli       = "bin/sequelize"
+  ;
 
-if (os.type().toLowerCase().indexOf('windows') === -1) {
-  describe(Support.getTestDialectTeaser(cli), function() {
-    ;(function(flags) {
-      flags.forEach(function(flag) {
-        var prepare = function(callback) {
-          exec("rm -rf ./*", { cwd: __dirname + '/support/tmp' }, function(error, stdout) {
-            exec("../../../bin/sequelize init", { cwd: __dirname + '/support/tmp' }, function(error, stdout) {
-              var source = (flag.indexOf('coffee') === -1)
-                ? "../assets/migrations/*-createPerson.js"
-                : "../assets/migrations/*-createPerson.coffee"
+([
+  'db:migrate',
+  'db:migrate --coffee',
+  'db:migrate --config ../support/tmp/config/config.json',
+  'db:migrate --config ' + path.join(__dirname, 'tmp', 'config', 'config.json')
+]).forEach(function(flag) {
+  var cwd = Support.resolveSupportPath('tmp')
 
-              exec("cp " + source + " ./migrations/", { cwd: __dirname + '/support/tmp' }, function(error, stdout) {
-                exec("cat ../support/index.js|sed s,/../,/../../, > ./support.js", { cwd: __dirname + '/support/tmp' }, function(error, stdout) {
-                  var dialect = Support.getTestDialect()
-                    , config  = require(Support.resolveSupportPath('config', 'config.js'))
-                    , cwd     = Support.resolveSupportPath('tmp')
+  var prepare = function(callback) {
+    exec("rm -rf ./*", { cwd: cwd }, function(error, stdout) {
+      exec(Support.getCliCommand(cwd, 'init'), { cwd: cwd }, function(error, stdout) {
+        var source = (flag.indexOf('coffee') === -1)
+          ? "../assets/migrations/*-createPerson.js"
+          : "../assets/migrations/*-createPerson.coffee"
 
-                  config.sqlite.storage = Support.resolveSupportPath('tmp', 'test.sqlite')
-                  config = _.extend(config, config[dialect], { dialect: dialect })
+        exec("cp " + source + " ./migrations/", { cwd: cwd }, function(error, stdout) {
+          exec("cat ../support/index.js|sed s,/../,/../../, > ./support.js", { cwd: cwd }, function(error, stdout) {
+            var dialect = Support.getTestDialect()
+              , config  = require(Support.resolveSupportPath('config', 'config.js'))
+              , cwd     = Support.resolveSupportPath('tmp')
 
-                  exec("echo '" + JSON.stringify(config) + "' > config/config.json", { cwd: cwd }, function(error, stdout) {
-                    exec(Support.getCliCommand(cwd, flag), { cwd: cwd }, function() {
-                      callback.apply(null, [].slice.apply(arguments))
-                    })
-                  })
-                })
+            config.sqlite.storage = Support.resolveSupportPath('tmp', 'test.sqlite')
+            config = _.extend(config, config[dialect], { dialect: dialect })
+
+            exec("echo '" + JSON.stringify(config) + "' > config/config.json", { cwd: cwd }, function(error, stdout) {
+              exec(Support.getCliCommand(cwd, flag), { cwd: cwd }, function() {
+                callback.apply(null, [].slice.apply(arguments))
               })
             })
           })
-        }
-
-        describe(flag, function() {
-          it("creates a SequelizeMeta table", function(done) {
-            var sequelize = this.sequelize
-
-            if (this.sequelize.options.dialect === 'sqlite') {
-              var options = this.sequelize.options
-              options.storage = Support.resolveSupportPath('tmp', 'test.sqlite')
-              sequelize = new Support.Sequelize("", "", "", options)
-            }
-
-            prepare(function() {
-              sequelize.getQueryInterface().showAllTables().success(function(tables) {
-                tables = tables.sort()
-
-                expect(tables).to.have.length(2)
-                expect(tables[1]).to.equal("SequelizeMeta")
-                done()
-              })
-            }.bind(this))
-          })
-
-          it("creates the respective table", function(done) {
-            var sequelize = this.sequelize
-
-            if (this.sequelize.options.dialect === 'sqlite') {
-              var options = this.sequelize.options
-              options.storage = Support.resolveSupportPath('tmp', 'test.sqlite')
-              sequelize = new Support.Sequelize("", "", "", options)
-            }
-
-            prepare(function() {
-              sequelize.getQueryInterface().showAllTables().success(function(tables) {
-                tables = tables.sort()
-
-                expect(tables).to.have.length(2)
-                expect(tables[0]).to.equal("Person")
-                done()
-              })
-            }.bind(this))
-          })
         })
       })
-    })([
-      'db:migrate',
-      'db:migrate --coffee',
-      'db:migrate --config ../support/tmp/config/config.json',
-      'db:migrate --config ' + path.join(__dirname, 'tmp', 'config', 'config.json')
-    ])
+    })
+  }
+
+  describe(Support.getTestDialectTeaser(cli + " " + flag), function() {
+    it("creates a SequelizeMeta table", function(done) {
+      var sequelize = this.sequelize
+
+      if (this.sequelize.options.dialect === 'sqlite') {
+        var options = this.sequelize.options
+        options.storage = Support.resolveSupportPath('tmp', 'test.sqlite')
+        sequelize = new Support.Sequelize("", "", "", options)
+      }
+
+      prepare(function() {
+        sequelize.getQueryInterface().showAllTables().success(function(tables) {
+          tables = tables.sort()
+
+          expect(tables).to.have.length(2)
+          expect(tables[1]).to.equal("SequelizeMeta")
+          done()
+        })
+      }.bind(this))
+    })
+
+    it("creates the respective table", function(done) {
+      var sequelize = this.sequelize
+
+      if (this.sequelize.options.dialect === 'sqlite') {
+        var options = this.sequelize.options
+        options.storage = Support.resolveSupportPath('tmp', 'test.sqlite')
+        sequelize = new Support.Sequelize("", "", "", options)
+      }
+
+      prepare(function() {
+        sequelize.getQueryInterface().showAllTables().success(function(tables) {
+          tables = tables.sort()
+
+          expect(tables).to.have.length(2)
+          expect(tables[0]).to.equal("Person")
+          done()
+        })
+      }.bind(this))
+    })
   })
-}
+})
