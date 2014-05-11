@@ -7,23 +7,21 @@ var expect    = require('expect.js')
   , path      = require('path')
   , os        = require('os')
   , cli       = "bin/sequelize"
+  ;
 
-if (os.type().toLowerCase().indexOf('windows') === -1) {
-  describe(Support.getTestDialectTeaser("CLI"), function() {
-    (function(flags) {
-      flags.forEach(function(flag) {
-        var cmd = cli + " " + flag
-
-        describe(cmd, function() {
-          it("prints the version", function(done) {
-            exec(cmd, function(err, stdout, stderr) {
-              expect(version).to.not.be.empty
-              expect(stdout).to.contain(version)
-              done()
-            })
-          })
-        })
+([
+  'version',
+  'v',
+  '-v',
+  '-V'
+]).forEach(function(flag) {
+  describe(Support.getTestDialectTeaser(cli + " " + flag), function() {
+    it("prints the version", function(done) {
+      exec(Support.getCliCommand(process.cwd(), flag), function(err, stdout, stderr) {
+        expect(version).to.not.be.empty
+        expect(stdout).to.contain(version)
+        done()
       })
-    })(['version', 'v'])
+    })
   })
-}
+})
