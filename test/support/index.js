@@ -159,6 +159,24 @@ var Support = {
       + "@" + dbConfig.host + ":" + dbConfig.port + "/" + dbConfig.database
     }
     return url
+  },
+
+  getCliPath: function(cwd) {
+    return path.relative(cwd, path.resolve(process.cwd(), 'bin', 'sequelize'))
+  },
+
+  getCliCommand: function(cwd, flags) {
+    return this.getCliPath(cwd) + " " + flags
+  },
+
+  getSupportDirectoryPath: function() {
+    return __dirname
+  },
+
+  resolveSupportPath: function() {
+    var args = [].slice.apply(arguments)
+    args = [this.getSupportDirectoryPath()].concat(args)
+    return path.resolve.apply(path, args)
   }
 }
 

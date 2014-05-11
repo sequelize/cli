@@ -1,9 +1,8 @@
 var expect    = require('expect.js')
-  , Support   = require(__dirname + '/support')
+  , Support   = require(__dirname + '/../support')
   , dialect   = Support.getTestDialect()
   , _         = Support.Sequelize.Utils._
   , exec      = require('child_process').exec
-  , version   = (require(__dirname + '/../package.json')).version
   , path      = require('path')
   , os        = require('os')
   , cli       = "bin/sequelize"
@@ -22,13 +21,14 @@ if (os.type().toLowerCase().indexOf('windows') === -1) {
               exec("cp " + source + " ./migrations/", { cwd: __dirname + '/support/tmp' }, function(error, stdout) {
                 exec("cat ../support/index.js|sed s,/../,/../../, > ./support.js", { cwd: __dirname + '/support/tmp' }, function(error, stdout) {
                   var dialect = Support.getTestDialect()
-                    , config  = require(__dirname + '/support/config/config.js')
+                    , config  = require(Support.resolveSupportPath('config', 'config.js'))
+                    , cwd     = Support.resolveSupportPath('tmp')
 
-                  config.sqlite.storage = __dirname + "/support/tmp/test.sqlite"
+                  config.sqlite.storage = Support.resolveSupportPath('tmp', 'test.sqlite')
                   config = _.extend(config, config[dialect], { dialect: dialect })
 
-                  exec("echo '" + JSON.stringify(config) + "' > config/config.json", { cwd: __dirname + '/support/tmp' }, function(error, stdout) {
-                    exec("../../../bin/sequelize " + flag, { cwd: __dirname + "/support/tmp" }, function() {
+                  exec("echo '" + JSON.stringify(config) + "' > config/config.json", { cwd: cwd }, function(error, stdout) {
+                    exec(Support.getCliCommand(cwd, flag), { cwd: cwd }, function() {
                       callback.apply(null, [].slice.apply(arguments))
                     })
                   })
@@ -44,7 +44,7 @@ if (os.type().toLowerCase().indexOf('windows') === -1) {
 
             if (this.sequelize.options.dialect === 'sqlite') {
               var options = this.sequelize.options
-              options.storage = __dirname + "/support/tmp/test.sqlite"
+              options.storage = Support.resolveSupportPath('tmp', 'test.sqlite')
               sequelize = new Support.Sequelize("", "", "", options)
             }
 
@@ -64,7 +64,7 @@ if (os.type().toLowerCase().indexOf('windows') === -1) {
 
             if (this.sequelize.options.dialect === 'sqlite') {
               var options = this.sequelize.options
-              options.storage = __dirname + "/support/tmp/test.sqlite"
+              options.storage = Support.resolveSupportPath('tmp', 'test.sqlite')
               sequelize = new Support.Sequelize("", "", "", options)
             }
 
