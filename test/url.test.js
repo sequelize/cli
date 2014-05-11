@@ -10,8 +10,7 @@ var expect    = require('expect.js')
   ;
 
 ([
-  '--url',
-  '-U'
+  '--url'
 ]).forEach(function(flag) {
   var cwd = Support.resolveSupportPath('tmp')
 
@@ -19,7 +18,9 @@ var expect    = require('expect.js')
     exec("rm -rf ./*", { cwd: cwd }, function(error, stdout) {
       exec(Support.getCliCommand(cwd, 'init'), { cwd: cwd }, function(error, stdout) {
         var migrationSource = Support.resolveSupportPath('assets', 'migrations')
-        exec("cp " + migrationSource + "/*-createPerson.js ./migrations/", { cwd: cwd }, function(error, stdout) {
+          , migrationTarget = path.resolve(cwd, 'migrations')
+
+        exec("cp " + migrationSource + "/*-createPerson.js " + migrationTarget + "/", function(error, stdout) {
           var dialect = Support.getTestDialect()
             , config  = require(Support.resolveSupportPath('config', 'config.js'))
 
@@ -27,8 +28,9 @@ var expect    = require('expect.js')
           config = _.extend(config, config[dialect], { dialect: dialect })
 
           var url = Support.getTestUrl(config)
+
           exec("echo '" + JSON.stringify(config) + "' > config/config.json", { cwd: cwd }, function(error, stdout) {
-            exec(Support.getCliCommand(cwd, 'db:migrate ' + flag + " " + url), { cwd: cwd }, callback)
+            exec(Support.getCliCommand(cwd, 'db:migrate ' + flag + "=" + url), { cwd: cwd }, callback)
           })
         })
       })
