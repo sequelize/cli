@@ -6,10 +6,29 @@ var spawn = require('child_process').spawn
   , path  = require('path')
   , gulp  = path.resolve(__dirname, '..', 'node_modules', '.bin', 'gulp')
   , args  = process.argv.slice(2)
+  , yargs = require('yargs')
+  , _     = require('lodash')
 
 if ((args[0] === '-v') || (args[0] === '-V')) {
   args = ['version']
 }
+
+// Let's load additional options from a file and add it to the gulp call
+(function(optionsPath) {
+  if (optionsPath) {
+    var options = require(optionsPath)
+
+    Object.keys(options).forEach(function(optionKey) {
+      var value = options[optionKey]
+
+      if (optionKey.indexOf('--') !== 0) {
+        optionKey = '--' + optionKey
+      }
+
+      args = args.concat([optionKey, value])
+    })
+  }
+})(yargs.argv.optionsPath)
 
 args = args.concat([
   '--gulpfile', path.resolve(__dirname, '..', 'gulpfile.js'),

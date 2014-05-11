@@ -1,6 +1,6 @@
 var path = require('path')
 
 module.exports = {
-  configFile:     path.resolve('config', 'database.json'),
-  migrationsPath: path.resolve('db', 'migrate')
+  'config':          path.resolve('config', 'database.json'),
+  'migrations-path': path.resolve('db', 'migrate')
 }
