@@ -9,7 +9,7 @@ var expect    = require('expect.js')
   , cli       = "bin/sequelize"
 
 if (os.type().toLowerCase().indexOf('windows') === -1) {
-  describe(Support.getTestDialectTeaser("CLI"), function() {
+  describe(Support.getTestDialectTeaser(cli), function() {
     (function(flags) {
       flags.forEach(function(flag) {
         var cmd = cli + " " + flag
@@ -18,9 +18,9 @@ if (os.type().toLowerCase().indexOf('windows') === -1) {
           ;(function(folders) {
             folders.forEach(function(folder) {
               it("creates a '" + folder + "' folder", function(done) {
-                exec("rm -rf ./*", { cwd: __dirname + '/tmp' }, function() {
-                  exec("../../" + cmd, { cwd: __dirname + '/tmp' }, function() {
-                    exec("ls -ila", { cwd: __dirname + '/tmp' }, function(err, stdout) {
+                exec("rm -rf ./*", { cwd: __dirname + '/support/tmp' }, function() {
+                  exec("../../../" + cmd, { cwd: __dirname + '/support/tmp' }, function() {
+                    exec("ls -ila", { cwd: __dirname + '/support/tmp' }, function(err, stdout) {
                       expect(stdout).to.contain(folder)
                       done()
                     })
@@ -31,9 +31,9 @@ if (os.type().toLowerCase().indexOf('windows') === -1) {
           })(['config', 'migrations'])
 
           it("creates a custom migrations folder", function(done) {
-            exec("rm -rf ./*", { cwd: __dirname + '/tmp' }, function() {
-              exec("../../" + cmd + " --migrations-path ./db/migrate", { cwd: __dirname + '/tmp' }, function() {
-                exec("ls -ila", { cwd: __dirname + '/tmp' }, function(err, stdout) {
+            exec("rm -rf ./*", { cwd: __dirname + '/support/tmp' }, function() {
+              exec("../../../" + cmd + " --migrations-path ./db/migrate", { cwd: __dirname + '/support/tmp' }, function() {
+                exec("ls -ila", { cwd: __dirname + '/support/tmp' }, function(err, stdout) {
                   expect(stdout).to.contain('db')
                   done()
                 })
@@ -42,9 +42,9 @@ if (os.type().toLowerCase().indexOf('windows') === -1) {
           })
 
           it("creates a config.json file", function(done) {
-            exec("rm -rf ./*", { cwd: __dirname + '/tmp' }, function() {
-              exec("../../" + cmd, { cwd: __dirname + '/tmp' }, function() {
-                exec("ls -ila config", { cwd: __dirname + '/tmp' }, function(err, stdout) {
+            exec("rm -rf ./*", { cwd: __dirname + '/support/tmp' }, function() {
+              exec("../../../" + cmd, { cwd: __dirname + '/support/tmp' }, function() {
+                exec("ls -ila config", { cwd: __dirname + '/support/tmp' }, function(err, stdout) {
                   expect(stdout).to.contain('config.json')
                   done()
                 })
@@ -53,12 +53,12 @@ if (os.type().toLowerCase().indexOf('windows') === -1) {
           })
 
           it("does not overwrite an existing config.json file", function(done) {
-            exec("rm -rf ./*", { cwd: __dirname + '/tmp' }, function() {
-              exec("../../" + cmd, { cwd: __dirname + '/tmp' }, function() {
-                exec("echo 'foo' > config/config.json", { cwd: __dirname + '/tmp' }, function() {
-                  exec("../../" + cmd, { cwd: __dirname + '/tmp' }, function(err) {
+            exec("rm -rf ./*", { cwd: __dirname + '/support/tmp' }, function() {
+              exec("../../../" + cmd, { cwd: __dirname + '/support/tmp' }, function() {
+                exec("echo 'foo' > config/config.json", { cwd: __dirname + '/support/tmp' }, function() {
+                  exec("../../../" + cmd, { cwd: __dirname + '/support/tmp' }, function(err) {
                     expect(err.code).to.equal(1)
-                    exec("cat config/config.json", { cwd: __dirname + '/tmp' }, function(err, stdout) {
+                    exec("cat config/config.json", { cwd: __dirname + '/support/tmp' }, function(err, stdout) {
                       expect(stdout).to.equal("foo\n")
                       done()
                     })

@@ -16,23 +16,23 @@ if (os.type().toLowerCase().indexOf('windows') === -1) {
           _flag = _flag || flag
 
           var dialect = Support.getTestDialect()
-            , config  = require(__dirname + '/config/config.js')
+            , config  = require(__dirname + '/support/config/config.js')
 
-          config.sqlite.storage = __dirname + "/tmp/test.sqlite"
+          config.sqlite.storage = __dirname + "/support/tmp/test.sqlite"
           config = _.extend(config, config[dialect], { dialect: dialect })
 
-          exec("echo '" + JSON.stringify(config) + "' > config/config.json", { cwd: __dirname + '/tmp' }, function(error, stdout) {
-            exec("../../bin/sequelize " + _flag, { cwd: __dirname + "/tmp" }, callback)
+          exec("echo '" + JSON.stringify(config) + "' > config/config.json", { cwd: __dirname + '/support/tmp' }, function(error, stdout) {
+            exec("../../../bin/sequelize " + _flag, { cwd: __dirname + '/support/tmp' }, callback)
           })
         }
 
         var prepare = function(callback, options) {
           options = options || {}
 
-          exec("rm -rf ./*", { cwd: __dirname + '/tmp' }, function(error, stdout) {
-            exec("../../bin/sequelize init", { cwd: __dirname + '/tmp' }, function(error, stdout) {
-              exec("cp ../assets/migrations/*-createPerson.js ./migrations/", { cwd: __dirname + '/tmp' }, function(error, stdout) {
-                exec("cat ../support.js|sed s,/../,/../../, > ./support.js", { cwd: __dirname + '/tmp' }, function(error, stdout) {
+          exec("rm -rf ./*", { cwd: __dirname + '/support/tmp' }, function(error, stdout) {
+            exec("../../../bin/sequelize init", { cwd: __dirname + '/support/tmp' }, function(error, stdout) {
+              exec("cp ../assets/migrations/*-createPerson.js ./migrations/", { cwd: __dirname + '/support/tmp' }, function(error, stdout) {
+                exec("cat ../support.js|sed s,/../,/../../, > ./support.js", { cwd: __dirname + '/support/tmp' }, function(error, stdout) {
                   if (!options.skipExecBinary) {
                     execBinary(callback, options.flag)
                   }
@@ -48,7 +48,7 @@ if (os.type().toLowerCase().indexOf('windows') === -1) {
 
             if (this.sequelize.options.dialect === 'sqlite') {
               var options = this.sequelize.options
-              options.storage = __dirname + "/tmp/test.sqlite"
+              options.storage = __dirname + "/support/tmp/test.sqlite"
               sequelize = new Support.Sequelize("", "", "", options)
             }
 
@@ -68,7 +68,7 @@ if (os.type().toLowerCase().indexOf('windows') === -1) {
 
             if (this.sequelize.options.dialect === 'sqlite') {
               var options = this.sequelize.options
-              options.storage = __dirname + "/tmp/test.sqlite"
+              options.storage = __dirname + "/support/tmp/test.sqlite"
               sequelize = new Support.Sequelize("", "", "", options)
             }
 
@@ -84,7 +84,7 @@ if (os.type().toLowerCase().indexOf('windows') === -1) {
 
             if (this.sequelize.options.dialect === 'sqlite') {
               var options = this.sequelize.options
-              options.storage = __dirname + "/tmp/test.sqlite"
+              options.storage = __dirname + "/support/tmp/test.sqlite"
               sequelize = new Support.Sequelize("", "", "", options)
             }
 

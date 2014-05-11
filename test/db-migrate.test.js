@@ -9,26 +9,26 @@ var expect    = require('expect.js')
   , cli       = "bin/sequelize"
 
 if (os.type().toLowerCase().indexOf('windows') === -1) {
-  describe(Support.getTestDialectTeaser("CLI"), function() {
+  describe(Support.getTestDialectTeaser(cli), function() {
     ;(function(flags) {
       flags.forEach(function(flag) {
         var prepare = function(callback) {
-          exec("rm -rf ./*", { cwd: __dirname + '/tmp' }, function(error, stdout) {
-            exec("../../bin/sequelize init", { cwd: __dirname + '/tmp' }, function(error, stdout) {
+          exec("rm -rf ./*", { cwd: __dirname + '/support/tmp' }, function(error, stdout) {
+            exec("../../../bin/sequelize init", { cwd: __dirname + '/support/tmp' }, function(error, stdout) {
               var source = (flag.indexOf('coffee') === -1)
                 ? "../assets/migrations/*-createPerson.js"
                 : "../assets/migrations/*-createPerson.coffee"
 
-              exec("cp " + source + " ./migrations/", { cwd: __dirname + '/tmp' }, function(error, stdout) {
-                exec("cat ../support.js|sed s,/../,/../../, > ./support.js", { cwd: __dirname + '/tmp' }, function(error, stdout) {
+              exec("cp " + source + " ./migrations/", { cwd: __dirname + '/support/tmp' }, function(error, stdout) {
+                exec("cat ../support/index.js|sed s,/../,/../../, > ./support.js", { cwd: __dirname + '/support/tmp' }, function(error, stdout) {
                   var dialect = Support.getTestDialect()
-                    , config  = require(__dirname + '/config/config.js')
+                    , config  = require(__dirname + '/support/config/config.js')
 
-                  config.sqlite.storage = __dirname + "/tmp/test.sqlite"
+                  config.sqlite.storage = __dirname + "/support/tmp/test.sqlite"
                   config = _.extend(config, config[dialect], { dialect: dialect })
 
-                  exec("echo '" + JSON.stringify(config) + "' > config/config.json", { cwd: __dirname + '/tmp' }, function(error, stdout) {
-                    exec("../../bin/sequelize " + flag, { cwd: __dirname + "/tmp" }, function() {
+                  exec("echo '" + JSON.stringify(config) + "' > config/config.json", { cwd: __dirname + '/support/tmp' }, function(error, stdout) {
+                    exec("../../../bin/sequelize " + flag, { cwd: __dirname + "/support/tmp" }, function() {
                       callback.apply(null, [].slice.apply(arguments))
                     })
                   })
@@ -44,7 +44,7 @@ if (os.type().toLowerCase().indexOf('windows') === -1) {
 
             if (this.sequelize.options.dialect === 'sqlite') {
               var options = this.sequelize.options
-              options.storage = __dirname + "/tmp/test.sqlite"
+              options.storage = __dirname + "/support/tmp/test.sqlite"
               sequelize = new Support.Sequelize("", "", "", options)
             }
 
@@ -64,7 +64,7 @@ if (os.type().toLowerCase().indexOf('windows') === -1) {
 
             if (this.sequelize.options.dialect === 'sqlite') {
               var options = this.sequelize.options
-              options.storage = __dirname + "/tmp/test.sqlite"
+              options.storage = __dirname + "/support/tmp/test.sqlite"
               sequelize = new Support.Sequelize("", "", "", options)
             }
 
@@ -83,7 +83,7 @@ if (os.type().toLowerCase().indexOf('windows') === -1) {
     })([
       'db:migrate',
       'db:migrate --coffee',
-      'db:migrate --config ../tmp/config/config.json',
+      'db:migrate --config ../support/tmp/config/config.json',
       'db:migrate --config ' + path.join(__dirname, 'tmp', 'config', 'config.json')
     ])
   })

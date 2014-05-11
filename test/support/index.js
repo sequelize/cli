@@ -92,7 +92,7 @@ var Support = {
   },
 
   getSupportedDialects: function() {
-    return fs.readdirSync(__dirname + '/../node_modules/sequelize/lib/dialects').filter(function(file) {
+    return fs.readdirSync(__dirname + '/../../node_modules/sequelize/lib/dialects').filter(function(file) {
       return ((file.indexOf('.js') === -1) && (file.indexOf('abstract') === -1))
     })
   },
