@@ -59,7 +59,7 @@ if (os.type().toLowerCase().indexOf('windows') === -1) {
           })
         })
       })
-    })(['generate:migration'])
+    })(['migration:create', 'migration:generate'])
 
     ;(function(flags) {
       flags.forEach(function(flag) {
@@ -110,6 +110,6 @@ if (os.type().toLowerCase().indexOf('windows') === -1) {
           })
         })
       })
-    })(['generate:migration --coffee'])
+    })(['migration:create --coffee', 'migration:generate --coffee'])
   })
 }
