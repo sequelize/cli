@@ -3,7 +3,7 @@ var gulp        = require('gulp')
   , fs          = require('fs')
   , helpers     = require(path.resolve(__dirname, 'lib', 'helpers'))
 
-require('gulp-help')(gulp, { aliases: ['h'] })
+require('gulp-help')(gulp, { aliases: ['h'], afterPrintCallback: helpers.gulp.printManuals })
 
 fs
   .readdirSync(path.resolve(__dirname, 'lib', 'tasks'))

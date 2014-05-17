@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "gulp": "~3.6.2",
-    "gulp-help": "~0.1.4",
+    "gulp-help": "~0.1.6",
     "gulp-util": "~2.2.14",
     "sequelize": "~2.0.0-dev11",
     "moment": "~2.6.0",
