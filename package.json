@@ -1,6 +1,6 @@
 {
   "name": "sequelize-cli",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The sequelize CLI.",
   "main": "index.js",
   "dependencies": {
@@ -37,5 +37,8 @@
   "bugs": {
     "url": "https://github.com/sequelize/cli/issues"
   },
-  "homepage": "https://github.com/sequelize/cli"
+  "homepage": "https://github.com/sequelize/cli",
+  "bin": {
+    "sequelize": "bin/sequelize"
+  }
 }
