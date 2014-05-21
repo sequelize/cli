@@ -1,15 +1,13 @@
 {
   "name": "sequelize-cli",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "The sequelize CLI.",
   "main": "index.js",
   "dependencies": {
     "gulp": "~3.6.2",
     "gulp-help": "~0.1.6",
-    "gulp-util": "~2.2.14",
-    "sequelize": "~2.0.0-dev11",
+    "sequelize": "*",
     "moment": "~2.6.0",
-    "commander": "~2.2.0",
     "yargs": "~1.2.1",
     "lodash": "~2.4.1",
     "cli-color": "~0.3.2"
