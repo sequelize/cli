@@ -3,11 +3,20 @@
 'use strict';
 
 var spawn = require('child_process').spawn
+  , fs    = require('fs')
   , path  = require('path')
   , gulp  = path.resolve(__dirname, '..', 'node_modules', '.bin', 'gulp')
   , args  = process.argv.slice(2)
   , yargs = require('yargs')
   , _     = require('lodash')
+
+if (!fs.existsSync(gulp)) {
+ gulp = path.resolve(process.cwd(), 'node_modules', '.bin', 'gulp')
+}
+
+if (!fs.existsSync(gulp)) {
+  throw new Error('Unable to find the `gulp` binary');
+}
 
 if ((args[0] === '-v') || (args[0] === '-V')) {
   args = ['version']
