@@ -1,4 +1,4 @@
-# sequelize/cli ![Build status](https://api.travis-ci.org/sequelize/cli.png)
+# sequelize/cli [![Build Status](https://travis-ci.org/sequelize/cli.svg?branch=master)](https://travis-ci.org/sequelize/cli)
 
 The sequelize CLI.
 
