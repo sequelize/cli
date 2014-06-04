@@ -13,13 +13,14 @@
     "cli-color": "~0.3.2"
   },
   "devDependencies": {
+    "coffee-script": "~1.7.1",
     "expect.js": "~0.3.1",
-    "mocha": "~1.18.2",
+    "mariasql": "~0.1.20",
+    "mocha": "~1.20.1",
     "mysql": "~2.1.1",
     "pg": "~3.0.3",
     "sqlite3": "~2.2.3",
-    "mariasql": "~0.1.20",
-    "coffee-script": "~1.7.1"
+    "through2": "^0.5.1"
   },
   "scripts": {
     "test": "node_modules/.bin/mocha test/*.test.js"

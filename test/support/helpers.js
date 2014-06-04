@@ -1,0 +1,112 @@
+var exec    = require('child_process').exec
+  , support = require('./index')
+  , through = require('through2')
+  , expect  = require('expect.js')
+  , path    = require('path')
+
+module.exports = {
+  getTestConfig: function() {
+    var dialect = support.getTestDialect()
+      , config  = require(support.resolveSupportPath('config', 'config.js'))
+
+    config.sqlite.storage = support.resolveSupportPath('tmp', 'test.sqlite')
+    config = support.Sequelize.Utils._.extend(config, config[dialect], { dialect: dialect })
+
+    return config
+  },
+
+  getTestUrl: function() {
+    return support.getTestUrl(this.getTestConfig())
+  },
+
+  clearDirectory: function() {
+    return through.obj(function(file, encoding, callback) {
+      exec("rm -rf ./*", { cwd: file.path }, function(err) {
+        callback(err, file)
+      })
+  	})
+  },
+
+  runCli: function(args, options) {
+    options = options || {}
+    return through.obj(function(file, encoding, callback) {
+      var command = support.getCliCommand(file.path, args)
+      exec(command, { cwd: file.path }, function(err, stdout) {
+        var result = options.pipeStdout ? stdout: file
+
+        if (options.exitCode) {
+          try {
+            expect(err.code).to.equal(1)
+            callback(null, result)
+          } catch(e) {
+            callback(e, result)
+          }
+        } else {
+          callback(err, result)
+        }
+      })
+    })
+  },
+
+  listFiles: function(subPath) {
+    return through.obj(function(file, encoding, callback) {
+      var cwd = path.resolve(file.path, subPath || '')
+      exec("ls -ila", { cwd: cwd }, callback)
+    })
+  },
+
+  expect: function(fun) {
+    return through.obj(function(stdout, encoding, callback) {
+      try {
+        fun(stdout)
+        callback(null, stdout)
+      } catch (e) {
+        callback(e, null)
+      }
+    })
+  },
+
+  ensureContent: function(needle) {
+    return this.expect(function(stdout) {
+      if (needle instanceof RegExp) {
+        expect(stdout).to.match(needle)
+      } else {
+        expect(stdout).to.contain(needle)
+      }
+    })
+  },
+
+  overwriteFile: function(content, pathToFile) {
+    return through.obj(function(file, encoding, callback) {
+      exec("echo '" + content + "' > " + pathToFile, { cwd: file.path }, function(err) {
+        callback(err, file)
+      })
+    })
+  },
+
+  readFile: function(pathToFile) {
+    return through.obj(function(file, encoding, callback) {
+      exec("cat " + pathToFile, { cwd: file.path }, callback)
+    })
+  },
+
+  copyMigration: function(fileName) {
+    return through.obj(function(file, encoding, callback) {
+      var migrationSource = support.resolveSupportPath('assets', 'migrations')
+        , migrationTarget = path.resolve(file.path, 'migrations')
+
+      exec("cp " + migrationSource + "/*-" + fileName + " " + migrationTarget + "/", function(err) {
+        callback(err, file)
+      })
+    })
+  },
+
+  teardown: function(done) {
+    return through.obj(function(smth, encoding, callback) {
+      callback()
+    }, function(callback) {
+      callback()
+      done()
+    })
+  }
+}
