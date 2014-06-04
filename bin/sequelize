@@ -44,7 +44,15 @@ args = args.concat([
   '--cwd', process.cwd()
 ])
 
-var call = spawn(gulp, args)
+args.unshift(gulp)
+
+// Add harmony support
+if (_.contains(args, '--harmony')) {
+  args = _.without(args, '--harmony')
+  args.unshift('--harmony')
+}
+
+var call = spawn(process.argv[0], args)
 
 call.stdout.on('data', function(data) {
   var lines  = data.toString().split("\n")
