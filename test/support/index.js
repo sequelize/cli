@@ -139,7 +139,7 @@ var Support = {
       dialect = 'postgres-native'
     }
 
-    return "[" + dialect.toUpperCase() + "] " + moduleName
+    return "[" + dialect.toUpperCase() + "] bin/sequelize " + moduleName
   },
 
   getTestUrl: function(config) {
@@ -185,6 +185,7 @@ var sequelize = Support.createSequelizeInstance({ dialect: Support.getTestDialec
 // For Postgres' HSTORE functionality and to properly execute it's commands we'll need this...
 before(function(done) {
   var dialect = Support.getTestDialect()
+
   if (dialect !== "postgres" && dialect !== "postgres-native") {
     return done()
   }
@@ -196,6 +197,12 @@ before(function(done) {
 
 beforeEach(function(done) {
   this.sequelize = sequelize
+
+  if (this.sequelize.options.dialect === 'sqlite') {
+    var options = this.sequelize.options
+    options.storage = Support.resolveSupportPath('tmp', 'test.sqlite')
+    this.sequelize = new Sequelize("", "", "", options)
+  }
 
   Support.clearDatabase(this.sequelize, function() {
     done()

@@ -1,43 +1,25 @@
 var expect    = require('expect.js')
   , Support   = require(__dirname + '/support')
-  , dialect   = Support.getTestDialect()
-  , _         = Support.Sequelize.Utils._
-  , exec      = require('child_process').exec
-  , version   = (require(__dirname + '/../package.json')).version
   , path      = require('path')
-  , os        = require('os')
-  , cli       = "bin/sequelize"
+  , helpers   = require(__dirname + '/support/helpers')
+  , gulp      = require('gulp')
   ;
 
 ([
   '--url'
 ]).forEach(function(flag) {
-  var cwd = Support.resolveSupportPath('tmp')
-
   var prepare = function(callback) {
-    exec("rm -rf ./*", { cwd: cwd }, function(error, stdout) {
-      exec(Support.getCliCommand(cwd, 'init'), { cwd: cwd }, function(error, stdout) {
-        var migrationSource = Support.resolveSupportPath('assets', 'migrations')
-          , migrationTarget = path.resolve(cwd, 'migrations')
-
-        exec("cp " + migrationSource + "/*-createPerson.js " + migrationTarget + "/", function(error, stdout) {
-          var dialect = Support.getTestDialect()
-            , config  = require(Support.resolveSupportPath('config', 'config.js'))
-
-          config.sqlite.storage = Support.resolveSupportPath('tmp', 'test.sqlite')
-          config = _.extend(config, config[dialect], { dialect: dialect })
-
-          var url = Support.getTestUrl(config)
-
-          exec("echo '" + JSON.stringify(config) + "' > config/config.json", { cwd: cwd }, function(error, stdout) {
-            exec(Support.getCliCommand(cwd, 'db:migrate ' + flag + "=" + url), { cwd: cwd }, callback)
-          })
-        })
-      })
-    })
+    gulp
+      .src(Support.resolveSupportPath('tmp'))
+      .pipe(helpers.clearDirectory())
+      .pipe(helpers.runCli('init'))
+      .pipe(helpers.copyMigration('createPerson.js'))
+      .pipe(helpers.overwriteFile(JSON.stringify(helpers.getTestConfig()), 'config/config.json'))
+      .pipe(helpers.runCli('db:migrate ' + flag + "=" + helpers.getTestUrl()))
+      .pipe(helpers.teardown(callback))
   }
 
-  describe(Support.getTestDialectTeaser(cli + " " + flag), function() {
+  describe(Support.getTestDialectTeaser(flag), function() {
     it("creates a SequelizeMeta table", function(done) {
       var sequelize = this.sequelize
 
@@ -55,7 +37,7 @@ var expect    = require('expect.js')
           expect(tables[1]).to.equal("SequelizeMeta")
           done()
         })
-      }.bind(this))
+      })
     })
 
     it("creates the respective table via url", function(done) {
@@ -75,7 +57,7 @@ var expect    = require('expect.js')
           expect(tables[0]).to.equal("Person")
           done()
         })
-      }.bind(this))
+      })
     })
   })
 })

@@ -1,31 +1,24 @@
 var expect    = require('expect.js')
   , Support   = require(__dirname + '/support')
-  , dialect   = Support.getTestDialect()
-  , _         = Support.Sequelize.Utils._
-  , exec      = require('child_process').exec
-  , version   = (require(__dirname + '/../package.json')).version
   , path      = require('path')
-  , os        = require('os')
-  , cli       = "bin/sequelize"
+  , helpers   = require(__dirname + '/support/helpers')
+  , gulp      = require('gulp')
   ;
 
 ([
   '--options-path'
 ]).forEach(function(flag) {
-  var cwd = Support.resolveSupportPath('tmp')
-
-  describe(Support.getTestDialectTeaser(cli + " " + flag), function() {
+  describe(Support.getTestDialectTeaser(flag), function() {
     it("using options file instead of cli switches", function(done) {
-      exec("rm -rf ./*", { cwd: cwd }, function() {
-        var _path = path.resolve(__dirname, 'support', 'config', 'options.js')
+      var optionsPath = Support.resolveSupportPath('config', 'options.js')
 
-        exec(Support.getCliCommand(cwd, 'init ' + flag + ' ' + _path), { cwd: cwd }, function(err, stdout) {
-          exec("ls -ila", { cwd: cwd }, function(err, stdout) {
-            expect(stdout).to.contain('db')
-            done()
-          })
-        })
-      })
+      gulp
+        .src(Support.resolveSupportPath('tmp'))
+        .pipe(helpers.clearDirectory())
+        .pipe(helpers.runCli('init ' + flag + ' ' + optionsPath))
+        .pipe(helpers.listFiles())
+        .pipe(helpers.ensureContent('db'))
+        .pipe(helpers.teardown(done))
     })
   })
 })

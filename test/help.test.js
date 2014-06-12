@@ -1,12 +1,7 @@
 var expect    = require('expect.js')
   , Support   = require(__dirname + '/support')
-  , dialect   = Support.getTestDialect()
-  , _         = Support.Sequelize.Utils._
-  , exec      = require('child_process').exec
-  , version   = (require(__dirname + '/../package.json')).version
-  , path      = require('path')
-  , os        = require('os')
-  , cli       = "bin/sequelize"
+  , helpers   = require(__dirname + '/support/helpers')
+  , gulp      = require('gulp')
   ;
 
 ([
@@ -14,14 +9,13 @@ var expect    = require('expect.js')
   "h",
   ""
 ]).forEach(function(flag) {
-  var cmd = cli + " " + flag
-
-  describe(Support.getTestDialectTeaser(cli + " " + flag), function() {
+  describe(Support.getTestDialectTeaser(flag), function() {
     it("prints the help", function(done) {
-      exec(Support.getCliCommand(process.cwd(), flag), function(err, stdout, stderr) {
-        expect(stdout).to.contain("Usage\n  sequelize [task]")
-        done()
-      })
+      gulp
+        .src(process.cwd())
+        .pipe(helpers.runCli(flag, { pipeStdout: true }))
+        .pipe(helpers.ensureContent("Usage\n  sequelize [task]"))
+        .pipe(helpers.teardown(done))
     })
   })
 })
