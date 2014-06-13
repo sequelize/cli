@@ -27,6 +27,14 @@ module.exports = {
   	})
   },
 
+  removeFile: function(filePath) {
+    return through.obj(function(file, encoding, callback) {
+      exec("rm " + filePath, { cwd: file.path }, function(err) {
+        callback(err, file)
+      })
+    })
+  },
+
   runCli: function(args, options) {
     options = options || {}
     return through.obj(function(file, encoding, callback) {

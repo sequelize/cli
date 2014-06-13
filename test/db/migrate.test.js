@@ -9,20 +9,31 @@ var expect    = require('expect.js')
   'db:migrate',
   'db:migrate --coffee',
   'db:migrate --config ../../support/tmp/config/config.json',
-  'db:migrate --config ' + Support.resolveSupportPath('tmp', 'config', 'config.json')
+  'db:migrate --config ' + Support.resolveSupportPath('tmp', 'config', 'config.json'),
+  'db:migrate --config ../../support/tmp/config/config.js'
 ]).forEach(function(flag) {
   var prepare = function(callback, options) {
-    options = options || {}
+    options = _.extend({ config: {} }, options || {})
 
-    var migrationFile = "createPerson." + ((flag.indexOf('coffee') === -1) ? 'js' : 'coffee')
-      , config        = _.extend({}, helpers.getTestConfig(), options.config || {})
+    var configPath    = 'config/'
+      , migrationFile = "createPerson." + ((flag.indexOf('coffee') === -1) ? 'js' : 'coffee')
+      , config        = _.extend({}, helpers.getTestConfig(), options.config)
+      , configContent = JSON.stringify(config)
+
+    if (flag.match(/config\.js$/)) {
+      configPath    = configPath + 'config.js'
+      configContent = "module.exports = " + configContent
+    } else {
+      configPath = configPath + 'config.json'
+    }
 
     gulp
       .src(Support.resolveSupportPath('tmp'))
       .pipe(helpers.clearDirectory())
       .pipe(helpers.runCli('init'))
+      .pipe(helpers.removeFile('config/config.json'))
       .pipe(helpers.copyMigration(migrationFile))
-      .pipe(helpers.overwriteFile(JSON.stringify(config),'config/config.json'))
+      .pipe(helpers.overwriteFile(configContent, configPath))
       .pipe(helpers.runCli(flag, { pipeStdout: true }))
       .pipe(helpers.teardown(callback))
   }
