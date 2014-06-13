@@ -32,7 +32,7 @@ module.exports = {
     return through.obj(function(file, encoding, callback) {
       var command = support.getCliCommand(file.path, args)
       exec(command, { cwd: file.path }, function(err, stdout) {
-        var result = options.pipeStdout ? stdout: file
+        var result = options.pipeStdout ? stdout : file
 
         if (options.exitCode) {
           try {
@@ -104,9 +104,7 @@ module.exports = {
   teardown: function(done) {
     return through.obj(function(smth, encoding, callback) {
       callback()
-    }, function(callback) {
-      callback()
-      done()
+      done(null, smth)
     })
   }
 }
