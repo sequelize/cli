@@ -196,17 +196,17 @@ before(function(done) {
 })
 
 beforeEach(function(done) {
-  this.sequelize = sequelize
+  Support.clearDatabase(sequelize, function() {
+    if (sequelize.options.dialect === 'sqlite') {
+      var options = sequelize.options
+      options.storage = Support.resolveSupportPath('tmp', 'test.sqlite')
+      sequelize = new Support.Sequelize("", "", "", options)
+    }
 
-  if (this.sequelize.options.dialect === 'sqlite') {
-    var options = this.sequelize.options
-    options.storage = Support.resolveSupportPath('tmp', 'test.sqlite')
-    this.sequelize = new Sequelize("", "", "", options)
-  }
+    this.sequelize = sequelize
 
-  Support.clearDatabase(this.sequelize, function() {
     done()
-  })
+  }.bind(this))
 })
 
 module.exports = Support

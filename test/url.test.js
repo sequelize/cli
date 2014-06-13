@@ -1,6 +1,5 @@
 var expect    = require('expect.js')
   , Support   = require(__dirname + '/support')
-  , path      = require('path')
   , helpers   = require(__dirname + '/support/helpers')
   , gulp      = require('gulp')
   ;
@@ -21,16 +20,10 @@ var expect    = require('expect.js')
 
   describe(Support.getTestDialectTeaser(flag), function() {
     it("creates a SequelizeMeta table", function(done) {
-      var sequelize = this.sequelize
-
-      if (this.sequelize.options.dialect === 'sqlite') {
-        var options = this.sequelize.options
-        options.storage = Support.resolveSupportPath('tmp', 'test.sqlite')
-        sequelize = new Support.Sequelize("", "", "", options)
-      }
+      var self = this
 
       prepare(function() {
-        sequelize.getQueryInterface().showAllTables().success(function(tables) {
+        self.sequelize.getQueryInterface().showAllTables().success(function(tables) {
           tables = tables.sort()
 
           expect(tables).to.have.length(2)
@@ -41,16 +34,10 @@ var expect    = require('expect.js')
     })
 
     it("creates the respective table via url", function(done) {
-      var sequelize = this.sequelize
-
-      if (this.sequelize.options.dialect === 'sqlite') {
-        var options = this.sequelize.options
-        options.storage = Support.resolveSupportPath('tmp', 'test.sqlite')
-        sequelize = new Support.Sequelize("", "", "", options)
-      }
+      var self = this
 
       prepare(function() {
-        sequelize.getQueryInterface().showAllTables().success(function(tables) {
+        self.sequelize.getQueryInterface().showAllTables().success(function(tables) {
           tables = tables.sort()
 
           expect(tables).to.have.length(2)

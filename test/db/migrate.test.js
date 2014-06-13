@@ -45,43 +45,31 @@ var expect    = require('expect.js')
 
   describe(Support.getTestDialectTeaser(cli + " " + flag), function() {
     it("creates a SequelizeMeta table", function(done) {
-      var sequelize = this.sequelize
-
-      if (this.sequelize.options.dialect === 'sqlite') {
-        var options = this.sequelize.options
-        options.storage = Support.resolveSupportPath('tmp', 'test.sqlite')
-        sequelize = new Support.Sequelize("", "", "", options)
-      }
+      var self = this
 
       prepare(function() {
-        sequelize.getQueryInterface().showAllTables().success(function(tables) {
+        self.sequelize.getQueryInterface().showAllTables().success(function(tables) {
           tables = tables.sort()
 
           expect(tables).to.have.length(2)
           expect(tables[1]).to.equal("SequelizeMeta")
           done()
         })
-      }.bind(this))
+      })
     })
 
     it("creates the respective table", function(done) {
-      var sequelize = this.sequelize
-
-      if (this.sequelize.options.dialect === 'sqlite') {
-        var options = this.sequelize.options
-        options.storage = Support.resolveSupportPath('tmp', 'test.sqlite')
-        sequelize = new Support.Sequelize("", "", "", options)
-      }
+      var self = this
 
       prepare(function() {
-        sequelize.getQueryInterface().showAllTables().success(function(tables) {
+        self.sequelize.getQueryInterface().showAllTables().success(function(tables) {
           tables = tables.sort()
 
           expect(tables).to.have.length(2)
           expect(tables[0]).to.equal("Person")
           done()
         })
-      }.bind(this))
+      })
     })
   })
 })
