@@ -106,5 +106,14 @@ module.exports = {
       callback()
       done(null, smth)
     })
+  },
+
+  readTables: function(sequelize, callback) {
+    sequelize
+      .getQueryInterface()
+      .showAllTables()
+      .success(function(tables) {
+        callback(tables.sort())
+      })
   }
 }
