@@ -19,31 +19,23 @@ var expect    = require('expect.js')
   }
 
   describe(Support.getTestDialectTeaser(flag), function() {
+    beforeEach(function(done) {
+      prepare(done)
+    })
+
     it("creates a SequelizeMeta table", function(done) {
-      var self = this
-
-      prepare(function() {
-        self.sequelize.getQueryInterface().showAllTables().success(function(tables) {
-          tables = tables.sort()
-
-          expect(tables).to.have.length(2)
-          expect(tables[1]).to.equal("SequelizeMeta")
-          done()
-        })
+      helpers.readTables(this.sequelize, function(tables) {
+        expect(tables).to.have.length(2)
+        expect(tables).to.contain('SequelizeMeta')
+        done()
       })
     })
 
     it("creates the respective table via url", function(done) {
-      var self = this
-
-      prepare(function() {
-        self.sequelize.getQueryInterface().showAllTables().success(function(tables) {
-          tables = tables.sort()
-
-          expect(tables).to.have.length(2)
-          expect(tables[0]).to.equal("Person")
-          done()
-        })
+      helpers.readTables(this.sequelize, function(tables) {
+        expect(tables).to.have.length(2)
+        expect(tables).to.contain('Person')
+        done()
       })
     })
   })

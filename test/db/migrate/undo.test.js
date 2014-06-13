@@ -25,9 +25,7 @@ var expect    = require('expect.js')
       var self = this
 
       prepare(function() {
-        self.sequelize.getQueryInterface().showAllTables().success(function(tables) {
-          tables = tables.sort()
-
+        helpers.readTables(self.sequelize, function(tables) {
           expect(tables).to.have.length(1)
           expect(tables[0]).to.equal("SequelizeMeta")
           done()
@@ -43,29 +41,26 @@ var expect    = require('expect.js')
       }.bind(this))
     })
 
-      it("is correctly undoing a migration if they have been done yet", function(done) {
-        var self = this
+    it("is correctly undoing a migration if they have been done already", function(done) {
+      var self = this
 
-        prepare(function() {
-          self.sequelize.getQueryInterface().showAllTables().success(function(tables) {
-            tables = tables.sort()
+      prepare(function() {
+        helpers.readTables(self.sequelize, function(tables) {
+          expect(tables).to.have.length(2)
+          expect(tables[0]).to.equal("Person")
 
-            expect(tables).to.have.length(2)
-            expect(tables[0]).to.equal("Person")
-
-            gulp
-              .src(Support.resolveSupportPath('tmp'))
-              .pipe(helpers.runCli(flag, { pipeStdout: true }))
-              .pipe(helpers.teardown(function(err, output) {
-                self.sequelize.getQueryInterface().showAllTables().success(function(tables) {
-                  expect(tables).to.have.length(1)
-                  expect(tables[0]).to.equal("SequelizeMeta")
-
-                  done()
-                })
-              }))
-          })
-        }, 'db:migrate')
-      })
+          gulp
+            .src(Support.resolveSupportPath('tmp'))
+            .pipe(helpers.runCli(flag, { pipeStdout: true }))
+            .pipe(helpers.teardown(function(err, output) {
+              helpers.readTables(self.sequelize, function(tables) {
+                expect(tables).to.have.length(1)
+                expect(tables[0]).to.equal("SequelizeMeta")
+                done()
+              })
+            }))
+        })
+      }, 'db:migrate')
+    })
   })
 })
