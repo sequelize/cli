@@ -1,3 +1,4 @@
 {
-  "laxcomma": true
+  "laxcomma": true,
+  "node": true
 }
