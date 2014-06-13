@@ -1,11 +1,7 @@
 var expect    = require('expect.js')
   , Support   = require(__dirname + '/../support')
-  , dialect   = Support.getTestDialect()
-  , _         = Support.Sequelize.Utils._
-  , exec      = require('child_process').exec
-  , path      = require('path')
-  , os        = require('os')
-  , cli       = "bin/sequelize"
+  , helpers   = require(__dirname + '/../support/helpers')
+  , gulp      = require('gulp')
   ;
 
 ([
@@ -14,45 +10,27 @@ var expect    = require('expect.js')
   'db:migrate --config ../../support/tmp/config/config.json',
   'db:migrate --config ' + Support.resolveSupportPath('tmp', 'config', 'config.json')
 ]).forEach(function(flag) {
-  var cwd = Support.resolveSupportPath('tmp')
-
   var prepare = function(callback) {
-    exec("rm -rf ./*", { cwd: cwd }, function(error, stdout) {
-      exec(Support.getCliCommand(cwd, 'init'), { cwd: cwd }, function(error, stdout) {
-        var source = (flag.indexOf('coffee') === -1)
-          ? "../assets/migrations/*-createPerson.js"
-          : "../assets/migrations/*-createPerson.coffee"
+    var migrationFile = "createPerson." + ((flag.indexOf('coffee') === -1) ? 'js' : 'coffee')
 
-        exec("cp " + source + " ./migrations/", { cwd: cwd }, function(error, stdout) {
-          exec("cat ../support/index.js|sed s,/../,/../../, > ./support.js", { cwd: cwd }, function(error, stdout) {
-            var dialect = Support.getTestDialect()
-              , config  = require(Support.resolveSupportPath('config', 'config.js'))
-              , cwd     = Support.resolveSupportPath('tmp')
-
-            config.sqlite.storage = Support.resolveSupportPath('tmp', 'test.sqlite')
-            config = _.extend(config, config[dialect], { dialect: dialect })
-
-            exec("echo '" + JSON.stringify(config) + "' > config/config.json", { cwd: cwd }, function(error, stdout) {
-              exec(Support.getCliCommand(cwd, flag), { cwd: cwd }, function() {
-                callback.apply(null, [].slice.apply(arguments))
-              })
-            })
-          })
-        })
-      })
-    })
+    gulp
+      .src(Support.resolveSupportPath('tmp'))
+      .pipe(helpers.clearDirectory())
+      .pipe(helpers.runCli('init'))
+      .pipe(helpers.copyMigration(migrationFile))
+      .pipe(helpers.overwriteFile(JSON.stringify(helpers.getTestConfig()), 'config/config.json'))
+      .pipe(helpers.runCli(flag, { pipeStdout: true }))
+      .pipe(helpers.teardown(callback))
   }
 
-  describe(Support.getTestDialectTeaser(cli + " " + flag), function() {
+  describe(Support.getTestDialectTeaser(flag), function() {
     it("creates a SequelizeMeta table", function(done) {
       var self = this
 
-      prepare(function() {
-        self.sequelize.getQueryInterface().showAllTables().success(function(tables) {
-          tables = tables.sort()
-
+      prepare(function(err, stdout) {
+        helpers.readTables(self.sequelize, function(tables) {
           expect(tables).to.have.length(2)
-          expect(tables[1]).to.equal("SequelizeMeta")
+          expect(tables).to.contain("SequelizeMeta")
           done()
         })
       })
@@ -62,11 +40,9 @@ var expect    = require('expect.js')
       var self = this
 
       prepare(function() {
-        self.sequelize.getQueryInterface().showAllTables().success(function(tables) {
-          tables = tables.sort()
-
+        helpers.readTables(self.sequelize, function(tables) {
           expect(tables).to.have.length(2)
-          expect(tables[0]).to.equal("Person")
+          expect(tables).to.contain("Person")
           done()
         })
       })
