@@ -4,13 +4,14 @@
   "description": "The sequelize CLI.",
   "main": "index.js",
   "dependencies": {
+    "cli-color": "~0.3.2",
+    "fs-extra": "^0.9.1",
     "gulp": "~3.6.2",
     "gulp-help": "~0.1.6",
-    "sequelize": "*",
-    "moment": "~2.6.0",
-    "yargs": "~1.2.1",
     "lodash": "~2.4.1",
-    "cli-color": "~0.3.2"
+    "moment": "~2.6.0",
+    "sequelize": "*",
+    "yargs": "~1.2.1"
   },
   "devDependencies": {
     "coffee-script": "~1.7.1",
