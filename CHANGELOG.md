@@ -1,3 +1,6 @@
+# 0.1.0
+- `sequelize init` now creates a `models` folder and a `models/index.js` file. [#11](https://github.com/sequelize/cli/pull/11) 
+
 # 0.0.4
 - Fix --config flag. [#4](https://github.com/sequelize/cli/pull/4)
 - Fix custom logging option. [#3](https://github.com/sequelize/cli/pull/3)
