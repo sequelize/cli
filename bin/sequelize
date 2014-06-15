@@ -2,13 +2,14 @@
 
 'use strict';
 
-var spawn = require('child_process').spawn
-  , fs    = require('fs')
-  , path  = require('path')
-  , gulp  = path.resolve(__dirname, '..', 'node_modules', '.bin', 'gulp')
-  , args  = process.argv.slice(2)
-  , yargs = require('yargs')
-  , _     = require('lodash')
+var spawn   = require('child_process').spawn
+  , fs      = require('fs')
+  , path    = require('path')
+  , gulp    = path.resolve(__dirname, '..', 'node_modules', '.bin', 'gulp')
+  , args    = process.argv.slice(2)
+  , yargs   = require('yargs')
+  , _       = require('lodash')
+  , helpers = require(path.resolve(__dirname, '..', 'lib', 'helpers'))
 
 if (!fs.existsSync(gulp)) {
  gulp = path.resolve(process.cwd(), 'node_modules', '.bin', 'gulp')
@@ -53,6 +54,8 @@ if (_.contains(args, '--harmony')) {
 }
 
 var call = spawn(process.argv[0], args)
+
+helpers.view.teaser()
 
 call.stdout.on('data', function(data) {
   var lines  = data.toString().split("\n")

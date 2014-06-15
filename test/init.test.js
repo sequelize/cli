@@ -9,17 +9,37 @@ var Support   = require(__dirname + '/support')
   describe(Support.getTestDialectTeaser(flag), function() {
     ;(function(folders) {
       folders.forEach(function(folder) {
-        it("creates a '" + folder + "' folder", function(done) {
+        it("creates '" + folder + "'", function(done) {
+          var sourcePath = Support.resolveSupportPath('tmp')
+            , file       = folder
+
+          if (folder.indexOf('/') > -1) {
+            var split = folder.split('/')
+            file = split.pop()
+            sourcePath = Support.resolveSupportPath('tmp', split.join("/"))
+          }
+
           gulp
             .src(Support.resolveSupportPath('tmp'))
             .pipe(helpers.clearDirectory())
             .pipe(helpers.runCli(flag))
-            .pipe(helpers.listFiles())
-            .pipe(helpers.ensureContent(folder))
-            .pipe(helpers.teardown(done))
+            .pipe(helpers.teardown(function() {
+              gulp
+                .src(sourcePath)
+                .pipe(helpers.listFiles())
+                .pipe(helpers.ensureContent(file))
+                .pipe(helpers.teardown(done))
+
+            }))
         })
       })
-    })(['config', 'migrations'])
+    })([
+      'config',
+      'config/config.json',
+      'migrations',
+      'models',
+      'models/index.js'
+    ])
 
     it("creates a custom migrations folder", function(done) {
       gulp
@@ -31,15 +51,60 @@ var Support   = require(__dirname + '/support')
         .pipe(helpers.teardown(done))
     })
 
-    it("creates a config.json file", function(done) {
+    it('creates a custom config file', function(done) {
       gulp
         .src(Support.resolveSupportPath('tmp'))
         .pipe(helpers.clearDirectory())
-        .pipe(helpers.runCli(flag))
-        .pipe(helpers.listFiles('config'))
-        .pipe(helpers.ensureContent('config.json'))
+        .pipe(helpers.runCli(flag + " --config config/database.json"))
+        .pipe(helpers.teardown(function() {
+          gulp
+            .src(Support.resolveSupportPath('tmp', 'config'))
+            .pipe(helpers.listFiles())
+            .pipe(helpers.ensureContent("database.json"))
+            .pipe(helpers.teardown(done))
+        }))
+    })
+
+    it('creates a custom models folder', function(done) {
+      gulp
+        .src(Support.resolveSupportPath('tmp'))
+        .pipe(helpers.clearDirectory())
+        .pipe(helpers.runCli(flag + " --models-path daos"))
+        .pipe(helpers.listFiles())
+        .pipe(helpers.ensureContent("daos"))
         .pipe(helpers.teardown(done))
     })
+
+    describe('models/index.js', function() {
+      it('correctly injects the reference to the default config file', function(done) {
+        gulp
+          .src(Support.resolveSupportPath('tmp'))
+          .pipe(helpers.clearDirectory())
+          .pipe(helpers.runCli(flag))
+          .pipe(helpers.teardown(function() {
+            gulp
+              .src(Support.resolveSupportPath('tmp', 'models'))
+              .pipe(helpers.readFile('index.js'))
+              .pipe(helpers.ensureContent("__dirname + '/../config/config.json'"))
+              .pipe(helpers.teardown(done))
+          }))
+      })
+
+      it('correctly injects the reference to the custom config file', function(done) {
+        gulp
+          .src(Support.resolveSupportPath('tmp'))
+          .pipe(helpers.clearDirectory())
+          .pipe(helpers.runCli(flag + " --config my/configuration-file.json"))
+          .pipe(helpers.teardown(function() {
+            gulp
+              .src(Support.resolveSupportPath('tmp', 'models'))
+              .pipe(helpers.readFile('index.js'))
+              .pipe(helpers.ensureContent("__dirname + '/../my/configuration-file.json'"))
+              .pipe(helpers.teardown(done))
+          }))
+      })
+    })
+
 
     it("does not overwrite an existing config.json file", function(done) {
       gulp
