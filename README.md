@@ -45,4 +45,4 @@ Available manuals
 
 ## Help
 
-Read the manuals via `sequelize help:db:migrate` for further information.
+Read the manuals via `sequelize help:<task-name>` for further information.
