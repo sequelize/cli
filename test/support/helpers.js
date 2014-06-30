@@ -39,17 +39,26 @@ module.exports = {
     options = options || {}
     return through.obj(function(file, encoding, callback) {
       var command = support.getCliCommand(file.path, args)
-      exec(command, { cwd: file.path }, function(err, stdout) {
-        var result = options.pipeStdout ? stdout : file
+
+      exec(command, { cwd: file.path }, function(err, stdout, stderr) {
+        var result = file
+
+        if (options.pipeStdout) {
+          result = stdout
+        } else if (options.pipeStderr) {
+          result = stderr
+        }
 
         if (options.exitCode) {
           try {
+            expect(err).to.be.ok()
             expect(err.code).to.equal(1)
             callback(null, result)
           } catch(e) {
             callback(e, result)
           }
         } else {
+          err = options.pipeStderr ? null : err
           callback(err, result)
         }
       })
@@ -69,6 +78,7 @@ module.exports = {
         fun(stdout)
         callback(null, stdout)
       } catch (e) {
+        console.log(e)
         callback(e, null)
       }
     })
