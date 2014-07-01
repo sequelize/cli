@@ -1,3 +1,9 @@
+# 0.2.0
+- `sequelize model:create` creates a model and its respective migration file.
+
+# 0.1.1
+- Fix illegal character.
+
 # 0.1.0
 - `sequelize init` now creates a `models` folder and a `models/index.js` file. [#11](https://github.com/sequelize/cli/pull/11) 
 
