@@ -1,3 +1,6 @@
+# 0.2.1
+- Fix `_.includes`.
+
 # 0.2.0
 - `sequelize model:create` creates a model and its respective migration file.
 
