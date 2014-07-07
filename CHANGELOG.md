@@ -1,3 +1,6 @@
+# 0.2.2
+- Fix for MS Windows.
+
 # 0.2.1
 - Fix `_.includes`.
 
@@ -8,7 +11,7 @@
 - Fix illegal character.
 
 # 0.1.0
-- `sequelize init` now creates a `models` folder and a `models/index.js` file. [#11](https://github.com/sequelize/cli/pull/11) 
+- `sequelize init` now creates a `models` folder and a `models/index.js` file. [#11](https://github.com/sequelize/cli/pull/11)
 
 # 0.0.4
 - Fix --config flag. [#4](https://github.com/sequelize/cli/pull/4)
