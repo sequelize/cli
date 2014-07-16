@@ -1,3 +1,6 @@
+# 0.2.3
+- Fix `--migrations-path` for relative paths.
+
 # 0.2.2
 - Fix for MS Windows.
 
