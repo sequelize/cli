@@ -108,10 +108,12 @@ module.exports = {
     })
   },
 
-  copyMigration: function(fileName) {
+  copyMigration: function(fileName, migrationsFolder) {
+    migrationsFolder = migrationsFolder || "migrations"
+
     return through.obj(function(file, encoding, callback) {
       var migrationSource = support.resolveSupportPath('assets', 'migrations')
-        , migrationTarget = path.resolve(file.path, 'migrations')
+        , migrationTarget = path.resolve(file.path, migrationsFolder)
 
       exec("cp " + migrationSource + "/*-" + fileName + " " + migrationTarget + "/", function(err) {
         callback(err, file)
