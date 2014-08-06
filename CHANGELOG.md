@@ -1,3 +1,6 @@
+# 0.2.4
+- Fix unqualified sequelize instantiation which enforced the mysql module.
+
 # 0.2.3
 - Fix `--migrations-path` for relative paths.
 
