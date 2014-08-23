@@ -25,13 +25,16 @@ if ((args[0] === '-v') || (args[0] === '-V')) {
 
 // Let's load additional options from a file and add it to the gulp call
 (function(optionsPath) {
-  var rcFile = false;
-  if(!optionsPath && fs.existsSync('./.sequelizerc')) {
-      var rcFile = true;
-      optionsPath = path.resolve(process.cwd(), '.sequelizerc');
+  var rcFile = path.resolve(process.cwd(), '.sequelizerc');
+  if(!optionsPath && fs.existsSync(rcFile)) {
+      optionsPath = rcFile;
   }
+  else {
+      rcFile = null;
+  }
+
   if (optionsPath) {
-    var options = rcFile ? JSON.parse(fs.readFileSync(optionsPath, "utf8")) : require(optionsPath);
+    var options = rcFile ? JSON.parse(fs.readFileSync(rcFile, "utf8")) : require(optionsPath);
 
     Object.keys(options).forEach(function(optionKey) {
       var value = options[optionKey]
