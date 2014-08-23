@@ -3,6 +3,8 @@ var exec    = require('child_process').exec
   , through = require('through2')
   , expect  = require('expect.js')
   , path    = require('path')
+  , fs      = require('fs-extra')
+  ;
 
 module.exports = {
   getTestConfig: function() {
@@ -22,7 +24,13 @@ module.exports = {
   clearDirectory: function() {
     return through.obj(function(file, encoding, callback) {
       exec("rm -rf ./*", { cwd: file.path }, function(err) {
-        callback(err, file)
+        if (err) {
+          callback(err, file)
+        } else {
+          exec("rm -f ./.sequelizerc", { cwd: file.path }, function(err) {
+            callback(err, file)
+          })
+        }
       })
   	})
   },
@@ -37,6 +45,7 @@ module.exports = {
 
   runCli: function(args, options) {
     options = options || {}
+
     return through.obj(function(file, encoding, callback) {
       var command = support.getCliCommand(file.path, args)
 
@@ -61,6 +70,14 @@ module.exports = {
           err = options.pipeStderr ? null : err
           callback(err, result)
         }
+      })
+    })
+  },
+
+  copyFile: function(from, to) {
+    return through.obj(function (file, encoding, callback) {
+      fs.copy(from, path.resolve(file.path, to), function (err) {
+        callback(err, file)
       })
     })
   },

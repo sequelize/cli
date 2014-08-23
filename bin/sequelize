@@ -25,8 +25,14 @@ if ((args[0] === '-v') || (args[0] === '-V')) {
 
 // Let's load additional options from a file and add it to the gulp call
 (function(optionsPath) {
+  var rcFile = path.resolve(process.cwd(), '.sequelizerc');
+
+  if (!optionsPath && fs.existsSync(rcFile)) {
+    optionsPath = rcFile;
+  }
+
   if (optionsPath) {
-    var options = require(optionsPath)
+    var options = require(optionsPath);
 
     Object.keys(options).forEach(function(optionKey) {
       var value = options[optionKey]
