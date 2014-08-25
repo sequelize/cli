@@ -1,3 +1,7 @@
+# 0.2.5
+- Prefer `--env` over the environment variable `NODE_ENV`.
+- Search by default for a file called `.sequelizerc` and treat it as `--options-path`.
+
 # 0.2.4
 - Fix unqualified sequelize instantiation which enforced the mysql module.
 

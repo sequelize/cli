@@ -43,6 +43,28 @@ Available manuals
   help:version           The documentation for 'sequelize version'.
 ```
 
+## Options
+
+The manuals will show all the flags and options which are available for the respective tasks.
+If you find yourself in a situation where you always define certain flags in order to
+make the CLI compliant to your project, you can move those definitions also into a file called
+`.sequelizerc`. The file will get `require`d if available and can therefore be either a JSON file
+or a Node.JS script that exports a hash.
+
+### Example for a Node.JS script
+
+```
+var path = require('path')
+
+module.exports = {
+  'config':          path.resolve('config', 'database.json'),
+  'migrations-path': path.resolve('db', 'migrate')
+}
+```
+
+This will configure the CLI to always treat `config/database.json` as config file and
+`db/migrate` as the directory for migrations.
+
 ## Help
 
 Read the manuals via `sequelize help:<task-name>` for further information.
