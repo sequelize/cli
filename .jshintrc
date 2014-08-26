@@ -1,5 +1,20 @@
 {
   "node": true,
-  "laxcomma": true,
-  "asi": true
+  "quotmark" : "double",
+  "curly": true,
+  "eqeqeq": true,
+  "es3": true,
+  "forin": true,
+  "indent": 2,
+  "immed": true,
+  "latedef": true,
+  "newcap": true,
+  "noempty": true,
+  "nonbsp": true,
+  "unused": true,
+  "strict": true,
+  "maxparams": 3,
+  "maxdepth": 3,
+  "maxlen": 125,
+  "nomen": true
 }

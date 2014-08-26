@@ -17,6 +17,7 @@
   "devDependencies": {
     "coffee-script": "~1.7.1",
     "expect.js": "~0.3.1",
+    "gulp-jshint": "^1.8.4",
     "mariasql": "~0.1.20",
     "mocha": "~1.20.1",
     "mysql": "~2.1.1",
