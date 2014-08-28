@@ -47,7 +47,7 @@ if ((args[0] === '-v') || (args[0] === '-V')) {
 })(yargs.argv.optionsPath)
 
 args = args.concat([
-  '--gulpfile', path.resolve(__dirname, '..', 'gulpfile.js'),
+  '--gulpfile', path.resolve(__dirname, '..', 'lib', 'gulpfile.js'),
   '--cwd', process.cwd()
 ])
 
