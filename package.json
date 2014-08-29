@@ -18,6 +18,7 @@
     "coffee-script": "~1.7.1",
     "expect.js": "~0.3.1",
     "gulp-jshint": "^1.8.4",
+    "gulp-mocha": "^1.0.0",
     "mariasql": "~0.1.20",
     "mocha": "~1.20.1",
     "mysql": "~2.1.1",
@@ -26,7 +27,7 @@
     "through2": "^0.5.1"
   },
   "scripts": {
-    "test": "make all"
+    "test": "node_modules/.bin/gulp"
   },
   "repository": {
     "type": "git",

@@ -4,7 +4,6 @@ before_script:
 
 script:
   - "node_modules/.bin/gulp"
-  - "make test"
 
 notifications:
   irc:
