@@ -12,12 +12,15 @@ gulp.task("lint", function () {
   gulp
     .src([
       path.resolve(__dirname, "gulpfile.js"),
-      path.resolve(__dirname, "lib", "*.js"),
-      path.resolve(__dirname, "lib", "helpers", "*.js"),
-      path.resolve(__dirname, "lib", "tasks", "*.js")
+      path.resolve(__dirname, "bin", "sequelize"),
+      path.resolve(__dirname, "lib", "**", "*.js"),
+      "!" + path.resolve(__dirname, "lib", "assets", "**", "*.js"),
+      path.resolve(__dirname, "test", "**", "*.js"),
+      "!" + path.resolve(__dirname, "test", "support", "tmp", "**", "*")
     ])
     .pipe(jshint())
-    .pipe(jshint.reporter("default"));
+    .pipe(jshint.reporter("default"))
+    .pipe(jshint.reporter("fail"));
 });
 
 gulp.task("test", function () {

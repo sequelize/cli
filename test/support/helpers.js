@@ -1,148 +1,149 @@
-var exec    = require('child_process').exec
-  , support = require('./index')
-  , through = require('through2')
-  , expect  = require('expect.js')
-  , path    = require('path')
-  , fs      = require('fs-extra')
-  ;
+"use strict";
+
+var exec    = require("child_process").exec;
+var support = require("./index");
+var through = require("through2");
+var expect  = require("expect.js");
+var path    = require("path");
+var fs      = require("fs-extra");
 
 module.exports = {
   getTestConfig: function() {
-    var dialect = support.getTestDialect()
-      , config  = require(support.resolveSupportPath('config', 'config.js'))
+    var dialect = support.getTestDialect();
+    var config  = require(support.resolveSupportPath("config", "config.js"));
 
-    config.sqlite.storage = support.resolveSupportPath('tmp', 'test.sqlite')
-    config = support.Sequelize.Utils._.extend(config, config[dialect], { dialect: dialect })
+    config.sqlite.storage = support.resolveSupportPath("tmp", "test.sqlite");
+    config = support.Sequelize.Utils._.extend(config, config[dialect], { dialect: dialect });
 
-    return config
+    return config;
   },
 
   getTestUrl: function() {
-    return support.getTestUrl(this.getTestConfig())
+    return support.getTestUrl(this.getTestConfig());
   },
 
   clearDirectory: function() {
     return through.obj(function(file, encoding, callback) {
       exec("rm -rf ./*", { cwd: file.path }, function(err) {
         if (err) {
-          callback(err, file)
+          callback(err, file);
         } else {
           exec("rm -f ./.sequelizerc", { cwd: file.path }, function(err) {
-            callback(err, file)
-          })
+            callback(err, file);
+          });
         }
-      })
-  	})
+      });
+  	});
   },
 
   removeFile: function(filePath) {
     return through.obj(function(file, encoding, callback) {
       exec("rm " + filePath, { cwd: file.path }, function(err) {
-        callback(err, file)
-      })
-    })
+        callback(err, file);
+      });
+    });
   },
 
   runCli: function(args, options) {
-    options = options || {}
+    options = options || {};
 
     return through.obj(function(file, encoding, callback) {
-      var command = support.getCliCommand(file.path, args)
+      var command = support.getCliCommand(file.path, args);
 
       exec(command, { cwd: file.path }, function(err, stdout, stderr) {
-        var result = file
+        var result = file;
 
         if (options.pipeStdout) {
-          result = stdout
+          result = stdout;
         } else if (options.pipeStderr) {
-          result = stderr
+          result = stderr;
         }
 
         if (options.exitCode) {
           try {
-            expect(err).to.be.ok()
-            expect(err.code).to.equal(1)
-            callback(null, result)
+            expect(err).to.be.ok();
+            expect(err.code).to.equal(1);
+            callback(null, result);
           } catch(e) {
-            callback(e, result)
+            callback(e, result);
           }
         } else {
-          err = options.pipeStderr ? null : err
-          callback(err, result)
+          err = options.pipeStderr ? null : err;
+          callback(err, result);
         }
-      })
-    })
+      });
+    });
   },
 
   copyFile: function(from, to) {
     return through.obj(function (file, encoding, callback) {
       fs.copy(from, path.resolve(file.path, to), function (err) {
-        callback(err, file)
-      })
-    })
+        callback(err, file);
+      });
+    });
   },
 
   listFiles: function(subPath) {
     return through.obj(function(file, encoding, callback) {
-      var cwd = path.resolve(file.path, subPath || '')
-      exec("ls -ila", { cwd: cwd }, callback)
-    })
+      var cwd = path.resolve(file.path, subPath || "");
+      exec("ls -ila", { cwd: cwd }, callback);
+    });
   },
 
   expect: function(fun) {
     return through.obj(function(stdout, encoding, callback) {
       try {
-        fun(stdout)
-        callback(null, stdout)
+        fun(stdout);
+        callback(null, stdout);
       } catch (e) {
-        console.log(e)
-        callback(e, null)
+        console.log(e);
+        callback(e, null);
       }
-    })
+    });
   },
 
   ensureContent: function(needle) {
     return this.expect(function(stdout) {
       if (needle instanceof RegExp) {
-        expect(stdout).to.match(needle)
+        expect(stdout).to.match(needle);
       } else {
-        expect(stdout).to.contain(needle)
+        expect(stdout).to.contain(needle);
       }
-    })
+    });
   },
 
   overwriteFile: function(content, pathToFile) {
     return through.obj(function(file, encoding, callback) {
       exec("echo '" + content + "' > " + pathToFile, { cwd: file.path }, function(err) {
-        callback(err, file)
-      })
-    })
+        callback(err, file);
+      });
+    });
   },
 
   readFile: function(pathToFile) {
     return through.obj(function(file, encoding, callback) {
-      exec("cat " + pathToFile, { cwd: file.path }, callback)
-    })
+      exec("cat " + pathToFile, { cwd: file.path }, callback);
+    });
   },
 
   copyMigration: function(fileName, migrationsFolder) {
-    migrationsFolder = migrationsFolder || "migrations"
+    migrationsFolder = migrationsFolder || "migrations";
 
     return through.obj(function(file, encoding, callback) {
-      var migrationSource = support.resolveSupportPath('assets', 'migrations')
-        , migrationTarget = path.resolve(file.path, migrationsFolder)
+      var migrationSource = support.resolveSupportPath("assets", "migrations");
+      var migrationTarget = path.resolve(file.path, migrationsFolder);
 
       exec("cp " + migrationSource + "/*-" + fileName + " " + migrationTarget + "/", function(err) {
-        callback(err, file)
-      })
-    })
+        callback(err, file);
+      });
+    });
   },
 
   teardown: function(done) {
     return through.obj(function(smth, encoding, callback) {
-      callback()
-      done(null, smth)
-    })
+      callback();
+      done(null, smth);
+    });
   },
 
   readTables: function(sequelize, callback) {
@@ -150,7 +151,7 @@ module.exports = {
       .getQueryInterface()
       .showAllTables()
       .success(function(tables) {
-        callback(tables.sort())
-      })
+        callback(tables.sort());
+      });
   }
-}
+};

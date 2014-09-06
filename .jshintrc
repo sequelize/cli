@@ -1,4 +1,10 @@
 {
+  "globals": {
+    "it": true,
+    "describe": true,
+    "before": true,
+    "beforeEach": true
+  },
   "node": true,
   "quotmark" : "double",
   "curly": true,
@@ -13,8 +19,8 @@
   "nonbsp": true,
   "unused": true,
   "strict": true,
-  "maxparams": 3,
+  "maxparams": 4,
   "maxdepth": 3,
-  "maxlen": 125,
+  "maxlen": 100,
   "nomen": true
 }
