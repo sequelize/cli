@@ -1,8 +1,8 @@
-var expect    = require('expect.js')
-  , Support   = require(__dirname + '/support')
-  , helpers   = require(__dirname + '/support/helpers')
-  , gulp      = require('gulp')
-  ;
+"use strict";
+
+var Support = require(__dirname + "/support");
+var helpers = require(__dirname + "/support/helpers");
+var gulp    = require("gulp");
 
 ([
   "help",
@@ -15,7 +15,7 @@ var expect    = require('expect.js')
         .src(process.cwd())
         .pipe(helpers.runCli(flag, { pipeStdout: true }))
         .pipe(helpers.ensureContent("Usage\n  sequelize [task]"))
-        .pipe(helpers.teardown(done))
-    })
-  })
-})
+        .pipe(helpers.teardown(done));
+    });
+  });
+});

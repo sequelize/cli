@@ -1,31 +1,31 @@
 #!/usr/bin/env node
 
-'use strict';
+"use strict";
 
-var spawn   = require('child_process').spawn
-  , fs      = require('fs')
-  , path    = require('path')
-  , gulp    = path.resolve(__dirname, '..', 'node_modules', 'gulp', 'bin', 'gulp.js')
-  , args    = process.argv.slice(2)
-  , yargs   = require('yargs')
-  , _       = require('lodash')
-  , helpers = require(path.resolve(__dirname, '..', 'lib', 'helpers'))
+var spawn   = require("child_process").spawn;
+var fs      = require("fs");
+var path    = require("path");
+var gulp    = path.resolve(__dirname, "..", "node_modules", "gulp", "bin", "gulp.js");
+var args    = process.argv.slice(2);
+var yargs   = require("yargs");
+var _       = require("lodash");
+var helpers = require(path.resolve(__dirname, "..", "lib", "helpers"));
 
 if (!fs.existsSync(gulp)) {
- gulp = path.resolve(process.cwd(), 'node_modules', '.bin', 'gulp')
+ gulp = path.resolve(process.cwd(), "node_modules", ".bin", "gulp");
 }
 
 if (!fs.existsSync(gulp)) {
-  throw new Error('Unable to find the `gulp` binary');
+  throw new Error("Unable to find the `gulp` binary");
 }
 
-if ((args[0] === '-v') || (args[0] === '-V')) {
-  args = ['version']
+if ((args[0] === "-v") || (args[0] === "-V")) {
+  args = ["version"];
 }
 
 // Let's load additional options from a file and add it to the gulp call
 (function(optionsPath) {
-  var rcFile = path.resolve(process.cwd(), '.sequelizerc');
+  var rcFile = path.resolve(process.cwd(), ".sequelizerc");
 
   if (!optionsPath && fs.existsSync(rcFile)) {
     optionsPath = rcFile;
@@ -35,52 +35,52 @@ if ((args[0] === '-v') || (args[0] === '-V')) {
     var options = require(optionsPath);
 
     Object.keys(options).forEach(function(optionKey) {
-      var value = options[optionKey]
+      var value = options[optionKey];
 
-      if (optionKey.indexOf('--') !== 0) {
-        optionKey = '--' + optionKey
+      if (optionKey.indexOf("--") !== 0) {
+        optionKey = "--" + optionKey;
       }
 
-      args = args.concat([optionKey, value])
-    })
+      args = args.concat([optionKey, value]);
+    });
   }
-})(yargs.argv.optionsPath)
+})(yargs.argv.optionsPath);
 
 args = args.concat([
-  '--gulpfile', path.resolve(__dirname, '..', 'lib', 'gulpfile.js'),
-  '--cwd', process.cwd()
-])
+  "--gulpfile", path.resolve(__dirname, "..", "lib", "gulpfile.js"),
+  "--cwd", process.cwd()
+]);
 
-args.unshift(gulp)
+args.unshift(gulp);
 
 // Add harmony support
-if (_.contains(args, '--harmony')) {
-  args = _.without(args, '--harmony')
-  args.unshift('--harmony')
+if (_.contains(args, "--harmony")) {
+  args = _.without(args, "--harmony");
+  args.unshift("--harmony");
 }
 
-var call = spawn(process.argv[0], args)
+var call = spawn(process.argv[0], args);
 
-helpers.view.teaser()
+helpers.view.teaser();
 
-call.stdout.on('data', function(data) {
-  var lines  = data.toString().split("\n")
-    , output = ""
+call.stdout.on("data", function(data) {
+  var lines  = data.toString().split("\n");
+  var output = "";
 
   lines = lines.filter(function(line) {
-    return (line.indexOf('[gulp]') === -1) || (line.indexOf('errored') > -1)
-  })
+    return (line.indexOf("[gulp]") === -1) || (line.indexOf("errored") > -1);
+  });
 
-  output = lines.join("\n")
-  output = output.replace(/gulp/g, 'sequelize')
+  output = lines.join("\n");
+  output = output.replace(/gulp/g, "sequelize");
 
-  process.stdout.write(output)
-})
+  process.stdout.write(output);
+});
 
-call.stderr.on('data', function (data) {
-  process.stderr.write(data)
-})
+call.stderr.on("data", function (data) {
+  process.stderr.write(data);
+});
 
-call.on('exit', function (code) {
-  process.exit(code)
-})
+call.on("exit", function (code) {
+  process.exit(code);
+});
