@@ -1,3 +1,6 @@
+# 0.2.6
+- Do not load lodash in `models/index.js`.
+
 # 0.2.5
 - Prefer `--env` over the environment variable `NODE_ENV`.
 - Search by default for a file called `.sequelizerc` and treat it as `--options-path`.
