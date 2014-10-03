@@ -44,12 +44,28 @@ module.exports = {
     });
   },
 
+  symlinkSequelize: function () {
+    var tmpNodeModules = support.resolveSupportPath("tmp", "node_modules");
+    var prjNodeModules = path.resolve(__dirname, "..", "..", "node_modules");
+    var srcPath        = path.resolve(prjNodeModules, "sequelize");
+    var targetPath     = path.resolve(tmpNodeModules, "sequelize");
+
+    fs.mkdirpSync(tmpNodeModules);
+
+    if (!fs.existsSync(targetPath)) {
+      fs.symlinkSync(srcPath, targetPath);
+    }
+  },
+
   runCli: function(args, options) {
     options = options || {};
+
+    var self = this;
 
     return through.obj(function(file, encoding, callback) {
       var command = support.getCliCommand(file.path, args);
 
+      self.symlinkSequelize();
       exec(command, { cwd: file.path }, function(err, stdout, stderr) {
         var result = file;
 
