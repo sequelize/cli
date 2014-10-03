@@ -2,7 +2,8 @@
 
 var fs        = require("fs");
 var path      = require("path");
-var Sequelize = require("sequelize");
+var helpers   = require(__dirname + "/../../lib/helpers");
+var Sequelize = helpers.generic.getSequelize();
 var _         = Sequelize.Utils._;
 var DataTypes = Sequelize;
 var Config    = require(__dirname + "/config/config");
