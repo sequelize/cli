@@ -1,3 +1,6 @@
+# 0.3.2
+- Add default attributes to generated migrations.
+
 # 0.3.1
 - Fix alignment of comment in generated model file
 - Fix global installation
