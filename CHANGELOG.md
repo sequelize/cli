@@ -1,3 +1,6 @@
+# 0.3.1
+- Fix alignment of comment in generated model file
+
 # 0.3.0
 - Add Node.JS version to the teaser
 - Add dialect and the respective version to the teaser 
