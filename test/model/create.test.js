@@ -136,13 +136,16 @@ var _         = require("lodash");
                 .src(Support.resolveSupportPath("tmp", "migrations"))
                 .pipe(helpers.readFile("*-create-user.js"))
                 .pipe(helpers.ensureContent("migration"))
-                .pipe(helpers.ensureContent(".createTable('Users', {"))
+                .pipe(helpers.ensureContent(".createTable(\"Users\", {"))
                 .pipe(helpers.ensureContent("first_name: DataTypes.STRING"))
                 .pipe(helpers.ensureContent("last_name: DataTypes.STRING"))
                 .pipe(helpers.ensureContent("bio: DataTypes.TEXT"))
+                .pipe(helpers.ensureContent("id: DataTypes.INTEGER"))
+                .pipe(helpers.ensureContent("createdAt: DataTypes.DATE"))
+                .pipe(helpers.ensureContent("updatedAt: DataTypes.DATE"))
                 .pipe(helpers.ensureContent("})"))
-                .pipe(helpers.ensureContent(".complete(done)"))
-                .pipe(helpers.ensureContent(".dropTable('Users')"))
+                .pipe(helpers.ensureContent(".done(done)"))
+                .pipe(helpers.ensureContent(".dropTable(\"Users\")"))
                 .pipe(helpers.teardown(done));
             });
           });
