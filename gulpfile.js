@@ -19,17 +19,17 @@ gulp.task("lint", function () {
       "!" + path.resolve(__dirname, "test", "support", "tmp", "**", "*")
     ])
     .pipe(jshint())
-    .pipe(jshint.reporter("default"))
-    .pipe(jshint.reporter("fail"));
+    .pipe(jshint.reporter(require("jshint-stylish")))
+    .pipe(jshint.instafailReporter());
 });
 
 gulp.task("test", function () {
-   gulp
-      .src(path.resolve(__dirname, "test", "**", "*.test.js"), { read: false })
-      .pipe(mocha({
-        reporter:    "spec",
-        ignoreLeaks: true,
-        timeout:     10000,
-        grep:        args.grep
-      }));
+  gulp
+    .src(path.resolve(__dirname, "test", "**", "*.test.js"), { read: false })
+    .pipe(mocha({
+       reporter:    "spec",
+       ignoreLeaks: true,
+       timeout:     10000,
+       grep:        args.grep
+    }));
 });

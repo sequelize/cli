@@ -18,8 +18,9 @@
   "devDependencies": {
     "coffee-script": "~1.7.1",
     "expect.js": "~0.3.1",
-    "gulp-jshint": "^1.8.4",
+    "gulp-jshint": "git://github.com/sdepold/gulp-jshint.git#feature/instafail",
     "gulp-mocha": "^1.0.0",
+    "jshint-stylish": "^1.0.0",
     "mariasql": "~0.1.20",
     "mocha": "~1.20.1",
     "mysql": "~2.1.1",
