@@ -9,6 +9,8 @@
     "fs-extra": "^0.9.1",
     "gulp": "~3.6.2",
     "gulp-help": "~0.1.6",
+    "js-beautify": "^1.5.4",
+    "js2coffee": "^0.3.3",
     "lodash": "^2.4.1",
     "moment": "~2.6.0",
     "resolve": "^1.0.0",
