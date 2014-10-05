@@ -138,32 +138,32 @@ var _         = require("lodash");
                 .pipe(helpers.ensureContent("migration"))
                 .pipe(helpers.ensureContent(".createTable(\"Users\", {"))
                 .pipe(helpers.ensureContent(
-                  "first_name: {\n        dataType: DataTypes.STRING\n      },"
+                  "first_name: {\n        type: DataTypes.STRING\n      },"
                 ))
                 .pipe(helpers.ensureContent(
-                  "last_name: {\n        dataType: DataTypes.STRING\n      },"
+                  "last_name: {\n        type: DataTypes.STRING\n      },"
                 ))
                 .pipe(helpers.ensureContent(
-                  "bio: {\n        dataType: DataTypes.TEXT\n      },"
+                  "bio: {\n        type: DataTypes.TEXT\n      },"
                 ))
                 .pipe(helpers.ensureContent([
                   "     id: {",
-                  "        dataType: DataTypes.INTEGER,",
                   "        allowNull: false,",
+                  "        autoIncrement: true,",
                   "        primaryKey: true,",
-                  "        autoIncrement: true",
+                  "        type: DataTypes.INTEGER",
                   "      },"
                 ].join("\n")))
                 .pipe(helpers.ensureContent([
                   "     createdAt: {",
-                  "        dataType: DataTypes.DATE,",
-                  "        allowNull: false",
+                  "        allowNull: false,",
+                  "        type: DataTypes.DATE",
                   "      },"
                 ].join("\n")))
                 .pipe(helpers.ensureContent([
                   "     updatedAt: {",
-                  "        dataType: DataTypes.DATE,",
-                  "        allowNull: false",
+                  "        allowNull: false,",
+                  "        type: DataTypes.DATE",
                   "      }"
                 ].join("\n")))
                 .pipe(helpers.ensureContent("})"))
