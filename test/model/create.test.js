@@ -137,12 +137,35 @@ var _         = require("lodash");
                 .pipe(helpers.readFile("*-create-user.js"))
                 .pipe(helpers.ensureContent("migration"))
                 .pipe(helpers.ensureContent(".createTable(\"Users\", {"))
-                .pipe(helpers.ensureContent("first_name: DataTypes.STRING"))
-                .pipe(helpers.ensureContent("last_name: DataTypes.STRING"))
-                .pipe(helpers.ensureContent("bio: DataTypes.TEXT"))
-                .pipe(helpers.ensureContent("id: DataTypes.INTEGER"))
-                .pipe(helpers.ensureContent("createdAt: DataTypes.DATE"))
-                .pipe(helpers.ensureContent("updatedAt: DataTypes.DATE"))
+                .pipe(helpers.ensureContent(
+                  "first_name: {\n        dataType: DataTypes.STRING\n      },"
+                ))
+                .pipe(helpers.ensureContent(
+                  "last_name: {\n        dataType: DataTypes.STRING\n      },"
+                ))
+                .pipe(helpers.ensureContent(
+                  "bio: {\n        dataType: DataTypes.TEXT\n      },"
+                ))
+                .pipe(helpers.ensureContent([
+                  "     id: {",
+                  "        dataType: DataTypes.INTEGER,",
+                  "        allowNull: false,",
+                  "        primaryKey: true,",
+                  "        autoIncrement: true",
+                  "      },"
+                ].join("\n")))
+                .pipe(helpers.ensureContent([
+                  "     createdAt: {",
+                  "        dataType: DataTypes.DATE,",
+                  "        allowNull: false",
+                  "      },"
+                ].join("\n")))
+                .pipe(helpers.ensureContent([
+                  "     updatedAt: {",
+                  "        dataType: DataTypes.DATE,",
+                  "        allowNull: false",
+                  "      }"
+                ].join("\n")))
                 .pipe(helpers.ensureContent("})"))
                 .pipe(helpers.ensureContent(".done(done)"))
                 .pipe(helpers.ensureContent(".dropTable(\"Users\")"))
