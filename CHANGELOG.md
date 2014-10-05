@@ -1,6 +1,9 @@
+# 0.3.3
+- Fix for default attributes in generated migrations.
+- Auto-generate coffee files with js2coffee.
+
 # 0.3.2
 - Add default attributes to generated migrations.
-- Auto-generate coffee files with js2coffee.
 
 # 0.3.1
 - Fix alignment of comment in generated model file
