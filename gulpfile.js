@@ -20,7 +20,7 @@ gulp.task("lint", function () {
     ])
     .pipe(jshint())
     .pipe(jshint.reporter(require("jshint-stylish")))
-    .pipe(jshint.instafailReporter());
+    .pipe(jshint.reporter(require("gulp-jshint-instafail")));
 });
 
 gulp.task("test", function () {
