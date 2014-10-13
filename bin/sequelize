@@ -64,17 +64,17 @@ var call = spawn(process.argv[0], args);
 helpers.view.teaser();
 
 call.stdout.on("data", function(data) {
-  var lines  = data.toString().split("\n");
-  var output = "";
+  var lines = data.toString().split("\n");
 
   lines = lines.filter(function(line) {
-    return (line.indexOf("[gulp]") === -1) || (line.indexOf("errored") > -1);
+    return !line.match(/\[\d{2}:\d{2}:\d{2}\]/);
   });
 
-  output = lines.join("\n");
-  output = output.replace(/gulp/g, "sequelize");
+  var result = lines
+    .join("\n")
+    .replace("gulp [task]", "sequelize [task]");
 
-  process.stdout.write(output);
+  process.stdout.write(result);
 });
 
 call.stderr.on("data", function (data) {
