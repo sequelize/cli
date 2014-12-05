@@ -8,7 +8,7 @@
     "findup-sync": "~0.1.3",
     "fs-extra": "^0.9.1",
     "gulp": "~3.6.2",
-    "gulp-help": "~0.1.6",
+    "gulp-help": "~1.3.1",
     "js-beautify": "^1.5.4",
     "js2coffee": "^0.3.3",
     "lodash": "^2.4.1",
@@ -29,7 +29,7 @@
     "mysql": "~2.1.1",
     "pg": "~3.0.3",
     "sequelize": "^2.0.0-rc1",
-    "sqlite3": "~2.2.3",
+    "sqlite3": "~3.0.4",
     "through2": "^0.5.1"
   },
   "scripts": {
