@@ -37,7 +37,7 @@ var gulp    = require("gulp");
     it("stops execution if no migrations have been done yet", function(done) {
       prepare(function(err, output) {
         expect(err).to.equal(null);
-        expect(output).to.contain("There are no pending migrations.");
+        expect(output).to.contain("No executed migrations found.");
         done();
       }.bind(this));
     });
