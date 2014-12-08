@@ -19,6 +19,7 @@
     "yargs": "~1.2.1"
   },
   "devDependencies": {
+    "bluebird": "^2.3.11",
     "coffee-script": "~1.7.1",
     "expect.js": "~0.3.1",
     "gulp-jshint": "^1.8.5",

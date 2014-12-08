@@ -133,7 +133,7 @@ module.exports = {
       var migrationSource = support.resolveSupportPath("assets", "migrations");
       var migrationTarget = path.resolve(file.path, migrationsFolder);
 
-      exec("cp " + migrationSource + "/*-" + fileName + " " + migrationTarget + "/", function(err) {
+      exec("cp " + migrationSource + "/*" + fileName + " " + migrationTarget + "/", function(err) {
         callback(err, file);
       });
     });
