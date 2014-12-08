@@ -19,12 +19,12 @@ npm install --save sequelize-cli
 ```
 ## Global install Usage
 
-```bash
+```
 sequelize 
 ```
 
 
-```bash
+```
 Sequelize [CLI: v0.0.4, ORM: v1.7.5]
 
 
@@ -56,11 +56,11 @@ Available manuals
 
 ## Local Install Usage
 
-```bash
+```
 $ node_modules/.bin/sequelize
 ```
 
-```bash
+```
 Sequelize [CLI: v0.0.4, ORM: v1.7.5]
 
 
