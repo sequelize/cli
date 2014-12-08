@@ -17,7 +17,7 @@ or install it locally to your `node_modules` folder
 ```bash
 npm install --save sequelize-cli
 ```
-## Global install Usage
+## Global Install Usage
 
 ```
 sequelize 
