@@ -30,7 +30,7 @@
     "mocha": "~1.20.1",
     "mysql": "~2.1.1",
     "pg": "~3.0.3",
-    "sequelize": "^2.0.0-rc1",
+    "sequelize": "^2.0.0-rc3",
     "sqlite3": "~2.2.3",
     "through2": "^0.5.1"
   },
