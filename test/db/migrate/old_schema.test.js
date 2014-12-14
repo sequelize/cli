@@ -93,10 +93,38 @@ var gulp    = require("gulp");
           null, { raw: true }
         ).then(function (items) {
           expect(items).to.eql([
-            { name: "20111117063700-createPerson" },
-            { name: "20111205064000-renamePersonToUser" }
+            { name: "20111117063700-createPerson.js" },
+            { name: "20111205064000-renamePersonToUser.js" }
           ]);
           done();
+        });
+      });
+
+      it("is possible to undo one of the already executed migrations", function (done) {
+        var self = this;
+
+        // We are creating the User table here because the migrator will rename it to Person
+        // afterwards.
+        this.sequelize.define(
+          "User",
+          { name: Support.Sequelize.STRING },
+          { tableName: "User" }
+        ).sync({ force: true })
+        .then(function () {
+          gulp
+          .src(Support.resolveSupportPath("tmp"))
+          .pipe(helpers.runCli("db:migrate:undo"))
+          .pipe(helpers.teardown(function () {
+            self.sequelize.query(
+              self.sequelize.getQueryInterface().QueryGenerator.selectQuery("SequelizeMeta"),
+              null, { raw: true }
+            ).then(function (items) {
+              expect(items).to.eql([
+                { name: "20111117063700-createPerson.js" }
+              ]);
+              done();
+            });
+          }));
         });
       });
     });
