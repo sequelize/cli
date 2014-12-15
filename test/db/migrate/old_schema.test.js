@@ -20,27 +20,47 @@ var gulp    = require("gulp");
       .pipe(helpers.teardown(callback));
     };
 
+    var prepareLegacyScenario = function (callback) {
+      var self = this;
+
+      prepare(function () {
+        var SequelizeMeta = self.sequelize.define("SequelizeMeta",
+        { from: Support.Sequelize.STRING, to: Support.Sequelize.STRING },
+        { timestamps: false }
+      );
+
+      SequelizeMeta.sync({ force: true }).then(function () {
+        return SequelizeMeta.bulkCreate([
+          { from: "20111117063700", to: "20111117063700" },
+          { from: "20111117063700", to: "20111205064000" }
+          ]);
+        }).then(callback);
+      });
+    };
+
+    describe(Support.getTestDialectTeaser(flag + " meta schema"), function () {
+      beforeEach(function (done) {
+        return prepareLegacyScenario.call(this, function () { done(); });
+      });
+
+      it("is enforced", function (done) {
+        gulp
+        .src(Support.resolveSupportPath("tmp"))
+        .pipe(helpers.runCli("db:migrate", { pipeStderr: true }))
+        .pipe(helpers.teardown(function (err, stderr) {
+          expect(stderr).to.contain("Please run 'sequelize db:migrate:old_schema' first.");
+          done();
+        }));
+      });
+    });
+
     describe(Support.getTestDialectTeaser(flag), function() {
       beforeEach(function (done) {
-        var self = this;
-
-        prepare(function () {
-          var SequelizeMeta = self.sequelize.define("SequelizeMeta",
-            { from: Support.Sequelize.STRING, to: Support.Sequelize.STRING },
-            { timestamps: false }
-          );
-
-          SequelizeMeta.sync({ force: true }).then(function () {
-            return SequelizeMeta.bulkCreate([
-              { from: "20111117063700", to: "20111117063700" },
-              { from: "20111117063700", to: "20111205064000" }
-            ]);
-          }).then(function () {
-            gulp
+        prepareLegacyScenario.call(this, function () {
+          gulp
             .src(Support.resolveSupportPath("tmp"))
             .pipe(helpers.runCli(flag))
             .pipe(helpers.teardown(done));
-          });
         });
       });
 
