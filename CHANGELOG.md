@@ -1,3 +1,6 @@
+# 1.0.0
+- Big migration refactoring which uses a new schema table and the umzug lib.
+
 # 0.3.3
 - Fix for default attributes in generated migrations.
 - Auto-generate coffee files with js2coffee.
