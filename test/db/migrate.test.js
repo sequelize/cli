@@ -21,9 +21,11 @@ var _         = require("lodash");
     options = _.extend({ config: {} }, options || {});
 
     var configPath    = "config/";
-    var migrationFile = "createPerson." + ((flag.indexOf("coffee") === -1) ? "js" : "coffee");
+    var migrationFile = options.migrationFile || "createPerson";
     var config        = _.extend({}, helpers.getTestConfig(), options.config);
     var configContent = JSON.stringify(config);
+
+    migrationFile = migrationFile + "."  + ((flag.indexOf("coffee") === -1) ? "js" : "coffee");
 
     if (flag.match(/config\.js$/)) {
       configPath    = configPath + "config.js";
@@ -81,6 +83,26 @@ var _         = require("lodash");
           expect(stdout).to.contain("Executing");
           done();
         }, { config: { logging: true } });
+      });
+    });
+
+    describe("promise based migrations", function () {
+      it("correctly creates two tables", function (done) {
+        var self = this;
+
+        prepare(function () {
+          helpers.readTables(self.sequelize, function(tables) {
+            expect(tables.sort()).to.eql([
+              "Person",
+              "SequelizeMeta",
+              "Task"
+            ]);
+            done();
+          });
+        }, {
+          migrationFile: "new/*createPerson",
+          config:        { promisifyMigrations: false }
+        });
       });
     });
   });
