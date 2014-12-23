@@ -1,3 +1,6 @@
+# 1.0.1
+- Fix global installation of the CLI
+
 # 1.0.0
 - Big migration refactoring which uses a new schema table and the umzug lib.
 
