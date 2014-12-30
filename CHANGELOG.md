@@ -1,3 +1,6 @@
+# 1.0.2
+- Fix coffee-script for global installation
+
 # 1.0.1
 - Fix global installation of the CLI
 
