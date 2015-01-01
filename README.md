@@ -80,6 +80,11 @@ module.exports = {
 This will configure the CLI to always treat `config/database.json` as config file and
 `db/migrate` as the directory for migrations.
 
+### CoffeeScript support
+
+The CLI is compatible with CoffeeScript. You can tell the CLI to enable that support via the `--coffee`
+flag. Please note that you'll need to install `js2coffee` and `coffee-script` for full support.
+
 ## Help
 
 Read the manuals via `sequelize help:<task-name>` for further information.
