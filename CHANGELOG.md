@@ -1,3 +1,6 @@
+# 1.0.2
+- Use the url module to parse database URLs
+
 # 1.0.1
 - Fix global installation of the CLI
 
