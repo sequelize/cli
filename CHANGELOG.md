@@ -1,4 +1,4 @@
-# 1.0.2
+# 1.0.3
 - Use the url module to parse database URLs
 
 # 1.0.1
