@@ -1,3 +1,7 @@
+# 1.0.4
+- Fix output filtering
+- Fix EventEmitter deprecation warnings.
+
 # 1.0.3
 - Use the url module to parse database URLs
 
