@@ -39,7 +39,7 @@ var Support = {
       });
       var _sequelize = new Sequelize(sequelize.config.datase, null, null, options);
 
-      _sequelize.sync({ force: true }).success(function() { callback(_sequelize); });
+      _sequelize.sync({ force: true }).then(function() { callback(_sequelize); });
     } else {
       callback(sequelize);
     }
@@ -60,7 +60,7 @@ var Support = {
     });
 
     if (process.env.DIALECT === "postgres-native") {
-      sequelizeOptions["native"] = true;
+      sequelizeOptions.native = true;
     }
 
     if (!!config.storage) {
@@ -85,18 +85,18 @@ var Support = {
     sequelize
       .getQueryInterface()
       .dropAllTables()
-      .success(function() {
+      .then(function() {
         sequelize.daoFactoryManager.daos = [];
 
         sequelize
           .getQueryInterface()
           .dropAllEnums()
-            .success(callback)
-            .error(function (err) {
+            .then(callback)
+            .catch(function (err) {
               console.log("Error in support.clearDatabase() dropAllEnums() :: ", err);
             });
       })
-      .error(function(err) {
+      .catch(function(err) {
         console.log("Error in support.clearDatabase() dropAllTables() :: ", err);
       });
   },
@@ -204,7 +204,7 @@ before(function(done) {
     return done();
   }
 
-  sequelize.query("CREATE EXTENSION IF NOT EXISTS hstore", null, {raw: true}).success(function() {
+  sequelize.query("CREATE EXTENSION IF NOT EXISTS hstore", null, {raw: true}).then(function() {
     done();
   });
 });
