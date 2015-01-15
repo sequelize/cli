@@ -9,7 +9,6 @@
   "quotmark" : "double",
   "curly": true,
   "eqeqeq": true,
-  "es3": true,
   "forin": true,
   "indent": 2,
   "immed": true,

@@ -53,6 +53,10 @@ module.exports = {
       exec(command, { cwd: file.path }, function(err, stdout, stderr) {
         var result = file;
 
+        if (stdout) {
+          expect(stdout).to.not.contain("EventEmitter");
+        }
+
         if (options.pipeStdout) {
           result = stdout;
         } else if (options.pipeStderr) {
@@ -150,7 +154,7 @@ module.exports = {
     sequelize
       .getQueryInterface()
       .showAllTables()
-      .success(function(tables) {
+      .then(function(tables) {
         callback(tables.sort());
       });
   }
