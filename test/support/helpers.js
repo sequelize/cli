@@ -8,12 +8,17 @@ var path    = require("path");
 var fs      = require("fs-extra");
 
 module.exports = {
-  getTestConfig: function() {
+  getTestConfig: function(mixin) {
     var dialect = support.getTestDialect();
     var config  = require(support.resolveSupportPath("config", "config.js"));
 
     config.sqlite.storage = support.resolveSupportPath("tmp", "test.sqlite");
-    config = support.Sequelize.Utils._.extend(config, config[dialect], { dialect: dialect });
+    config = support.Sequelize.Utils._.extend(
+      config,
+      config[dialect],
+      mixin || {},
+      { dialect: dialect }
+    );
 
     return config;
   },
