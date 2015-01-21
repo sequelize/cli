@@ -85,6 +85,51 @@ This will configure the CLI to always treat `config/database.json` as config fil
 The CLI is compatible with CoffeeScript. You can tell the CLI to enable that support via the `--coffee`
 flag. Please note that you'll need to install `js2coffee` and `coffee-script` for full support.
 
+### Configuration file
+
+By default the CLI will try to use the file `config/config.json`. You can modify that path either via
+the `--config` flag or via the option mentioned earlier. Here is how a configuration file might look
+like (that's is the one that `sequelize init` generates:
+
+```json
+{
+  "development": {
+    "username": "root",
+    "password": null,
+    "database": "database_development",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
+```
+
+### Schema migration
+
+Since v1.0.0 the CLI supports a new schema for saving the executed migrations. It will tell you about that
+when you run a migration while having the old schema. You can opt-in for auto migrating the schema by adding a special property to your config file:
+
+```json
+{
+  "development": {
+    "autoMigrateOldSchema": true
+  }
+}
+```
+
 ## Help
 
 Read the manuals via `sequelize help:<task-name>` for further information.
