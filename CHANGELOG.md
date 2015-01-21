@@ -1,3 +1,6 @@
+# Upcoming
+- Added support for auto-migrate from old schema [#82](https://github.com/sequelize/cli/issues/82)
+
 # 1.0.4
 - Fix output filtering
 - Fix EventEmitter deprecation warnings.
@@ -24,7 +27,7 @@
 
 # 0.3.0
 - Add Node.JS version to the teaser
-- Add dialect and the respective version to the teaser 
+- Add dialect and the respective version to the teaser
 
 # 0.2.6
 - Do not load lodash in `models/index.js`.

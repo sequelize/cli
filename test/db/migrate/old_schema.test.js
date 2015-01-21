@@ -4,11 +4,14 @@ var expect  = require("expect.js");
 var Support = require(__dirname + "/../../support");
 var helpers = require(__dirname + "/../../support/helpers");
 var gulp    = require("gulp");
+var Bluebird = require("bluebird");
 
 ([
   "db:migrate:old_schema"
   ]).forEach(function(flag) {
-    var prepare = function(callback) {
+    var prepare = function(config, callback) {
+      config = helpers.getTestConfig(config);
+
       gulp
       .src(Support.resolveSupportPath("tmp"))
       .pipe(helpers.clearDirectory())
@@ -16,14 +19,14 @@ var gulp    = require("gulp");
       .pipe(helpers.copyMigration("createPerson.js"))
       .pipe(helpers.copyMigration("emptyMigration.js"))
       .pipe(helpers.copyMigration("renamePersonToUser.js"))
-      .pipe(helpers.overwriteFile(JSON.stringify(helpers.getTestConfig()), "config/config.json"))
+      .pipe(helpers.overwriteFile(JSON.stringify(config), "config/config.json"))
       .pipe(helpers.teardown(callback));
     };
 
-    var prepareLegacyScenario = function (callback) {
+    var prepareLegacyScenario = function (config, callback) {
       var self = this;
 
-      prepare(function () {
+      prepare(config, function () {
         var SequelizeMeta = self.sequelize.define("SequelizeMeta",
         { from: Support.Sequelize.STRING, to: Support.Sequelize.STRING },
         { timestamps: false }
@@ -40,7 +43,7 @@ var gulp    = require("gulp");
 
     describe(Support.getTestDialectTeaser(flag + " meta schema"), function () {
       beforeEach(function (done) {
-        return prepareLegacyScenario.call(this, function () { done(); });
+        return prepareLegacyScenario.call(this, null, function () { done(); });
       });
 
       it("is enforced", function (done) {
@@ -54,9 +57,53 @@ var gulp    = require("gulp");
       });
     });
 
+    describe(Support.getTestDialectTeaser(flag + " auto migrate old schema"), function () {
+      beforeEach(function (done) {
+        return prepareLegacyScenario.call(this, {
+          autoMigrateOldSchema: true
+        }, function () { done(); });
+      });
+
+      it("shouldn't enforce if we provide autoMigrateOldSchema option", function () {
+
+        return Bluebird.cast().bind(this)
+
+        .then(function () {
+            return this.sequelize.getQueryInterface().describeTable("SequelizeMeta");
+        })
+        .then(function (fields) {
+          expect(Object.keys(fields)).to.eql(["id","from", "to"]);
+        })
+
+        .then(function () {
+            return new Bluebird(function(fulfill, reject) {
+                gulp
+                .src(Support.resolveSupportPath("tmp"))
+                .pipe(helpers.runCli("db:migrate", { pipeStderr: true }))
+                .pipe(helpers.teardown(function (err, stderr) {
+                  if( err || stderr ) {
+                    reject( err || stderr );
+                    return;
+                  }
+
+                  fulfill();
+                }));
+            });
+        })
+
+        .then(function () {
+            return this.sequelize.getQueryInterface().describeTable("SequelizeMeta");
+        })
+        .then(function (fields) {
+          expect(Object.keys(fields)).to.eql(["name"]);
+        });
+
+      });
+    });
+
     describe(Support.getTestDialectTeaser(flag), function() {
       beforeEach(function (done) {
-        prepareLegacyScenario.call(this, function () {
+        prepareLegacyScenario.call(this, null, function () {
           gulp
             .src(Support.resolveSupportPath("tmp"))
             .pipe(helpers.runCli(flag))
