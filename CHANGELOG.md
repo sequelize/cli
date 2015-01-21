@@ -1,4 +1,4 @@
-# Upcoming
+# 1.0.5
 - Added support for auto-migrate from old schema [#82](https://github.com/sequelize/cli/issues/82)
 
 # 1.0.4
