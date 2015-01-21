@@ -4,6 +4,7 @@ var expect  = require("expect.js");
 var Support = require(__dirname + "/../../support");
 var helpers = require(__dirname + "/../../support/helpers");
 var gulp    = require("gulp");
+var Bluebird = require("bluebird");
 
 ([
   "db:migrate:old_schema"
@@ -63,14 +64,40 @@ var gulp    = require("gulp");
         }, function () { done(); });
       });
 
-      it("shouldn't enforce if we provide autoMigrateOldSchema option", function (done) {
-        gulp
-        .src(Support.resolveSupportPath("tmp"))
-        .pipe(helpers.runCli("db:migrate", { pipeStderr: true }))
-        .pipe(helpers.teardown(function (err, stderr) {
-          expect(stderr).to.not.be.ok();
-          done();
-        }));
+      it("shouldn't enforce if we provide autoMigrateOldSchema option", function () {
+
+        return Bluebird.cast().bind(this)
+
+        .then(function () {
+            return this.sequelize.getQueryInterface().describeTable("SequelizeMeta");
+        })
+        .then(function (fields) {
+          expect(Object.keys(fields)).to.eql(["id","from", "to"]);
+        })
+
+        .then(function () {
+            return new Bluebird(function(fulfill, reject) {
+                gulp
+                .src(Support.resolveSupportPath("tmp"))
+                .pipe(helpers.runCli("db:migrate", { pipeStderr: true }))
+                .pipe(helpers.teardown(function (err, stderr) {
+                  if( err || stderr ) {
+                    reject( err || stderr );
+                    return;
+                  }
+
+                  fulfill();
+                }));
+            });
+        })
+
+        .then(function () {
+            return this.sequelize.getQueryInterface().describeTable("SequelizeMeta");
+        })
+        .then(function (fields) {
+          expect(Object.keys(fields)).to.eql(["name"]);
+        });
+
       });
     });
 
