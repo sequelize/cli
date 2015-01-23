@@ -54,10 +54,15 @@ args = args.concat([
 args.unshift(gulp);
 
 // Add harmony support
-if (_.contains(args, "--harmony")) {
-  args = _.without(args, "--harmony");
-  args.unshift("--harmony");
-}
+[ "--harmony-scoping", "--harmony-modules", "--harmony-proxies",
+  "--harmony-generators", "--harmony-numeric-literals", "--harmony-strings",
+  "--harmony-arrays", "--harmony-arrow-functions", "--harmony"
+].forEach(function(harmonyFlag){
+  if (_.contains(args, harmonyFlag)) {
+    args = _.without(args, harmonyFlag);
+    args.unshift(harmonyFlag);
+  }
+});
 
 var call = spawn(process.argv[0], args);
 
