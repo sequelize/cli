@@ -1,3 +1,9 @@
+# Change Log
+All notable changes to this project will be documented in this file.
+
+# 1.0.6
+- Add support for more fine-granular harmony flags
+
 # 1.0.5
 - Added support for auto-migrate from old schema [#82](https://github.com/sequelize/cli/issues/82)
 
