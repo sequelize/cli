@@ -18,7 +18,7 @@ npm install --save sequelize-cli
 ## Global Install Usage
 
 ```
-$ sequelize 
+$ sequelize [--HARMONY-FLAGS]
 ```
 
 
@@ -55,7 +55,7 @@ Available manuals
 ## Local Install Usage
 
 ```
-$ node_modules/.bin/sequelize
+$ node_modules/.bin/sequelize [--HARMONY-FLAGS]
 ```
 
 ## Options
