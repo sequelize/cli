@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+# 1.0.7
+- Fix regexp application for non migration files.
+
 # 1.0.6
 - Add support for more fine-granular harmony flags
 
