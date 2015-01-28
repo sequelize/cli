@@ -7,7 +7,7 @@ The Sequelize Command Line Interface (CLI)
 Install this globally and you'll have access to the `sequelize` command anywhere on your system.
 
 ```
-npm install -g sequelize
+npm install -g sequelize-cli
 ```
 
 or install it locally to your `node_modules` folder
