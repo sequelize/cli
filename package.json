@@ -24,7 +24,7 @@
     "gulp-jshint": "^1.8.5",
     "gulp-jshint-instafail": "^1.0.0",
     "gulp-mocha": "^1.0.0",
-    "js2coffee": "^0.3.3",
+    "js2coffee": "^2.0.0",
     "jshint-stylish": "^1.0.0",
     "mariasql": "~0.1.20",
     "mocha": "~1.20.1",
