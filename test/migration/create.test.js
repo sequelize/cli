@@ -13,7 +13,7 @@ var _         = require("lodash");
   "migration:generate --coffee"
 ]).forEach(function(flag) {
   describe(Support.getTestDialectTeaser(flag), function() {
-    var migrationFile = "foo." + (_.contains(flag, "--coffee") ? "coffee" : "js");
+    var migrationFile = "foo." + (_.includes(flag, "--coffee") ? "coffee" : "js");
 
     var prepare = function(callback) {
       gulp
@@ -51,7 +51,7 @@ var _         = require("lodash");
           .src(Support.resolveSupportPath("tmp", "migrations"))
           .pipe(helpers.readFile("*-" + migrationFile))
           .pipe(helpers.expect(function(stdout) {
-            if (_.contains(flag, "coffee")) {
+            if (_.includes(flag, "coffee")) {
               expect(stdout).to.contain("up: (migration, DataTypes, done) ->");
               expect(stdout).to.contain("down: (migration, DataTypes, done) ->");
             } else {
