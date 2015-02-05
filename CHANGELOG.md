@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+# 1.1.0
+- Update dependencies
+
 # 1.0.8
 - Fix usage of js2coffee 2.0
 
