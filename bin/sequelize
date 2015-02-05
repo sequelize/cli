@@ -58,7 +58,7 @@ args.unshift(gulp);
   "--harmony-generators", "--harmony-numeric-literals", "--harmony-strings",
   "--harmony-arrays", "--harmony-arrow-functions", "--harmony"
 ].forEach(function(harmonyFlag){
-  if (_.contains(args, harmonyFlag)) {
+  if (_.includes(args, harmonyFlag)) {
     args = _.without(args, harmonyFlag);
     args.unshift(harmonyFlag);
   }

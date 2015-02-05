@@ -14,7 +14,7 @@ var _         = require("lodash");
     var combineFlags = function(flags) {
       var result = flag;
 
-      _.each(flags || {}, function(value, key) {
+      _.forEach(flags || {}, function(value, key) {
         result = result + " --" + key + " " + value;
       });
 
@@ -22,7 +22,7 @@ var _         = require("lodash");
     };
 
     var prepare = function(options, callback) {
-      options = _.extend({
+      options = _.assign({
         flags: {},
         cli:   { pipeStdout: true }
       }, options || {});
