@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+# 1.2.0
+- Add logging of statements and improve messages
+
 # 1.1.0
 - Update dependencies
 
