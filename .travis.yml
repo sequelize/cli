@@ -2,6 +2,7 @@ before_script:
   - "mysql -e 'create database sequelize_test;'"
   - "psql -c 'create database sequelize_test;' -U postgres"
   - npm install js2coffee@$(echo $JS2COFFEE)
+  - npm install sequelize@$(echo $SEQUELIZE)
 
 script:
   - "node_modules/.bin/gulp"
@@ -11,10 +12,18 @@ notifications:
     - "chat.freenode.net#sequelizejs"
 
 env:
-  - JS2COFFEE=0.3.5 DIALECT=mysql
-  - JS2COFFEE=2.0.0 DIALECT=mysql
-  - JS2COFFEE=0.3.5 DIALECT=sqlite
-  - JS2COFFEE=2.0.0 DIALECT=sqlite
+  - JS2COFFEE=0.3.5 DIALECT=mysql SEQUELIZE=1.7.10
+  - JS2COFFEE=0.3.5 DIALECT=mysql SEQUELIZE=2.0.0-rc8
+  - JS2COFFEE=0.3.5 DIALECT=mysql SEQUELIZE=2.0.0
+  - JS2COFFEE=0.3.5 DIALECT=sqlite SEQUELIZE=1.7.10
+  - JS2COFFEE=0.3.5 DIALECT=sqlite SEQUELIZE=2.0.0-rc8
+  - JS2COFFEE=0.3.5 DIALECT=sqlite SEQUELIZE=2.0.0
+  - JS2COFFEE=2.0.0 DIALECT=mysql SEQUELIZE=1.7.10
+  - JS2COFFEE=2.0.0 DIALECT=mysql SEQUELIZE=2.0.0-rc8
+  - JS2COFFEE=2.0.0 DIALECT=mysql SEQUELIZE=2.0.0
+  - JS2COFFEE=2.0.0 DIALECT=sqlite SEQUELIZE=1.7.10
+  - JS2COFFEE=2.0.0 DIALECT=sqlite SEQUELIZE=2.0.0-rc8
+  - JS2COFFEE=2.0.0 DIALECT=sqlite SEQUELIZE=2.0.0
 
 language: node_js
 
