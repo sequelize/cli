@@ -157,7 +157,7 @@ var Bluebird = require("bluebird");
       it("creates two entries in the new table", function (done) {
         this.sequelize.query(
           this.sequelize.getQueryInterface().QueryGenerator.selectQuery("SequelizeMeta"),
-          null, { raw: true }
+          null, { raw: true, type: "SELECT" }
         ).then(function (items) {
           expect(items).to.eql([
             { name: "20111117063700-createPerson.js" },
@@ -184,7 +184,7 @@ var Bluebird = require("bluebird");
           .pipe(helpers.teardown(function () {
             self.sequelize.query(
               self.sequelize.getQueryInterface().QueryGenerator.selectQuery("SequelizeMeta"),
-              null, { raw: true }
+              null, { raw: true, type: "SELECT" }
             ).then(function (items) {
               expect(items).to.eql([
                 { name: "20111117063700-createPerson.js" }
