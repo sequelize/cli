@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+# Upcoming
+- Add builds for different sequelize versions
+- Fix raw queries in sequelize 2.0
+
 # 1.2.0
 - Add logging of statements and improve messages
 
