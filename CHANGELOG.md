@@ -1,6 +1,9 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+# 1.3.1
+- Update umzug to 1.6.0
+
 # 1.3.0 
 - Add builds for different sequelize versions
 - Fix raw queries in sequelize 2.0
