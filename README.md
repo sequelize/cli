@@ -117,6 +117,29 @@ like (that's is the one that `sequelize init` generates:
 }
 ```
 
+### Migration storage
+
+By default the CLI will create a table in your database called `SequelizeMeta` containing an entry
+for each executed migration.  Using `migrationStorage` in the configuration file you can have the
+CLI create a JSON file which will contain an array with all the executed migrations.  You can
+specify the path of the file using `migrationStoragePath` or the CLI will write to the file
+`sequelize-meta.json`.
+
+
+```json
+{
+  "development": {
+    "username": "root",
+    "password": null,
+    "database": "database_development",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "migrationStorage": "json",
+    "migrationStoragePath": "sequelize-meta.json"
+  }
+}
+```
+
 ### Schema migration
 
 Since v1.0.0 the CLI supports a new schema for saving the executed migrations. It will tell you about that
