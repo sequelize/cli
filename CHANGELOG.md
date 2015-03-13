@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v1.4.0 - 2015-03-13
+### Added
+- Possibility to log executed migrations to a JSON file
+
 ## v1.3.2 - 2015-03-13
 ### Changed
 - Fix gulp resolution for Windows
