@@ -12,7 +12,7 @@ var _       = require("lodash");
 var helpers = require(path.resolve(__dirname, "..", "lib", "helpers"));
 
 if (!fs.existsSync(gulp)) {
- gulp = path.resolve(process.cwd(), "node_modules", ".bin", "gulp");
+ gulp = path.resolve(process.cwd(), "node_modules", "gulp", "bin", "gulp.js");
 }
 
 if (!fs.existsSync(gulp)) {
