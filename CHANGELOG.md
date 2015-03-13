@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v1.3.2 - 2015-03-13
+### Changed
+- Fix gulp resolution for Windows
+
 ## 1.3.1
 ### Changed
 - Update umzug to 1.6.0
