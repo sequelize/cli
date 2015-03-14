@@ -153,6 +153,30 @@ when you run a migration while having the old schema. You can opt-in for auto mi
 }
 ```
 
+### The migration schema
+
+The CLI uses [umzug](https://github.com/sequelize/umzug) and it's migration schema. This means a migration has too look like this:
+
+```javascript
+"use strict";
+
+module.exports = {
+  up: function(queryInterface, Sequelize, done) {
+    done();
+  },
+
+  down: function(queryInterface) {
+    return new Promise(function (resolve, reject) {
+      resolve();
+    });
+  }
+};
+```
+
+Please note that you can either return a Promise or call the third argument of the function once your asynchronous logic was executed. If you pass something to the callback function (the `done` function) it will be treated as erroneous execution.
+
+Additional note: If you need to access the sequelize instance, you can easily do that via `queryInterface.sequelize`.
+
 ## Help
 
 Read the manuals via `sequelize help:<task-name>` for further information.
