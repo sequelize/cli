@@ -49,7 +49,8 @@ var gulp    = require("gulp");
       prepare(function() {
         helpers.readTables(self.sequelize, function(tables) {
           expect(tables).to.have.length(2);
-          expect(tables).to.have.members(["User","SequelizeMeta"]);
+          expect(tables).to.contain("User");
+          expect(tables).to.contain("SequelizeMeta");
 
           gulp
             .src(Support.resolveSupportPath("tmp"))
