@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## Upcoming
+## v1.5.0 - 2015-03-24
 ### Added
 - `sequelize db:migrate:undo:all` that rolls back all migrations.
 
