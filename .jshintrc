@@ -5,6 +5,7 @@
     "before": true,
     "beforeEach": true
   },
+  "esnext": true,
   "node": true,
   "quotmark" : "double",
   "curly": true,
