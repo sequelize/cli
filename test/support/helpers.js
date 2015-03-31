@@ -153,6 +153,19 @@ module.exports = {
     });
   },
 
+  copySeeder: function (fileName, seedersFolder) {
+    seedersFolder = seedersFolder || 'seeders';
+
+    return through.obj(function (file, encoding, callback) {
+      var seederSource = support.resolveSupportPath('assets', 'seeders');
+      var seederTarget = path.resolve(file.path, seedersFolder);
+
+      exec('cp ' + seederSource + '/*' + fileName + ' ' + seederTarget + '/', function (err) {
+        callback(err, file);
+      });
+    });
+  },
+
   teardown: function (done) {
     return through.obj(function (smth, encoding, callback) {
       callback();
@@ -166,6 +179,16 @@ module.exports = {
       .showAllTables()
       .then(function (tables) {
         callback(tables.sort());
+      });
+  },
+
+  countTable: function (sequelize, table, callback) {
+    var QueryGenerator =  sequelize.getQueryInterface().QueryGenerator;
+
+    sequelize
+      .query('SELECT count(*) as count FROM ' + QueryGenerator.quoteTable(table))
+      .then(function (result) {
+        callback((result.length === 2) ? result[0] : result );
       });
   }
 };
