@@ -105,5 +105,21 @@ var _         = require("lodash");
         });
       });
     });
+
+    describe("custom meta table name", function () {
+      it("correctly uses the defined table name", function (done) {
+        var self = this;
+
+        prepare(function () {
+          helpers.readTables(self.sequelize, function(tables) {
+            expect(tables.sort()).to.eql(["Person", "Task", "sequelize_meta"]);
+            done();
+          });
+        }, {
+          migrationFile: "new/*createPerson",
+          config:        { migrationStorageTableName: "sequelize_meta" }
+        });
+      });
+    });
   });
 });

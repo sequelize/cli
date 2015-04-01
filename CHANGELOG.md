@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## Upcoming
+### Added
+- Possibility to use a different table name for the meta data
+
 ## v1.5.0 - 2015-03-24
 ### Added
 - `sequelize db:migrate:undo:all` that rolls back all migrations.
