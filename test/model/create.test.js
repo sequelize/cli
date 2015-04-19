@@ -135,39 +135,38 @@ var _         = require('lodash');
               gulp
                 .src(Support.resolveSupportPath('tmp', 'migrations'))
                 .pipe(helpers.readFile('*-create-user.js'))
-                .pipe(helpers.ensureContent('migration'))
+                .pipe(helpers.ensureContent('return queryInterface'))
                 .pipe(helpers.ensureContent('.createTable(\'Users\', {'))
                 .pipe(helpers.ensureContent(
-                  'first_name: {\n        type: DataTypes.STRING\n      },'
+                  'first_name: {\n        type: Sequelize.STRING\n      },'
                 ))
                 .pipe(helpers.ensureContent(
-                  'last_name: {\n        type: DataTypes.STRING\n      },'
+                  'last_name: {\n        type: Sequelize.STRING\n      },'
                 ))
                 .pipe(helpers.ensureContent(
-                  'bio: {\n        type: DataTypes.TEXT\n      },'
+                  'bio: {\n        type: Sequelize.TEXT\n      },'
                 ))
                 .pipe(helpers.ensureContent([
                   '     id: {',
                   '        allowNull: false,',
                   '        autoIncrement: true,',
                   '        primaryKey: true,',
-                  '        type: DataTypes.INTEGER',
+                  '        type: Sequelize.INTEGER',
                   '      },'
                 ].join('\n')))
                 .pipe(helpers.ensureContent([
                   '     createdAt: {',
                   '        allowNull: false,',
-                  '        type: DataTypes.DATE',
+                  '        type: Sequelize.DATE',
                   '      },'
                 ].join('\n')))
                 .pipe(helpers.ensureContent([
                   '     updatedAt: {',
                   '        allowNull: false,',
-                  '        type: DataTypes.DATE',
+                  '        type: Sequelize.DATE',
                   '      }'
                 ].join('\n')))
-                .pipe(helpers.ensureContent('})'))
-                .pipe(helpers.ensureContent('.done(done)'))
+                .pipe(helpers.ensureContent('});'))
                 .pipe(helpers.ensureContent('.dropTable(\'Users\')'))
                 .pipe(helpers.teardown(done));
             });

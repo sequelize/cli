@@ -54,25 +54,12 @@ var _         = require('lodash');
           .pipe(helpers.readFile('*-' + migrationFile))
           .pipe(helpers.expect(function (stdout) {
             if (_.includes(flag, 'coffee')) {
-              expect(stdout).to.contain('up: (migration, DataTypes, done) ->');
-              expect(stdout).to.contain('down: (migration, DataTypes, done) ->');
+              expect(stdout).to.contain('up: (queryInterface, Sequelize) ->');
+              expect(stdout).to.contain('down: (queryInterface, Sequelize) ->');
             } else {
-              expect(stdout).to.contain('up: function(migration, DataTypes, done) {');
-              expect(stdout).to.contain('down: function(migration, DataTypes, done) {');
+              expect(stdout).to.contain('up: function (queryInterface, Sequelize) {');
+              expect(stdout).to.contain('down: function (queryInterface, Sequelize) {');
             }
-          }))
-          .pipe(helpers.teardown(done));
-      });
-    });
-
-    it('calls the done callback', function (done) {
-      prepare(function () {
-        gulp
-          .src(Support.resolveSupportPath('tmp', 'migrations'))
-          .pipe(helpers.readFile('*-' + migrationFile))
-          .pipe(helpers.ensureContent('done()'))
-          .pipe(helpers.expect(function (stdout) {
-            expect(stdout.match(/(done\(\))/)).to.have.length(2);
           }))
           .pipe(helpers.teardown(done));
       });
