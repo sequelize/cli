@@ -142,7 +142,7 @@ specify the path of the file using `migrationStoragePath` or the CLI will write 
 If you want to keep the information in the database and like to configure the way it's stored,
 you can choose from the following configuration possibilites:
 
-```js
+```json
 {
   "development": {
     // Use a different table name. Default: SequelizeMeta
