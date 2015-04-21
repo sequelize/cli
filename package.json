@@ -1,6 +1,6 @@
 {
   "name": "sequelize-cli",
-  "version": "1.5.0",
+  "version": "1.7.0",
   "description": "The sequelize CLI.",
   "main": "index.js",
   "dependencies": {
@@ -21,8 +21,11 @@
     "babel": "^4.7.16",
     "coffee-script": "^1.9.0",
     "expect.js": "~0.3.1",
-    "gulp-jshint": "^1.8.5",
+    "gulp": "^3.8.11",
+    "gulp-jscs": "^1.5.1",
+    "gulp-jshint": "^1.10.0",
     "gulp-jshint-instafail": "^1.0.0",
+    "gulp-markdown-code-blocks": "^1.1.0",
     "gulp-mocha": "^2.0.0",
     "js2coffee": "^2.0.0",
     "jshint-stylish": "^1.0.0",
@@ -30,12 +33,13 @@
     "mysql": "^2.5.4",
     "pg": "^4.2.0",
     "pg-hstore": "^2.3.1",
+    "run-sequence": "^1.0.2",
     "sequelize": "^2.0.0-rc3",
     "sqlite3": "^3.0.4",
     "through2": "^0.6.3"
   },
   "scripts": {
-    "test": "node_modules/.bin/gulp"
+    "test": "gulp"
   },
   "repository": {
     "type": "git",

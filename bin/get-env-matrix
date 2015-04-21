@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-"use strict";
+'use strict';
 
 // this produces a 2d array of combinations
-function combinations(array) {
-  if(!array.length) {
+function combinations (array) {
+  if (!array.length) {
     return [];
   }
 
@@ -15,10 +15,10 @@ function combinations(array) {
   });
 
   // internal recursive function
-  function combine(list) {
+  function combine (list) {
     var prefixes, combinations;
 
-    if(list.length === 1) {
+    if (list.length === 1) {
       return list[0];
     }
 
@@ -44,5 +44,8 @@ var sequelizeVersions = ['1.7.10', '2.0.0-rc8', '2.0.0'];
 
 console.log('env:');
 combinations([coffeeVersions, dialects, sequelizeVersions]).forEach(function (combination) {
-  console.log('  - JS2COFFEE=' + combination[0] + ' DIALECT=' + combination[1] + ' SEQUELIZE=' + combination[2]);
+  console.log(
+    '  - JS2COFFEE=' + combination[0] + ' DIALECT=' +
+    combination[1] + ' SEQUELIZE=' + combination[2]
+  );
 });

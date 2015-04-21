@@ -1,7 +1,7 @@
-"use strict";
+'use strict';
 
-import Bluebird from "bluebird";
-import Sequelize from "sequelize";
+import Bluebird from 'bluebird';
+import Sequelize from 'sequelize';
 
 export default {
 
@@ -9,10 +9,10 @@ export default {
     return Bluebird
       .delay(1000)
       .then(function () {
-        return db.createTable("Person", { name: Sequelize.STRING });
+        return db.createTable('Person', { name: Sequelize.STRING });
       })
       .then(function () {
-        return db.createTable("Task", { title: Sequelize.STRING });
+        return db.createTable('Task', { title: Sequelize.STRING });
       });
   }
 

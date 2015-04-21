@@ -1,10 +1,10 @@
-"use strict";
+'use strict';
 
 export default {
 
   up(migration, DataTypes, done) {
     migration
-      .createTable("Person", {
+      .createTable('Person', {
         name: DataTypes.STRING,
         isBetaMember: {
           type: DataTypes.BOOLEAN,
@@ -16,7 +16,7 @@ export default {
   },
 
   down(migration, DataTypes, done) {
-    migration.dropTable("Person").complete(done);
+    migration.dropTable('Person').complete(done);
   }
 
 };

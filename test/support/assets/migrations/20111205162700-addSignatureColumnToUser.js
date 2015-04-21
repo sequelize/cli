@@ -1,24 +1,24 @@
-"use strict";
+'use strict';
 
 module.exports = {
-  up: function(migration, DataTypes, done) {
+  up: function (migration, DataTypes, done) {
     migration
-      .addColumn("User", "isAdmin", {
+      .addColumn('User', 'isAdmin', {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
         allowNull: false
       })
-      .complete(function(err) {
+      .complete(function (err) {
         if (err) {
           done(err);
         } else {
           migration
-            .addColumn("User", "signature", DataTypes.TEXT)
-            .complete(function(err) {
+            .addColumn('User', 'signature', DataTypes.TEXT)
+            .complete(function (err) {
               if (err) {
                 done(err);
               } else {
-                migration.addColumn("User", "shopId", {
+                migration.addColumn('User', 'shopId', {
                   type: DataTypes.INTEGER,
                   allowNull: true
                 }).complete(done);
@@ -28,16 +28,16 @@ module.exports = {
       });
   },
 
-  down: function(migration, DataTypes, done) {
-    migration.removeColumn("User", "signature").complete(function(err) {
+  down: function (migration, DataTypes, done) {
+    migration.removeColumn('User', 'signature').complete(function (err) {
       if (err) {
         done(err);
       } else {
-        migration.removeColumn("User", "shopId").complete(function(err) {
+        migration.removeColumn('User', 'shopId').complete(function (err) {
           if (err) {
             done(err);
           } else {
-            migration.removeColumn("User", "isAdmin").complete(done);
+            migration.removeColumn('User', 'isAdmin').complete(done);
           }
         });
       }

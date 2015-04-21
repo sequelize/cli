@@ -125,7 +125,6 @@ CLI create a JSON file which will contain an array with all the executed migrati
 specify the path of the file using `migrationStoragePath` or the CLI will write to the file
 `sequelize-meta.json`.
 
-
 ```json
 {
   "development": {
@@ -136,6 +135,18 @@ specify the path of the file using `migrationStoragePath` or the CLI will write 
     "dialect": "mysql",
     "migrationStorage": "json",
     "migrationStoragePath": "sequelize-meta.json"
+  }
+}
+```
+
+If you want to keep the information in the database and like to configure the way it's stored,
+you can choose from the following configuration possibilites:
+
+```json
+{
+  "development": {
+    // Use a different table name. Default: SequelizeMeta
+    "migrationStorageTableName": "sequelize_meta"
   }
 }
 ```

@@ -1,13 +1,15 @@
-"use strict";
+'use strict';
 
 module.exports = {
-  up: function(migration, DataTypes, done) {
-    migration.changeColumn("User", "signature", {
+  up: function (migration, DataTypes, done) {
+    migration.changeColumn('User', 'signature', {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: "Signature"
+      defaultValue: 'Signature'
     }).complete(done);
   },
 
-  down: function(migration, DataTypes, done) { done(); }
+  down: function (migration, DataTypes, done) {
+    done();
+  }
 };
