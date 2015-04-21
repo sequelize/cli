@@ -59,8 +59,8 @@ var _         = require('lodash');
               expect(stdout).to.contain('up: (queryInterface, Sequelize) ->');
               expect(stdout).to.contain('down: (queryInterface, Sequelize) ->');
             } else if (_.includes(flag, 'es6')) {
-              expect(stdout).to.contain('up(migration, DataTypes, done) {');
-              expect(stdout).to.contain('down(migration, DataTypes, done) {');
+              expect(stdout).to.contain('up(queryInterface, Sequelize) {');
+              expect(stdout).to.contain('down(queryInterface, Sequelize) {');
             } else {
               expect(stdout).to.contain('up: function (queryInterface, Sequelize) {');
               expect(stdout).to.contain('down: function (queryInterface, Sequelize) {');
