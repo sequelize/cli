@@ -16,7 +16,8 @@ var _         = require('lodash');
   'db:migrate --coffee',
   'db:migrate --config ../../support/tmp/config/config.json',
   'db:migrate --config ' + Support.resolveSupportPath('tmp', 'config', 'config.json'),
-  'db:migrate --config ../../support/tmp/config/config.js'
+  'db:migrate --config ../../support/tmp/config/config.js',
+  'db:migrate --es6'
 ]).forEach(function (flag) {
   var prepare = function (callback, options) {
     options = _.assign({ config: {} }, options || {});
@@ -28,7 +29,14 @@ var _         = require('lodash');
     }, helpers.getTestConfig(), options.config);
     var configContent = JSON.stringify(config);
 
-    migrationFile = migrationFile + '.'  + ((flag.indexOf('coffee') === -1) ? 'js' : 'coffee');
+    var ext = 'js';
+
+    if (flag.indexOf('coffee') > -1) {
+      ext = 'coffee';
+    } else if (flag.indexOf('es6') > -1) {
+      ext = 'es6.js';
+    }
+    migrationFile = migrationFile + '.'  + ext;
 
     if (flag.match(/config\.js$/)) {
       configPath    = configPath + 'config.js';
@@ -56,7 +64,7 @@ var _         = require('lodash');
         prepare(function () {
           expect(fs.statSync(storageFile).isFile()).to.be(true);
           expect(fs.readFileSync(storageFile).toString())
-            .to.match(/^\[\n  "\d{14}-createPerson\.(js|coffee)"\n\]$/);
+            .to.match(/^\[\n  "\d{14}-createPerson\.(js|coffee|es6\.js)"\n\]$/);
           done();
         });
       });
@@ -67,7 +75,7 @@ var _         = require('lodash');
         prepare(function () {
           expect(fs.statSync(storageFile).isFile()).to.be(true);
           expect(fs.readFileSync(storageFile).toString())
-            .to.match(/^\[\n  "\d{14}-createPerson\.(js|coffee)"\n\]$/);
+            .to.match(/^\[\n  "\d{14}-createPerson\.(js|coffee|es6\.js)"\n\]$/);
           done();
         }, { config: { migrationStoragePath: storageFile } });
       });

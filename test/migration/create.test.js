@@ -10,7 +10,9 @@ var _         = require('lodash');
   'migration:create',
   'migration:generate',
   'migration:create --coffee',
-  'migration:generate --coffee'
+  'migration:generate --coffee',
+  'migration:create --es6',
+  'migration:generate --es6'
 ]).forEach(function (flag) {
   describe(Support.getTestDialectTeaser(flag), function () {
     var migrationFile = 'foo.' + (_.includes(flag, '--coffee') ? 'coffee' : 'js');
@@ -56,6 +58,9 @@ var _         = require('lodash');
             if (_.includes(flag, 'coffee')) {
               expect(stdout).to.contain('up: (queryInterface, Sequelize) ->');
               expect(stdout).to.contain('down: (queryInterface, Sequelize) ->');
+            } else if (_.includes(flag, 'es6')) {
+              expect(stdout).to.contain('up(queryInterface, Sequelize) {');
+              expect(stdout).to.contain('down(queryInterface, Sequelize) {');
             } else {
               expect(stdout).to.contain('up: function (queryInterface, Sequelize) {');
               expect(stdout).to.contain('down: function (queryInterface, Sequelize) {');
