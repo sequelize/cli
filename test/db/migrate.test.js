@@ -31,7 +31,7 @@ var _         = require('lodash');
     if (flag.indexOf('coffee') > -1) {
       ext = 'coffee';
     } else if (flag.indexOf('es6') > -1) {
-      ext = 'es6.js';
+      ext = 'es';
     }
     migrationFile = migrationFile + '.'  + ext;
 
