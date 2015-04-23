@@ -15,6 +15,7 @@ var _         = require('lodash');
   'migration:generate --es6'
 ]).forEach(function (flag) {
   describe(Support.getTestDialectTeaser(flag), function () {
+    var migrationFile = 'foo';
     var ext = 'js';
 
     if (flag.indexOf('coffee') > -1) {
@@ -22,8 +23,8 @@ var _         = require('lodash');
     } else if (flag.indexOf('es6') > -1) {
       ext = 'es';
     }
-    migrationFile = migrationFile + '.'  + ext;
 
+    migrationFile = migrationFile + '.'  + ext;
 
     var prepare = function (callback) {
       gulp
