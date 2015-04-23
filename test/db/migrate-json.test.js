@@ -64,7 +64,7 @@ var _         = require('lodash');
         prepare(function () {
           expect(fs.statSync(storageFile).isFile()).to.be(true);
           expect(fs.readFileSync(storageFile).toString())
-            .to.match(/^\[\n  "\d{14}-createPerson\.(js|coffee|es6\.js)"\n\]$/);
+            .to.match(/^\[\n  "\d{14}-createPerson\.(js|coffee|es)"\n\]$/);
           done();
         });
       });
@@ -75,7 +75,7 @@ var _         = require('lodash');
         prepare(function () {
           expect(fs.statSync(storageFile).isFile()).to.be(true);
           expect(fs.readFileSync(storageFile).toString())
-            .to.match(/^\[\n  "\d{14}-createPerson\.(js|coffee|es6\.js)"\n\]$/);
+            .to.match(/^\[\n  "\d{14}-createPerson\.(js|coffee|es)"\n\]$/);
           done();
         }, { config: { migrationStoragePath: storageFile } });
       });

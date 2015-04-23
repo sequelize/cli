@@ -15,7 +15,15 @@ var _         = require('lodash');
   'migration:generate --es6'
 ]).forEach(function (flag) {
   describe(Support.getTestDialectTeaser(flag), function () {
-    var migrationFile = 'foo.' + (_.includes(flag, '--coffee') ? 'coffee' : 'js');
+    var ext = 'js';
+
+    if (flag.indexOf('coffee') > -1) {
+      ext = 'coffee';
+    } else if (flag.indexOf('es6') > -1) {
+      ext = 'es';
+    }
+    migrationFile = migrationFile + '.'  + ext;
+
 
     var prepare = function (callback) {
       gulp
@@ -58,7 +66,7 @@ var _         = require('lodash');
             if (_.includes(flag, 'coffee')) {
               expect(stdout).to.contain('up: (queryInterface, Sequelize) ->');
               expect(stdout).to.contain('down: (queryInterface, Sequelize) ->');
-            } else if (_.includes(flag, 'es6')) {
+            } else if (_.includes(flag, 'es')) {
               expect(stdout).to.contain('up(queryInterface, Sequelize) {');
               expect(stdout).to.contain('down(queryInterface, Sequelize) {');
             } else {
