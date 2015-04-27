@@ -14,7 +14,9 @@ export default {
     },
 
     down(migration, DataTypes, done) {
-      migration.dropTable('Person').complete(done);
+      migration
+        .dropTable('Person')
+        .complete(done);
     }
 
 };

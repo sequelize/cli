@@ -28,7 +28,6 @@ var _         = require('lodash');
       migrationStorage: 'json'
     }, helpers.getTestConfig(), options.config);
     var configContent = JSON.stringify(config);
-
     var ext = 'js';
 
     if (flag.indexOf('coffee') > -1) {
