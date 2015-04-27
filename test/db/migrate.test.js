@@ -25,7 +25,6 @@ var _         = require('lodash');
     var migrationFile = options.migrationFile || 'createPerson';
     var config        = _.assign({}, helpers.getTestConfig(), options.config);
     var configContent = JSON.stringify(config);
-
     var ext = 'js';
 
     if (flag.indexOf('coffee') > -1) {
