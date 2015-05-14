@@ -1,5 +1,5 @@
 module.exports =
-  up: (migration, DataTypes, done) ->
+  up: (migration, DataTypes) ->
     migration
       .createTable 'Person',
         name: DataTypes.STRING
@@ -7,8 +7,6 @@ module.exports =
           type: DataTypes.BOOLEAN
           defaultValue: false
           allowNull: false
-    .complete done
-  down: (migration, DataTypes, done) ->
+  down: (migration, DataTypes) ->
     migration
       .dropTable 'Person'
-      .complete done
