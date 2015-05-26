@@ -1,11 +1,11 @@
 'use strict';
 
 module.exports = {
-  up: function (migration, DataTypes, done) {
-    migration.renameTable('Person', 'User').complete(done);
+  up: function (migration) {
+    return migration.renameTable('Person', 'User');
   },
 
-  down: function (migration, DataTypes, done) {
-    migration.renameTable('User', 'Person').complete(done);
+  down: function (migration) {
+    return migration.renameTable('User', 'Person');
   }
 };

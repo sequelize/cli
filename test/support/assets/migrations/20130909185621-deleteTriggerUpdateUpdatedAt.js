@@ -1,18 +1,18 @@
 'use strict';
 
 module.exports = {
-  up: function (migration, DataTypes, done) {
-    migration.dropTrigger('trigger_test', 'update_updated_at').complete(done);
+  up: function (migration) {
+    return migration.dropTrigger('trigger_test', 'update_updated_at');
   },
 
-  down: function (migration, DataTypes, done) {
-    migration.createTrigger(
+  down: function (migration) {
+    return migration.createTrigger(
       'trigger_test',
       'update_updated_at',
       'before',
       { update: true },
       'bump_updated_at',
       []
-    ).complete(done);
+    );
   }
 };

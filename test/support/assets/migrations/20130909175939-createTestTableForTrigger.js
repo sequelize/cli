@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = {
-  up: function (migration, DataTypes, done) {
-    migration
+  up: function (migration, DataTypes) {
+    return migration
         .createTable('trigger_test', {
           name: DataTypes.STRING,
           updated_at: {
@@ -10,11 +10,10 @@ module.exports = {
             defaultValue: DataTypes.NOW,
             allowNull: false
           }
-        })
-        .complete(done);
+        });
   },
 
-  down: function (migration, DataTypes, done) {
-    migration.dropTable('trigger_test').complete(done);
+  down: function (migration) {
+    return migration.dropTable('trigger_test');
   }
 };

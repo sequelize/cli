@@ -1,6 +1,6 @@
 module.exports =
   up: (migration, DataTypes) ->
-    migration
+    return migration
       .createTable 'Person',
         name: DataTypes.STRING
         isBetaMember:
@@ -8,5 +8,5 @@ module.exports =
           defaultValue: false
           allowNull: false
   down: (migration, DataTypes) ->
-    migration
+    return migration
       .dropTable 'Person'
