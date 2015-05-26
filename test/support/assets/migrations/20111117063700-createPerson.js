@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = {
-  up: function (migration, DataTypes, done) {
-    migration
+  up: function (migration, DataTypes) {
+    return migration
       .createTable('Person', {
         name: DataTypes.STRING,
         isBetaMember: {
@@ -10,10 +10,9 @@ module.exports = {
           defaultValue: false,
           allowNull: false
         }
-      })
-      .complete(done);
+      });
   },
-  down: function (migration, DataTypes, done) {
-    migration.dropTable('Person').complete(done);
+  down: function (migration) {
+    return migration.dropTable('Person');
   }
 };

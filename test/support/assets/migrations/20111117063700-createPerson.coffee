@@ -1,14 +1,12 @@
 module.exports =
-  up: (migration, DataTypes, done) ->
-    migration
+  up: (migration, DataTypes) ->
+    return migration
       .createTable 'Person',
         name: DataTypes.STRING
         isBetaMember:
           type: DataTypes.BOOLEAN
           defaultValue: false
           allowNull: false
-    .complete done
-  down: (migration, DataTypes, done) ->
-    migration
+  down: (migration, DataTypes) ->
+    return migration
       .dropTable 'Person'
-      .complete done
