@@ -10,5 +10,6 @@
     "after":     false,
     "afterEach": false,
     "afterAll":  false
-  }
+  },
+  "esnext": true
 }

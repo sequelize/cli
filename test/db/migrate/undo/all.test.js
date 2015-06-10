@@ -1,4 +1,4 @@
-  'use strict';
+'use strict';
 
 var expect  = require('expect.js');
 var Support = require(__dirname + '/../../../support');
