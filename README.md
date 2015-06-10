@@ -117,6 +117,14 @@ like (that's is the one that `sequelize init` generates:
 }
 ```
 
+
+### Configuration Connection String
+
+As an alternative to the `--config` option with configuration files defining your database, you can
+use the `--url` option to pass in a connection string. For example:
+
+`sequelize db:migrate --url 'mysql://root:password@mysql_host.com/database_name'`
+
 ### Migration storage
 
 By default the CLI will create a table in your database called `SequelizeMeta` containing an entry
