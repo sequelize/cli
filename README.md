@@ -57,7 +57,6 @@ Available manuals
   help:version                The documentation for "sequelize version".
 ```
 
-
 ## Local Install Usage
 
 ```
@@ -130,6 +129,22 @@ As an alternative to the `--config` option with configuration files defining you
 use the `--url` option to pass in a connection string. For example:
 
 `sequelize db:migrate --url 'mysql://root:password@mysql_host.com/database_name'`
+
+### Configuration Connection Environment Variable
+
+Another possibility is to store the URL in an environment variable and to tell
+the CLI to lookup a certain variable during runtime. Let's assume you have an
+environment variable called `DB_CONNECTION_STRING` which stores the value
+`mysql://root:password@mysql_host.com/database_name`. In order to make the CLI
+use it, you have to use declare it in your config file:
+
+```
+{
+    "production": {
+        "use_env_variable": "DB_CONNECTION_STRING"
+    }
+}
+```
 
 ### Migration storage
 
