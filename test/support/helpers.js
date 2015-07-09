@@ -1,5 +1,6 @@
 'use strict';
 
+var _       = require('lodash');
 var exec    = require('child_process').exec;
 var support = require('./index');
 var through = require('through2');
@@ -54,8 +55,9 @@ module.exports = {
 
     return through.obj(function (file, encoding, callback) {
       var command = support.getCliCommand(file.path, args);
+      var env     = _.extend({}, process.env, options.env);
 
-      exec(command, { cwd: file.path }, function (err, stdout, stderr) {
+      exec(command, { cwd: file.path, env: env }, function (err, stdout, stderr) {
         var result = file;
 
         if (stdout) {
