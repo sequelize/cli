@@ -1,6 +1,15 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v1.7.1 - 2015-07-09
+### Added
+- Documentation about env variable
+- Test for use_env_variable
+
+### Changed
+- Fix env variable use for sqlite
+- Update available tasks
+
 ## v1.7.0 - 2015-04-19
 ### Added
 - More gulp tasks
