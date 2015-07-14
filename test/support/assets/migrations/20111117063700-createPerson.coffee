@@ -1,14 +1,13 @@
+nodeify = require 'nodeify'
+
 module.exports =
   up: (migration, DataTypes, done) ->
-    migration
-      .createTable 'Person',
-        name: DataTypes.STRING
-        isBetaMember:
-          type: DataTypes.BOOLEAN
-          defaultValue: false
-          allowNull: false
-    .complete done
+    nodeify migration.createTable('Person',
+      name: DataTypes.STRING
+      isBetaMember:
+        type: DataTypes.BOOLEAN
+        defaultValue: false
+        allowNull: false
+    ), done
   down: (migration, DataTypes, done) ->
-    migration
-      .dropTable 'Person'
-      .complete done
+    nodeify migration.dropTable('Person'), done

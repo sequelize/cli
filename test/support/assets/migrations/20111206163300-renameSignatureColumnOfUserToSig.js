@@ -1,11 +1,13 @@
 'use strict';
 
+var nodeify = require('nodeify');
+
 module.exports = {
   up: function (migration, DataTypes, done) {
-    migration.renameColumn('User', 'signature', 'sig').complete(done);
+    nodeify(migration.renameColumn('User', 'signature', 'sig'), done);
   },
 
   down: function (migration, DataTypes, done) {
-    migration.renameColumn('User', 'sig', 'signature').complete(done);
+    nodeify(migration.renameColumn('User', 'sig', 'signature'), done);
   }
 };
