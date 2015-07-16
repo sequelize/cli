@@ -1,11 +1,13 @@
 'use strict';
 
+var nodeify = require('nodeify');
+
 module.exports = {
   up: function (migration, DataTypes, done) {
-    migration.renameTable('Person', 'User').complete(done);
+    nodeify(migration.renameTable('Person', 'User'), done);
   },
 
   down: function (migration, DataTypes, done) {
-    migration.renameTable('User', 'Person').complete(done);
+    nodeify(migration.renameTable('User', 'Person'), done);
   }
 };

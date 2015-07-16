@@ -5,6 +5,7 @@ var Support = require(__dirname + '/../../support');
 var helpers = require(__dirname + '/../../support/helpers');
 var gulp    = require('gulp');
 var Bluebird = require('bluebird');
+var execQuery = require('../../../lib/helpers').generic.execQuery;
 
 ([
   'db:migrate:old_schema'
@@ -69,31 +70,28 @@ var Bluebird = require('bluebird');
       });
 
       it('shouldn\'t enforce if we provide autoMigrateOldSchema option', function () {
-        return Bluebird.cast().bind(this)
-
+        return Bluebird.cast()
+        .bind(this)
         .then(function () {
           return this.sequelize.getQueryInterface().describeTable('SequelizeMeta');
         })
         .then(function (fields) {
           expect(Object.keys(fields)).to.eql(['id', 'from', 'to']);
         })
-
         .then(function () {
           return new Bluebird(function (fulfill, reject) {
             gulp
             .src(Support.resolveSupportPath('tmp'))
             .pipe(helpers.runCli('db:migrate', { pipeStderr: true }))
-                .pipe(helpers.teardown(function (err, stderr) {
-                  if ( err || stderr ) {
-                    reject( err || stderr );
-                    return;
-                  }
+            .pipe(helpers.teardown(function (err, stderr) {
+              if (err || stderr) {
+                return reject(err || stderr);
+              }
 
-                  fulfill();
-                }));
+              fulfill();
+            }));
           });
         })
-
         .then(function () {
           return this.sequelize.getQueryInterface().describeTable('SequelizeMeta');
         })
@@ -125,9 +123,10 @@ var Bluebird = require('bluebird');
       });
 
       it('keeps the data in the original table', function (done) {
-        this.sequelize.query(
+        execQuery(
+          this.sequelize,
           this.sequelize.getQueryInterface().QueryGenerator.selectQuery('SequelizeMetaBackup'),
-          null, { raw: true }
+          { raw: true }
         ).then(function (items) {
           expect(items.length).to.equal(2);
           done();
@@ -157,9 +156,10 @@ var Bluebird = require('bluebird');
       });
 
       it('creates two entries in the new table', function (done) {
-        this.sequelize.query(
+        execQuery(
+          this.sequelize,
           this.sequelize.getQueryInterface().QueryGenerator.selectQuery('SequelizeMeta'),
-          null, { raw: true, type: 'SELECT' }
+          { raw: true, type: 'SELECT' }
         ).then(function (items) {
           expect(items).to.eql([
             { name: '20111117063700-createPerson.js' },
@@ -184,9 +184,10 @@ var Bluebird = require('bluebird');
           .src(Support.resolveSupportPath('tmp'))
           .pipe(helpers.runCli('db:migrate:undo'))
           .pipe(helpers.teardown(function () {
-            self.sequelize.query(
+            execQuery(
+              self.sequelize,
               self.sequelize.getQueryInterface().QueryGenerator.selectQuery('SequelizeMeta'),
-              null, { raw: true, type: 'SELECT' }
+              { raw: true, type: 'SELECT' }
             ).then(function (items) {
               expect(items).to.eql([
                 { name: '20111117063700-createPerson.js' }

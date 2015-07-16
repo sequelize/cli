@@ -8,20 +8,22 @@ module.exports = {
         defaultValue: false,
         allowNull: false
       })
-      .complete(function (err) {
+      .done(function (err) {
         if (err) {
           done(err);
         } else {
           migration
             .addColumn('User', 'signature', DataTypes.TEXT)
-            .complete(function (err) {
+            .done(function (err) {
               if (err) {
                 done(err);
               } else {
                 migration.addColumn('User', 'shopId', {
                   type: DataTypes.INTEGER,
                   allowNull: true
-                }).complete(done);
+                }).done(function () {
+                  done();
+                });
               }
             });
         }
@@ -29,15 +31,17 @@ module.exports = {
   },
 
   down: function (migration, DataTypes, done) {
-    migration.removeColumn('User', 'signature').complete(function (err) {
+    migration.removeColumn('User', 'signature').done(function (err) {
       if (err) {
         done(err);
       } else {
-        migration.removeColumn('User', 'shopId').complete(function (err) {
+        migration.removeColumn('User', 'shopId').done(function (err) {
           if (err) {
             done(err);
           } else {
-            migration.removeColumn('User', 'isAdmin').complete(done);
+            migration.removeColumn('User', 'isAdmin').done(function () {
+              done();
+            });
           }
         });
       }
