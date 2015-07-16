@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v1.7.2 - 2015-07-16
+### Added
+- Sequelize v3 to build matrix
+
+### Changed
+- Compatibility with Sequelize v3
+
 ## v1.7.1 - 2015-07-09
 ### Added
 - Documentation about env variable
