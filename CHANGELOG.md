@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v1.7.3 - 2015-07-26
+### Changed
+- Fix check of associate method
+
 ## v1.7.2 - 2015-07-16
 ### Added
 - Sequelize v3 to build matrix
