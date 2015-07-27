@@ -19,6 +19,8 @@ var _         = require('lodash');
 ]).forEach(function (flag) {
   var prepare = function (callback, options) {
     options = _.assign({ config: {} }, options || {});
+    options.cli = options.cli || {};
+    _.defaults(options.cli, { pipeStdout: true });
 
     var configPath    = 'config/';
     var migrationFile = options.migrationFile || 'createPerson';
@@ -34,15 +36,25 @@ var _         = require('lodash');
       configPath = configPath + 'config.json';
     }
 
-    gulp
+    var result = '';
+
+    return gulp
       .src(Support.resolveSupportPath('tmp'))
       .pipe(helpers.clearDirectory())
       .pipe(helpers.runCli('init'))
       .pipe(helpers.removeFile('config/config.json'))
       .pipe(helpers.copyMigration(migrationFile))
       .pipe(helpers.overwriteFile(configContent, configPath))
-      .pipe(helpers.runCli(flag, { pipeStdout: true }))
-      .pipe(helpers.teardown(callback));
+      .pipe(helpers.runCli(flag, options.cli))
+      .on('error', function (e) {
+        callback(e);
+      })
+      .on('data', function (data) {
+        result += data.toString();
+      })
+      .on('end', function () {
+        callback(null, result);
+      });
   };
 
   describe(Support.getTestDialectTeaser(flag), function () {
@@ -67,6 +79,13 @@ var _         = require('lodash');
           expect(tables).to.contain('Person');
           done();
         });
+      });
+    });
+
+    it('fails with a not 0 exit code', function (done) {
+      prepare(done, {
+        migrationFile: 'invalid/*createPerson',
+        cli: { exitCode: 1 }
       });
     });
 
