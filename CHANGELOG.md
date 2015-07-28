@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v1.7.4 - 2015-07-28
+### Changed
+- Return exit code 1 when migrations failed
+
 ## v1.7.3 - 2015-07-26
 ### Changed
 - Fix check of associate method
