@@ -15,13 +15,16 @@ var gulp      = require('gulp');
       .pipe(helpers.runCli('init'))
       .pipe(helpers.copyMigration('createPerson.js'))
       .pipe(helpers.overwriteFile(JSON.stringify(helpers.getTestConfig()), 'config/config.json'))
-      .pipe(helpers.runCli('db:migrate ' + flag + '=' + helpers.getTestUrl()))
+      .pipe(helpers.runCli('db:migrate ' + flag + '=' + helpers.getTestUrl(), { pipeStdout: true }))
       .pipe(helpers.teardown(callback));
   };
 
   describe(Support.getTestDialectTeaser(flag), function () {
     beforeEach(function (done) {
-      prepare(done);
+      prepare(function (err, stdout) {
+        this.stdout = stdout;
+        done();
+      }.bind(this));
     });
 
     it('creates a SequelizeMeta table', function (done) {
@@ -38,6 +41,23 @@ var gulp      = require('gulp');
         expect(tables).to.contain('Person');
         done();
       });
+    });
+
+    it('prints the parsed URL', function () {
+      expect(this.stdout).to.contain('Parsed url');
+    });
+
+    it('filters the password', function () {
+      var config = helpers.getTestConfig();
+
+      if (Support.getTestDialect() === 'sqlite') {
+        return;
+      }
+
+      expect(this.stdout).to.contain(
+        config.dialect + '://' + config.username + ':*****@' + config.host +
+        ':' + config.port + '/' + config.database
+      );
     });
   });
 });
