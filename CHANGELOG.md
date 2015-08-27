@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v1.8.2 - 2015-08-27
+### Changed
+- Use node's native module resolution mechanism
+
 ## v1.8.1 - 2015-08-27
 ### Changed
 - Filter password from parsed URL
