@@ -20,7 +20,6 @@
   "devDependencies": {
     "coffee-script": "^1.9.0",
     "expect.js": "~0.3.1",
-    "gulp": "^3.8.11",
     "gulp-jscs": "^1.5.1",
     "gulp-jshint": "^1.10.0",
     "gulp-jshint-instafail": "^1.0.0",
@@ -34,7 +33,7 @@
     "pg": "^4.2.0",
     "pg-hstore": "^2.3.1",
     "run-sequence": "^1.0.2",
-    "sequelize": "^2.0.0-rc3",
+    "sequelize": "^3.6.0",
     "sqlite3": "^3.0.4",
     "through2": "^0.6.3"
   },
