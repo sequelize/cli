@@ -1,6 +1,6 @@
 {
   "name": "sequelize-cli",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "description": "The sequelize CLI.",
   "main": "index.js",
   "dependencies": {
