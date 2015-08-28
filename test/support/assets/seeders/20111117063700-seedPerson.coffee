@@ -1,13 +1,12 @@
+nodeify = require 'nodeify'
+
 module.exports =
-  up: (migration, DataTypes) ->
-    return migration
-      .bulkInsert 'Person', [
+  up: (migration, DataTypes, done) ->
+    nodeify migration.bulkInsert('Person', [
         name: 'John Doe'
         isBetaMember: false ],
-        name: {}
-        isBetaMember: {}
-  down: (migration, DataTypes) ->
-    migration
-      .bulkDelete 'Person',
-        null,
-        {}
+      name: {}
+      isBetaMember: {}), done
+  down: (migration, DataTypes, done) ->
+    nodeify migration
+    .bulkDelete 'Person', null, {}, done

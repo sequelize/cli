@@ -1,17 +1,18 @@
 'use strict';
 
+var nodeify = require('nodeify');
+
 module.exports = {
-  up: function (migration) {
-    return migration
-      .bulkInsert('Person', [{
-        name: 'John Doe',
-        isBetaMember: false
-      }], {
-        name: {},
-        isBetaMember: {}
-      });
+  up: function (migration, DataTypes, done) {
+    nodeify(migration.bulkInsert('Person', [{
+      name: 'John Doe',
+      isBetaMember: false
+    }], {
+      name: {},
+      isBetaMember: {}
+    }), done);
   },
-  down: function (migration) {
-    return migration.bulkDelete('Person', null, {});
+  down: function (migration, DataTypes, done) {
+    nodeify(migration.bulkDelete('Person', null, {}), done);
   }
 };
