@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v1.8.3 - 2015-08-28
+### Changed
+- Cascade package resolution
+
+### Removed
+- Duplicate reference to gulp
+
 ## v1.8.2 - 2015-08-27
 ### Changed
 - Use node's native module resolution mechanism
@@ -31,7 +38,7 @@ All notable changes to this project will be documented in this file.
 ## v1.7.1 - 2015-07-09
 ### Added
 - Documentation about env variable
-- Test for use_env_variable
+- Test for use*env*variable
 
 ### Changed
 - Fix env variable use for sqlite
