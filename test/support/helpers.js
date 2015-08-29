@@ -183,8 +183,10 @@ module.exports = {
   },
 
   countTable: function (sequelize, table, callback) {
+    var QueryGenerator =  sequelize.getQueryInterface().QueryGenerator;
+
     sequelize
-      .query('SELECT count(*) as count FROM "' + table + '"')
+      .query('SELECT count(*) as count FROM ' + QueryGenerator.quoteTable(table))
       .then(function (result) {
         callback((result.length === 2) ? result[0] : result );
       });
