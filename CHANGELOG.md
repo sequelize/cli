@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v1.9.0 - 2015-09-01
+### Added
+- Seeding mechanism
+
 ## v1.8.3 - 2015-08-28
 ### Changed
 - Cascade package resolution
