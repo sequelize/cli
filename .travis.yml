@@ -5,7 +5,7 @@ before_script:
   - npm install sequelize@$(echo $SEQUELIZE)
 
 script:
-  - "node_modules/.bin/gulp"
+  - travis_retry node_modules/.bin/gulp
 
 notifications:
   irc:
