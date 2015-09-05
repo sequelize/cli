@@ -8,6 +8,7 @@ var path    = require('path');
 var gulp    = path.resolve(__dirname, '..', 'node_modules', 'gulp', 'bin', 'gulp.js');
 var args    = process.argv.slice(2);
 var yargs   = require('yargs');
+var argv    = yargs.argv;
 var _       = require('lodash');
 var helpers = require(path.resolve(__dirname, '..', 'lib', 'helpers'));
 
@@ -32,9 +33,14 @@ if ((args[0] === '-v') || (args[0] === '-V')) {
   }
 
   if (optionsPath) {
-    var options = require(optionsPath);
+    var options     = require(optionsPath);
+    var optionsKeys = Object.keys(options);
 
-    Object.keys(options).forEach(function (optionKey) {
+    optionsKeys = optionsKeys.filter(function (optionKey) {
+      return !argv[optionKey];
+    });
+
+    optionsKeys.forEach(function (optionKey) {
       var value = options[optionKey];
 
       if (optionKey.indexOf('--') !== 0) {

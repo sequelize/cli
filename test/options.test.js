@@ -28,4 +28,17 @@ describe(Support.getTestDialectTeaser('.sequelizerc'), function () {
       .pipe(helpers.ensureContent('db'))
       .pipe(helpers.teardown(done));
   });
+
+  it('prefers the CLI arguments over the sequelizerc file', function (done) {
+    var configPath = Support.resolveSupportPath('tmp', 'config', 'config.js');
+
+    gulp
+      .src(Support.resolveSupportPath('tmp'))
+      .pipe(helpers.clearDirectory())
+      .pipe(helpers.copyFile(optionsPath, '.sequelizerc'))
+      .pipe(helpers.runCli('init --config=' + configPath))
+      .pipe(helpers.listFiles())
+      .pipe(helpers.ensureContent('db'))
+      .pipe(helpers.teardown(done));
+  });
 });
