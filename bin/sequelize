@@ -16,6 +16,10 @@ if (!fs.existsSync(gulp)) {
 }
 
 if (!fs.existsSync(gulp)) {
+  gulp = require.resolve('gulp').replace('index.js', 'bin/gulp.js');
+}
+
+if (!fs.existsSync(gulp)) {
   throw new Error('Unable to find the `gulp` binary');
 }
 
