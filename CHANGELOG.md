@@ -1,6 +1,12 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v1.9.1 - 2015-09-08
+### Changed
+- Move gulp path resolution to function
+- Fix handling of duplicate CLI options
+- Add options object to seed template
+
 ## v1.9.0 - 2015-09-01
 ### Added
 - Seeding mechanism
