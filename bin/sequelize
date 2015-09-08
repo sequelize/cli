@@ -5,23 +5,10 @@
 var spawn   = require('child_process').spawn;
 var fs      = require('fs');
 var path    = require('path');
-var gulp    = path.resolve(__dirname, '..', 'node_modules', 'gulp', 'bin', 'gulp.js');
 var args    = process.argv.slice(2);
 var yargs   = require('yargs');
 var _       = require('lodash');
 var helpers = require(path.resolve(__dirname, '..', 'lib', 'helpers'));
-
-if (!fs.existsSync(gulp)) {
-  gulp = path.resolve(process.cwd(), 'node_modules', 'gulp', 'bin', 'gulp.js');
-}
-
-if (!fs.existsSync(gulp)) {
-  gulp = require.resolve('gulp').replace('index.js', 'bin/gulp.js');
-}
-
-if (!fs.existsSync(gulp)) {
-  throw new Error('Unable to find the `gulp` binary');
-}
 
 if ((args[0] === '-v') || (args[0] === '-V')) {
   args = ['version'];
@@ -55,7 +42,7 @@ args = args.concat([
   '--cwd', process.cwd()
 ]);
 
-args.unshift(gulp);
+args.unshift(findGulpCliPath());
 
 // Add harmony support
 [ '--harmony-scoping', '--harmony-modules', '--harmony-proxies',
@@ -93,3 +80,21 @@ call.stderr.on('data', function (data) {
 call.on('exit', function (code) {
   process.exit(code);
 });
+
+function findGulpCliPath () {
+  var gulp = path.resolve(__dirname, '..', 'node_modules', 'gulp', 'bin', 'gulp.js');
+
+  if (!fs.existsSync(gulp)) {
+    gulp = path.resolve(process.cwd(), 'node_modules', 'gulp', 'bin', 'gulp.js');
+  }
+
+  if (!fs.existsSync(gulp)) {
+    gulp = require.resolve('gulp').replace('index.js', 'bin/gulp.js');
+  }
+
+  if (!fs.existsSync(gulp)) {
+    throw new Error('Unable to find the `gulp` binary');
+  }
+
+  return gulp;
+}
