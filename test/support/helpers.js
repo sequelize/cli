@@ -57,8 +57,12 @@ module.exports = {
       var command = support.getCliCommand(file.path, args);
       var env     = _.extend({}, process.env, options.env);
 
+      logToFile(command);
+
       exec(command, { cwd: file.path, env: env }, function (err, stdout, stderr) {
         var result = file;
+
+        logToFile({err: err, stdout: stdout, stderr: stderr});
 
         if (stdout) {
           expect(stdout).to.not.contain('EventEmitter');
@@ -192,3 +196,12 @@ module.exports = {
       });
   }
 };
+
+function logToFile (thing) {
+  var text = (typeof thing === 'string') ? thing : JSON.stringify(thing);
+  var logPath = __dirname + '/../../logs';
+  var logFile = logPath + '/test.log';
+
+  fs.mkdirpSync(logPath);
+  fs.appendFileSync(logFile, '[' + new Date() + '] ' + text + '\n');
+}
