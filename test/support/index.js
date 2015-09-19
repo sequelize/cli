@@ -8,6 +8,7 @@ var _         = Sequelize.Utils._;
 var DataTypes = Sequelize;
 var Config    = require(__dirname + '/config/config');
 var expect    = require('expect.js');
+var execQuery = require('../../lib/helpers').generic.execQuery;
 
 var Support = {
   Sequelize: Sequelize,
@@ -88,7 +89,11 @@ var Support = {
       .getQueryInterface()
       .dropAllTables()
       .then(function () {
-        sequelize.daoFactoryManager.daos = [];
+        if (sequelize.daoFactoryManager) {
+          sequelize.daoFactoryManager.daos = [];
+        } else {
+          sequelize.modelManager.models = [];
+        }
 
         sequelize
           .getQueryInterface()
@@ -207,7 +212,7 @@ before(function (done) {
     return done();
   }
 
-  sequelize.query('CREATE EXTENSION IF NOT EXISTS hstore', null, {raw: true}).then(function () {
+  execQuery(sequelize, 'CREATE EXTENSION IF NOT EXISTS hstore', {raw: true}).then(function () {
     done();
   });
 });

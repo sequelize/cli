@@ -1,12 +1,14 @@
 'use strict';
 
+var nodeify = require('nodeify');
+
 module.exports = {
   up: function (migration, DataTypes, done) {
-    migration.changeColumn('User', 'signature', {
+    nodeify(migration.changeColumn('User', 'signature', {
       type: DataTypes.STRING,
       allowNull: false,
       defaultValue: 'Signature'
-    }).complete(done);
+    }), done);
   },
 
   down: function (migration, DataTypes, done) {

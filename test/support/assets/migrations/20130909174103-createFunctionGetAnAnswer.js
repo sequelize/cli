@@ -1,12 +1,12 @@
 'use strict';
 
+var nodeify = require('nodeify');
+
 module.exports = {
   up: function (migration, DataTypes, done) {
-    migration
-      .createFunction('get_an_answer', [], 'int', 'plpgsql', 'RETURN 42;')
-      .complete(done);
+    nodeify(migration.createFunction('get_an_answer', [], 'int', 'plpgsql', 'RETURN 42;'), done);
   },
   down: function (migration, DataTypes, done) {
-    migration.dropFunction('get_an_answer', []).complete(done);
+    nodeify(migration.dropFunction('get_an_answer', []), done);
   }
 };

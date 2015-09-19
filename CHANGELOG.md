@@ -1,10 +1,54 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v1.9.1 - 2015-09-08
+### Changed
+- Move gulp path resolution to function
+- Fix handling of duplicate CLI options
+- Add options object to seed template
+
+## v1.9.0 - 2015-09-01
+### Added
+- Seeding mechanism
+
+## v1.8.3 - 2015-08-28
+### Changed
+- Cascade package resolution
+
+### Removed
+- Duplicate reference to gulp
+
+## v1.8.2 - 2015-08-27
+### Changed
+- Use node's native module resolution mechanism
+
+## v1.8.1 - 2015-08-27
+### Changed
+- Filter password from parsed URL
+
+## v1.8.0 - 2015-08-27
+### Added
+- Support for env variable usage in model/index.js
+
+## v1.7.4 - 2015-07-28
+### Changed
+- Return exit code 1 when migrations failed
+
+## v1.7.3 - 2015-07-26
+### Changed
+- Fix check of associate method
+
+## v1.7.2 - 2015-07-16
+### Added
+- Sequelize v3 to build matrix
+
+### Changed
+- Compatibility with Sequelize v3
+
 ## v1.7.1 - 2015-07-09
 ### Added
 - Documentation about env variable
-- Test for use_env_variable
+- Test for use*env*variable
 
 ### Changed
 - Fix env variable use for sqlite

@@ -57,8 +57,12 @@ module.exports = {
       var command = support.getCliCommand(file.path, args);
       var env     = _.extend({}, process.env, options.env);
 
+      logToFile(command);
+
       exec(command, { cwd: file.path, env: env }, function (err, stdout, stderr) {
         var result = file;
+
+        logToFile({err: err, stdout: stdout, stderr: stderr});
 
         if (stdout) {
           expect(stdout).to.not.contain('EventEmitter');
@@ -153,6 +157,19 @@ module.exports = {
     });
   },
 
+  copySeeder: function (fileName, seedersFolder) {
+    seedersFolder = seedersFolder || 'seeders';
+
+    return through.obj(function (file, encoding, callback) {
+      var seederSource = support.resolveSupportPath('assets', 'seeders');
+      var seederTarget = path.resolve(file.path, seedersFolder);
+
+      exec('cp ' + seederSource + '/*' + fileName + ' ' + seederTarget + '/', function (err) {
+        callback(err, file);
+      });
+    });
+  },
+
   teardown: function (done) {
     return through.obj(function (smth, encoding, callback) {
       callback();
@@ -167,5 +184,24 @@ module.exports = {
       .then(function (tables) {
         callback(tables.sort());
       });
+  },
+
+  countTable: function (sequelize, table, callback) {
+    var QueryGenerator =  sequelize.getQueryInterface().QueryGenerator;
+
+    sequelize
+      .query('SELECT count(*) as count FROM ' + QueryGenerator.quoteTable(table))
+      .then(function (result) {
+        callback((result.length === 2) ? result[0] : result );
+      });
   }
 };
+
+function logToFile (thing) {
+  var text = (typeof thing === 'string') ? thing : JSON.stringify(thing);
+  var logPath = __dirname + '/../../logs';
+  var logFile = logPath + '/test.log';
+
+  fs.mkdirpSync(logPath);
+  fs.appendFileSync(logFile, '[' + new Date() + '] ' + text + '\n');
+}

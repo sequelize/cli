@@ -1,8 +1,10 @@
 'use strict';
 
+var nodeify = require('nodeify');
+
 module.exports = {
   up: function (migration, DataTypes, done) {
-    migration
+    nodeify(migration
       .createTable('Person', {
         name: DataTypes.STRING,
         isBetaMember: {
@@ -10,10 +12,10 @@ module.exports = {
           defaultValue: false,
           allowNull: false
         }
-      })
-      .complete(done);
+      }), done);
   },
+
   down: function (migration, DataTypes, done) {
-    migration.dropTable('Person').complete(done);
+    nodeify(migration.dropTable('Person'), done);
   }
 };
