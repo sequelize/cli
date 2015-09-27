@@ -33,6 +33,9 @@ language: node_js
 
 node_js:
   - "0.10"
+  - "0.12"
+  - "iojs-v2"
+  - "4.0"
 
 sudo: false
 
