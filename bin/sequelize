@@ -3,7 +3,6 @@
 'use strict';
 
 var spawn   = require('child_process').spawn;
-var fs      = require('fs');
 var path    = require('path');
 var args    = process.argv.slice(2);
 var yargs   = require('yargs');
@@ -19,7 +18,7 @@ if ((args[0] === '-v') || (args[0] === '-V')) {
 (function (optionsPath) {
   var rcFile = path.resolve(process.cwd(), '.sequelizerc');
 
-  if (!optionsPath && fs.existsSync(rcFile)) {
+  if (!optionsPath && helpers.path.existsSync(rcFile)) {
     optionsPath = rcFile;
   }
 
@@ -90,15 +89,15 @@ call.on('exit', function (code) {
 function findGulpCliPath () {
   var gulp = path.resolve(__dirname, '..', 'node_modules', 'gulp', 'bin', 'gulp.js');
 
-  if (!fs.existsSync(gulp)) {
+  if (!helpers.path.existsSync(gulp)) {
     gulp = path.resolve(process.cwd(), 'node_modules', 'gulp', 'bin', 'gulp.js');
   }
 
-  if (!fs.existsSync(gulp)) {
+  if (!helpers.path.existsSync(gulp)) {
     gulp = require.resolve('gulp').replace('index.js', 'bin/gulp.js');
   }
 
-  if (!fs.existsSync(gulp)) {
+  if (!helpers.path.existsSync(gulp)) {
     throw new Error('Unable to find the `gulp` binary');
   }
 
