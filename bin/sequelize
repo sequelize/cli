@@ -19,6 +19,10 @@ if ((args[0] === '-v') || (args[0] === '-V')) {
 (function (optionsPath) {
   var rcFile = path.resolve(process.cwd(), '.sequelizerc');
 
+  if (optionsPath) {
+    optionsPath = path.resolve(process.cwd(), optionsPath);
+  }
+
   if (!optionsPath && fs.existsSync(rcFile)) {
     optionsPath = rcFile;
   }
