@@ -24,6 +24,8 @@ if ((args[0] === '-v') || (args[0] === '-V')) {
   }
 
   if (optionsPath) {
+    optionsPath = path.resolve(process.cwd(), optionsPath);
+
     var options     = require(optionsPath);
     var optionsKeys = Object.keys(options);
 

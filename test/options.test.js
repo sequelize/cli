@@ -6,14 +6,20 @@ var gulp        = require('gulp');
 var optionsPath = Support.resolveSupportPath('config', 'options.js');
 
 describe(Support.getTestDialectTeaser('--options-path'), function () {
-  it('using options file instead of cli switches', function (done) {
-    gulp
-      .src(Support.resolveSupportPath('tmp'))
-      .pipe(helpers.clearDirectory())
-      .pipe(helpers.runCli('init --options-path ' + optionsPath))
-      .pipe(helpers.listFiles())
-      .pipe(helpers.ensureContent('db'))
-      .pipe(helpers.teardown(done));
+  [
+    optionsPath,
+    require('path').relative(Support.resolveSupportPath('tmp'), optionsPath)
+  ].forEach(function (path) {
+    it('using options file instead of cli switches (' + path + ')', function (done) {
+      console.log(path);
+      gulp
+        .src(Support.resolveSupportPath('tmp'))
+        .pipe(helpers.clearDirectory())
+        .pipe(helpers.runCli('init --options-path ' + path))
+        .pipe(helpers.listFiles())
+        .pipe(helpers.ensureContent('db'))
+        .pipe(helpers.teardown(done));
+    });
   });
 });
 
