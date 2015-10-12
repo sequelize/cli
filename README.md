@@ -184,7 +184,9 @@ you can choose from the following configuration possibilites:
 {
   "development": {
     // Use a different table name. Default: SequelizeMeta
-    "migrationStorageTableName": "sequelize_meta"
+    "migrationStorageTableName": "sequelize_meta",
+    // Use a different schema for the migration storage table
+    "migrationStorageTableSchema": "schema"
   }
 }
 ```
