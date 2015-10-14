@@ -101,9 +101,7 @@ flag. Please note that you'll need to install `js2coffee` and `coffee-script` fo
 
 ### Configuration file
 
-By default the CLI will try to use the file `config/config.json`. You can modify that path either via
-the `--config` flag or via the option mentioned earlier. Here is how a configuration file might look
-like (that's is the one that `sequelize init` generates:
+By default the CLI will try to use the file `config/config.js` and `config/config.json`. You can modify that path either via the `--config` flag or via the option mentioned earlier. Here is how a configuration file might look like (that's is the one that `sequelize init` generates):
 
 ```json
 {
@@ -131,6 +129,7 @@ like (that's is the one that `sequelize init` generates:
 }
 ```
 
+In case of a JS file it obviously needs to `module.exports` the object. 
 
 ### Configuration Connection String
 
@@ -151,6 +150,16 @@ use it, you have to use declare it in your config file:
 {
     "production": {
         "use_env_variable": "DB_CONNECTION_STRING"
+    }
+}
+```
+
+With v2.0.0 of the CLI you can also just directly access the environment variables inside the `config/config.js`:
+
+```
+module.exports = {
+    "production": {
+        "hostname": process.env.DB_HOSTNAME
     }
 }
 ```
