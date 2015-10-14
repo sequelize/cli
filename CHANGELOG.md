@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v2.0.0 - 2015-10-14
+### Added
+- Read configuration from config.js if available
+
+### Changed
+- Replace deprecated fs.existsSync method
+
 ## v1.9.2 - 2015-10-14
 ### Changed
 - Make options path process relative
