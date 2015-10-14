@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v1.9.2 - 2015-10-14
+### Changed
+- Make options path process relative
+
 ## v1.9.1 - 2015-09-08
 ### Changed
 - Move gulp path resolution to function
