@@ -54,7 +54,7 @@ gulp.task('test-integration', function () {
     .pipe(mocha({
       reporter:    'spec',
       ignoreLeaks: true,
-      timeout:     10000,
+      timeout:     30000,
       grep:        args.grep
     }));
 });
