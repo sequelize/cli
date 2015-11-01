@@ -128,47 +128,63 @@ var _         = require('lodash');
             });
           });
 
-          it('generates the migration content correctly', function (done) {
-            prepare({
-              flags: { name: 'User', attributes: attributes }
-            }, function () {
-              gulp
-                .src(Support.resolveSupportPath('tmp', 'migrations'))
-                .pipe(helpers.readFile('*-create-user.js'))
-                .pipe(helpers.ensureContent('return queryInterface'))
-                .pipe(helpers.ensureContent('.createTable(\'Users\', {'))
-                .pipe(helpers.ensureContent(
-                  'first_name: {\n        type: Sequelize.STRING\n      },'
-                ))
-                .pipe(helpers.ensureContent(
-                  'last_name: {\n        type: Sequelize.STRING\n      },'
-                ))
-                .pipe(helpers.ensureContent(
-                  'bio: {\n        type: Sequelize.TEXT\n      },'
-                ))
-                .pipe(helpers.ensureContent([
-                  '     id: {',
-                  '        allowNull: false,',
-                  '        autoIncrement: true,',
-                  '        primaryKey: true,',
-                  '        type: Sequelize.INTEGER',
-                  '      },'
-                ].join('\n')))
-                .pipe(helpers.ensureContent([
-                  '     createdAt: {',
-                  '        allowNull: false,',
-                  '        type: Sequelize.DATE',
-                  '      },'
-                ].join('\n')))
-                .pipe(helpers.ensureContent([
-                  '     updatedAt: {',
-                  '        allowNull: false,',
-                  '        type: Sequelize.DATE',
-                  '      }'
-                ].join('\n')))
-                .pipe(helpers.ensureContent('});'))
-                .pipe(helpers.ensureContent('.dropTable(\'Users\')'))
-                .pipe(helpers.teardown(done));
+          ([
+            { underscored: true, createdAt: 'created_at', updatedAt: 'updated_at'},
+            { underscored: false, createdAt: 'createdAt', updatedAt: 'updatedAt'}
+          ]).forEach(function (attrUnd) {
+            describe((attrUnd.underscored ? '' : 'without ') + '--underscored', function () {
+              it('generates the migration content correctly', function (done) {
+                var flags = {
+                  name: 'User',
+                  attributes: attributes
+                };
+
+                if ( attrUnd.underscored ) {
+                  flags.underscored = attrUnd.underscored;
+                }
+
+                prepare({
+                  flags: flags
+                }, function () {
+                  gulp
+                    .src(Support.resolveSupportPath('tmp', 'migrations'))
+                    .pipe(helpers.readFile('*-create-user.js'))
+                    .pipe(helpers.ensureContent('return queryInterface'))
+                    .pipe(helpers.ensureContent('.createTable(\'Users\', {'))
+                    .pipe(helpers.ensureContent(
+                      'first_name: {\n        type: Sequelize.STRING\n      },'
+                    ))
+                    .pipe(helpers.ensureContent(
+                      'last_name: {\n        type: Sequelize.STRING\n      },'
+                    ))
+                    .pipe(helpers.ensureContent(
+                      'bio: {\n        type: Sequelize.TEXT\n      },'
+                    ))
+                    .pipe(helpers.ensureContent([
+                      '     id: {',
+                      '        allowNull: false,',
+                      '        autoIncrement: true,',
+                      '        primaryKey: true,',
+                      '        type: Sequelize.INTEGER',
+                      '      },'
+                    ].join('\n')))
+                    .pipe(helpers.ensureContent([
+                      '     ' + attrUnd.createdAt + ': {',
+                      '        allowNull: false,',
+                      '        type: Sequelize.DATE',
+                      '      },'
+                    ].join('\n')))
+                    .pipe(helpers.ensureContent([
+                      '     ' + attrUnd.updatedAt + ': {',
+                      '        allowNull: false,',
+                      '        type: Sequelize.DATE',
+                      '      }'
+                    ].join('\n')))
+                    .pipe(helpers.ensureContent('});'))
+                    .pipe(helpers.ensureContent('.dropTable(\'Users\')'))
+                    .pipe(helpers.teardown(done));
+                });
+              });
             });
           });
 
