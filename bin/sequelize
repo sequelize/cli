@@ -67,17 +67,11 @@ var call = spawn(process.argv[0], args);
 helpers.view.teaser();
 
 call.stdout.on('data', function (data) {
-  var lines = data.toString().split('\n');
+  var output = helpers.log.parse(data);
 
-  lines = lines.filter(function (line) {
-    return !line.match(/\[\d{2}:\d{2}:\d{2}\]/);
-  });
-
-  var result = lines
-    .join('\n')
-    .replace('gulp [task]', 'sequelize [task]');
-
-  process.stdout.write(result);
+  if (!!output) {
+    console.log(output);
+  }
 });
 
 call.stderr.on('data', function (data) {
