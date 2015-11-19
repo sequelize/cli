@@ -129,7 +129,7 @@ By default the CLI will try to use the file `config/config.js` and `config/confi
 }
 ```
 
-In case of a JS file it obviously needs to `module.exports` the object. 
+In case of a JS file it obviously needs to `module.exports` the object.
 
 ### Configuration Connection String
 
@@ -196,6 +196,26 @@ you can choose from the following configuration possibilites:
     "migrationStorageTableName": "sequelize_meta"
   }
 }
+```
+
+### Dialect specific options
+
+In order to pass options to the underlying database connectors, you can add the property `dialectOptions`
+to your configuration like this:
+
+```js
+var fs = require('fs');
+
+module.exports = {
+  development: {
+    dialect: 'mysql',
+    dialectOptions: {
+      ssl: {
+        ca: fs.readFileSync(__dirname + '/mysql-ca.crt')
+      }
+    }
+  }
+};
 ```
 
 ### Schema migration
