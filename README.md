@@ -203,7 +203,7 @@ you can choose from the following configuration possibilites:
 In order to pass options to the underlying database connectors, you can add the property `dialectOptions`
 to your configuration like this:
 
-```js
+```
 var fs = require('fs');
 
 module.exports = {
