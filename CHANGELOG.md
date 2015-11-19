@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v2.1.1 - 2015-11-19
+### Changed
+- Respect `dialectOptions` property when instantiating sequelize
+
 ## v2.1.0 - 2015-11-01
 ### Added
 - Option for usage of snake case timestamp columns in migrations (e.g. `sequelize model:create --underscored`)
