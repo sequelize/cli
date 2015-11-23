@@ -129,6 +129,17 @@ By default the CLI will try to use the file `config/config.js` and `config/confi
 }
 ```
 
+The properties can also be combined to a `url`:
+
+```json
+{
+  "development":  {
+    "url": "mysql://root:password@mysql_host.com/database_name"
+    "dialect": "mysql"
+  }
+}
+```
+
 In case of a JS file it obviously needs to `module.exports` the object.
 Optionally, it's possible to put all the configuration to the `url` option. The format is explained in the section below.
 
