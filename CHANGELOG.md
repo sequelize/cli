@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v2.2.0 - 2015-11-23
+### Changed
+- Respect `url` property in configuration
+
 ## v2.1.1 - 2015-11-19
 ### Changed
 - Respect `dialectOptions` property when instantiating sequelize
