@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v2.2.1 - 2015-11-24
+### Fixed
+- Filtering of js files in models/index.js
+
 ## v2.2.0 - 2015-11-23
 ### Changed
 - Respect `url` property in configuration
