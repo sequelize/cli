@@ -134,7 +134,7 @@ The properties can also be combined to a `url`:
 ```json
 {
   "development":  {
-    "url": "mysql://root:password@mysql_host.com/database_name"
+    "url": "mysql://root:password@mysql_host.com/database_name",
     "dialect": "mysql"
   }
 }
