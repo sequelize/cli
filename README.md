@@ -101,7 +101,7 @@ flag. Please note that you'll need to install `js2coffee` and `coffee-script` fo
 
 ### Configuration file
 
-By default the CLI will try to use the file `config/config.js` and `config/config.json`. You can modify that path either via the `--config` flag or via the option mentioned earlier. Here is how a configuration file might look like (that's is the one that `sequelize init` generates):
+By default the CLI will try to use the file `config/config.js` and `config/config.json`. You can modify that path either via the `--config` flag or via the option mentioned earlier. Here is how a configuration file might look like (this is the one that `sequelize init` generates):
 
 ```json
 {
