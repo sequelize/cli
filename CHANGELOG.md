@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## Upcoming
+### Changed
+- Default use of `seeder` memorizes nothing
+- Update umzug to 1.8.0
+
 ## v2.2.1 - 2015-11-24
 ### Fixed
 - Filtering of js files in models/index.js
