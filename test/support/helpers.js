@@ -155,6 +155,7 @@ module.exports = {
     return through.obj(function (file, encoding, callback) {
       if (!skip) {
         var target = path.resolve(file.path, type) + '/skeleton.js';
+
         fs.writeFileSync(target, fileContents);
       }
       callback(null, file);
