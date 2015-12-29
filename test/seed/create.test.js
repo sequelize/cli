@@ -14,12 +14,14 @@ var _         = require('lodash');
 ]).forEach(function (flag) {
   describe(Support.getTestDialectTeaser(flag), function () {
     var seedFile = 'foo.' + (_.includes(flag, '--coffee') ? 'coffee' : 'js');
-
-    var prepare = function (callback) {
+    var skeleton = '// This is a skeleton test';
+    var prepare = function (callback, createSkeleton) {
+      createSkeleton = createSkeleton || false;
       gulp
         .src(Support.resolveSupportPath('tmp'))
         .pipe(helpers.clearDirectory())
         .pipe(helpers.runCli('init'))
+        .pipe(helpers.createSkeleton(skeleton, 'seeders', !createSkeleton))
         .pipe(helpers.runCli(flag + ' --name=foo'))
         .pipe(helpers.teardown(callback));
     };
@@ -63,6 +65,23 @@ var _         = require('lodash');
           }))
           .pipe(helpers.teardown(done));
       });
+    });
+
+    it('uses skeleton.js as the skeleton if it exists', function (done) {
+      var test = function () {
+        gulp
+          .src(Support.resolveSupportPath('tmp', 'seeders'))
+          .pipe(helpers.readFile('*-' + seedFile))
+          .pipe(helpers.expect(function (stdout) {
+            if (_.includes(flag, 'coffee')) {
+              expect(stdout).to.contain('# This is a skeleton test');
+            } else {
+              expect(stdout).to.contain('// This is a skeleton test');
+            }
+          }))
+          .pipe(helpers.teardown(done));
+      };
+      prepare(test, true);
     });
   });
 });
