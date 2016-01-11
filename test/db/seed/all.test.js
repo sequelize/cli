@@ -1,23 +1,21 @@
 'use strict';
 
 var expect    = require('expect.js');
-var Support   = require(__dirname + '/../support');
-var helpers   = require(__dirname + '/../support/helpers');
+var Support   = require(__dirname + '/../../support');
+var helpers   = require(__dirname + '/../../support/helpers');
 var gulp      = require('gulp');
-var fs        = require('fs');
 var _         = require('lodash');
 
 ([
-  'db:seed --seed seedPerson.js',
-  'db:seed --seed seedPerson.js --seeders-path seeders',
-  '--seeders-path seeders --seed seedPerson.js db:seed',
-  'db:seed --seed seedPerson.js --seeders-path ./seeders',
-  'db:seed --seed seedPerson.js --seeders-path ./seeders/',
-  'db:seed --seed seedPerson.coffee --coffee',
-  'db:seed --seed seedPerson.js --config ../../support/tmp/config/config.json',
-  'db:seed --seed seedPerson.js --config ' +
-    Support.resolveSupportPath('tmp', 'config', 'config.json'),
-  'db:seed --seed seedPerson.js --config ../../support/tmp/config/config.js'
+  'db:seed:all',
+  'db:seed:all --seeders-path seeders',
+  '--seeders-path seeders db:seed:all',
+  'db:seed:all --seeders-path ./seeders',
+  'db:seed:all --seeders-path ./seeders/',
+  'db:seed:all --coffee',
+  'db:seed:all --config ../../support/tmp/config/config.json',
+  'db:seed:all --config ' + Support.resolveSupportPath('tmp', 'config', 'config.json'),
+  'db:seed:all --config ../../support/tmp/config/config.js'
 ]).forEach(function (flag) {
   var prepare = function (callback, options) {
     options = _.assign({ config: {} }, options || {});
@@ -46,13 +44,25 @@ var _         = require('lodash');
       .pipe(helpers.copySeeder(seederFile))
       .pipe(helpers.overwriteFile(configContent, configPath))
       .pipe(helpers.runCli('db:migrate' +
-        ((flag.indexOf('coffee') === -1 && flag.indexOf('config') === -1) ?
-          '' : flag.replace('db:seed', ''))))
+        ((flag.indexOf('coffee') === -1 && flag.indexOf('config') === -1) ? ''
+          : flag.replace('db:seed:all', ''))))
       .pipe(helpers.runCli(flag, { pipeStdout: true }))
       .pipe(helpers.teardown(callback));
   };
 
-  describe(Support.getTestDialectTeaser(flag) + ' (JSON)', function () {
+  describe(Support.getTestDialectTeaser(flag), function () {
+    it('creates a SequelizeData table', function (done) {
+      var self = this;
+
+      prepare(function () {
+        helpers.readTables(self.sequelize, function (tables) {
+          expect(tables).to.have.length(3);
+          expect(tables).to.contain('SequelizeData');
+          done();
+        });
+      }, { config: { seederStorage: 'sequelize' } });
+    });
+
     it('populates the respective table', function (done) {
       var self = this;
 
@@ -65,19 +75,6 @@ var _         = require('lodash');
       });
     });
 
-    describe('the seeder storage file', function () {
-      it('should be written to the specified location', function (done) {
-        var storageFile = Support.resolveSupportPath('tmp', 'custom-data.json');
-
-        prepare(function () {
-          expect(fs.statSync(storageFile).isFile()).to.be(true);
-          expect(fs.readFileSync(storageFile).toString())
-            .to.match(/^\[\n  "seedPerson\.(js|coffee)"\n\]$/);
-          done();
-        }, { config: { seederStoragePath: storageFile, seederStorage: 'json' } });
-      });
-    });
-
     describe('the logging option', function () {
       it('does not print sql queries by default', function (done) {
         prepare(function (_, stdout) {
@@ -86,11 +83,26 @@ var _         = require('lodash');
         });
       });
 
-      it('interprets a custom option', function (done) {
+      it('interpretes a custom option', function (done) {
         prepare(function (_, stdout) {
           expect(stdout).to.contain('Executing');
           done();
         }, { config: { logging: true } });
+      });
+    });
+
+    describe('custom meta table name', function () {
+      it('correctly uses the defined table name', function (done) {
+        var self = this;
+
+        prepare(function () {
+          helpers.readTables(self.sequelize, function (tables) {
+            expect(tables.sort()).to.eql(['Person', 'SequelizeMeta', 'sequelize_data']);
+            done();
+          });
+        }, {
+          config: { seederStorage: 'sequelize', seederStorageTableName: 'sequelize_data' }
+        });
       });
     });
   });

@@ -164,9 +164,11 @@ module.exports = {
       var seederSource = support.resolveSupportPath('assets', 'seeders');
       var seederTarget = path.resolve(file.path, seedersFolder);
 
-      exec('cp ' + seederSource + '/*' + fileName + ' ' + seederTarget + '/', function (err) {
-        callback(err, file);
-      });
+      exec('cp ' + seederSource + '/*' + fileName + ' ' + seederTarget + '/' + fileName,
+        function (err) {
+          callback(err, file);
+        }
+      );
     });
   },
 
