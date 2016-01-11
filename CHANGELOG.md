@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## Upcoming
+## v2.3.0 - 2016-01-11
 ### Changed
 - Default use of `seeder` memorizes nothing
 - Update umzug to 1.8.0
