@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## v2.3.1 - 2016-01-14
+### Changed
+- Update lodash to 4.0.0
+
 ## v2.3.0 - 2016-01-11
 ### Changed
 - Default use of `seeder` memorizes nothing
