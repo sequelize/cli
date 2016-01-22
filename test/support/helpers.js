@@ -180,21 +180,21 @@ module.exports = {
   },
 
   readTables: function (sequelize, callback) {
-    sequelize
+    return sequelize
       .getQueryInterface()
       .showAllTables()
       .then(function (tables) {
-        callback(tables.sort());
+        return callback(tables.sort());
       });
   },
 
   countTable: function (sequelize, table, callback) {
     var QueryGenerator =  sequelize.getQueryInterface().QueryGenerator;
 
-    sequelize
+    return sequelize
       .query('SELECT count(*) as count FROM ' + QueryGenerator.quoteTable(table))
       .then(function (result) {
-        callback((result.length === 2) ? result[0] : result );
+        return callback((result.length === 2) ? result[0] : result );
       });
   }
 };

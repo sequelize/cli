@@ -95,7 +95,7 @@ var Support = {
           sequelize.modelManager.models = [];
         }
 
-        sequelize
+        return sequelize
           .getQueryInterface()
           .dropAllEnums()
             .then(callback)
