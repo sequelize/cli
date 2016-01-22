@@ -66,6 +66,7 @@ var execQuery = require('../../../lib/helpers').generic.execQuery;
           autoMigrateOldSchema: true
         }, function () {
           done();
+          return null;
         });
       });
 
@@ -77,6 +78,7 @@ var execQuery = require('../../../lib/helpers').generic.execQuery;
         })
         .then(function (fields) {
           expect(Object.keys(fields)).to.eql(['id', 'from', 'to']);
+          return null;
         })
         .then(function () {
           return new Bluebird(function (fulfill, reject) {
@@ -104,7 +106,7 @@ var execQuery = require('../../../lib/helpers').generic.execQuery;
     describe(Support.getTestDialectTeaser(flag), function () {
       beforeEach(function (done) {
         prepareLegacyScenario.call(this, null, function () {
-          gulp
+          return gulp
             .src(Support.resolveSupportPath('tmp'))
             .pipe(helpers.runCli(flag))
             .pipe(helpers.teardown(done));
@@ -137,13 +139,14 @@ var execQuery = require('../../../lib/helpers').generic.execQuery;
         var self = this;
 
         helpers.readTables(self.sequelize, function () {
-          self
+          return self
             .sequelize
             .getQueryInterface()
             .describeTable('SequelizeMetaBackup')
             .then(function (fields) {
               expect(Object.keys(fields).sort()).to.eql(['from', 'id', 'to']);
               done();
+              return null;
             });
         });
       });
