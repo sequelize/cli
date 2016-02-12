@@ -75,7 +75,7 @@ call.stdout.on('data', function (data) {
 
   var result = lines
     .join('\n')
-    .replace('gulp [task]', 'sequelize [task]');
+    .replace('gulp [TASK]', 'sequelize [task]');
 
   process.stdout.write(result);
 });
