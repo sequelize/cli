@@ -1,6 +1,11 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## Upcoming
+### Changed
+- Fixed some promises that were not being returned
+- Updated dependencies
+
 ## v2.3.1 - 2016-01-14
 ### Changed
 - Update lodash to 4.0.0
