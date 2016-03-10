@@ -6,42 +6,34 @@ var helpers = require(__dirname + '/../../support/helpers');
 var gulp    = require('gulp');
 
 ([
-  'db:seed:undo'
+  'db:seed:undo --seed seedPerson.js'
 ]).forEach(function (flag) {
-  var prepare = function (callback, _flag) {
-    _flag = _flag || flag;
+  var prepare = function (callback, options) {
+    var _flag = options.flag || flag;
 
-    gulp
+    var pipeline = gulp
       .src(Support.resolveSupportPath('tmp'))
       .pipe(helpers.clearDirectory())
       .pipe(helpers.runCli('init'))
-      .pipe(helpers.copyMigration('createPerson.js'))
-      .pipe(helpers.copySeeder('seedPerson.js'))
-      .pipe(helpers.overwriteFile(JSON.stringify(helpers.getTestConfig()), 'config/config.json'))
+      .pipe(helpers.copyMigration('createPerson.js'));
+
+    if ( options.copySeeds ) {
+      pipeline.pipe(helpers.copySeeder('seedPerson.js'));
+    }
+
+    pipeline.pipe(helpers.overwriteFile(JSON.stringify(helpers.getTestConfig()),
+      'config/config.json'))
       .pipe(helpers.runCli('db:migrate'))
-      .pipe(helpers.runCli(_flag, { pipeStdout: true }))
+      .pipe(helpers.runCli(_flag, { pipeStderr: true }))
       .pipe(helpers.teardown(callback));
   };
 
   describe(Support.getTestDialectTeaser(flag), function () {
-    it('creates a SequelizeData table', function (done) {
-      var self = this;
-
-      prepare(function () {
-        helpers.readTables(self.sequelize, function (tables) {
-          expect(tables).to.have.length(3);
-          expect(tables[1]).to.equal('SequelizeData');
-          done();
-        });
-      });
-    });
-
-    it('stops execution if no seeders have been done yet', function (done) {
+    it('stops execution if no seeder file is found', function (done) {
       prepare(function (err, output) {
-        expect(err).to.equal(null);
-        expect(output).to.contain('No executed seeders found.');
+        expect(output).to.contain('Unable to find migration');
         done();
-      }.bind(this));
+      }.bind(this), {copySeeds: false});
     });
 
     it('is correctly undoing a seeder if they have been done already', function (done) {
@@ -49,7 +41,7 @@ var gulp    = require('gulp');
 
       prepare(function () {
         helpers.readTables(self.sequelize, function (tables) {
-          expect(tables).to.have.length(3);
+          expect(tables).to.have.length(2);
           expect(tables[0]).to.equal('Person');
 
           gulp
@@ -63,7 +55,7 @@ var gulp    = require('gulp');
               });
             }));
         });
-      }, 'db:seed');
+      }, {flag: 'db:seed:all', copySeeds: true});
     });
   });
 });

@@ -1,6 +1,32 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## Upcoming
+### Changed
+- Fixed some promises that were not being returned
+- Updated dependencies
+
+## v2.3.1 - 2016-01-14
+### Changed
+- Update lodash to 4.0.0
+
+## v2.3.0 - 2016-01-11
+### Changed
+- Default use of `seeder` memorizes nothing
+- Update umzug to 1.8.0
+
+## v2.2.1 - 2015-11-24
+### Fixed
+- Filtering of js files in models/index.js
+
+## v2.2.0 - 2015-11-23
+### Changed
+- Respect `url` property in configuration
+
+## v2.1.1 - 2015-11-19
+### Changed
+- Respect `dialectOptions` property when instantiating sequelize
+
 ## v2.1.0 - 2015-11-01
 ### Added
 - Option for usage of snake case timestamp columns in migrations (e.g. `sequelize model:create --underscored`)

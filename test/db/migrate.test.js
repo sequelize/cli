@@ -194,3 +194,55 @@ describe(Support.getTestDialectTeaser('db:migrate'), function () {
     });
   });
 });
+
+describe(Support.getTestDialectTeaser('db:migrate'), function () {
+  describe('with config.json and url option', function () {
+    var prepare = function (callback) {
+      var config        = { url: helpers.getTestUrl() };
+      var configContent = 'module.exports = ' + JSON.stringify(config);
+      var result        = '';
+
+      return gulp
+      .src(Support.resolveSupportPath('tmp'))
+      .pipe(helpers.clearDirectory())
+      .pipe(helpers.runCli('init'))
+      .pipe(helpers.removeFile('config/config.json'))
+      .pipe(helpers.copyMigration('createPerson.js'))
+      .pipe(helpers.overwriteFile(configContent, 'config/config.js'))
+      .pipe(helpers.runCli('db:migrate'))
+      .on('error', function (e) {
+        callback(e);
+      })
+      .on('data', function (data) {
+        result += data.toString();
+      })
+      .on('end', function () {
+        callback(null, result);
+      });
+    };
+
+    it('creates a SequelizeMeta table', function (done) {
+      var self = this;
+
+      prepare(function () {
+        helpers.readTables(self.sequelize, function (tables) {
+          expect(tables).to.have.length(2);
+          expect(tables).to.contain('SequelizeMeta');
+          done();
+        });
+      });
+    });
+
+    it('creates the respective table', function (done) {
+      var self = this;
+
+      prepare(function () {
+        helpers.readTables(self.sequelize, function (tables) {
+          expect(tables).to.have.length(2);
+          expect(tables).to.contain('Person');
+          done();
+        });
+      });
+    });
+  });
+});

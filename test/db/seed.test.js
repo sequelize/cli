@@ -7,21 +7,22 @@ var gulp      = require('gulp');
 var _         = require('lodash');
 
 ([
-  'db:seed',
-  'db:seed --seeders-path seeders',
-  '--seeders-path seeders db:seed',
-  'db:seed --seeders-path ./seeders',
-  'db:seed --seeders-path ./seeders/',
-  'db:seed --coffee',
-  'db:seed --config ../../support/tmp/config/config.json',
-  'db:seed --config ' + Support.resolveSupportPath('tmp', 'config', 'config.json'),
-  'db:seed --config ../../support/tmp/config/config.js'
+  'db:seed --seed seedPerson.js',
+  'db:seed --seeders-path seeders --seed seedPerson.js',
+  '--seeders-path seeders db:seed --seed seedPerson.js',
+  'db:seed --seeders-path ./seeders --seed seedPerson.js',
+  'db:seed --seeders-path ./seeders/ --seed seedPerson.js',
+  'db:seed --coffee --seed seedPerson.coffee',
+  'db:seed --config ../../support/tmp/config/config.json --seed seedPerson.js',
+  'db:seed --seed seedPerson.js --config ' +
+    Support.resolveSupportPath('tmp', 'config', 'config.json'),
+  'db:seed --seed seedPerson.js --config ../../support/tmp/config/config.js'
 ]).forEach(function (flag) {
   var prepare = function (callback, options) {
     options = _.assign({ config: {} }, options || {});
 
     var configPath    = 'config/';
-    var seederFile    = options.seederFile || 'seedPerson';
+    var seederFile    = 'seedPerson';
     var config        = _.assign({}, helpers.getTestConfig(), options.config);
     var configContent = JSON.stringify(config);
     var migrationFile = 'createPerson.'  + ((flag.indexOf('coffee') === -1) ? 'js' : 'coffee');
@@ -44,8 +45,8 @@ var _         = require('lodash');
       .pipe(helpers.copySeeder(seederFile))
       .pipe(helpers.overwriteFile(configContent, configPath))
       .pipe(helpers.runCli('db:migrate' +
-        ((flag.indexOf('coffee') === -1 && flag.indexOf('config') === -1) ?
-          '' : flag.replace('db:seed', ''))))
+        ((flag.indexOf('coffee') === -1 && flag.indexOf('config') === -1) ? ''
+          : flag.replace('db:seed', ''))))
       .pipe(helpers.runCli(flag, { pipeStdout: true }))
       .pipe(helpers.teardown(callback));
   };
@@ -60,7 +61,7 @@ var _         = require('lodash');
           expect(tables).to.contain('SequelizeData');
           done();
         });
-      });
+      }, { config: { seederStorage: 'sequelize' } });
     });
 
     it('populates the respective table', function (done) {
@@ -101,7 +102,7 @@ var _         = require('lodash');
             done();
           });
         }, {
-          config: { seederStorageTableName: 'sequelize_data' }
+          config: { seederStorage: 'sequelize', seederStorageTableName: 'sequelize_data' }
         });
       });
     });
