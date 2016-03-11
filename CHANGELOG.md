@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 
 ## Upcoming
+### Added
+- Log filtering helper
+
 ### Changed
 - Fixed some promises that were not being returned
 - Updated dependencies
