@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Fixed some promises that were not being returned
 - Updated dependencies
+- Migration and seed filenames now use UTC date instead of local date
 
 ## v2.3.1 - 2016-01-14
 ### Changed
