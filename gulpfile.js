@@ -4,7 +4,6 @@ var args        = require('yargs').argv;
 var gulp        = require('gulp');
 var jscs        = require('gulp-jscs');
 var jshint      = require('gulp-jshint');
-var mdBlock     = require('gulp-markdown-code-blocks');
 var mocha       = require('gulp-mocha');
 var path        = require('path');
 var runSequence = require('run-sequence');
@@ -18,7 +17,7 @@ gulp.task('test', function (done) {
 });
 
 gulp.task('lint', function (done) {
-  runSequence('lint-code', 'lint-readme', done);
+  runSequence('lint-code', done);
 });
 
 gulp.task('lint-code', function () {
@@ -36,12 +35,6 @@ gulp.task('lint-code', function () {
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
     .pipe(jshint.reporter('fail'));
-});
-
-gulp.task('lint-readme', function () {
-  return gulp
-    .src('./README.md')
-    .pipe(mdBlock());
 });
 
 gulp.task('test-unit', function () {
