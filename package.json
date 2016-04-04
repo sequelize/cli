@@ -6,7 +6,7 @@
   "dependencies": {
     "bluebird": "^3.3.4",
     "cli-color": "~0.3.2",
-    "findup-sync": "^0.3.0",
+    "findup-sync": "^0.4.0",
     "fs-extra": "^0.26.3",
     "gulp": "^3.9.1",
     "gulp-help": "~1.6.1",
