@@ -7,7 +7,7 @@
     "bluebird": "^3.3.4",
     "cli-color": "~0.3.2",
     "findup-sync": "^0.4.0",
-    "fs-extra": "^0.27.0",
+    "fs-extra": "^0.28.0",
     "gulp": "^3.9.1",
     "gulp-help": "~1.6.1",
     "js-beautify": "^1.5.4",
