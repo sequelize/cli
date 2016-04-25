@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## Upcoming
+## v2.4.0 - 2016-04-25
 ### Added
 - Log filtering helper
 
@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - Fixed some promises that were not being returned
 - Updated dependencies
 - Migration and seed filenames now use UTC date instead of local date
+- Output filtering
 
 ## v2.3.1 - 2016-01-14
 ### Changed
