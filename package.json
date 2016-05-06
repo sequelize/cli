@@ -32,7 +32,7 @@
     "pg": "^4.2.0",
     "pg-hstore": "^2.3.1",
     "run-sequence": "^1.0.2",
-    "sequelize": "^3.22.0",
+    "sequelize": "^3.23.0",
     "sqlite3": "^3.0.4",
     "through2": "^2.0.1"
   },
