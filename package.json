@@ -23,7 +23,7 @@
     "gulp-jscs": "^1.5.1",
     "gulp-jshint": "^1.10.0",
     "gulp-jshint-instafail": "^1.0.0",
-    "gulp-mocha": "^2.0.0",
+    "gulp-mocha": "^3.0.0",
     "js2coffee": "^2.0.0",
     "jshint-stylish": "^2.2.0",
     "mocha": "^2.5.1",
