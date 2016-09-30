@@ -302,7 +302,7 @@ module.exports = {
 
 Please note that you can either return a Promise or call the third argument of the function once your asynchronous logic was executed. If you pass something to the callback function (the `done` function) it will be treated as erroneous execution.
 
-Additional note: If you need to access the sequelize instance, you can easily do that via `queryInterface.sequelize`.
+Additional note: If you need to access the sequelize instance, you can easily do that via `queryInterface.sequelize`. For example `queryInterface.sequelize.query('CREATE TABLE mytable();')`.
 
 ## Help
 
