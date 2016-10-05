@@ -1,5 +1,6 @@
 before_script:
   - "mysql -e 'create database sequelize_test;'"
+  - "psql -c 'create database sequelize_test;' -U postgres"
   - npm install js2coffee@$(echo $JS2COFFEE)
   - npm install sequelize@$(echo $SEQUELIZE)
 
@@ -7,11 +8,8 @@ script:
   - travis_retry node_modules/.bin/gulp
 
 env:
-  - JS2COFFEE=0.3.5 DIALECT=mysql SEQUELIZE=3.24.0
-  - JS2COFFEE=0.3.5 DIALECT=sqlite SEQUELIZE=4.0.0-2
-  - JS2COFFEE=2.0.0 DIALECT=mysql SEQUELIZE=3.24.0
-  - JS2COFFEE=2.0.0 DIALECT=sqlite SEQUELIZE=4.0.0-2
-
+  - JS2COFFEE=2.0.0 DIALECT=mysql SEQUELIZE=3.24.3
+  - JS2COFFEE=2.0.0 DIALECT=postgres SEQUELIZE=4.0.0-2
 
 language: node_js
 
@@ -20,6 +18,9 @@ node_js:
   - "6.0"
 
 sudo: false
+
+addons:
+  postgresql: "9.4"
 
 cache:
   directories:

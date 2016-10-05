@@ -30,14 +30,8 @@ module.exports = {
 
   clearDirectory: function () {
     return through.obj(function (file, encoding, callback) {
-      exec('rm -rf ./*', { cwd: file.path }, function (err) {
-        if (err) {
-          callback(err, file);
-        } else {
-          exec('rm -f ./.sequelizerc', { cwd: file.path }, function (err) {
-            callback(err, file);
-          });
-        }
+      exec('rm -rf ./* && rm -f ./.sequelizerc', { cwd: file.path }, function (err) {
+        callback(err, file);
       });
     });
   },
