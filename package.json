@@ -26,7 +26,7 @@
     "gulp-mocha": "^2.0.0",
     "js2coffee": "^2.0.0",
     "jshint-stylish": "^2.2.0",
-    "mocha": "^2.5.1",
+    "mocha": "^3.0.2",
     "mysql": "^2.5.4",
     "nodeify": "^1.0.0",
     "pg": "^5.0.0",
