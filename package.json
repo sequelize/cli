@@ -33,7 +33,7 @@
     "pg-hstore": "^2.3.1",
     "run-sequence": "^1.0.2",
     "sequelize": "^3.22.0",
-    "sqlite3": "^3.0.4",
+    "sqlite3": "^3.1.8",
     "through2": "^2.0.1"
   },
   "scripts": {
