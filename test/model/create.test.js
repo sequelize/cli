@@ -185,6 +185,31 @@ var _         = require('lodash');
                     .pipe(helpers.teardown(done));
                 });
               });
+
+              it('generates the model content correctly', function (done) {
+                var flags = {
+                  name: 'User',
+                  attributes: attributes
+                };
+
+                var targetContent = attrUnd.underscored ?
+                  'underscored: true'
+                  : '{\n    classMethods';
+
+                if ( attrUnd.underscored ) {
+                  flags.underscored = attrUnd.underscored;
+                }
+
+                prepare({
+                  flags: flags
+                }, function () {
+                  gulp
+                    .src(Support.resolveSupportPath('tmp', 'models'))
+                    .pipe(helpers.readFile('user.js'))
+                    .pipe(helpers.ensureContent(targetContent))
+                    .pipe(helpers.teardown(done));
+                });
+              });
             });
           });
 
