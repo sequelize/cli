@@ -24,9 +24,6 @@ describe(Support.getTestDialectTeaser('db:migrate:pending'), function () {
         .pipe(helpers.removeFile('config/config.json'))
         .pipe(helpers.overwriteFile(configContent, 'config/config.js'))
         .pipe(helpers.runCli('db:migrate:pending', options.cli))
-        .on('error', function (e) {
-          callback(e);
-        })
         .on('data', function (data) {
           result += data.toString();
         })
@@ -63,9 +60,6 @@ describe(Support.getTestDialectTeaser('db:migrate:pending'), function () {
         .pipe(helpers.copyMigration('createPerson.js'))
         .pipe(helpers.overwriteFile(configContent, 'config/config.js'))
         .pipe(helpers.runCli('db:migrate:pending', options.cli))
-        .on('error', function (e) {
-          callback(e);
-        })
         .on('data', function (data) {
           result += data.toString();
         })
@@ -79,7 +73,7 @@ describe(Support.getTestDialectTeaser('db:migrate:pending'), function () {
         expect(stdout).to.contain('createPerson.js');
         done();
       }, {
-        cli: { exitCode: 1 },
+        cli: { exitCode: 3 },
         config: { logging: true }
       });
     });

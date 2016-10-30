@@ -71,7 +71,7 @@ module.exports = {
         if (options.exitCode) {
           try {
             expect(err).to.be.ok();
-            expect(err.code).to.equal(1);
+            expect(err.code).to.equal(options.exitCode);
             callback(null, result);
           } catch (e) {
             callback(e, result);
