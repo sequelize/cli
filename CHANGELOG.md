@@ -1,6 +1,10 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
+## Upcoming
+### Changed
+- Update moment to 2.15.1
+
 ## v2.4.0 - 2016-04-25
 ### Added
 - Log filtering helper
