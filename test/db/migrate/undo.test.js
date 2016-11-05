@@ -4,6 +4,7 @@ var expect  = require('expect.js');
 var Support = require(__dirname + '/../../support');
 var helpers = require(__dirname + '/../../support/helpers');
 var gulp    = require('gulp');
+var fs      = require('fs');
 
 ([
   'db:migrate:undo'
@@ -58,6 +59,37 @@ var gulp    = require('gulp');
                 expect(tables).to.have.length(1);
                 expect(tables[0]).to.equal('SequelizeMeta');
                 done();
+              });
+            }));
+        });
+      }, 'db:migrate');
+    });
+
+    it('correctly undoes a named migration', function (done) {
+      var self = this;
+
+      prepare(function () {
+        var migrationsPath = Support.resolveSupportPath('tmp', 'migrations');
+        var migrations = fs.readdirSync(migrationsPath);
+        var createPersonMigration = migrations[0];
+
+        helpers.readTables(self.sequelize, function (tables) {
+          expect(tables).to.have.length(2);
+          expect(tables[0]).to.equal('Person');
+
+          gulp
+            .src(Support.resolveSupportPath('tmp'))
+            .pipe(helpers.copyMigration('emptyMigration.js'))
+            .pipe(helpers.runCli('db:migrate'))
+            .pipe(helpers.runCli(flag + ' --name ' + createPersonMigration, { pipeStdout: true }))
+            .pipe(helpers.teardown(function () {
+              helpers.readTables(self.sequelize, function (tables) {
+                expect(tables).to.have.length(1);
+                expect(tables[0]).to.equal('SequelizeMeta');
+                helpers.countTable(self.sequelize, 'SequelizeMeta', function (count) {
+                  expect(count).to.eql([{ count: 1 }]);
+                  done();
+                });
               });
             }));
         });
