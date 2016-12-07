@@ -15,7 +15,7 @@
     "moment": "^2.15.1",
     "resolve": "^1.0.0",
     "umzug": "^1.9.1",
-    "yargs": "^6.2.0"
+    "yargs": "^6.5.0"
   },
   "devDependencies": {
     "coffee-script": "^1.9.0",
