@@ -2,8 +2,18 @@
 All notable changes to this project will be documented in this file.
 
 ## Upcoming
+
+## v2.5.0 - 2016-12-07
+### Added
+- Add underscored option to generated model when created with --underscored [#380](https://github.com/sequelize/cli/issues/380)
+- Add db:migrate:status [#385](https://github.com/sequelize/cli/issues/385)
+
 ### Changed
-- Update moment to 2.15.1
+- Make it possible to use ":" in passwords in a DSN [#334](https://github.com/sequelize/cli/issues/334)
+- Catch error for db:migrate:undo[:all] [#353](https://github.com/sequelize/cli/issues/353)
+- Example usage of raw sql in migration [#363](https://github.com/sequelize/cli/issues/363)
+- Fixed typo: containts -> contains [#381](https://github.com/sequelize/cli/issues/381)
+- Updated dependencies
 
 ## v2.4.0 - 2016-04-25
 ### Added
