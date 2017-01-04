@@ -16,7 +16,8 @@ var _         = require('lodash');
   'db:seed --config ../../support/tmp/config/config.json --seed seedPerson.js',
   'db:seed --seed seedPerson.js --config ' +
     Support.resolveSupportPath('tmp', 'config', 'config.json'),
-  'db:seed --seed seedPerson.js --config ../../support/tmp/config/config.js'
+  'db:seed --seed seedPerson.js --config ../../support/tmp/config/config.js',
+  'db:seed --seed seedPerson.js --config ../../support/tmp/config/config-promise.js'
 ]).forEach(function (flag) {
   var prepare = function (callback, options) {
     options = _.assign({ config: {} }, options || {});
@@ -32,6 +33,11 @@ var _         = require('lodash');
     if (flag.match(/config\.js$/)) {
       configPath    = configPath + 'config.js';
       configContent = 'module.exports = ' + configContent;
+    } else if (flag.match(/config-promise\.js/)) {
+      configPath    = configPath + 'config-promise.js';
+      configContent = '' +
+        'var b = require("bluebird");' +
+        'module.exports = b.resolve(' + configContent + ');';
     } else {
       configPath = configPath + 'config.json';
     }
