@@ -1,0 +1,4 @@
+{
+  "userBlacklist": ["sdepold"],
+  "userBlacklistForPR": ["greenkeeperio-bot"]
+}
