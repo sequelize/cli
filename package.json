@@ -5,7 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "bluebird": "^3.4.5",
-    "cli-color": "~0.3.2",
+    "cli-color": "~1.2.0",
     "findup-sync": "^0.4.0",
     "fs-extra": "^1.0.0",
     "gulp": "^3.9.1",
