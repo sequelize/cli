@@ -282,7 +282,7 @@ when you run a migration while having the old schema. You can opt-in for auto mi
 
 ### The migration schema
 
-The CLI uses [umzug](https://github.com/sequelize/umzug) and it's migration schema. This means a migration has too look like this:
+The CLI uses [umzug](https://github.com/sequelize/umzug) and its migration schema. This means a migration has to look like this:
 
 ```javascript
 "use strict";
