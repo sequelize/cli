@@ -8,8 +8,6 @@
     "cli-color": "~0.3.2",
     "findup-sync": "^0.4.0",
     "fs-extra": "^1.0.0",
-    "gulp": "^3.9.1",
-    "gulp-help": "~1.6.1",
     "js-beautify": "^1.5.4",
     "lodash": "^4.12.0",
     "moment": "^2.15.1",
@@ -20,6 +18,8 @@
   "devDependencies": {
     "coffee-script": "^1.9.0",
     "expect.js": "~0.3.1",
+    "gulp": "^3.9.1",
+    "gulp-help": "~1.6.1",
     "gulp-jscs": "^4.0.0",
     "gulp-jshint": "^2.0.4",
     "gulp-jshint-instafail": "^1.0.0",
