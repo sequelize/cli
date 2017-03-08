@@ -1,7 +1,7 @@
 {
   "name": "sequelize-cli",
   "version": "2.5.1",
-  "description": "The sequelize CLI.",
+  "description": "The Sequelize CLI.",
   "main": "index.js",
   "dependencies": {
     "bluebird": "^3.4.5",
