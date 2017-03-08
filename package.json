@@ -18,7 +18,7 @@
     "yargs": "^7.0.1"
   },
   "devDependencies": {
-    "coffee-script": "^1.9.0",
+    "coffee-script": "^1.11.1",
     "expect.js": "~0.3.1",
     "gulp-jscs": "^4.0.0",
     "gulp-jshint": "^2.0.4",
