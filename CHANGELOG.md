@@ -3,6 +3,15 @@ All notable changes to this project will be documented in this file.
 
 ## Upcoming
 
+## v2.6.0 - 2017-03-17
+### Added
+- Async configuration support [#359](https://github.com/sequelize/cli/pull/359)
+
+### Changed
+- Print error stack when reporting seeder errors [#411](https://github.com/sequelize/cli/pull/411)
+- Fixed seed:undo:all with `none` storage [#433](https://github.com/sequelize/cli/pull/433)
+- Updated dependencies
+
 ## v2.5.0 - 2016-12-07
 ### Added
 - Add underscored option to generated model when created with --underscored [#380](https://github.com/sequelize/cli/issues/380)
