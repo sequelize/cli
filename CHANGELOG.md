@@ -3,6 +3,13 @@ All notable changes to this project will be documented in this file.
 
 ## Upcoming
 
+## v2.7.0 - 2017-03-25
+### Added
+- Named db:migrate:undo [#387](https://github.com/sequelize/cli/pull/387)
+
+### Changed
+- Fixed promise warning in gulp-helper [#439](https://github.com/sequelize/cli/issues/439)
+
 ## v2.6.0 - 2017-03-17
 ### Added
 - Async configuration support [#359](https://github.com/sequelize/cli/pull/359)
