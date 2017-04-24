@@ -27,7 +27,7 @@
     "js2coffee": "^2.2.0",
     "jshint": "^2.9.4",
     "jshint-stylish": "^2.2.0",
-    "mocha": "^3.2.0",
+    "mocha": "^3.3.0",
     "mysql": "^2.13.0",
     "nodeify": "^1.0.1",
     "pg": "^6.1.3",
