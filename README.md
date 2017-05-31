@@ -6,64 +6,68 @@ The Sequelize Command Line Interface (CLI)
 
 Install this globally and you'll have access to the `sequelize` command anywhere on your system.
 
-```
-npm install -g sequelize-cli
+```bash
+$ npm install -g sequelize-cli
 ```
 
 or install it locally to your `node_modules` folder
 
 ```bash
-npm install --save sequelize-cli
+$ npm install --save sequelize-cli
 ```
 ## Global Install Usage
 
-```
+```bash
 $ sequelize [--HARMONY-FLAGS]
 ```
 
 
 ```
-Sequelize [Node: 2.5.0, CLI: 1.8.3, ORM: 2.1.3]
+Sequelize [Node: 7.8.0, CLI: 2.7.0, ORM: 3.27.0]
 
 Usage
-  sequelize [task]
-
+  sequelize [task][options...]
 Available tasks
-  db:migrate             Run pending migrations.
-  db:migrate:old_schema  Update legacy migration table
-  db:migrate:undo        Revert the last migration run.
-  db:migrate:undo:all    Revert all migrations ran.
-  db:seed                Run seeders.
-  db:seed:undo           Deletes data from the database.
-  db:seed:undo:all       Deletes data from the database.
-  help                   Display this help text. Aliases: h
-  init                   Initializes the project.
-  init:config            Initializes the configuration.
-  init:migrations        Initializes the migrations.
-  init:models            Initializes the models.
-  init:seeders           Initializes the seeders.
-  migration:create       Generates a new migration file. Aliases: migration:generate
-  model:create           Generates a model and its migration. Aliases: model:generate
-  seed:create            Generates a new seed file. Aliases: seed:generate
-  version                Prints the version number. Aliases: v
-
+  db:migrate                        Run pending migrations.
+  db:migrate:old_schema             Update legacy migration table
+  db:migrate:schema:timestamps:add  Update migration table to have timestamps
+  db:migrate:status                 List the status of all migrations
+  db:migrate:undo                   Reverts a migration.
+  db:migrate:undo:all               Revert all migrations ran.
+  db:seed                           Run specified seeder.
+  db:seed:all                       Run every seeder.
+  db:seed:undo                      Deletes data from the database.
+  db:seed:undo:all                  Deletes data from the database.
+  help                              Display this help text. Aliases: h
+  init                              Initializes the project. [init:config, init:migrations, init:seeders, init:models]
+  init:config                       Initializes the configuration.
+  init:migrations                   Initializes the migrations.
+  init:models                       Initializes the models.
+  init:seeders                      Initializes the seeders.
+  migration:create                  Generates a new migration file. Aliases: migration:generate
+  model:create                      Generates a model and its migration. Aliases: model:generate
+  seed:create                       Generates a new seed file. Aliases: seed:generate
+  version                           Prints the version number. Aliases: v
 Available manuals
-  help:db:migrate             The documentation for "sequelize db:migrate".
-  help:db:migrate:old_schema  The documentation for "sequelize db:migrate:old_schema".
-  help:db:migrate:undo        The documentation for "sequelize db:migrate:undo".
-  help:db:migrate:undo:all    The documentation for "sequelize db:migrate:undo:all".
-  help:db:seed                The documentation for "sequelize db:seed".
-  help:db:seed:undo           The documentation for "sequelize db:seed:undo".
-  help:db:seed:undo:all       The documentation for "sequelize db:seed:undo:all".
-  help:init                   The documentation for "sequelize init".
-  help:init:config            The documentation for "sequelize init:config".
-  help:init:migrations        The documentation for "sequelize init:migrations".
-  help:init:models            The documentation for "sequelize init:models".
-  help:init:seeders           The documentation for "sequelize init:seeders".
-  help:migration:create       The documentation for "sequelize migration:create".
-  help:model:create           The documentation for "sequelize model:create".
-  help:seed:create            The documentation for "sequelize seed:create".
-  help:version                The documentation for "sequelize version".
+  help:db:migrate                        The documentation for "sequelize db:migrate".
+  help:db:migrate:old_schema             The documentation for "sequelize db:migrate:old_schema".
+  help:db:migrate:schema:timestamps:add  The documentation for "sequelize db:migrate:schema:timestamps:add".
+  help:db:migrate:status                 The documentation for "sequelize db:migrate:status".
+  help:db:migrate:undo                   The documentation for "sequelize db:migrate:undo".
+  help:db:migrate:undo:all               The documentation for "sequelize db:migrate:undo:all".
+  help:db:seed                           The documentation for "sequelize db:seed".
+  help:db:seed:all                       The documentation for "sequelize db:seed:all".
+  help:db:seed:undo                      The documentation for "sequelize db:seed:undo".
+  help:db:seed:undo:all                  The documentation for "sequelize db:seed:undo:all".
+  help:init                              The documentation for "sequelize init".
+  help:init:config                       The documentation for "sequelize init:config".
+  help:init:migrations                   The documentation for "sequelize init:migrations".
+  help:init:models                       The documentation for "sequelize init:models".
+  help:init:seeders                      The documentation for "sequelize init:seeders".
+  help:migration:create                  The documentation for "sequelize migration:create".
+  help:model:create                      The documentation for "sequelize model:create".
+  help:seed:create                       The documentation for "sequelize seed:create".
+  help:version                           The documentation for "sequelize version".
 ```
 
 ## Local Install Usage
@@ -82,7 +86,7 @@ or a Node.JS script that exports a hash.
 
 ### Example for a Node.JS script
 
-```javascript
+```js
 var path = require('path')
 
 module.exports = {
@@ -158,7 +162,7 @@ environment variable called `DB_CONNECTION_STRING` which stores the value
 `mysql://root:password@mysql_host.com/database_name`. In order to make the CLI
 use it, you have to use declare it in your config file:
 
-```
+```json
 {
     "production": {
         "use_env_variable": "DB_CONNECTION_STRING"
@@ -168,7 +172,7 @@ use it, you have to use declare it in your config file:
 
 With v2.0.0 of the CLI you can also just directly access the environment variables inside the `config/config.js`:
 
-```
+```js
 module.exports = {
     "production": {
         "hostname": process.env.DB_HOSTNAME
@@ -195,7 +199,7 @@ or the CLI will write to the file `sequelize-meta.json`. If you want to keep the
 database, using `sequelize`, but want to use a different table, you can change the table name using
 `migrationStorageTableName`.
 
-```js
+```json
 {
   "development": {
     "username": "root",
@@ -228,7 +232,7 @@ you can specify the path of the file using `seederStoragePath` or the CLI will w
 `sequelize-data.json`. If you want to keep the information in the database, using `sequelize`, you can
 specify the table name using `seederStorageTableName`, or it will default to `SequelizeData`.
 
-```js
+```json
 {
   "development": {
     "username": "root",
@@ -252,7 +256,7 @@ specify the table name using `seederStorageTableName`, or it will default to `Se
 In order to pass options to the underlying database connectors, you can add the property `dialectOptions`
 to your configuration like this:
 
-```
+```js
 var fs = require('fs');
 
 module.exports = {
@@ -280,11 +284,19 @@ when you run a migration while having the old schema. You can opt-in for auto mi
 }
 ```
 
+#### Timestamps
+
+Since v2.8.0 the CLI supports a adding timestamps to the schema for saving the executed migrations. You can opt-in for timestamps by running the following command:
+
+```bash
+$ sequelize db:migrate:schema:timestamps:add
+```
+
 ### The migration schema
 
 The CLI uses [umzug](https://github.com/sequelize/umzug) and its migration schema. This means a migration has to look like this:
 
-```javascript
+```js
 "use strict";
 
 module.exports = {
