@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 'use strict';
+require("babel/register");
 
 var spawn   = require('child_process').spawn;
 var path    = require('path');
