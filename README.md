@@ -81,7 +81,7 @@ $ node_modules/.bin/sequelize [--HARMONY-FLAGS]
 The manuals will show all the flags and options which are available for the respective tasks.
 If you find yourself in a situation where you always define certain flags in order to
 make the CLI compliant to your project, you can move those definitions also into a file called
-`.sequelizerc`. The file will get `require`d if available and can therefore be either a JSON file
+`.sequelizerc`. The file will get imported if available and can therefore be either a JSON file
 or a Node.JS script that exports a hash.
 
 ### Example for a Node.JS script
