@@ -8,8 +8,8 @@ script:
   - travis_retry node_modules/.bin/gulp
 
 env:
-  - JS2COFFEE=2.0.0 DIALECT=mysql SEQUELIZE=3.30.2
-  - JS2COFFEE=2.0.0 DIALECT=postgres SEQUELIZE=4.0.0-2
+  - JS2COFFEE=2.0.0 DIALECT=mysql SEQUELIZE=3.30.4
+  - JS2COFFEE=2.0.0 DIALECT=postgres SEQUELIZE=4.1.0
 
 language: node_js
 
