@@ -57,7 +57,7 @@ var gulp    = require('gulp');
           expect(tables).to.contain('trigger_test');
 
           helpers.countTable(self.sequelize, 'SequelizeMeta', function(result) {
-            expect(result[0].count).to.equal(4);
+            expect(result[0].count).to.eql(4);
 
             gulp
               .src(Support.resolveSupportPath('tmp'))
@@ -69,7 +69,7 @@ var gulp    = require('gulp');
                   expect(tables).to.contain('User');
 
                   helpers.countTable(self.sequelize, 'SequelizeMeta', function(result) {
-                    expect(result[0].count).to.equal(2);
+                    expect(result[0].count).to.eql(2);
                     done();
                   });
                 });
