@@ -194,7 +194,7 @@ var _         = require('lodash');
 
                 var targetContent = attrUnd.underscored ?
                   'underscored: true'
-                  : '{\n    classMethods';
+                  : '{});';
 
                 if ( attrUnd.underscored ) {
                   flags.underscored = attrUnd.underscored;
