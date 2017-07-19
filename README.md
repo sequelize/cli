@@ -201,7 +201,7 @@ database, using `sequelize`, but want to use a different table, you can change t
 Running the following command will create a migration.
 
 ```
-sequelize migration:create --name name_table
+sequelize migration:create --name name_migration
 ```
 ```json
 {
