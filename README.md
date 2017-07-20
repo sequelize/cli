@@ -311,6 +311,15 @@ module.exports = {
   }
 };
 ```
+The following command executes all migrations
+```
+sequelize db:migrate
+```
+In order to return the executed migrations the command is the following
+
+```
+sequelize db:migrate:undo:all
+```
 
 Please note that you can either return a Promise or call the third argument of the function once your asynchronous logic was executed. If you pass something to the callback function (the `done` function) it will be treated as erroneous execution.
 
