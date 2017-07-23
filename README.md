@@ -195,6 +195,13 @@ There are three types of storage that you can use: `sequelize`, `json`, and `non
 - `none` : does not store any migration/seed
 
 
+#### Model generation
+
+This is a basic example for a model generation. Also you can add more attributes and datatypes as you needed.
+```
+$ sequelize model:create --name User --attributes name:string,state:boolean,birth:date,card:integer
+```
+
 #### Migration
 
 By default the CLI will create a table in your database called `SequelizeMeta` containing an entry
