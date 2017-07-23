@@ -2,6 +2,12 @@
 
 The Sequelize Command Line Interface (CLI)
 
+## Sequelize Support
+
+In current v2 release CLI generate migration/models which follow Sequelize v3 format, CLI will work with Sequelize v4 in most cases but migration/model skeleton is still generated to support v3.
+
+Full support for Sequelize v4 will be coming soon with [Sequelize CLI v4](https://github.com/sequelize/cli/issues/441)
+
 ## Installation
 
 Install this globally and you'll have access to the `sequelize` command anywhere on your system.
