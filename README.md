@@ -198,11 +198,7 @@ migrations. If you choose `json`, you can specify the path of the file using `mi
 or the CLI will write to the file `sequelize-meta.json`. If you want to keep the information in the
 database, using `sequelize`, but want to use a different table, you can change the table name using
 `migrationStorageTableName`.
-Running the following command will create a migration.
 
-```
-sequelize migration:create --name name_migration
-```
 ```json
 {
   "development": {
