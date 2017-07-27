@@ -319,3 +319,7 @@ Additional note: If you need to access the sequelize instance, you can easily do
 ## Help
 
 Read the manuals via `sequelize help:<task-name>` for further information.
+
+## FAQ
+
+You can find FAQ section [here](https://github.com/sequelize/cli/blob/master/FAQ.md)
