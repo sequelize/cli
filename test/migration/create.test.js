@@ -28,28 +28,28 @@ var _         = require('lodash');
         .pipe(helpers.teardown(callback));
     };
 
-    // it('creates a new file with the current timestamp', function (done) {
-    //   prepare(function () {
-    //     var date        = new Date();
-    //     var format      = function (i) {
-    //       return (parseInt(i, 10) < 10 ? '0' + i : i);
-    //     };
-    //     var sDate       = [
-    //       date.getFullYear(),
-    //       format(date.getMonth() + 1),
-    //       format(date.getDate()),
-    //       format(date.getHours()),
-    //       format(date.getMinutes())
-    //     ].join('');
-    //     var expectation = new RegExp(sDate + '..-' + migrationFile);
+    it('creates a new file with the current timestamp', function (done) {
+      prepare(function () {
+        var date        = new Date();
+        var format      = function (i) {
+          return (parseInt(i, 10) < 10 ? '0' + i : i);
+        };
+        var sDate       = [
+          date.getFullYear(),
+          format(date.getMonth() + 1),
+          format(date.getDate()),
+          format(date.getHours()),
+          format(date.getMinutes())
+        ].join('');
+        var expectation = new RegExp(sDate + '..-' + migrationFile);
 
-    //     gulp
-    //       .src(Support.resolveSupportPath('tmp', 'migrations'))
-    //       .pipe(helpers.listFiles())
-    //       .pipe(helpers.ensureContent(expectation))
-    //       .pipe(helpers.teardown(done));
-    //   });
-    // });
+        gulp
+          .src(Support.resolveSupportPath('tmp', 'migrations'))
+          .pipe(helpers.listFiles())
+          .pipe(helpers.ensureContent(expectation))
+          .pipe(helpers.teardown(done));
+      });
+    });
 
     it('adds a skeleton with an up and a down method', function (done) {
       prepare(function () {
