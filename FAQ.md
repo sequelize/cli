@@ -15,3 +15,9 @@ sequelize db:migrate
 ```
 sequelize db:migrate:undo:all
 ```
+
+## How can I init a model?
+
+```
+sequelize init:model
+```
