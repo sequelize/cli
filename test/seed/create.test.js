@@ -10,7 +10,11 @@ var _         = require('lodash');
   'seed:create',
   'seed:generate',
   'seed:create --coffee',
-  'seed:generate --coffee'
+  'seed:generate --coffee',
+  'seed:create --es6',
+  'seed:generate --es6',
+  'seed:create --es6 --coffee',
+  'seed:generate --es6 --coffee',
 ]).forEach(function (flag) {
   describe(Support.getTestDialectTeaser(flag), function () {
     var seedFile = 'foo.' + (_.includes(flag, '--coffee') ? 'coffee' : 'js');
@@ -56,6 +60,9 @@ var _         = require('lodash');
             if (_.includes(flag, 'coffee')) {
               expect(stdout).to.contain('up: (queryInterface, Sequelize) ->');
               expect(stdout).to.contain('down: (queryInterface, Sequelize) ->');
+            } else if (_.includes(flag, 'es6')) {
+              expect(stdout).to.contain('up: (queryInterface, Sequelize) => {');
+              expect(stdout).to.contain('down: (queryInterface, Sequelize) => {');
             } else {
               expect(stdout).to.contain('up: function (queryInterface, Sequelize) {');
               expect(stdout).to.contain('down: function (queryInterface, Sequelize) {');
