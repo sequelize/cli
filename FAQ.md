@@ -15,7 +15,7 @@ sequelize db:migrate
 ```
 sequelize db:migrate:undo:all
 ```
-## How can I run specify seed file?
+## How can I run a specific seed file?
 
 ```
 sequelize db:seed --seed [seed file name]
