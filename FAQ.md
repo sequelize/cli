@@ -1,15 +1,5 @@
 The Sequelize Command Line Interface (CLI) Frequently Asked Question
 
-## How to install sequelize-cli globally?
-```
-npm install sequelize-cli -g
-```
-
-## How to install sequelize-cli inside the project (locally)?
-```
-npm install sequelize --save
-```
-
 ## Initialize sequelize to create necessary files in the project 
 ```
 sequelize init
@@ -26,12 +16,9 @@ $ sequelize model:create --name User --attributes name:string,state:boolean,birt
 sequelize db:migrate
 ```
 ## How can I make a migrations rollback?
-
 ```
 sequelize db:migrate:undo:all
 ```
-
-## Seeders
 
 ## How can I create a seeder?
 ```
