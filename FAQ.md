@@ -36,3 +36,22 @@ sequelize db:seed:all
 sequelize db:seed:undo:all
 ```
 
+## How to create the config file?
+```
+sequelize init:config
+```
+
+## How to create the models file?
+```
+sequelize init:models
+```
+
+## How to create the migrations file?
+```
+sequelize init:migrations
+```
+## How to create a new migrations with following command?
+```
+sequelize migration:create --name <migration_name>
+```
+
