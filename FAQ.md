@@ -21,8 +21,9 @@ sequelize db:migrate:undo:all
 ```
 
 ## How can I create a seeder?
+Specify seeder name with `--name` argument
 ```
-sequelize seed:create --name seederName 
+sequelize seed:create --name <seeder_name> 
 ```
 
 ## How can I run the seeders?
