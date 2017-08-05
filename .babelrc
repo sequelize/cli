@@ -1,0 +1,9 @@
+{
+  "presets": [
+    "es2015-node4",
+    "es2017"
+  ],
+  "plugins": [
+    "transform-object-rest-spread"
+  ]
+}

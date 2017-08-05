@@ -1,101 +1,55 @@
 #!/usr/bin/env node
-
 'use strict';
 
-var spawn   = require('child_process').spawn;
-var path    = require('path');
-var args    = process.argv.slice(2);
-var yargs   = require('yargs');
-var argv    = yargs.argv;
-var _       = require('lodash');
-var helpers = require(path.resolve(__dirname, '..', 'lib', 'helpers'));
+var _yargs = require('yargs');
 
-if ((args[0] === '-v') || (args[0] === '-V')) {
-  args = ['version'];
-}
+var _yargs2 = _interopRequireDefault(_yargs);
 
-// Let's load additional options from a file and add it to the gulp call
-(function (optionsPath) {
-  var rcFile = path.resolve(process.cwd(), '.sequelizerc');
+var _fs = require('fs');
 
-  if (!optionsPath && helpers.path.existsSync(rcFile)) {
-    optionsPath = rcFile;
-  }
+var _fs2 = _interopRequireDefault(_fs);
 
-  if (optionsPath) {
-    optionsPath = path.resolve(process.cwd(), optionsPath);
+var _path = require('path');
 
-    var options     = require(optionsPath);
-    var optionsKeys = Object.keys(options);
+var _path2 = _interopRequireDefault(_path);
 
-    optionsKeys = optionsKeys.filter(function (optionKey) {
-      return !argv[optionKey];
-    });
+var _init = require('../lib/commands/init');
 
-    optionsKeys.forEach(function (optionKey) {
-      var value = options[optionKey];
+var _init2 = _interopRequireDefault(_init);
 
-      if (optionKey.indexOf('--') !== 0) {
-        optionKey = '--' + optionKey;
-      }
+var _migrate = require('../lib/commands/migrate');
 
-      args = args.concat([optionKey, value]);
-    });
-  }
-})(yargs.argv.optionsPath);
+var _migrate2 = _interopRequireDefault(_migrate);
 
-args = args.concat([
-  '--gulpfile', path.resolve(__dirname, '..', 'lib', 'gulpfile.js'),
-  '--cwd', process.cwd()
-]);
+var _migrate_undo = require('../lib/commands/migrate_undo');
 
-args.unshift(findGulpCliPath());
+var _migrate_undo2 = _interopRequireDefault(_migrate_undo);
 
-// Add harmony support
-[ '--harmony-scoping', '--harmony-modules', '--harmony-proxies',
-  '--harmony-generators', '--harmony-numeric-literals', '--harmony-strings',
-  '--harmony-arrays', '--harmony-arrow-functions', '--harmony'
-].forEach(function (harmonyFlag) {
-  if (_.includes(args, harmonyFlag)) {
-    args = _.without(args, harmonyFlag);
-    args.unshift(harmonyFlag);
-  }
-});
+var _seed = require('../lib/commands/seed');
 
-var call = spawn(process.argv[0], args);
+var _seed2 = _interopRequireDefault(_seed);
 
-helpers.view.teaser();
+var _seed_one = require('../lib/commands/seed_one');
 
-call.stdout.on('data', function (data) {
-  var output = helpers.log.parse(data);
+var _seed_one2 = _interopRequireDefault(_seed_one);
 
-  if (!!output) {
-    console.log(output);
-  }
-});
+var _migration_create = require('../lib/commands/migration_create');
 
-call.stderr.on('data', function (data) {
-  process.stderr.write(data);
-});
+var _migration_create2 = _interopRequireDefault(_migration_create);
 
-call.on('exit', function (code) {
-  process.exit(code);
-});
+var _model_create = require('../lib/commands/model_create');
 
-function findGulpCliPath () {
-  var gulp = path.resolve(__dirname, '..', 'node_modules', 'gulp', 'bin', 'gulp.js');
+var _model_create2 = _interopRequireDefault(_model_create);
 
-  if (!helpers.path.existsSync(gulp)) {
-    gulp = path.resolve(process.cwd(), 'node_modules', 'gulp', 'bin', 'gulp.js');
-  }
+var _seed_create = require('../lib/commands/seed_create');
 
-  if (!helpers.path.existsSync(gulp)) {
-    gulp = require.resolve('gulp').replace('index.js', 'bin/gulp.js');
-  }
+var _seed_create2 = _interopRequireDefault(_seed_create);
 
-  if (!helpers.path.existsSync(gulp)) {
-    throw new Error('Unable to find the `gulp` binary');
-  }
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-  return gulp;
-}
+_yargs2.default.command('db:migrate', 'Run pending migrations', _migrate2.default).command('db:migrate:schema:timestamps:add', 'Update migration table to have timestamps', _migrate2.default).command('db:migrate:status', 'List the status of all migrations', _migrate2.default).command('db:migrate:undo', 'Reverts a migration', _migrate_undo2.default).command('db:migrate:undo:all', 'Revert all migrations ran', _migrate2.default).command('db:seed', 'Run specified seeder', _seed_one2.default).command('db:seed:undo', 'Deletes data from the database', _seed_one2.default).command('db:seed:all', 'Run every seeder', _seed2.default).command('db:seed:undo:all', 'Deletes data from the database', _seed2.default).command('init', 'Initializes project', _init2.default).command('init:config', 'Initializes configuration', _init2.default).command('init:migrations', 'Initializes migrations', _init2.default).command('init:models', 'Initializes models', _init2.default).command('init:seeders', 'Initializes seeders', _init2.default).command(['migration:create', 'migration:generate'], 'Generates a new migration file', _migration_create2.default).command(['model:create', 'model:generate'], 'Generates a model and its migration', _model_create2.default).command(['seed:create', 'seed:generate'], 'Generates a new seed file', _seed_create2.default).command('version', 'Prints the version number', () => {}).config(loadRCFile(_yargs2.default.argv.optionsPath)).demandCommand().help().argv;
+
+function loadRCFile(optionsPath) {
+  const rcFile = optionsPath || _path2.default.resolve(process.cwd(), '.sequelizerc');
+  return _fs2.default.existsSync(rcFile) ? JSON.parse(_fs2.default.readFileSync(rcFile)) : {};
+};

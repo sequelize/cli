@@ -2,43 +2,33 @@
   "name": "sequelize-cli",
   "version": "2.7.0",
   "description": "The Sequelize CLI",
-  "main": "index.js",
+  "bin": {
+    "sequelize": "./bin/sequelize"
+  },
   "dependencies": {
     "bluebird": "^3.5.0",
-    "cli-color": "~1.2.0",
-    "findup-sync": "^1.0.0",
-    "fs-extra": "^3.0.0",
-    "gulp": "^3.9.1",
-    "gulp-help": "~1.6.1",
-    "js-beautify": "^1.6.11",
     "lodash": "^4.17.4",
-    "moment": "^2.17.1",
-    "resolve": "^1.3.3",
-    "umzug": "^1.12.0",
+    "umzug": "^2.0.1",
     "yargs": "^8.0.1"
   },
   "devDependencies": {
-    "coffee-script": "^1.12.5",
-    "expect.js": "~0.3.1",
-    "gulp-jscs": "^4.0.0",
-    "gulp-jshint": "^2.0.4",
-    "gulp-jshint-instafail": "^1.0.0",
-    "gulp-mocha": "^4.3.1",
-    "js2coffee": "^2.2.0",
-    "jshint": "^2.9.4",
-    "jshint-stylish": "^2.2.0",
+    "babel-cli": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-preset-es2015-node4": "^2.1.1",
+    "babel-preset-es2017": "^6.24.1",
+    "babel-register": "^6.24.1",
     "mocha": "^3.3.0",
     "mysql": "^2.13.0",
-    "nodeify": "^1.0.1",
     "pg": "^6.1.3",
     "pg-hstore": "^2.3.2",
-    "run-sequence": "^2.1.0",
     "sequelize": "^4.0.0",
     "sqlite3": "^3.1.8",
-    "through2": "^2.0.3"
+    "unexpected": "^10.32.1"
   },
   "scripts": {
-    "test": "gulp"
+    "build": "babel src -d lib && npm run build:bin",
+    "build:bin": "babel ./sequelize.js --out-file ./bin/sequelize && chmod +x ./bin/sequelize",
+    "test": "mocha --compilers js:babel-register test"
   },
   "repository": {
     "type": "git",
@@ -48,13 +38,23 @@
     "sequelize",
     "cli"
   ],
-  "author": "Sascha Depold",
+  "author": "Sascha Depold <sascha@depold.com>",
+  "contributors": [
+    {
+      "name": "Sushant Dhiman",
+      "email": "sushantdhiman@outlook.com"
+    },
+    {
+      "name": "Paulo R Lopes",
+      "email": "prplopes@gmail.com"
+    }
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/sequelize/cli/issues"
   },
   "homepage": "https://github.com/sequelize/cli",
-  "bin": {
-    "sequelize": "bin/sequelize"
+  "engines": {
+    "node": ">=4.0.0"
   }
 }
