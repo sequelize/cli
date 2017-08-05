@@ -36,3 +36,8 @@ sequelize db:seed:all
 sequelize db:seed:undo:all
 ```
 
+## How can I make the migratios old schema?
+```
+sequelize db:migrate:old_schema
+```
+
