@@ -36,3 +36,13 @@ $ sequelize db:seed:all
 $ sequelize db:seed:undo:all
 ```
 
+## How can I install sequelize / cli globally and access the sequencing command anywhere on your system?
+```
+$ npm install -g sequelize-cli
+
+```
+## How to install it locally in the folder node_modules?
+```
+$ npm install --save sequelize-cli
+
+```
