@@ -24,3 +24,4 @@ node_modules
 lib
 bin
 test/support/tmp
+package-lock.json

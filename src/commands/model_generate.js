@@ -8,12 +8,17 @@ exports.builder =
     _underscoreOption(
       _baseOptions(yargs)
         .option('name', {
-          describe: 'Defines the name of the migration',
+          describe: 'Defines the name of the new model',
           type: 'string',
           demandOption: true
         })
-      )
-    .help()
-    .argv;
+        .option('attributes', {
+          describe: 'A list of attributes',
+          type: 'string',
+          demandOption: true
+        })
+    )
+      .help()
+      .argv;
 
 exports.handler = function () {};

@@ -13,6 +13,10 @@ var _path = require('path');
 
 var _path2 = _interopRequireDefault(_path);
 
+var _package = require('../package');
+
+var _package2 = _interopRequireDefault(_package);
+
 var _init = require('../lib/commands/init');
 
 var _init2 = _interopRequireDefault(_init);
@@ -47,7 +51,13 @@ var _seed_create2 = _interopRequireDefault(_seed_create);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-_yargs2.default.command('db:migrate', 'Run pending migrations', _migrate2.default).command('db:migrate:schema:timestamps:add', 'Update migration table to have timestamps', _migrate2.default).command('db:migrate:status', 'List the status of all migrations', _migrate2.default).command('db:migrate:undo', 'Reverts a migration', _migrate_undo2.default).command('db:migrate:undo:all', 'Revert all migrations ran', _migrate2.default).command('db:seed', 'Run specified seeder', _seed_one2.default).command('db:seed:undo', 'Deletes data from the database', _seed_one2.default).command('db:seed:all', 'Run every seeder', _seed2.default).command('db:seed:undo:all', 'Deletes data from the database', _seed2.default).command('init', 'Initializes project', _init2.default).command('init:config', 'Initializes configuration', _init2.default).command('init:migrations', 'Initializes migrations', _init2.default).command('init:models', 'Initializes models', _init2.default).command('init:seeders', 'Initializes seeders', _init2.default).command(['migration:create', 'migration:generate'], 'Generates a new migration file', _migration_create2.default).command(['model:create', 'model:generate'], 'Generates a model and its migration', _model_create2.default).command(['seed:create', 'seed:generate'], 'Generates a new seed file', _seed_create2.default).command('version', 'Prints the version number', () => {}).config(loadRCFile(_yargs2.default.argv.optionsPath)).demandCommand().help().argv;
+const cli = _yargs2.default.command('db:migrate', 'Run pending migrations', _migrate2.default).command('db:migrate:schema:timestamps:add', 'Update migration table to have timestamps', _migrate2.default).command('db:migrate:status', 'List the status of all migrations', _migrate2.default).command('db:migrate:undo', 'Reverts a migration', _migrate_undo2.default).command('db:migrate:undo:all', 'Revert all migrations ran', _migrate2.default).command('db:seed', 'Run specified seeder', _seed_one2.default).command('db:seed:undo', 'Deletes data from the database', _seed_one2.default).command('db:seed:all', 'Run every seeder', _seed2.default).command('db:seed:undo:all', 'Deletes data from the database', _seed2.default).command('init', 'Initializes project', _init2.default).command('init:config', 'Initializes configuration', _init2.default).command('init:migrations', 'Initializes migrations', _init2.default).command('init:models', 'Initializes models', _init2.default).command('init:seeders', 'Initializes seeders', _init2.default).command('migration:generate', 'Generates a new migration file', _migration_create2.default).command('model:generate', 'Generates a model and its migration', _model_create2.default).command('seed:generate', 'Generates a new seed file', _seed_create2.default).config(loadRCFile(_yargs2.default.argv.optionsPath)).version(() => _package2.default.version).showHelpOnFail(true).help();
+
+const args = cli.argv;
+
+if (!args._[0]) {
+  cli.showHelp();
+}
 
 function loadRCFile(optionsPath) {
   const rcFile = optionsPath || _path2.default.resolve(process.cwd(), '.sequelizerc');

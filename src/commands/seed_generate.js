@@ -4,8 +4,9 @@ exports.builder =
   yargs =>
     _baseOptions(yargs)
       .option('name', {
-        describe: 'Name of the migration to undo',
-        type: 'string'
+        describe: 'Defines the name of the seed',
+        type: 'string',
+        demandOption: true
       })
       .help()
       .argv;

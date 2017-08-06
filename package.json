@@ -17,6 +17,7 @@
     "babel-preset-es2015-node4": "^2.1.1",
     "babel-preset-es2017": "^6.24.1",
     "babel-register": "^6.24.1",
+    "eslint": "^4.4.0",
     "mocha": "^3.3.0",
     "mysql": "^2.13.0",
     "pg": "^6.1.3",
