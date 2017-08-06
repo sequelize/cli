@@ -7,6 +7,10 @@
   },
   "dependencies": {
     "bluebird": "^3.5.0",
+    "cli-color": "^1.2.0",
+    "findup-sync": "^1.0.0",
+    "fs-extra": "^4.0.1",
+    "js-beautify": "^1.6.14",
     "lodash": "^4.17.4",
     "umzug": "^2.0.1",
     "yargs": "^8.0.1"
@@ -27,8 +31,9 @@
     "unexpected": "^10.32.1"
   },
   "scripts": {
-    "build": "babel src -d lib && npm run build:bin",
+    "build": "babel src -d lib && npm run build:bin && npm run build:assets",
     "build:bin": "babel ./sequelize.js --out-file ./bin/sequelize && chmod +x ./bin/sequelize",
+    "build:assets": "cp -R ./src/assets ./lib/",
     "test": "mocha --compilers js:babel-register test"
   },
   "repository": {
