@@ -3,6 +3,17 @@ All notable changes to this project will be documented in this file.
 
 ## Upcoming
 
+## v2.8.0 - 2017-08-04
+### Added
+- Timestamps db:migrate:schema:timestamps:add [#460](https://github.com/sequelize/cli/pull/460)
+- Support for db:migrate:undo:all with `--to`, which allow reverting to a specific version [#459](https://github.com/sequelize/cli/pull/459)
+
+### Changed
+- Updated dependencies
+
+### Docs
+- FAQ section [#486](https://github.com/sequelize/cli/pull/486)
+
 ## v2.7.0 - 2017-03-25
 ### Added
 - Named db:migrate:undo [#387](https://github.com/sequelize/cli/pull/387)

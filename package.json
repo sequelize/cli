@@ -1,13 +1,13 @@
 {
   "name": "sequelize-cli",
-  "version": "2.7.0",
+  "version": "2.8.0",
   "description": "The Sequelize CLI",
   "main": "index.js",
   "dependencies": {
     "bluebird": "^3.5.0",
     "cli-color": "~1.2.0",
     "findup-sync": "^1.0.0",
-    "fs-extra": "^3.0.0",
+    "fs-extra": "^4.0.1",
     "gulp": "^3.9.1",
     "gulp-help": "~1.6.1",
     "js-beautify": "^1.6.11",
