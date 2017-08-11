@@ -36,3 +36,15 @@ $ sequelize db:seed:all
 $ sequelize db:seed:undo:all
 ```
 
+## How can I look the status of all migrations ?
+
+```
+$ sequelize  db:migrate:status  
+
+
+
+
+
+
+
+
