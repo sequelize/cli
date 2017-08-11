@@ -36,11 +36,12 @@ $ sequelize db:seed:all
 $ sequelize db:seed:undo:all
 ```
 
-
-## How can I init config?
+## How can I look the status of all migrations ?
 
 ```
-$ sequelize init:config 
+$ sequelize  db:migrate:status  
+
+
 
 
 
