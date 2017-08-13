@@ -11,6 +11,12 @@ Specify model name with `--name` argument. List of table fields can be passed wi
 $ sequelize model:create --name User --attributes name:string,state:boolean,birth:date,card:integer
 ```
 
+## How can I create a migration?
+Specify migration name with `--name` argument
+```
+$ sequelize migration:create --name <migration_name>
+```
+
 ## What is the command to executes all migrations?
 ```
 $ sequelize db:migrate
