@@ -21,6 +21,12 @@ $ sequelize migration:create --name <migration_name>
 ```
 $ sequelize db:migrate
 ```
+
+## How can I revert a migration?
+```
+$ sequelize db:migrate:undo --<migration name>
+```
+
 ## How can I make a migrations rollback?
 ```
 $ sequelize db:migrate:undo:all
