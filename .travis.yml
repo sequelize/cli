@@ -24,7 +24,7 @@ before_script:
   - "sudo mount -t ramfs tmpfs /mnt/sequelize-ramdisk"
   # setup docker
   - "docker-compose up -d ${dialect}"
-  - "if [ $DIALECT = 'mysql' ]; then docker run --link ${DIALECT}:db -e CHECK_PORT=3306 -e CHECK_HOST=db --net cli_default giorgos/takis; fi"
-  - "if [ $DIALECT = 'postgres' ]; then docker run --link ${DIALECT}:db -e CHECK_PORT=5432 -e CHECK_HOST=db --net cli_default giorgos/takis; fi"
   - npm install js2coffee@$(echo $JS2COFFEE)
   - npm install sequelize@$(echo $SEQUELIZE)
+  - "if [ $DIALECT = 'mysql' ]; then docker run --link ${DIALECT}:db -e CHECK_PORT=3306 -e CHECK_HOST=db --net cli_default giorgos/takis; fi"
+  - "if [ $DIALECT = 'postgres' ]; then docker run --link ${DIALECT}:db -e CHECK_PORT=5432 -e CHECK_HOST=db --net cli_default giorgos/takis; fi"
