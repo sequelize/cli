@@ -5,8 +5,6 @@ services:
   postgres:
     image: postgres:9.5
     environment:
-      POSTGRES_USER: sequelize_test
-      POSTGRES_PASSWORD: sequelize_test
       POSTGRES_DB: sequelize_test
     volumes:
       - /mnt/sequelize-ramdisk:/var/lib/postgresql/data
