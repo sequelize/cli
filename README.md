@@ -218,7 +218,7 @@ database, using `sequelize`, but want to use a different table, you can change t
     "migrationStorage": "json",
 
     // Use a different file name. Default: sequelize-meta.json
-    "migrationStoragePath": "sequelizeMeta.json"
+    "migrationStoragePath": "sequelizeMeta.json",
 
     // Use a different table name. Default: SequelizeMeta
     "migrationStorageTableName": "sequelize_meta"
@@ -249,7 +249,7 @@ specify the table name using `seederStorageTableName`, or it will default to `Se
     // Use a different storage. Default: none
     "seederStorage": "json",
     // Use a different file name. Default: sequelize-data.json
-    "seederStoragePath": "sequelizeData.json"
+    "seederStoragePath": "sequelizeData.json",
     // Use a different table name. Default: SequelizeData
     "seederStorageTableName": "sequelize_data"
   }
