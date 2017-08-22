@@ -3,7 +3,7 @@ version: '2'
 services:
   # PostgreSQL
   postgres:
-    image: camptocamp/postgis:9.5
+    image: postgres:9.5
     environment:
       POSTGRES_USER: sequelize_test
       POSTGRES_PASSWORD: sequelize_test
