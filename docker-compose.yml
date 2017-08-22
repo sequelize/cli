@@ -4,8 +4,8 @@ services:
   cli:
     build: .
     links:
-     - mysql-57
-     - postgres-95
+     - mysql
+     - postgres
     volumes:
       - .:/sequelize
     environment:
@@ -14,7 +14,7 @@ services:
       SEQ_PW: sequelize_test
 
   # PostgreSQL
-  postgres-95:
+  postgres:
     image: camptocamp/postgis:9.5
     environment:
       POSTGRES_USER: sequelize_test
@@ -24,10 +24,10 @@ services:
       - /mnt/sequelize-ramdisk:/var/lib/postgresql/data
     ports:
       - "127.0.0.1:8998:5432"
-    container_name: postgres-95
+    container_name: postgres
 
   # MySQL
-  mysql-57:
+  mysql:
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: lollerskates
@@ -38,4 +38,4 @@ services:
       - /mnt/sequelize-ramdisk:/var/lib/mysql
     ports:
       - "127.0.0.1:8999:3306"
-    container_name: mysql-57
+    container_name: mysql
