@@ -214,13 +214,13 @@ database, using `sequelize`, but want to use a different table, you can change t
     "host": "127.0.0.1",
     "dialect": "mysql",
 
-    "_comments_for_below_filed": "Use a different storage type. Default: sequelize",
+    "_comment_for_below_field": "Use a different storage type. Default: sequelize",
     "migrationStorage": "json",
 
-    "_comments_for_below_filed": "Use a different file name. Default: sequelize-meta.json",
+    "_comment_for_below_field": "Use a different file name. Default: sequelize-meta.json",
     "migrationStoragePath": "sequelizeMeta.json",
 
-    "_comments_for_below_filed": "Use a different table name. Default: SequelizeMeta",
+    "_comment_for_below_field": "Use a different table name. Default: SequelizeMeta",
     "migrationStorageTableName": "sequelize_meta"
   }
 }
@@ -228,7 +228,7 @@ database, using `sequelize`, but want to use a different table, you can change t
 
 NOTE: The `none` storage is not recommended as a migration storage. If you decide to use it, be
 aware of the implications of having no record of what migrations did or didn't run.
-NOTE: The `_comments_for_below_filed` field is only used for comments. Please do not include this line in your
+NOTE: The `_comment_for_below_field` field is only used for comments. Please do not include this line in your
 json config file. take this [comments in json](https://stackoverflow.com/questions/244777/can-comments-be-used-in-json)
 
 #### Seed
@@ -248,19 +248,19 @@ specify the table name using `seederStorageTableName`, or it will default to `Se
     "host": "127.0.0.1",
     "dialect": "mysql",
 
-    "_comments_for_below_filed": "Use a different storage. Default: none",
+    "_comment_for_below_field": "Use a different storage. Default: none",
     "seederStorage": "json",
 
-    "_comments_for_below_filed": "Use a different file name. Default: sequelize-data.json",
+    "_comment_for_below_field": "Use a different file name. Default: sequelize-data.json",
     "seederStoragePath": "sequelizeData.json",
 
-    "_comments_for_below_filed": "Use a different table name. Default: SequelizeData",
+    "_comment_for_below_field": "Use a different table name. Default: SequelizeData",
     "seederStorageTableName": "sequelize_data"
   }
 }
 ```
 
-NOTE: The `_comments_for_below_filed` field is only used for comments. Please do not include this line in your
+NOTE: The `_comment_for_below_field` field is only used for comments. Please do not include this line in your
 json config file. take this [comments in json](https://stackoverflow.com/questions/244777/can-comments-be-used-in-json)
 
 ### Dialect specific options
