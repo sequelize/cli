@@ -10,6 +10,8 @@ env:
 
 language: node_js
 
+node_js: 8
+
 cache:
   directories:
     - node_modules
