@@ -322,6 +322,12 @@ Please note that you can either return a Promise or call the third argument of t
 
 Additional note: If you need to access the sequelize instance, you can easily do that via `queryInterface.sequelize`. For example `queryInterface.sequelize.query('CREATE TABLE mytable();')`.
 
+## Custom Seeder and Migration templates
+
+The CLI can use your custom migration/seed templates. Simply create a file called skeleton.js in the seeders/migrations folder created by the init command. 
+
+The skeleton must export both an up and a down function.
+
 ## Help
 
 Read the manuals via `sequelize help:<task-name>` for further information.
