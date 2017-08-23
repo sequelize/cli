@@ -1,11 +1,8 @@
-before_script:
-  - "mysql -e 'create database sequelize_test;'"
-  - "psql -c 'create database sequelize_test;' -U postgres"
-  - npm install js2coffee@$(echo $JS2COFFEE)
-  - npm install sequelize@$(echo $SEQUELIZE)
+sudo: required
+dist: trusty
 
 script:
-  - travis_retry node_modules/.bin/gulp
+  - node_modules/.bin/gulp
 
 env:
   - JS2COFFEE=2.0.0 DIALECT=mysql SEQUELIZE=3.30.4
@@ -13,15 +10,19 @@ env:
 
 language: node_js
 
-node_js:
-  - "4.0"
-  - "6.0"
-
-sudo: false
-
-addons:
-  postgresql: "9.4"
+node_js: 8
 
 cache:
   directories:
     - node_modules
+
+before_script:
+  # mount ramdisk
+  - "sudo mkdir /mnt/sequelize-ramdisk"
+  - "sudo mount -t ramfs tmpfs /mnt/sequelize-ramdisk"
+  # setup docker
+  - "docker-compose up -d ${DIALECT}"
+  - npm install js2coffee@$(echo $JS2COFFEE)
+  - npm install sequelize@$(echo $SEQUELIZE)
+  - "if [ $DIALECT = 'mysql' ]; then docker run --link ${DIALECT}:db -e CHECK_PORT=3306 -e CHECK_HOST=db --net cli_default giorgos/takis; fi"
+  - "if [ $DIALECT = 'postgres' ]; then docker run --link ${DIALECT}:db -e CHECK_PORT=5432 -e CHECK_HOST=db --net cli_default giorgos/takis; fi"
