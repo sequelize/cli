@@ -20,14 +20,17 @@ exports.handler = async function (args) {
   // legacy, gulp used to do this
   await helpers.config.init();
 
-  args.seed.forEach((file, ind) => {
-    args.seed[ind] = path.basename(file);
-  });
+  // filter out cmd names
+  // for case like --seeders-path seeders --seed seedPerson.js db:seed
+  const seeds= args.seed
+    .filter(name => (name !== 'db:seed' && name !== 'db:seed:undo'))
+    .map(file => path.basename(file));
+
 
   switch (command) {
     case 'db:seed':
       await getMigrator('seeder', args).then(migrator => {
-        return migrator.up(args.seed)
+        return migrator.up(seeds)
           .catch(err => {
             console.error('Seed file failed with error:', err.message, err.stack);
             process.exit(1);
@@ -37,7 +40,7 @@ exports.handler = async function (args) {
 
     case 'db:seed:undo':
       await getMigrator('seeder', args).then(migrator => {
-        return migrator.down({ migrations: args.seed })
+        return migrator.down({ migrations: seeds })
           .catch(err => {
             console.error('Seed file failed with error:', err.message, err.stack);
             process.exit(1);
