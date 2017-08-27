@@ -1,20 +1,18 @@
-'use strict';
-
-var path        = require('path');
-var packageJson = require(path.resolve(__dirname, '..', '..', 'package.json'));
-var helpers     = require(__dirname);
-var findup      = require('findup-sync');
+const path        = require('path');
+const packageJson = require(path.resolve(__dirname, '..', '..', 'package.json'));
+const helpers     = require(__dirname);
+const findup      = require('findup-sync');
 
 module.exports = {
-  getCliVersion: function () {
+  getCliVersion () {
     return packageJson.version;
   },
 
-  getOrmVersion: function () {
+  getOrmVersion () {
     return helpers.generic.getSequelize('package.json').version;
   },
 
-  getDialect: function () {
+  getDialect () {
     try {
       return helpers.config.readConfig();
     } catch (e) {
@@ -22,8 +20,8 @@ module.exports = {
     }
   },
 
-  getDialectVersion: function () {
-    var adapterName = this.getDialectName();
+  getDialectVersion () {
+    const adapterName = this.getDialectName();
 
     try {
       if (adapterName) {
@@ -37,8 +35,8 @@ module.exports = {
     return null;
   },
 
-  getDialectName: function () {
-    var config = this.getDialect();
+  getDialectName () {
+    const config = this.getDialect();
 
     if (config) {
       return {
@@ -52,7 +50,7 @@ module.exports = {
     }
   },
 
-  getNodeVersion: function () {
+  getNodeVersion () {
     return process.version.replace('v', '');
   }
 };

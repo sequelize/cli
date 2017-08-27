@@ -1,12 +1,10 @@
-'use strict';
-
-var helpers = require(__dirname);
-var clc     = require('cli-color');
-var _       = require('lodash');
+const helpers = require(__dirname);
+const clc     = require('cli-color');
+const _       = require('lodash');
 
 module.exports = {
-  teaser: function () {
-    var versions = [
+  teaser () {
+    const versions = [
       'Node: ' + helpers.version.getNodeVersion(),
       'CLI: '  + helpers.version.getCliVersion(),
       'ORM: '  + helpers.version.getOrmVersion()
@@ -28,15 +26,15 @@ module.exports = {
   log: console.log,
   error: console.error,
 
-  pad: function (s, smth) {
-    var margin = smth;
+  pad (s, smth) {
+    let margin = smth;
 
     if (_.isObject(margin)) {
       margin = Object.keys(margin);
     }
 
     if (Array.isArray(margin)) {
-      margin = Math.max.apply(null, margin.map(function (o) {
+      margin = Math.max.apply(null, margin.map(o => {
         return o.length;
       }));
     }

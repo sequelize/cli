@@ -1,43 +1,41 @@
-'use strict';
+const path    = require('path');
+const _       = require('lodash');
+const helpers = require(__dirname);
 
-var path    = require('path');
-var _       = require('lodash');
-var helpers = require(__dirname);
-
-var storage = {
+const storage = {
   migration: 'sequelize',
   seeder: 'none'
 };
-var storageTableName = {
+const storageTableName = {
   migration: 'SequelizeMeta',
   seeder: 'SequelizeData'
 };
-var storageJsonName = {
+const storageJsonName = {
   migration: 'sequelize-meta.json',
   seeder: 'sequelize-data.json'
 };
 
 module.exports = {
-  getStorageOption: function (property, fallback) {
+  getStorageOption (property, fallback) {
     return helpers.config.readConfig()[property] || fallback;
   },
 
-  getStorage: function (type) {
+  getStorage (type) {
     return this.getStorageOption(type + 'Storage', storage[type]);
   },
 
-  getStoragePath: function (type) {
-    var fallbackPath = path.join(process.cwd(), storageJsonName[type]);
+  getStoragePath (type) {
+    const fallbackPath = path.join(process.cwd(), storageJsonName[type]);
 
     return this.getStorageOption(type + 'StoragePath', fallbackPath);
   },
 
-  getTableName: function (type) {
+  getTableName (type) {
     return this.getStorageOption(type + 'StorageTableName', storageTableName[type]);
   },
 
-  getStorageOptions: function (type, extraOptions) {
-    var options = {};
+  getStorageOptions (type, extraOptions) {
+    const options = {};
 
     if (this.getStorage(type) === 'json') {
       options.path = this.getStoragePath(type);

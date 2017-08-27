@@ -1,21 +1,19 @@
-'use strict';
+const args     = require('yargs').argv;
+const Bluebird = require('bluebird');
+const path     = require('path');
+const fs       = require('fs');
+const helpers  = require(__dirname);
+const url      = require('url');
+const _        = require('lodash');
 
-var args     = require('yargs').argv;
-var Bluebird = require('bluebird');
-var path     = require('path');
-var fs       = require('fs');
-var helpers  = require(__dirname);
-var url      = require('url');
-var _        = require('lodash');
-
-var api = {
+const api = {
   config: undefined,
   rawConfig: undefined,
   error: undefined,
-  init: function () {
+  init () {
     return Bluebird.resolve()
-      .then(function () {
-        var config;
+      .then(() => {
+        let config;
 
         if (args.url) {
           config = api.parseDbUrl(args.url);
@@ -28,7 +26,7 @@ var api = {
         }
         return config;
       })
-      .then(function (config) {
+      .then(config => {
         if (typeof config === 'object' || config === undefined) {
           return config;
         } else if (config.length === 1) {
@@ -37,34 +35,34 @@ var api = {
           return config();
         }
       })
-      .then(function (config) {
+      .then(config => {
         api.rawConfig = config;
       })
-      .then(function () {
+      .then(() => {
         // Always return the full config api
         return api;
       });
   },
-  getConfigFile: function () {
+  getConfigFile () {
     if (args.config) {
       return path.resolve(process.cwd(), args.config);
     }
 
-    var defaultPath = path.resolve(process.cwd(), 'config', 'config.json');
-    var alternativePath = defaultPath.replace('.json', '.js');
+    const defaultPath = path.resolve(process.cwd(), 'config', 'config.json');
+    const alternativePath = defaultPath.replace('.json', '.js');
 
     return helpers.path.existsSync(alternativePath) ? alternativePath : defaultPath;
   },
 
-  relativeConfigFile: function () {
+  relativeConfigFile () {
     return path.relative(process.cwd(), api.getConfigFile());
   },
 
-  configFileExists: function () {
+  configFileExists () {
     return helpers.path.existsSync(api.getConfigFile());
   },
 
-  getDefaultConfig: function () {
+  getDefaultConfig () {
     return JSON.stringify({
       development: {
         username: 'root',
@@ -90,8 +88,8 @@ var api = {
     }, undefined, 2) + '\n';
   },
 
-  writeDefaultConfig: function () {
-    var configPath = path.dirname(api.getConfigFile());
+  writeDefaultConfig () {
+    const configPath = path.dirname(api.getConfigFile());
 
     if (!helpers.path.existsSync(configPath)) {
       fs.mkdirSync(configPath);
@@ -100,9 +98,9 @@ var api = {
     fs.writeFileSync(api.getConfigFile(), api.getDefaultConfig());
   },
 
-  readConfig: function () {
+  readConfig () {
     if (!api.config) {
-      var env = helpers.generic.getEnvironment();
+      const env = helpers.generic.getEnvironment();
 
       if (api.rawConfig === undefined) {
         throw new Error(
@@ -151,36 +149,15 @@ var api = {
     return api.config;
   },
 
-  filteredUrl: function (url, config) {
-    var regExp = new RegExp(':?' + (config.password || '') + '@');
-
-    return url.replace(regExp, ':*****@');
+  filteredUrl (uri, config) {
+    const regExp = new RegExp(':?' + (config.password || '') + '@');
+    return uri.replace(regExp, ':*****@');
   },
 
-  supportsCoffee: function (options) {
-    var config = null;
-
-    options = _.assign({
-      ignoreConfig: true
-    }, options || {});
-
+  urlStringToConfigHash (urlString) {
     try {
-      config = api.readConfig();
-    } catch (e) {
-      if (options.ignoreConfig) {
-        config = {};
-      } else {
-        throw e;
-      }
-    }
-
-    return args.coffee || config.coffee;
-  },
-
-  urlStringToConfigHash: function (urlString) {
-    try {
-      var urlParts = url.parse(urlString);
-      var result   = {
+      const urlParts = url.parse(urlString);
+      let result   = {
         database: urlParts.pathname.replace(/^\//,  ''),
         host:     urlParts.hostname,
         port:     urlParts.port,
@@ -201,8 +178,8 @@ var api = {
     }
   },
 
-  parseDbUrl: function (urlString) {
-    var config = api.urlStringToConfigHash(urlString);
+  parseDbUrl (urlString) {
+    let config = api.urlStringToConfigHash(urlString);
 
     config = _.assign(config, {
       dialect: config.protocol

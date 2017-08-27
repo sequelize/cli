@@ -1,15 +1,13 @@
-'use strict';
-
-var _         = require('lodash');
-var helpers   = require(__dirname);
-var Sequelize = helpers.generic.getSequelize();
+const _         = require('lodash');
+const helpers   = require(__dirname);
+const Sequelize = helpers.generic.getSequelize();
 
 module.exports = {
-  getTableName: function (modelName) {
+  getTableName (modelName) {
     return Sequelize.Utils.pluralize(modelName);
   },
 
-  generateTableCreationFileContent: function (args) {
+  generateTableCreationFileContent (args) {
     return helpers.template.render('migrations/create-table.js', {
       tableName:  this.getTableName(args.name),
       attributes: helpers.model.transformAttributes(args.attributes),
@@ -18,13 +16,13 @@ module.exports = {
     });
   },
 
-  generateMigrationName: function (args) {
+  generateMigrationName (args) {
     return _.trimStart(_.kebabCase('create-' + args.name), '-');
   },
 
-  generateTableCreationFile: function (args) {
-    var migrationName = this.generateMigrationName(args);
-    var migrationPath = helpers.path.getMigrationPath(migrationName);
+  generateTableCreationFile (args) {
+    const migrationName = this.generateMigrationName(args);
+    const migrationPath = helpers.path.getMigrationPath(migrationName);
 
     helpers.asset.write(migrationPath, this.generateTableCreationFileContent(args));
   }
