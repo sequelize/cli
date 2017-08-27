@@ -2,13 +2,14 @@ import { _baseOptions } from '../helpers/yargs';
 import { getMigrator } from '../helpers/migrator';
 
 import helpers from '../helpers';
+import path from 'path';
 
 exports.builder =
   yargs =>
     _baseOptions(yargs)
       .option('seed', {
-        describe: 'List of seed files to unseed',
-        type: 'string'
+        describe: 'List of seed files',
+        type: 'array'
       })
       .help()
       .argv;
@@ -18,6 +19,10 @@ exports.handler = async function (args) {
 
   // legacy, gulp used to do this
   await helpers.config.init();
+
+  args.seed.forEach((file, ind) => {
+    args.seed[ind] = path.basename(file);
+  });
 
   switch (command) {
     case 'db:seed':
