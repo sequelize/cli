@@ -29,6 +29,10 @@ var _migrate_undo = require('../lib/commands/migrate_undo');
 
 var _migrate_undo2 = _interopRequireDefault(_migrate_undo);
 
+var _migrate_undo_all = require('../lib/commands/migrate_undo_all');
+
+var _migrate_undo_all2 = _interopRequireDefault(_migrate_undo_all);
+
 var _seed = require('../lib/commands/seed');
 
 var _seed2 = _interopRequireDefault(_seed);
@@ -51,7 +55,7 @@ var _seed_generate2 = _interopRequireDefault(_seed_generate);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const cli = _yargs2.default.command('db:migrate', 'Run pending migrations', _migrate2.default).command('db:migrate:schema:timestamps:add', 'Update migration table to have timestamps', _migrate2.default).command('db:migrate:status', 'List the status of all migrations', _migrate2.default).command('db:migrate:undo', 'Reverts a migration', _migrate_undo2.default).command('db:migrate:undo:all', 'Revert all migrations ran', _migrate2.default).command('db:seed', 'Run specified seeder', _seed_one2.default).command('db:seed:undo', 'Deletes data from the database', _seed_one2.default).command('db:seed:all', 'Run every seeder', _seed2.default).command('db:seed:undo:all', 'Deletes data from the database', _seed2.default).command('init', 'Initializes project', _init2.default).command('init:config', 'Initializes configuration', _init2.default).command('init:migrations', 'Initializes migrations', _init2.default).command('init:models', 'Initializes models', _init2.default).command('init:seeders', 'Initializes seeders', _init2.default).command(['migration:generate', 'migration:create'], 'Generates a new migration file', _migration_generate2.default).command(['model:generate', 'model:create'], 'Generates a model and its migration', _model_generate2.default).command(['seed:generate', 'seed:create'], 'Generates a new seed file', _seed_generate2.default).config(loadRCFile(_yargs2.default.argv.optionsPath)).version(() => _package2.default.version).help();
+const cli = _yargs2.default.command('db:migrate', 'Run pending migrations', _migrate2.default).command('db:migrate:schema:timestamps:add', 'Update migration table to have timestamps', _migrate2.default).command('db:migrate:status', 'List the status of all migrations', _migrate2.default).command('db:migrate:undo', 'Reverts a migration', _migrate_undo2.default).command('db:migrate:undo:all', 'Revert all migrations ran', _migrate_undo_all2.default).command('db:seed', 'Run specified seeder', _seed_one2.default).command('db:seed:undo', 'Deletes data from the database', _seed_one2.default).command('db:seed:all', 'Run every seeder', _seed2.default).command('db:seed:undo:all', 'Deletes data from the database', _seed2.default).command('init', 'Initializes project', _init2.default).command('init:config', 'Initializes configuration', _init2.default).command('init:migrations', 'Initializes migrations', _init2.default).command('init:models', 'Initializes models', _init2.default).command('init:seeders', 'Initializes seeders', _init2.default).command(['migration:generate', 'migration:create'], 'Generates a new migration file', _migration_generate2.default).command(['model:generate', 'model:create'], 'Generates a model and its migration', _model_generate2.default).command(['seed:generate', 'seed:create'], 'Generates a new seed file', _seed_generate2.default).config(loadRCFile(_yargs2.default.argv.optionsPath)).version(() => _package2.default.version).help();
 
 const args = cli.argv;
 

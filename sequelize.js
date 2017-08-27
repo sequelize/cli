@@ -8,6 +8,7 @@ import cliPackage from '../package';
 import init from '../lib/commands/init';
 import migrate from '../lib/commands/migrate';
 import migrateUndo from '../lib/commands/migrate_undo';
+import migrateUndoAll from '../lib/commands/migrate_undo_all';
 import seed from '../lib/commands/seed';
 import seedOne from '../lib/commands/seed_one';
 import migrationGenerate from '../lib/commands/migration_generate';
@@ -19,7 +20,7 @@ const cli = yargs
   .command('db:migrate:schema:timestamps:add', 'Update migration table to have timestamps', migrate)
   .command('db:migrate:status', 'List the status of all migrations', migrate)
   .command('db:migrate:undo', 'Reverts a migration', migrateUndo)
-  .command('db:migrate:undo:all', 'Revert all migrations ran', migrate)
+  .command('db:migrate:undo:all', 'Revert all migrations ran', migrateUndoAll)
   .command('db:seed', 'Run specified seeder', seedOne)
   .command('db:seed:undo', 'Deletes data from the database', seedOne)
   .command('db:seed:all', 'Run every seeder', seed)

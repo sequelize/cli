@@ -18,7 +18,7 @@ var gulp    = require('gulp');
         .pipe(helpers.runCli('db:migrate', { pipeStdout: false }))
         .pipe(helpers.copyMigration('renamePersonToUser.js'))
         .pipe(helpers.runCli(flag, { pipeStdout: true }))
-        .pipe(helpers.ensureContent('up   20111117063700-createPerson.js'))
+        .pipe(helpers.ensureContent('up 20111117063700-createPerson.js'))
         .pipe(helpers.ensureContent('down 20111205064000-renamePersonToUser.js'))
         .pipe(helpers.teardown(done));
     });

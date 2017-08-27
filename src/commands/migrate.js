@@ -1,7 +1,8 @@
 import { _baseOptions } from '../helpers/yargs';
-import { getMigrator, ensureCurrentMetaSchema } from '../helpers/migrator';
+import { getMigrator, ensureCurrentMetaSchema, addTimestampsToSchema } from '../helpers/migrator';
 
 import helpers from '../helpers';
+import _ from 'lodash';
 
 exports.builder = yargs => _baseOptions(yargs).help().argv;
 exports.handler = async function (args) {
@@ -14,10 +15,16 @@ exports.handler = async function (args) {
     case 'db:migrate':
       await migrate(args);
       break;
+    case 'db:migrate:schema:timestamps:add':
+      await migrateSchemaTimestampAdd(args);
+      break;
+    case 'db:migrate:status':
+      await migrationStatus(args);
+      break;
   }
 };
 
-function migrate (args) {
+function migrate(args) {
   return getMigrator('migration', args).then(migrator => {
     return ensureCurrentMetaSchema(migrator).then(() => {
       return migrator.pending();
@@ -34,5 +41,42 @@ function migrate (args) {
       console.error(err);
       process.exit(1);
     });
+  });
+}
+
+function migrationStatus(args) {
+  return getMigrator('migration', args).then(migrator => {
+    return ensureCurrentMetaSchema(migrator)
+      .then(() => migrator.executed())
+      .then(migrations => {
+        _.forEach(migrations, migration => {
+          console.log('up', migration.file);
+        });
+      }).then(() => migrator.pending())
+      .then(migrations => {
+        _.forEach(migrations, migration => {
+          console.log('down', migration.file);
+        });
+      }).catch(err => {
+        console.error(err);
+        process.exit(1);
+      });
+  });
+}
+
+function migrateSchemaTimestampAdd (args) {
+  return getMigrator('migration', args).then(migrator => {
+    return addTimestampsToSchema(migrator)
+      .then(items => {
+        if (items) {
+          console.log('Successfully added timestamps to MetaTable.');
+        } else {
+          console.log('MetaTable already has timestamps.');
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        process.exit(1);
+      });
   });
 }
