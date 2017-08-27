@@ -1,37 +1,18 @@
-'use strict';
+import path from 'path';
 
-var fs   = require('fs');
-var args = require('yargs').argv;
-var path = require('path');
-var resolve = require('resolve').sync;
+const resolve = require('resolve').sync;
+const args = require('yargs').argv;
 
-module.exports = {
-  mkdirp: function (path, root) {
-    var dirs = path.split('/');
-    var dir  = dirs.shift();
-
-    root = (root || '') + dir + '/';
-
-    try {
-      fs.mkdirSync(root);
-    } catch (e) {
-      // dir wasn't made, something went wrong
-      if (!fs.statSync(root).isDirectory()) {
-        throw new Error(e);
-      }
-    }
-
-    return !dirs.length || this.mkdirp(dirs.join('/'), root);
-  },
-
-  getEnvironment: function () {
+const generic = {
+  getEnvironment: () => {
     return args.env || process.env.NODE_ENV || 'development';
   },
 
-  getSequelize: function (file) {
-    var sequelizePath;
-    var resolvePath = file ? path.join('sequelize', file) : 'sequelize';
-    var resolveOptions = { basedir: process.cwd() };
+  getSequelize: file => {
+    const resolvePath = file ? path.join('sequelize', file) : 'sequelize';
+    const resolveOptions = { basedir: process.cwd() };
+
+    let sequelizePath;
 
     try {
       sequelizePath = require.resolve(resolvePath, resolveOptions);
@@ -48,7 +29,7 @@ module.exports = {
     return require(sequelizePath);
   },
 
-  execQuery: function (sequelize, sql, options) {
+  execQuery: (sequelize, sql, options) => {
     if (sequelize.query.length === 2) {
       return sequelize.query(sql, options);
     } else {
@@ -56,3 +37,6 @@ module.exports = {
     }
   }
 };
+
+module.exports = generic;
+module.exports.default = generic;

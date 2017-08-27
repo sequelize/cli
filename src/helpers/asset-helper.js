@@ -1,28 +1,32 @@
-'use strict';
+import fs from 'fs-extra';
+import path from 'path';
 
-var fs   = require('fs-extra');
-var path = require('path');
-
-module.exports = {
-  copy: function (from, to) {
+const assets = {
+  copy: (from, to) => {
     fs.copySync(path.resolve(__dirname, '..', 'assets', from), to);
   },
 
-  read: function (assetPath) {
+  read: assetPath => {
     return fs.readFileSync(path.resolve(__dirname, '..', 'assets', assetPath)).toString();
   },
 
-  write: function (targetPath, content) {
+  write: (targetPath, content) => {
     fs.writeFileSync(targetPath, content);
   },
 
-  inject: function (filePath, token, content) {
-    var fileContent = fs.readFileSync(filePath).toString();
-
+  inject: (filePath, token, content) => {
+    const fileContent = fs.readFileSync(filePath).toString();
     fs.writeFileSync(filePath, fileContent.replace(token, content));
   },
 
-  injectConfigFilePath: function (filePath, configPath) {
+  injectConfigFilePath: (filePath, configPath) => {
     this.inject(filePath, '__CONFIG_FILE__', configPath);
+  },
+
+  mkdirp: pathToCreate => {
+    fs.mkdirpSync(pathToCreate);
   }
 };
+
+module.exports = assets;
+module.exports.default = assets;

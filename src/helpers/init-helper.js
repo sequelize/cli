@@ -34,7 +34,7 @@ module.exports = {
     }
 
     try {
-      helpers.generic.mkdirp(folder);
+      helpers.asset.mkdirp(folder);
       console.log('Successfully created ' + folderName + ' folder at "' + folder + '".');
     } catch (e) {
       console.log(e);
