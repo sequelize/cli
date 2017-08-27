@@ -29,9 +29,9 @@ const cli = yargs
   .command('init:migrations', 'Initializes migrations', init)
   .command('init:models', 'Initializes models', init)
   .command('init:seeders', 'Initializes seeders', init)
-  .command('migration:generate', 'Generates a new migration file', migrationGenerate)
-  .command('model:generate', 'Generates a model and its migration', modelGenerate)
-  .command('seed:generate', 'Generates a new seed file', seedGenerate)
+  .command(['migration:generate', 'migration:create'], 'Generates a new migration file', migrationGenerate)
+  .command(['model:generate', 'model:create'], 'Generates a model and its migration', modelGenerate)
+  .command(['seed:generate', 'seed:create'], 'Generates a new seed file', seedGenerate)
   .config(loadRCFile(yargs.argv.optionsPath))
   .version(() => cliPackage.version)
   .help();

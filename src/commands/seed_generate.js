@@ -1,5 +1,10 @@
 import { _baseOptions } from '../helpers/yargs';
 
+import path from 'path';
+import helpers from '../helpers';
+import fs from 'fs';
+import clc from 'cli-color';
+
 exports.builder =
   yargs =>
     _baseOptions(yargs)
@@ -12,4 +17,18 @@ exports.builder =
       .argv;
 
 exports.handler = function (args) {
+  helpers.init.createSeedersFolder();
+
+  fs.writeFileSync(
+    helpers.path.getSeederPath(args.name),
+    helpers.template.render('seeders/skeleton.js', {}, {
+      beautify: false
+    })
+  );
+
+  helpers.view.log(
+    'New seed was created at',
+    clc.blueBright(helpers.path.getSeederPath(args.name)),
+    '.'
+  );
 };

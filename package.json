@@ -34,14 +34,14 @@
     "unexpected": "^10.32.1"
   },
   "options": {
-    "mocha": "--recursive --check-leaks --timeout 1000 --colors --reporter spec"
+    "mocha": "--check-leaks --timeout 2000 --colors --reporter spec"
   },
   "scripts": {
     "build": "npm run build:clean && babel src -d lib && npm run build:bin && npm run build:assets",
     "build:bin": "babel ./sequelize.js --out-file ./bin/sequelize && chmod +x ./bin/sequelize",
     "build:assets": "cp -R ./src/assets ./lib/",
     "build:clean": "rm -rf ./lib/",
-    "test": "mocha $npm_package_options_mocha \"test/*.test.js\""
+    "test": "mocha $npm_package_options_mocha 'test/**/*.test.js'"
   },
   "repository": {
     "type": "git",

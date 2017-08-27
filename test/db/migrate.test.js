@@ -12,7 +12,6 @@ var _         = require('lodash');
   '--migrations-path migrations db:migrate',
   'db:migrate --migrations-path ./migrations',
   'db:migrate --migrations-path ./migrations/',
-  'db:migrate --coffee',
   'db:migrate --config ../../support/tmp/config/config.json',
   'db:migrate --config ' + Support.resolveSupportPath('tmp', 'config', 'config.json'),
   'db:migrate --config ../../support/tmp/config/config.js',

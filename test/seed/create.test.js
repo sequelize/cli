@@ -7,13 +7,10 @@ var gulp      = require('gulp');
 var _         = require('lodash');
 
 ([
-  'seed:create',
-  'seed:generate',
-  'seed:create --coffee',
-  'seed:generate --coffee'
+  'seed:create'
 ]).forEach(function (flag) {
   describe(Support.getTestDialectTeaser(flag), function () {
-    var seedFile = 'foo.' + (_.includes(flag, '--coffee') ? 'coffee' : 'js');
+    var seedFile = 'foo.js'
 
     var prepare = function (callback) {
       gulp
@@ -31,12 +28,13 @@ var _         = require('lodash');
           return (parseInt(i, 10) < 10 ? '0' + i : i);
         };
         var sDate       = [
-          date.getFullYear(),
-          format(date.getMonth() + 1),
-          format(date.getDate()),
-          format(date.getHours()),
-          format(date.getMinutes())
+          date.getUTCFullYear(),
+          format(date.getUTCMonth() + 1),
+          format(date.getUTCDate()),
+          format(date.getUTCHours()),
+          format(date.getUTCMinutes())
         ].join('');
+
         var expectation = new RegExp(sDate + '..-' + seedFile);
 
         gulp

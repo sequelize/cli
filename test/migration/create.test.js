@@ -7,10 +7,7 @@ var gulp      = require('gulp');
 var _         = require('lodash');
 
 ([
-  'migration:create',
-  'migration:generate',
-  'migration:create --coffee',
-  'migration:generate --coffee'
+  'migration:create'
 ]).forEach(function (flag) {
   describe(Support.getTestDialectTeaser(flag), function () {
     var migrationFile = 'foo.' + (_.includes(flag, '--coffee') ? 'coffee' : 'js');
@@ -31,11 +28,11 @@ var _         = require('lodash');
           return (parseInt(i, 10) < 10 ? '0' + i : i);
         };
         var sDate       = [
-          date.getFullYear(),
-          format(date.getMonth() + 1),
-          format(date.getDate()),
-          format(date.getHours()),
-          format(date.getMinutes())
+          date.getUTCFullYear(),
+          format(date.getUTCMonth() + 1),
+          format(date.getUTCDate()),
+          format(date.getUTCHours()),
+          format(date.getUTCMinutes())
         ].join('');
         var expectation = new RegExp(sDate + '..-' + migrationFile);
 

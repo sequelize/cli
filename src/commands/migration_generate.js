@@ -1,5 +1,10 @@
 import { _baseOptions, _underscoreOption } from '../helpers/yargs';
 
+import path from 'path';
+import helpers from '../helpers';
+import fs from 'fs';
+import clc from 'cli-color';
+
 exports.builder =
   yargs =>
     _underscoreOption(
@@ -14,4 +19,18 @@ exports.builder =
       .argv;
 
 exports.handler = function (args) {
+  helpers.init.createMigrationsFolder();
+
+  fs.writeFileSync(
+    helpers.path.getMigrationPath(args.name),
+    helpers.template.render('migrations/skeleton.js', {}, {
+      beautify: false
+    })
+  );
+
+  helpers.view.log(
+    'New migration was created at',
+    clc.blueBright(helpers.path.getMigrationPath(args.name)),
+    '.'
+  );
 };

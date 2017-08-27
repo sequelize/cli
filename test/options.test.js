@@ -5,7 +5,7 @@ var helpers     = require(__dirname + '/support/helpers');
 var gulp        = require('gulp');
 var optionsPath = Support.resolveSupportPath('config', 'options.js');
 
-describe(Support.getTestDialectTeaser('options'), function () {
+describe.skip(Support.getTestDialectTeaser('options'), function () {
   describe('--options-path', function () {
     [
       optionsPath,

@@ -7,8 +7,7 @@ var gulp      = require('gulp');
 var _         = require('lodash');
 
 ([
-  'model:create',
-  'model:generate'
+  'model:create'
 ]).forEach(function (flag) {
   describe(Support.getTestDialectTeaser(flag), function () {
     var combineFlags = function (flags) {
@@ -49,7 +48,7 @@ var _         = require('lodash');
             flags: { attributes: 'first_name:string' },
             cli: { pipeStderr: true }
           }, function (err, stdout) {
-            expect(stdout).to.match(/Unspecified flag.*name/);
+            expect(stdout).to.match(/Missing required argument: name/);
             done();
           });
         });
@@ -70,7 +69,7 @@ var _         = require('lodash');
             flags: { name: 'User' },
             cli: { pipeStderr: true }
           }, function (err, stdout) {
-            expect(stdout).to.match(/Unspecified flag.*attributes/);
+            expect(stdout).to.match(/Missing required argument: attributes/);
             done();
           });
         });
