@@ -1,5 +1,3 @@
-
-
 const _        = require('lodash');
 const beautify = require('js-beautify');
 const helpers  = require(__dirname);

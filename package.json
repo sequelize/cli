@@ -38,15 +38,17 @@
     "mocha": "--check-leaks --timeout 10000 --colors --reporter spec"
   },
   "eslintIgnore": [
-    "test"
+    "test",
+    "src/assets"
   ],
   "scripts": {
     "build": "npm run build-clean && babel src -d lib && npm run build-bin && npm run build-assets",
     "build-bin": "babel ./sequelize.js --out-file ./bin/sequelize && chmod +x ./bin/sequelize",
     "build-assets": "cp -R ./src/assets ./lib/",
     "build-clean": "rm -rf ./lib/",
+    "lint": "eslint src sequelize.js",
     "test-raw": "mocha $npm_package_options_mocha 'test/**/*.test.js'",
-    "test": "npm run build && npm run test-raw"
+    "test": "npm run lint && npm run build && npm run test-raw"
   },
   "repository": {
     "type": "git",

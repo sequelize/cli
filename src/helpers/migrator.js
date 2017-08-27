@@ -79,7 +79,7 @@ export function ensureCurrentMetaSchema (migrator) {
     .then(table => {
       const columns = Object.keys(table);
 
-      if ((columns.length === 1) && (columns[0] === columnName)) {
+      if (columns.length === 1 && columns[0] === columnName) {
         return;
       } else if (columns.length === 3 && columns.indexOf('createdAt') >= 0) {
         return;

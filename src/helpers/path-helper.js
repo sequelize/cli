@@ -1,4 +1,3 @@
-const helpers = require(__dirname);
 const args    = require('yargs').argv;
 const fs      = require('fs');
 const path    = require('path');
