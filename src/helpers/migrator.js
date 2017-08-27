@@ -4,15 +4,14 @@ const Sequelize = helpers.generic.getSequelize();
 import Umzug from 'umzug';
 import Bluebird from 'bluebird';
 import _ from 'lodash';
-import fs from 'fs';
 
-function logMigrator(s) {
+function logMigrator (s) {
   if (s.indexOf('Executing') !== 0) {
     helpers.view.log(s);
   }
 }
 
-function getSequelizeInstance() {
+function getSequelizeInstance () {
   let config = null;
 
   try {
@@ -32,7 +31,7 @@ function getSequelizeInstance() {
   }
 }
 
-export function getMigrator(type, args) {
+export function getMigrator (type, args) {
   return Bluebird.try(() => {
     if (!(helpers.config.configFileExists() || args.url)) {
       console.log(
@@ -71,11 +70,10 @@ export function getMigrator(type, args) {
   });
 }
 
-export function ensureCurrentMetaSchema(migrator) {
+export function ensureCurrentMetaSchema (migrator) {
   const queryInterface = migrator.options.storageOptions.sequelize.getQueryInterface();
   const tableName = migrator.options.storageOptions.tableName;
   const columnName = migrator.options.storageOptions.columnName;
-  const config = helpers.config.readConfig();
 
   return ensureMetaTable(queryInterface, tableName)
     .then(table => {
@@ -85,83 +83,18 @@ export function ensureCurrentMetaSchema(migrator) {
         return;
       } else if (columns.length === 3 && columns.indexOf('createdAt') >= 0) {
         return;
-      } else {
-        if (!config.autoMigrateOldSchema) {
-          console.error(
-            'Database schema was not migrated. Please run ' +
-            '"sequelize db:migrate:old_schema" first.'
-          );
-          process.exit(1);
-        }
-
-        return tryToMigrateFromOldSchema(migrator);
       }
     })
-    .catch(() => { });
+    .catch(() => {});
 }
 
-function ensureMetaTable(queryInterface, tableName) {
+function ensureMetaTable (queryInterface, tableName) {
   return queryInterface.showAllTables()
     .then(tableNames => {
       if (tableNames.indexOf(tableName) === -1) {
         throw new Error('No MetaTable table found.');
       }
-    })
-    .then(queryInterface.describeTable(tableName));
-}
-
-/**
- * tryToMigrateFromOldSchema - migrates from old schema
- *
- * @return {Promise}
- */
-function tryToMigrateFromOldSchema(migrator) {
-  const sequelize = migrator.options.storageOptions.sequelize;
-  const queryInterface = sequelize.getQueryInterface();
-
-  return ensureMetaTable(queryInterface, 'SequelizeMeta')
-    .then(table => {
-      if (JSON.stringify(Object.keys(table).sort()) === JSON.stringify(['id', 'from', 'to'])) {
-        return;
-      }
-      return queryInterface.renameTable('SequelizeMeta', 'SequelizeMetaBackup')
-        .then(() => {
-          const sql = queryInterface.QueryGenerator.selectQuery('SequelizeMetaBackup');
-          return helpers.generic.execQuery(sequelize, sql, { type: 'SELECT', raw: true });
-        })
-        .then(result => {
-          const timestamps = result.map(item => item.to);
-          const files = fs.readdirSync(helpers.path.getPath('migration'));
-
-          return files.filter(file => {
-            const match = file.match(/(\d+)-?/);
-
-            if (match) {
-              const timestamp = match[0].replace('-', '');
-              return timestamps.indexOf(timestamp) > -1;
-            }
-          });
-        })
-        .then(files => {
-          const SequelizeMeta = sequelize.define('SequelizeMeta', {
-            name: {
-              type: Sequelize.STRING,
-              allowNull: false,
-              unique: true,
-              primaryKey: true,
-              autoIncrement: false
-            }
-          }, {
-            tableName: 'SequelizeMeta',
-            timestamps: false
-          });
-
-          return SequelizeMeta.sync().then(() => {
-            return SequelizeMeta.bulkCreate(
-              files.map(file => ({ name: file }))
-            );
-          });
-        });
+      return queryInterface.describeTable(tableName);
     });
 }
 
@@ -170,7 +103,7 @@ function tryToMigrateFromOldSchema(migrator) {
  *
  * @return {Promise}
  */
-export function addTimestampsToSchema(migrator) {
+export function addTimestampsToSchema (migrator) {
   const sequelize = migrator.options.storageOptions.sequelize;
   const queryInterface = sequelize.getQueryInterface();
   const tableName = migrator.options.storageOptions.tableName;

@@ -24,7 +24,7 @@ exports.handler = async function (args) {
   }
 };
 
-function migrate(args) {
+function migrate (args) {
   return getMigrator('migration', args).then(migrator => {
     return ensureCurrentMetaSchema(migrator).then(() => {
       return migrator.pending();
@@ -44,7 +44,7 @@ function migrate(args) {
   });
 }
 
-function migrationStatus(args) {
+function migrationStatus (args) {
   return getMigrator('migration', args).then(migrator => {
     return ensureCurrentMetaSchema(migrator)
       .then(() => migrator.executed())

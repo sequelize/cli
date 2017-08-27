@@ -4,7 +4,6 @@ var expect    = require('expect.js');
 var Support   = require(__dirname + '/../../../support');
 var helpers   = require(__dirname + '/../../../support/helpers');
 var gulp      = require('gulp');
-var execQuery = helpers.execQuery;
 
 ([
   'db:migrate:schema:timestamps:add'
@@ -45,7 +44,7 @@ var execQuery = helpers.execQuery;
     });
 
     it('keeps the data in the original table', function (done) {
-      execQuery(
+      helpers.execQuery(
         this.sequelize,
         this.sequelize.getQueryInterface().QueryGenerator.selectQuery('SequelizeMetaBackup'),
         { raw: true }
@@ -79,7 +78,7 @@ var execQuery = helpers.execQuery;
     });
 
     it('copies the entries into the new table', function (done) {
-      execQuery(
+      helpers.execQuery(
         this.sequelize,
         this.sequelize.getQueryInterface().QueryGenerator.selectQuery('SequelizeMeta'),
         { raw: true, type: 'SELECT' }
@@ -97,7 +96,7 @@ var execQuery = helpers.execQuery;
       .src(Support.resolveSupportPath('tmp'))
       .pipe(helpers.runCli('db:migrate:undo'))
       .pipe(helpers.teardown(function () {
-        execQuery(
+        helpers.execQuery(
           self.sequelize,
           self.sequelize.getQueryInterface().QueryGenerator.selectQuery('SequelizeMeta'),
           { raw: true, type: 'SELECT' }
