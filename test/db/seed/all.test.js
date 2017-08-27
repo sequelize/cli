@@ -12,7 +12,6 @@ var _         = require('lodash');
   '--seeders-path seeders db:seed:all',
   'db:seed:all --seeders-path ./seeders',
   'db:seed:all --seeders-path ./seeders/',
-  'db:seed:all --coffee',
   'db:seed:all --config ../../support/tmp/config/config.json',
   'db:seed:all --config ' + Support.resolveSupportPath('tmp', 'config', 'config.json'),
   'db:seed:all --config ../../support/tmp/config/config.js'
@@ -24,9 +23,9 @@ var _         = require('lodash');
     var seederFile    = options.seederFile || 'seedPerson';
     var config        = _.assign({}, helpers.getTestConfig(), options.config);
     var configContent = JSON.stringify(config);
-    var migrationFile = 'createPerson.'  + ((flag.indexOf('coffee') === -1) ? 'js' : 'coffee');
+    var migrationFile = 'createPerson.js';
 
-    seederFile = seederFile + '.'  + ((flag.indexOf('coffee') === -1) ? 'js' : 'coffee');
+    seederFile = seederFile + '.js';
 
     if (flag.match(/config\.js$/)) {
       configPath    = configPath + 'config.js';

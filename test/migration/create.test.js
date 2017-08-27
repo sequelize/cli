@@ -10,8 +10,7 @@ var _         = require('lodash');
   'migration:create'
 ]).forEach(function (flag) {
   describe(Support.getTestDialectTeaser(flag), function () {
-    var migrationFile = 'foo.' + (_.includes(flag, '--coffee') ? 'coffee' : 'js');
-
+    var migrationFile = 'foo.js';
     var prepare = function (callback) {
       gulp
         .src(Support.resolveSupportPath('tmp'))
@@ -50,13 +49,8 @@ var _         = require('lodash');
           .src(Support.resolveSupportPath('tmp', 'migrations'))
           .pipe(helpers.readFile('*-' + migrationFile))
           .pipe(helpers.expect(function (stdout) {
-            if (_.includes(flag, 'coffee')) {
-              expect(stdout).to.contain('up: (queryInterface, Sequelize) ->');
-              expect(stdout).to.contain('down: (queryInterface, Sequelize) ->');
-            } else {
-              expect(stdout).to.contain('up: function (queryInterface, Sequelize) {');
-              expect(stdout).to.contain('down: function (queryInterface, Sequelize) {');
-            }
+            expect(stdout).to.contain('up: function (queryInterface, Sequelize) {');
+            expect(stdout).to.contain('down: function (queryInterface, Sequelize) {');
           }))
           .pipe(helpers.teardown(done));
       });

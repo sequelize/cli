@@ -2,10 +2,14 @@ import { _baseOptions } from '../helpers/yargs';
 import { getMigrator } from '../helpers/migrator';
 
 import helpers from '../helpers';
+import _ from 'lodash';
 
 exports.builder = yargs => _baseOptions(yargs).help().argv;
 exports.handler = async function (args) {
   const command = args._[0];
+
+  // legacy, gulp used to do this
+  await helpers.config.init();
 
   switch (command) {
     case 'db:seed:all':
@@ -18,7 +22,7 @@ exports.handler = async function (args) {
   }
 };
 
-function seedAll(args) {
+function seedAll (args) {
   return getMigrator('seeder', args).then(migrator => {
     return migrator.pending()
       .then(seeders => {
@@ -36,7 +40,7 @@ function seedAll(args) {
   });
 }
 
-function seedUndoAll(args) {
+function seedUndoAll (args) {
   return getMigrator('seeder', args).then(migrator => {
     return (
       helpers.umzug.getStorage('seeder') === 'none' ? migrator.pending() : migrator.executed()

@@ -27,8 +27,7 @@ var _         = require('lodash');
     var config        = _.assign({}, helpers.getTestConfig(), options.config);
     var configContent = JSON.stringify(config);
 
-    migrationFile = migrationFile + '.'  + ((flag.indexOf('coffee') === -1) ? 'js' : 'coffee');
-
+    migrationFile = migrationFile + '.js';
     if (flag.match(/config\.js$/)) {
       configPath    = configPath + 'config.js';
       configContent = 'module.exports = ' + configContent;

@@ -51,13 +51,8 @@ var _         = require('lodash');
           .src(Support.resolveSupportPath('tmp', 'seeders'))
           .pipe(helpers.readFile('*-' + seedFile))
           .pipe(helpers.expect(function (stdout) {
-            if (_.includes(flag, 'coffee')) {
-              expect(stdout).to.contain('up: (queryInterface, Sequelize) ->');
-              expect(stdout).to.contain('down: (queryInterface, Sequelize) ->');
-            } else {
-              expect(stdout).to.contain('up: function (queryInterface, Sequelize) {');
-              expect(stdout).to.contain('down: function (queryInterface, Sequelize) {');
-            }
+            expect(stdout).to.contain('up: function (queryInterface, Sequelize) {');
+            expect(stdout).to.contain('down: function (queryInterface, Sequelize) {');
           }))
           .pipe(helpers.teardown(done));
       });

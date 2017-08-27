@@ -1,6 +1,8 @@
 import { _baseOptions } from '../helpers/yargs';
 import { getMigrator } from '../helpers/migrator';
 
+import helpers from '../helpers';
+
 exports.builder =
   yargs =>
     _baseOptions(yargs)
@@ -14,6 +16,9 @@ exports.builder =
 exports.handler = async function (args) {
   const command = args._[0];
 
+  // legacy, gulp used to do this
+  await helpers.config.init();
+
   switch (command) {
     case 'db:seed':
       await getMigrator('seeder', args).then(migrator => {
@@ -26,7 +31,7 @@ exports.handler = async function (args) {
       break;
 
     case 'db:seed:undo':
-      await getMigrator('seeder').then(migrator => {
+      await getMigrator('seeder', args).then(migrator => {
         return migrator.down({ migrations: args.seed })
           .catch(err => {
             console.error('Seed file failed with error:', err.message, err.stack);
