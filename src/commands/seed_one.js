@@ -12,11 +12,28 @@ exports.builder =
       .argv;
 
 exports.handler = async function (args) {
-  await getMigrator('seeder', args).then(migrator => {
-    return migrator.up(args.seed)
-      .catch(err => {
-        console.error('Seed file failed with error:', err.message, err.stack);
-        process.exit(1);
+  const command = args._[0];
+
+  switch (command) {
+    case 'db:seed':
+      await getMigrator('seeder', args).then(migrator => {
+        return migrator.up(args.seed)
+          .catch(err => {
+            console.error('Seed file failed with error:', err.message, err.stack);
+            process.exit(1);
+          });
       });
-  });
+      break;
+
+    case 'db:seed:undo':
+      await getMigrator('seeder').then(migrator => {
+        return migrator.down({ migrations: args.seed })
+          .catch(err => {
+            console.error('Seed file failed with error:', err.message, err.stack);
+            process.exit(1);
+          });
+      });
+      break;
+  }
 };
+
