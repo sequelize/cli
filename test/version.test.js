@@ -1,5 +1,3 @@
-/* jshint -W030 */
-
 'use strict';
 
 var expect    = require('expect.js');
@@ -9,10 +7,7 @@ var helpers   = require(__dirname + '/support/helpers');
 var gulp      = require('gulp');
 
 ([
-  'version',
-  'v',
-  '-v',
-  '-V'
+  '--version'
 ]).forEach(function (flag) {
   describe(Support.getTestDialectTeaser(flag), function () {
     it('prints the version', function (done) {
