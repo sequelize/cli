@@ -66,5 +66,6 @@ if (!args._[0]) {
 
 function loadRCFile(optionsPath) {
   const rcFile = optionsPath || _path2.default.resolve(process.cwd(), '.sequelizerc');
-  return _fs2.default.existsSync(rcFile) ? JSON.parse(_fs2.default.readFileSync(rcFile)) : {};
+  const rcFileResolved = _path2.default.resolve(rcFile);
+  return _fs2.default.existsSync(rcFileResolved) ? JSON.parse(JSON.stringify(require(rcFileResolved))) : {};
 };
