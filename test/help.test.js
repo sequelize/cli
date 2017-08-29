@@ -1,14 +1,12 @@
-'use strict';
+const Support = require(__dirname + '/support');
+const helpers = require(__dirname + '/support/helpers');
+const gulp    = require('gulp');
 
-var Support = require(__dirname + '/support');
-var helpers = require(__dirname + '/support/helpers');
-var gulp    = require('gulp');
-
-([
+[
   '--help'
-]).forEach(function (flag) {
-  describe(Support.getTestDialectTeaser(flag), function () {
-    it('prints the help', function (done) {
+].forEach(flag => {
+  describe(Support.getTestDialectTeaser(flag), () => {
+    it('prints the help', done => {
       gulp
         .src(process.cwd())
         .pipe(helpers.runCli(flag, { pipeStdout: true }))

@@ -1,14 +1,14 @@
-  'use strict';
 
-var Support = require(__dirname + '/../../support');
-var helpers = require(__dirname + '/../../support/helpers');
-var gulp    = require('gulp');
 
-([
+const Support = require(__dirname + '/../../support');
+const helpers = require(__dirname + '/../../support/helpers');
+const gulp    = require('gulp');
+
+[
   'db:migrate:status'
-]).forEach(function (flag) {
-  describe(Support.getTestDialectTeaser(flag), function () {
-    it('is correctly reports a down and an up migration', function (done) {
+].forEach(flag => {
+  describe(Support.getTestDialectTeaser(flag), () => {
+    it('is correctly reports a down and an up migration', done => {
       gulp
         .src(Support.resolveSupportPath('tmp'))
         .pipe(helpers.clearDirectory())

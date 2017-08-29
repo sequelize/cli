@@ -55,7 +55,7 @@ var Support = {
 
   createSequelizeInstance: function (options) {
     options = options || {};
-    options.dialect = options.dialect || 'mysql';
+    options.dialect = options.dialect || 'sqlite';
 
     var config = Config[options.dialect];
     var sequelizeOptions = _.defaults(options, {
@@ -130,7 +130,7 @@ var Support = {
   },
 
   getTestDialect: function () {
-    var envDialect = process.env.DIALECT || 'mysql';
+    var envDialect = process.env.DIALECT || 'sqlite';
 
     if (envDialect === 'postgres-native') {
       envDialect = 'postgres';

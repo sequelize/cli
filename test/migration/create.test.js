@@ -1,17 +1,14 @@
-'use strict';
+const expect    = require('expect.js');
+const Support   = require(__dirname + '/../support');
+const helpers   = require(__dirname + '/../support/helpers');
+const gulp      = require('gulp');
 
-var expect    = require('expect.js');
-var Support   = require(__dirname + '/../support');
-var helpers   = require(__dirname + '/../support/helpers');
-var gulp      = require('gulp');
-var _         = require('lodash');
-
-([
+[
   'migration:create'
-]).forEach(function (flag) {
-  describe(Support.getTestDialectTeaser(flag), function () {
-    var migrationFile = 'foo.js';
-    var prepare = function (callback) {
+].forEach(flag => {
+  describe(Support.getTestDialectTeaser(flag), () => {
+    const migrationFile = 'foo.js';
+    const prepare = function (callback) {
       gulp
         .src(Support.resolveSupportPath('tmp'))
         .pipe(helpers.clearDirectory())
@@ -20,20 +17,20 @@ var _         = require('lodash');
         .pipe(helpers.teardown(callback));
     };
 
-    it('creates a new file with the current timestamp', function (done) {
-      prepare(function () {
-        var date        = new Date();
-        var format      = function (i) {
-          return (parseInt(i, 10) < 10 ? '0' + i : i);
+    it('creates a new file with the current timestamp', done => {
+      prepare(() => {
+        const date        = new Date();
+        const format      = function (i) {
+          return parseInt(i, 10) < 10 ? '0' + i : i;
         };
-        var sDate       = [
+        const sDate       = [
           date.getUTCFullYear(),
           format(date.getUTCMonth() + 1),
           format(date.getUTCDate()),
           format(date.getUTCHours()),
           format(date.getUTCMinutes())
         ].join('');
-        var expectation = new RegExp(sDate + '..-' + migrationFile);
+        const expectation = new RegExp(sDate + '..-' + migrationFile);
 
         gulp
           .src(Support.resolveSupportPath('tmp', 'migrations'))
@@ -43,12 +40,12 @@ var _         = require('lodash');
       });
     });
 
-    it('adds a skeleton with an up and a down method', function (done) {
-      prepare(function () {
+    it('adds a skeleton with an up and a down method', done => {
+      prepare(() => {
         gulp
           .src(Support.resolveSupportPath('tmp', 'migrations'))
           .pipe(helpers.readFile('*-' + migrationFile))
-          .pipe(helpers.expect(function (stdout) {
+          .pipe(helpers.expect(stdout => {
             expect(stdout).to.contain('up: function (queryInterface, Sequelize) {');
             expect(stdout).to.contain('down: function (queryInterface, Sequelize) {');
           }))

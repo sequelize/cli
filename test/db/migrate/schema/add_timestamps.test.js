@@ -1,30 +1,30 @@
-'use strict';
 
-var expect    = require('expect.js');
-var Support   = require(__dirname + '/../../../support');
-var helpers   = require(__dirname + '/../../../support/helpers');
-var gulp      = require('gulp');
 
-([
+const expect    = require('expect.js');
+const Support   = require(__dirname + '/../../../support');
+const helpers   = require(__dirname + '/../../../support/helpers');
+const gulp      = require('gulp');
+
+[
   'db:migrate:schema:timestamps:add'
-]).forEach(function (flag) {
-  var prepare = function (config, callback) {
+].forEach(flag => {
+  const prepare = function (config, callback) {
     config = helpers.getTestConfig(config);
 
     gulp
-    .src(Support.resolveSupportPath('tmp'))
-    .pipe(helpers.clearDirectory())
-    .pipe(helpers.runCli('init'))
-    .pipe(helpers.copyMigration('createPerson.js'))
-    .pipe(helpers.copyMigration('renamePersonToUser.js'))
-    .pipe(helpers.overwriteFile(JSON.stringify(config), 'config/config.json'))
-    .pipe(helpers.runCli('db:migrate'))
-    .pipe(helpers.teardown(callback));
+      .src(Support.resolveSupportPath('tmp'))
+      .pipe(helpers.clearDirectory())
+      .pipe(helpers.runCli('init'))
+      .pipe(helpers.copyMigration('createPerson.js'))
+      .pipe(helpers.copyMigration('renamePersonToUser.js'))
+      .pipe(helpers.overwriteFile(JSON.stringify(config), 'config/config.json'))
+      .pipe(helpers.runCli('db:migrate'))
+      .pipe(helpers.teardown(callback));
   };
 
-  describe(Support.getTestDialectTeaser(flag), function () {
+  describe(Support.getTestDialectTeaser(flag), () => {
     beforeEach(function (done) {
-      prepare.call(this, null, function () {
+      prepare.call(this, null, () => {
         return gulp
           .src(Support.resolveSupportPath('tmp'))
           .pipe(helpers.runCli(flag))
@@ -33,9 +33,9 @@ var gulp      = require('gulp');
     });
 
     it('renames the original table', function (done) {
-      var self = this;
+      const self = this;
 
-      helpers.readTables(self.sequelize, function (tables) {
+      helpers.readTables(self.sequelize, tables => {
         expect(tables).to.have.length(3);
         expect(tables.indexOf('SequelizeMeta')).to.be.above(-1);
         expect(tables.indexOf('SequelizeMetaBackup')).to.be.above(-1);
@@ -48,21 +48,21 @@ var gulp      = require('gulp');
         this.sequelize,
         this.sequelize.getQueryInterface().QueryGenerator.selectQuery('SequelizeMetaBackup'),
         { raw: true }
-      ).then(function (items) {
+      ).then(items => {
         expect(items.length).to.equal(2);
         done();
       });
     });
 
     it('keeps the structure of the original table', function (done) {
-      var self = this;
+      const self = this;
 
-      helpers.readTables(self.sequelize, function () {
+      helpers.readTables(self.sequelize, () => {
         return self
           .sequelize
           .getQueryInterface()
           .describeTable('SequelizeMetaBackup')
-          .then(function (fields) {
+          .then(fields => {
             expect(Object.keys(fields).sort()).to.eql(['name']);
             done();
             return null;
@@ -71,7 +71,7 @@ var gulp      = require('gulp');
     });
 
     it('creates a new SequelizeMeta table with the new structure', function (done) {
-      this.sequelize.getQueryInterface().describeTable('SequelizeMeta').then(function (fields) {
+      this.sequelize.getQueryInterface().describeTable('SequelizeMeta').then(fields => {
         expect(Object.keys(fields).sort()).to.eql(['createdAt', 'name', 'updatedAt']);
         done();
       });
@@ -82,7 +82,7 @@ var gulp      = require('gulp');
         this.sequelize,
         this.sequelize.getQueryInterface().QueryGenerator.selectQuery('SequelizeMeta'),
         { raw: true, type: 'SELECT' }
-      ).then(function (items) {
+      ).then(items => {
         expect(items[0].name).to.eql('20111117063700-createPerson.js');
         expect(items[1].name).to.eql('20111205064000-renamePersonToUser.js');
         done();
@@ -90,21 +90,21 @@ var gulp      = require('gulp');
     });
 
     it('is possible to undo one of the already executed migrations', function (done) {
-      var self = this;
+      const self = this;
 
       gulp
-      .src(Support.resolveSupportPath('tmp'))
-      .pipe(helpers.runCli('db:migrate:undo'))
-      .pipe(helpers.teardown(function () {
-        helpers.execQuery(
-          self.sequelize,
-          self.sequelize.getQueryInterface().QueryGenerator.selectQuery('SequelizeMeta'),
-          { raw: true, type: 'SELECT' }
-        ).then(function (items) {
-          expect(items[0].name).to.eql('20111117063700-createPerson.js');
-          done();
-        });
-      }));
+        .src(Support.resolveSupportPath('tmp'))
+        .pipe(helpers.runCli('db:migrate:undo'))
+        .pipe(helpers.teardown(() => {
+          helpers.execQuery(
+            self.sequelize,
+            self.sequelize.getQueryInterface().QueryGenerator.selectQuery('SequelizeMeta'),
+            { raw: true, type: 'SELECT' }
+          ).then(items => {
+            expect(items[0].name).to.eql('20111117063700-createPerson.js');
+            done();
+          });
+        }));
     });
   });
 });

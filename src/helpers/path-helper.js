@@ -15,7 +15,8 @@ function getCurrentYYYYMMDDHHmms () {
     format(date.getUTCMonth() + 1),
     format(date.getUTCDate()),
     format(date.getUTCHours()),
-    format(date.getUTCMinutes())
+    format(date.getUTCMinutes()),
+    format(date.getUTCSeconds())
   ].join('');
 }
 

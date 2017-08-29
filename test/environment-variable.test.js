@@ -1,11 +1,9 @@
-'use strict';
+const expect  = require('expect.js');
+const Support = require(__dirname + '/support');
+const helpers = require(__dirname + '/support/helpers');
+const gulp    = require('gulp');
 
-var expect  = require('expect.js');
-var Support = require(__dirname + '/support');
-var helpers = require(__dirname + '/support/helpers');
-var gulp    = require('gulp');
-
-var prepare = function (callback) {
+const prepare = function (callback) {
   gulp
     .src(Support.resolveSupportPath('tmp'))
     .pipe(helpers.clearDirectory())
@@ -21,11 +19,11 @@ var prepare = function (callback) {
     .pipe(helpers.teardown(callback));
 };
 
-describe(Support.getTestDialectTeaser('use_env_variable'), function () {
+describe(Support.getTestDialectTeaser('use_env_variable'), () => {
   beforeEach(prepare);
 
   it('correctly runs the migration', function (done) {
-    helpers.readTables(this.sequelize, function (tables) {
+    helpers.readTables(this.sequelize, tables => {
       expect(tables).to.have.length(2);
       expect(tables).to.contain('SequelizeMeta');
       done();

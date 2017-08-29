@@ -30,14 +30,13 @@
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.0.0",
     "sqlite3": "^3.1.8",
-    "through2": "^2.0.3",
-    "unexpected": "^10.32.1"
+    "through2": "^2.0.3"
   },
   "options": {
     "mocha": "--check-leaks --timeout 10000 --colors --reporter spec"
   },
   "eslintIgnore": [
-    "test",
+    "test/support",
     "src/assets"
   ],
   "scripts": {
@@ -45,7 +44,7 @@
     "build-bin": "babel ./sequelize.js --out-file ./bin/sequelize && chmod +x ./bin/sequelize",
     "build-assets": "cp -R ./src/assets ./lib/",
     "build-clean": "rm -rf ./lib/",
-    "lint": "eslint src sequelize.js",
+    "lint": "eslint test src sequelize.js",
     "test-raw": "mocha $npm_package_options_mocha 'test/**/*.test.js'",
     "test": "npm run lint && npm run build && npm run test-raw"
   },

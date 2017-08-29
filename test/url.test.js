@@ -1,14 +1,12 @@
-'use strict';
+const expect    = require('expect.js');
+const Support   = require(__dirname + '/support');
+const helpers   = require(__dirname + '/support/helpers');
+const gulp      = require('gulp');
 
-var expect    = require('expect.js');
-var Support   = require(__dirname + '/support');
-var helpers   = require(__dirname + '/support/helpers');
-var gulp      = require('gulp');
-
-([
+[
   '--url'
-]).forEach(function (flag) {
-  var prepare = function (callback) {
+].forEach(flag => {
+  const prepare = function (callback) {
     gulp
       .src(Support.resolveSupportPath('tmp'))
       .pipe(helpers.clearDirectory())
@@ -19,16 +17,16 @@ var gulp      = require('gulp');
       .pipe(helpers.teardown(callback));
   };
 
-  describe(Support.getTestDialectTeaser(flag), function () {
+  describe(Support.getTestDialectTeaser(flag), () => {
     beforeEach(function (done) {
-      prepare(function (err, stdout) {
+      prepare((err, stdout) => {
         this.stdout = stdout;
         done();
-      }.bind(this));
+      });
     });
 
     it('creates a SequelizeMeta table', function (done) {
-      helpers.readTables(this.sequelize, function (tables) {
+      helpers.readTables(this.sequelize, tables => {
         expect(tables).to.have.length(2);
         expect(tables).to.contain('SequelizeMeta');
         done();
@@ -36,7 +34,7 @@ var gulp      = require('gulp');
     });
 
     it('creates the respective table via url', function (done) {
-      helpers.readTables(this.sequelize, function (tables) {
+      helpers.readTables(this.sequelize, tables => {
         expect(tables).to.have.length(2);
         expect(tables).to.contain('Person');
         done();
@@ -48,7 +46,7 @@ var gulp      = require('gulp');
     });
 
     it('filters the password', function () {
-      var config = helpers.getTestConfig();
+      const config = helpers.getTestConfig();
 
       if (Support.getTestDialect() === 'sqlite') {
         return;
