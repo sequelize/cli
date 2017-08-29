@@ -1,6 +1,6 @@
-const helpers = require(__dirname);
-const clc     = require('cli-color');
-const _       = require('lodash');
+import clc from 'cli-color';
+import _ from 'lodash';
+import helpers from './index';
 
 module.exports = {
   teaser () {
@@ -9,14 +9,6 @@ module.exports = {
       'CLI: '  + helpers.version.getCliVersion(),
       'ORM: '  + helpers.version.getOrmVersion()
     ];
-
-    if (helpers.version.getDialectName() && helpers.version.getDialectVersion()) {
-      versions.push(
-        helpers.version.getDialectName() +
-        ': ' +
-        helpers.version.getDialectVersion()
-      );
-    }
 
     this.log();
     this.log(clc.underline('Sequelize [' + versions.join(', ') + ']'));

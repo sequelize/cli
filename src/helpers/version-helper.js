@@ -1,7 +1,7 @@
-const path        = require('path');
+import path from 'path';
+import helpers from './index';
+
 const packageJson = require(path.resolve(__dirname, '..', '..', 'package.json'));
-const helpers     = require(__dirname);
-const findup      = require('findup-sync');
 
 module.exports = {
   getCliVersion () {
@@ -18,21 +18,6 @@ module.exports = {
     } catch (e) {
       return null;
     }
-  },
-
-  getDialectVersion () {
-    const adapterName = this.getDialectName();
-
-    try {
-      if (adapterName) {
-        return require(
-          findup('package.json')
-        ).dependencies[adapterName];
-      }
-    } catch (e) {
-    }
-
-    return null;
   },
 
   getDialectName () {

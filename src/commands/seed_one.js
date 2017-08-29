@@ -1,5 +1,5 @@
-import { _baseOptions } from '../helpers/yargs';
-import { getMigrator } from '../helpers/migrator';
+import { _baseOptions } from '../core/yargs';
+import { getMigrator } from '../core/migrator';
 
 import helpers from '../helpers';
 import path from 'path';

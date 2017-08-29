@@ -1,9 +1,9 @@
-import helpers from './index';
-
-const Sequelize = helpers.generic.getSequelize();
+import helpers from '../helpers/index';
 import Umzug from 'umzug';
 import Bluebird from 'bluebird';
 import _ from 'lodash';
+
+const Sequelize = helpers.generic.getSequelize();
 
 function logMigrator (s) {
   if (s.indexOf('Executing') !== 0) {

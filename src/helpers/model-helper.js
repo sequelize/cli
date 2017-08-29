@@ -1,5 +1,5 @@
-const clc     = require('cli-color');
-const helpers = require(__dirname);
+import clc from 'cli-color';
+import helpers from './index';
 
 module.exports = {
   notifyAboutExistingFile (file) {

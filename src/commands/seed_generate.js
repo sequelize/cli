@@ -1,4 +1,4 @@
-import { _baseOptions } from '../helpers/yargs';
+import { _baseOptions } from '../core/yargs';
 
 import helpers from '../helpers';
 import fs from 'fs';

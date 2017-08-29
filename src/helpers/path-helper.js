@@ -1,8 +1,23 @@
-const args    = require('yargs').argv;
-const fs      = require('fs');
-const path    = require('path');
-const moment  = require('moment');
+import path from 'path';
+import fs from 'fs';
+
 const resolve = require('resolve').sync;
+const args    = require('yargs').argv;
+
+function format (i) {
+  return parseInt(i, 10) < 10 ? '0' + i : i;
+};
+
+function getCurrentYYYYMMDDHHmms () {
+  const date = new Date();
+  return [
+    date.getUTCFullYear(),
+    format(date.getUTCMonth() + 1),
+    format(date.getUTCDate()),
+    format(date.getUTCHours()),
+    format(date.getUTCMinutes())
+  ].join('');
+}
 
 module.exports = {
   getPath (type) {
@@ -21,7 +36,7 @@ module.exports = {
   getFileName (type, name, options) {
     return this.addFileExtension(
       [
-        moment().utc().format('YYYYMMDDHHmmss'),
+        getCurrentYYYYMMDDHHmms(),
         name ? name : 'unnamed-' + type
       ].join('-'),
       options

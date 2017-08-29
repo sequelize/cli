@@ -1,5 +1,6 @@
-const _         = require('lodash');
-const helpers   = require(__dirname);
+import _ from 'lodash';
+import helpers from './index';
+
 const Sequelize = helpers.generic.getSequelize();
 
 module.exports = {

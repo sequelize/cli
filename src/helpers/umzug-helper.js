@@ -1,6 +1,6 @@
-const path    = require('path');
-const _       = require('lodash');
-const helpers = require(__dirname);
+import path from 'path';
+import _ from 'lodash';
+import helpers from './index';
 
 const storage = {
   migration: 'sequelize',

@@ -1,5 +1,5 @@
-import { _baseOptions } from '../helpers/yargs';
-import { getMigrator, ensureCurrentMetaSchema } from '../helpers/migrator';
+import { _baseOptions } from '../core/yargs';
+import { getMigrator, ensureCurrentMetaSchema } from '../core/migrator';
 
 import helpers from '../helpers';
 

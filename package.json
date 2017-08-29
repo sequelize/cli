@@ -8,11 +8,9 @@
   "dependencies": {
     "bluebird": "^3.5.0",
     "cli-color": "^1.2.0",
-    "findup-sync": "^1.0.0",
     "fs-extra": "^4.0.1",
     "js-beautify": "^1.6.14",
     "lodash": "^4.17.4",
-    "through2": "^2.0.3",
     "umzug": "^2.0.1",
     "yargs": "^8.0.1"
   },
@@ -32,6 +30,7 @@
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.0.0",
     "sqlite3": "^3.1.8",
+    "through2": "^2.0.3",
     "unexpected": "^10.32.1"
   },
   "options": {
