@@ -4,6 +4,19 @@ import yargs from 'yargs';
 import fs from 'fs';
 import path from 'path';
 import cliPackage from '../package';
+import Bluebird from 'bluebird';
+
+Bluebird.coroutine.addYieldHandler(yieldedValue => {
+  if (Array.isArray(yieldedValue)) {
+    return Bluebird.all(yieldedValue);
+  }
+});
+
+Bluebird.coroutine.addYieldHandler(yieldedValue => {
+  if (!Array.isArray(yieldedValue)) {
+    return Bluebird.resolve(yieldedValue);
+  }
+});
 
 import init from '../lib/commands/init';
 import migrate from '../lib/commands/migrate';
@@ -49,7 +62,7 @@ if (!args._[0]) {
   cli.showHelp();
 }
 
-function loadRCFile (optionsPath) {
+function loadRCFile(optionsPath) {
   const rcFile = optionsPath || path.resolve(process.cwd(), '.sequelizerc');
   const rcFileResolved = path.resolve(rcFile);
   return fs.existsSync(rcFileResolved)

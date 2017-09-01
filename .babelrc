@@ -1,11 +1,22 @@
 {
   "presets": [
-    "es2015-node4",
-    "es2017"
+    ["env", {
+      "targets": {
+        "node": "4.0"
+      },
+      "exclude": [
+        "transform-async-to-generator",
+        "transform-regenerator"
+      ]
+    }]
   ],
   "plugins": [
-    "transform-object-rest-spread"
-  ], 
+    "transform-object-rest-spread",
+    ["transform-async-to-module-method", {
+      "module": "bluebird",
+      "method": "coroutine"
+    }]
+  ],
   "ignore": [
     "src/assets"
   ]

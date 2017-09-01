@@ -27,7 +27,7 @@ All notable changes to this project will be documented in this file.
 ### Improvements
 - No Gulp, better startup time
 - Proper exit codes
-- Remove dependency on `moment` , `findup-sync`, `gulp`, `gulp-help` and `resolve`
+- Remove dependency on `moment` , `findup-sync`, `gulp` and `gulp-help`
 
 ## v2.8.0 - 2017-08-04
 ### Added
