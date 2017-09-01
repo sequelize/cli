@@ -4,7 +4,7 @@ The Sequelize Command Line Interface (CLI)
 
 ## Sequelize Support
 
-In current v2 release CLI generate migration/models which follow Sequelize v3 format, CLI will work with Sequelize v4 in most cases but migration/model skeleton is still generated to support v3.
+In current v3 release CLI generate migration/models which follow Sequelize v3 format, CLI will work with Sequelize v4 in most cases but migration/model skeleton is still generated to support v3.
 
 Full support for Sequelize v4 will be coming soon with [Sequelize CLI v4](https://github.com/sequelize/cli/issues/441)
 
@@ -29,51 +29,30 @@ $ sequelize [--HARMONY-FLAGS]
 
 
 ```
-Sequelize [Node: 7.8.0, CLI: 2.7.0, ORM: 3.27.0]
+Sequelize CLI [Node: 6.11.2, CLI: 3.0.0, ORM: 4.8.0]
 
-Usage
-  sequelize [task][options...]
-Available tasks
-  db:migrate                        Run pending migrations.
-  db:migrate:old_schema             Update legacy migration table
+Commands:
+  db:migrate                        Run pending migrations
   db:migrate:schema:timestamps:add  Update migration table to have timestamps
   db:migrate:status                 List the status of all migrations
-  db:migrate:undo                   Reverts a migration.
-  db:migrate:undo:all               Revert all migrations ran.
-  db:seed                           Run specified seeder.
-  db:seed:all                       Run every seeder.
-  db:seed:undo                      Deletes data from the database.
-  db:seed:undo:all                  Deletes data from the database.
-  help                              Display this help text. Aliases: h
-  init                              Initializes the project. [init:config, init:migrations, init:seeders, init:models]
-  init:config                       Initializes the configuration.
-  init:migrations                   Initializes the migrations.
-  init:models                       Initializes the models.
-  init:seeders                      Initializes the seeders.
-  migration:create                  Generates a new migration file. Aliases: migration:generate
-  model:create                      Generates a model and its migration. Aliases: model:generate
-  seed:create                       Generates a new seed file. Aliases: seed:generate
-  version                           Prints the version number. Aliases: v
-Available manuals
-  help:db:migrate                        The documentation for "sequelize db:migrate".
-  help:db:migrate:old_schema             The documentation for "sequelize db:migrate:old_schema".
-  help:db:migrate:schema:timestamps:add  The documentation for "sequelize db:migrate:schema:timestamps:add".
-  help:db:migrate:status                 The documentation for "sequelize db:migrate:status".
-  help:db:migrate:undo                   The documentation for "sequelize db:migrate:undo".
-  help:db:migrate:undo:all               The documentation for "sequelize db:migrate:undo:all".
-  help:db:seed                           The documentation for "sequelize db:seed".
-  help:db:seed:all                       The documentation for "sequelize db:seed:all".
-  help:db:seed:undo                      The documentation for "sequelize db:seed:undo".
-  help:db:seed:undo:all                  The documentation for "sequelize db:seed:undo:all".
-  help:init                              The documentation for "sequelize init".
-  help:init:config                       The documentation for "sequelize init:config".
-  help:init:migrations                   The documentation for "sequelize init:migrations".
-  help:init:models                       The documentation for "sequelize init:models".
-  help:init:seeders                      The documentation for "sequelize init:seeders".
-  help:migration:create                  The documentation for "sequelize migration:create".
-  help:model:create                      The documentation for "sequelize model:create".
-  help:seed:create                       The documentation for "sequelize seed:create".
-  help:version                           The documentation for "sequelize version".
+  db:migrate:undo                   Reverts a migration
+  db:migrate:undo:all               Revert all migrations ran
+  db:seed                           Run specified seeder
+  db:seed:undo                      Deletes data from the database
+  db:seed:all                       Run every seeder
+  db:seed:undo:all                  Deletes data from the database
+  init                              Initializes project
+  init:config                       Initializes configuration
+  init:migrations                   Initializes migrations
+  init:models                       Initializes models
+  init:seeders                      Initializes seeders
+  migration:generate                Generates a new migration file                                                                            [aliases: migration:create]
+  model:generate                    Generates a model and its migration                                                                           [aliases: model:create]
+  seed:generate                     Generates a new seed file                                                                                      [aliases: seed:create]
+
+Options:
+  --version  Show version number                                                                                                                                [boolean]
+  --help     Show help                                                                                                                                          [boolean]
 ```
 
 ## Local Install Usage
@@ -279,16 +258,7 @@ module.exports = {
 
 ### Schema migration
 
-Since v1.0.0 the CLI supports a new schema for saving the executed migrations. It will tell you about that
-when you run a migration while having the old schema. You can opt-in for auto migrating the schema by adding a special property to your config file:
-
-```json
-{
-  "development": {
-    "autoMigrateOldSchema": true
-  }
-}
-```
+Sequelize CLI continue to use schema from `v2` and fully compatible with `v2`. If you are still using old schema from pre `v2`, use `v2` to upgrade to current schema with `db:migrate:old_schema`
 
 #### Timestamps
 
