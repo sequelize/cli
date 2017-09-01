@@ -6,12 +6,12 @@ All notable changes to this project will be documented in this file.
 
 ## v3.0.0 - 1st, Sep 2017
 
-## Removed
+### Removed
 - `db:migrate:old_schema`
 - `--coffee` support
 - `help:*` commands
 
-## Fixed
+### Fixed
 - Drop Gulp [#344](https://github.com/sequelize/cli/issues/344)
 - NSP Vulnerability [#466](https://github.com/sequelize/cli/issues/466)
 - Non functional with Node 7 [#383](https://github.com/sequelize/cli/issues/383)
@@ -24,7 +24,7 @@ All notable changes to this project will be documented in this file.
 - `--coffee` flag dont work with `.rc` file [#244](https://github.com/sequelize/cli/issues/244)
 - CLI dont halt on error [#106](https://github.com/sequelize/cli/issues/106)
 
-## Improvements
+### Improvements
 - No Gulp, better startup time
 - Proper exit codes
 - Remove dependency on `moment` , `findup-sync`, `gulp`, `gulp-help` and `resolve`
