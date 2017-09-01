@@ -18,6 +18,8 @@ exports.handler = async function (args) {
   await helpers.config.init();
 
   await migrateUndo(args);
+
+  process.exit(0);
 };
 
 function migrateUndo (args) {
@@ -28,13 +30,15 @@ function migrateUndo (args) {
           console.log('No executed migrations found.');
           process.exit(0);
         }
-      }).then(() => {
+      })
+      .then(() => {
         if (args.name) {
           return migrator.down(args.name);
         } else {
           return migrator.down();
         }
-      }).catch(err => {
+      })
+      .catch(err => {
         console.error(err);
         process.exit(1);
       });

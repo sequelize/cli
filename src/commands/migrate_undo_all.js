@@ -19,6 +19,8 @@ exports.handler = async function (args) {
   await helpers.config.init();
 
   await migrationUndoAll(args);
+
+  process.exit(0);
 };
 
 function migrationUndoAll (args) {
@@ -29,11 +31,9 @@ function migrationUndoAll (args) {
           console.log('No executed migrations found.');
           process.exit(0);
         }
-      }).then(() => {
-        return migrator.down({
-          to: args.to || 0
-        });
-      }).catch(err => {
+      })
+      .then(() => migrator.down({ to: args.to || 0 }))
+      .catch(err => {
         console.error(err);
         process.exit(1);
       });

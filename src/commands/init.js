@@ -15,28 +15,30 @@ exports.handler = async function (argv) {
 
   switch (command) {
     case 'init':
-      initConfig(argv);
-      initModels(argv);
-      initMigrations(argv);
-      initSeeders(argv);
+      await initConfig(argv);
+      await initModels(argv);
+      await initMigrations(argv);
+      await initSeeders(argv);
       break;
 
     case 'init:config':
-      initConfig(argv);
+      await initConfig(argv);
       break;
 
     case 'init:models':
-      initModels(argv);
+      await initModels(argv);
       break;
 
     case 'init:migrations':
-      initMigrations(argv);
+      await initMigrations(argv);
       break;
 
     case 'init:seeders':
-      initSeeders(argv);
+      await initSeeders(argv);
       break;
   }
+
+  process.exit(0);
 };
 
 function initConfig (args) {

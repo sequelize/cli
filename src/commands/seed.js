@@ -20,6 +20,8 @@ exports.handler = async function (args) {
       await seedUndoAll(args);
       break;
   }
+
+  process.exit(0);
 };
 
 function seedAll (args) {
@@ -28,7 +30,7 @@ function seedAll (args) {
       .then(seeders => {
         if (seeders.length === 0) {
           console.log('No seeders found.');
-          process.exit(0);
+          return;
         }
 
         return migrator.up({ migrations: _.chain(seeders).map('file').value() });
@@ -48,7 +50,7 @@ function seedUndoAll (args) {
       .then(seeders => {
         if (seeders.length === 0) {
           console.log('No seeders found.');
-          process.exit(0);
+          return;
         }
 
         return migrator.down({ migrations: _.chain(seeders).map('file').reverse().value() });

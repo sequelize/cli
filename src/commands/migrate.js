@@ -22,29 +22,29 @@ exports.handler = async function (args) {
       await migrationStatus(args);
       break;
   }
+
+  process.exit(0);
 };
 
-function migrate (args) {
+function migrate(args) {
   return getMigrator('migration', args).then(migrator => {
-    return ensureCurrentMetaSchema(migrator).then(() => {
-      return migrator.pending();
-    }).then(migrations => {
-      if (migrations.length === 0) {
-        console.log('No migrations were executed, database schema was already up to date.');
-        process.exit(0);
-      }
-    }).then(() => {
-      return migrator.up();
-    }).then(() => {
-      process.exit(0);
-    }).catch(err => {
-      console.error(err);
-      process.exit(1);
-    });
+    return ensureCurrentMetaSchema(migrator)
+      .then(() =>  migrator.pending())
+      .then(migrations => {
+        if (migrations.length === 0) {
+          console.log('No migrations were executed, database schema was already up to date.');
+          process.exit(0);
+        }
+      })
+      .then(() => migrator.up())
+      .catch(err => {
+        console.error(err);
+        process.exit(1);
+      });
   });
 }
 
-function migrationStatus (args) {
+function migrationStatus(args) {
   return getMigrator('migration', args).then(migrator => {
     return ensureCurrentMetaSchema(migrator)
       .then(() => migrator.executed())
@@ -64,7 +64,7 @@ function migrationStatus (args) {
   });
 }
 
-function migrateSchemaTimestampAdd (args) {
+function migrateSchemaTimestampAdd(args) {
   return getMigrator('migration', args).then(migrator => {
     return addTimestampsToSchema(migrator)
       .then(items => {

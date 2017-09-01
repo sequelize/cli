@@ -12,7 +12,7 @@ const _         = require('lodash');
   '--seeders-path seeders db:seed --seed seedPerson.js',
   'db:seed --seeders-path ./seeders --seed seedPerson.js',
   'db:seed --seeders-path ./seeders/ --seed seedPerson.js',
-  'db:seed --config ../../support/tmp/config/config.json --seed seedPerson.js',
+  'db:seed --seed seedPerson.js --config ../../support/tmp/config/config.json',
   'db:seed --seed seedPerson.js --config ' +
     Support.resolveSupportPath('tmp', 'config', 'config.json'),
   'db:seed --seed seedPerson.js --config ../../support/tmp/config/config.js',
@@ -50,8 +50,8 @@ const _         = require('lodash');
       .pipe(helpers.copySeeder(seederFile))
       .pipe(helpers.overwriteFile(configContent, configPath))
       .pipe(helpers.runCli('db:migrate' +
-        (flag.indexOf('coffee') === -1 && flag.indexOf('config') === -1 ? ''
-          : flag.replace('db:seed', ''))))
+        (flag.indexOf('config') === -1 ? '' : flag.replace('db:seed --seed seedPerson.js', ''))
+      ))
       .pipe(helpers.runCli(flag, { pipeStdout: true }))
       .pipe(helpers.teardown(callback));
   };

@@ -11,7 +11,7 @@ module.exports = {
     ];
 
     this.log();
-    this.log(clc.underline('Sequelize [' + versions.join(', ') + ']'));
+    this.log(clc.underline('Sequelize CLI [' + versions.join(', ') + ']'));
     this.log();
   },
 

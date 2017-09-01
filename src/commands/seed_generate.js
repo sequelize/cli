@@ -30,4 +30,6 @@ exports.handler = function (args) {
     clc.blueBright(helpers.path.getSeederPath(args.name)),
     '.'
   );
+
+  process.exit(0);
 };

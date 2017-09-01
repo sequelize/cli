@@ -22,7 +22,7 @@ exports.handler = async function (args) {
 
   // filter out cmd names
   // for case like --seeders-path seeders --seed seedPerson.js db:seed
-  const seeds= args.seed
+  const seeds= (args.seed || [])
     .filter(name => name !== 'db:seed' && name !== 'db:seed:undo')
     .map(file => path.basename(file));
 
@@ -48,5 +48,7 @@ exports.handler = async function (args) {
       });
       break;
   }
+
+  process.exit(0);
 };
 

@@ -32,4 +32,6 @@ exports.handler = function (args) {
     clc.blueBright(helpers.path.getMigrationPath(args.name)),
     '.'
   );
+
+  process.exit(0);
 };

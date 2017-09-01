@@ -14,6 +14,9 @@ import seedOne from '../lib/commands/seed_one';
 import migrationGenerate from '../lib/commands/migration_generate';
 import modelGenerate from '../lib/commands/model_generate';
 import seedGenerate from '../lib/commands/seed_generate';
+import helpers from '../lib/helpers/index';
+
+helpers.view.teaser();
 
 const cli = yargs
   .command('db:migrate', 'Run pending migrations', migrate)
@@ -35,6 +38,8 @@ const cli = yargs
   .command(['seed:generate', 'seed:create'], 'Generates a new seed file', seedGenerate)
   .config(loadRCFile(yargs.argv.optionsPath))
   .version(() => cliPackage.version)
+  .wrap(yargs.terminalWidth())
+  .strict()
   .help();
 
 const args = cli.argv;

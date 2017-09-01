@@ -1,5 +1,3 @@
-
-
 const expect  = require('expect.js');
 const Support = require(__dirname + '/../../support');
 const helpers = require(__dirname + '/../../support/helpers');

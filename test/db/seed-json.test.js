@@ -45,8 +45,8 @@ const _         = require('lodash');
       .pipe(helpers.copySeeder(seederFile))
       .pipe(helpers.overwriteFile(configContent, configPath))
       .pipe(helpers.runCli('db:migrate' +
-        (flag.indexOf('config') === -1 ?
-          '' : flag.replace('db:seed', ''))))
+        (flag.indexOf('config') === -1 ? '' : flag.replace('db:seed --seed seedPerson.js', ''))
+      ))
       .pipe(helpers.runCli(flag, { pipeStdout: true }))
       .pipe(helpers.teardown(callback));
   };
