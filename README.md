@@ -46,13 +46,13 @@ Commands:
   init:migrations                   Initializes migrations
   init:models                       Initializes models
   init:seeders                      Initializes seeders
-  migration:generate                Generates a new migration file                                                                            [aliases: migration:create]
-  model:generate                    Generates a model and its migration                                                                           [aliases: model:create]
-  seed:generate                     Generates a new seed file                                                                                      [aliases: seed:create]
+  migration:generate                Generates a new migration file       [aliases: migration:create]
+  model:generate                    Generates a model and its migration  [aliases: model:create]
+  seed:generate                     Generates a new seed file            [aliases: seed:create]
 
 Options:
-  --version  Show version number                                                                                                                                [boolean]
-  --help     Show help                                                                                                                                          [boolean]
+  --version  Show version number                                         [boolean]
+  --help     Show help                                                   [boolean]
 ```
 
 ## Local Install Usage
