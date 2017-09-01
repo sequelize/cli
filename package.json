@@ -34,7 +34,7 @@
     "through2": "^2.0.3"
   },
   "options": {
-    "mocha": "--require scripts/mocha-bootload.js --check-leaks --timeout 10000 --colors --reporter spec"
+    "mocha": "--require scripts/mocha-bootload.js --check-leaks --timeout 30000 --colors --reporter spec"
   },
   "eslintIgnore": [
     "test/support",
