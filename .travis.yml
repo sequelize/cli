@@ -5,7 +5,7 @@ language: node_js
 
 node_js:
   - "4.0"
-  - "stable"
+  - "6.0"
 
 addons:
   postgresql: "9.4"
@@ -15,7 +15,7 @@ cache:
     - node_modules
 
 env:
-  - DIALECT=mysql SEQUELIZE=3.30.4
+  - DIALECT=sqlite SEQUELIZE=3.30.4
   - DIALECT=postgres SEQUELIZE=latest
 
 before_script:
