@@ -4,17 +4,18 @@ import yargs from 'yargs';
 import fs from 'fs';
 import path from 'path';
 import cliPackage from '../package';
-import Bluebird from 'bluebird';
+import Promise from 'bluebird';
+import { isEmpty } from 'lodash';
 
-Bluebird.coroutine.addYieldHandler(yieldedValue => {
+Promise.coroutine.addYieldHandler(yieldedValue => {
   if (Array.isArray(yieldedValue)) {
-    return Bluebird.all(yieldedValue);
+    return Promise.all(yieldedValue);
   }
 });
 
-Bluebird.coroutine.addYieldHandler(yieldedValue => {
-  if (!Array.isArray(yieldedValue)) {
-    return Bluebird.resolve(yieldedValue);
+Promise.coroutine.addYieldHandler(yieldedValue => {
+  if (isEmpty(yieldedValue)) {
+    return Promise.resolve(yieldedValue);
   }
 });
 
@@ -27,6 +28,7 @@ import seedOne from '../lib/commands/seed_one';
 import migrationGenerate from '../lib/commands/migration_generate';
 import modelGenerate from '../lib/commands/model_generate';
 import seedGenerate from '../lib/commands/seed_generate';
+
 import helpers from '../lib/helpers/index';
 
 helpers.view.teaser();

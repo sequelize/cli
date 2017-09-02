@@ -21,6 +21,8 @@ var _bluebird = require('bluebird');
 
 var _bluebird2 = _interopRequireDefault(_bluebird);
 
+var _lodash = require('lodash');
+
 var _init = require('../lib/commands/init');
 
 var _init2 = _interopRequireDefault(_init);
@@ -70,7 +72,7 @@ _bluebird2.default.coroutine.addYieldHandler(function (yieldedValue) {
 });
 
 _bluebird2.default.coroutine.addYieldHandler(function (yieldedValue) {
-  if (!Array.isArray(yieldedValue)) {
+  if ((0, _lodash.isEmpty)(yieldedValue)) {
     return _bluebird2.default.resolve(yieldedValue);
   }
 });
