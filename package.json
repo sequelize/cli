@@ -21,9 +21,10 @@
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-env": "^1.6.0",
     "babel-register": "^6.24.1",
-    "eslint": "^4.4.0",
+    "eslint": "^4.6.0",
     "expect.js": "^0.3.1",
     "gulp": "^3.9.1",
+    "istanbul": "^0.4.5",
     "mocha": "^3.5.0",
     "mysql": "^2.13.0",
     "nodeify": "^1.0.1",
@@ -34,7 +35,7 @@
     "through2": "^2.0.3"
   },
   "options": {
-    "mocha": "--require scripts/mocha-bootload.js --bail --check-leaks --timeout 30000 --colors --reporter spec"
+    "mocha": "--require scripts/mocha-bootload.js --check-leaks --timeout=30000 --colors --reporter=spec"
   },
   "eslintIgnore": [
     "test/support",
@@ -46,7 +47,8 @@
     "build-assets": "cp -R ./src/assets ./lib/",
     "build-clean": "rm -rf ./lib/",
     "lint": "eslint test src sequelize.js",
-    "test-raw": "mocha $npm_package_options_mocha 'test/**/*.test.js'",
+    "test-raw": "mocha $npm_package_options_mocha 'test/*.test.js' 'test/**/*.test.js'",
+    "test-cover-raw": "COVERAGE=true node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha $npm_package_options_mocha --report lcovonly 'test/*.test.js' 'test/**/*.test.js'",
     "test": "npm run lint && npm run build && npm run test-raw"
   },
   "repository": {
