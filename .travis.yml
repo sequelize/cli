@@ -14,13 +14,13 @@ jobs:
       env: DIALECT=mysql SEQUELIZE=3.30.4
     - stage: tests
       node_js: 4
-      env: DIALECT=postgres SEQUELIZE=latest
+      env: DIALECT=postgres SEQUELIZE=3.30.4
     - stage: tests
       node_js: 4
-      env: DIALECT=sqlite SEQUELIZE=latest
+      env: DIALECT=sqlite SEQUELIZE=3.30.4
     - stage: tests
       node_js: 6
-      env: DIALECT=sqlite SEQUELIZE=3.30.4
+      env: DIALECT=postgres SEQUELIZE=latest
     - stage: tests
       node_js: 6
       env: DIALECT=sqlite SEQUELIZE=latest
