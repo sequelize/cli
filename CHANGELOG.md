@@ -3,8 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## Upcoming
 
-
-## v3.0.0 - 1st, Sep 2017
+## v3.0.0-0 - 8th, Sep 2017
 
 ### Removed
 - `db:migrate:old_schema`
@@ -20,7 +19,6 @@ All notable changes to this project will be documented in this file.
 - Unable to seed multiple files [#523](https://github.com/sequelize/cli/issues/523)
 - No Gulpfile found [#480](https://github.com/sequelize/cli/issues/480)
 - Exit Code(1) when migration undo fail [#394](https://github.com/sequelize/cli/issues/394)
-- ES2015 [#389](https://github.com/sequelize/cli/issues/389)
 - `--coffee` flag dont work with `.rc` file [#244](https://github.com/sequelize/cli/issues/244)
 - CLI dont halt on error [#106](https://github.com/sequelize/cli/issues/106)
 
