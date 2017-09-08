@@ -1,17 +1,15 @@
-  'use strict';
+const expect  = require('expect.js');
+const Support = require(__dirname + '/../../support');
+const helpers = require(__dirname + '/../../support/helpers');
+const gulp    = require('gulp');
 
-var expect  = require('expect.js');
-var Support = require(__dirname + '/../../support');
-var helpers = require(__dirname + '/../../support/helpers');
-var gulp    = require('gulp');
-
-([
+[
   'db:seed:undo --seed seedPerson.js'
-]).forEach(function (flag) {
-  var prepare = function (callback, options) {
-    var _flag = options.flag || flag;
+].forEach(flag => {
+  const prepare = function (callback, options) {
+    const _flag = options.flag || flag;
 
-    var pipeline = gulp
+    const pipeline = gulp
       .src(Support.resolveSupportPath('tmp'))
       .pipe(helpers.clearDirectory())
       .pipe(helpers.runCli('init'))
@@ -28,27 +26,27 @@ var gulp    = require('gulp');
       .pipe(helpers.teardown(callback));
   };
 
-  describe(Support.getTestDialectTeaser(flag), function () {
-    it('stops execution if no seeder file is found', function (done) {
-      prepare(function (err, output) {
+  describe(Support.getTestDialectTeaser(flag), () => {
+    it('stops execution if no seeder file is found', done => {
+      prepare((err, output) => {
         expect(output).to.contain('Unable to find migration');
         done();
-      }.bind(this), {copySeeds: false});
+      }, {copySeeds: false});
     });
 
     it('is correctly undoing a seeder if they have been done already', function (done) {
-      var self = this;
+      const self = this;
 
-      prepare(function () {
-        helpers.readTables(self.sequelize, function (tables) {
+      prepare(() => {
+        helpers.readTables(self.sequelize, tables => {
           expect(tables).to.have.length(2);
           expect(tables[0]).to.equal('Person');
 
           gulp
             .src(Support.resolveSupportPath('tmp'))
             .pipe(helpers.runCli(flag, { pipeStdout: true }))
-            .pipe(helpers.teardown(function () {
-              helpers.countTable(self.sequelize, 'Person', function (res) {
+            .pipe(helpers.teardown(() => {
+              helpers.countTable(self.sequelize, 'Person', res => {
                 expect(res).to.have.length(1);
                 expect(res[0].count).to.eql(0);
                 done();

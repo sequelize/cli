@@ -1,34 +1,33 @@
-'use strict';
 
-var expect    = require('expect.js');
-var Support   = require(__dirname + '/../support');
-var helpers   = require(__dirname + '/../support/helpers');
-var gulp      = require('gulp');
-var fs        = require('fs');
-var _         = require('lodash');
 
-([
+const expect    = require('expect.js');
+const Support   = require(__dirname + '/../support');
+const helpers   = require(__dirname + '/../support/helpers');
+const gulp      = require('gulp');
+const fs        = require('fs');
+const _         = require('lodash');
+
+[
   'db:seed --seed seedPerson.js',
   'db:seed --seed seedPerson.js --seeders-path seeders',
   '--seeders-path seeders --seed seedPerson.js db:seed',
   'db:seed --seed seedPerson.js --seeders-path ./seeders',
   'db:seed --seed seedPerson.js --seeders-path ./seeders/',
-  'db:seed --seed seedPerson.coffee --coffee',
   'db:seed --seed seedPerson.js --config ../../support/tmp/config/config.json',
   'db:seed --seed seedPerson.js --config ' +
     Support.resolveSupportPath('tmp', 'config', 'config.json'),
   'db:seed --seed seedPerson.js --config ../../support/tmp/config/config.js'
-]).forEach(function (flag) {
-  var prepare = function (callback, options) {
+].forEach(flag => {
+  const prepare = function (callback, options) {
     options = _.assign({ config: {} }, options || {});
 
-    var configPath    = 'config/';
-    var seederFile    = options.seederFile || 'seedPerson';
-    var config        = _.assign({}, helpers.getTestConfig(), options.config);
-    var configContent = JSON.stringify(config);
-    var migrationFile = 'createPerson.'  + ((flag.indexOf('coffee') === -1) ? 'js' : 'coffee');
+    let configPath    = 'config/';
+    let seederFile    = options.seederFile || 'seedPerson';
+    const config        = _.assign({}, helpers.getTestConfig(), options.config);
+    let configContent = JSON.stringify(config);
+    const migrationFile = 'createPerson.js';
 
-    seederFile = seederFile + '.'  + ((flag.indexOf('coffee') === -1) ? 'js' : 'coffee');
+    seederFile = seederFile + '.js';
 
     if (flag.match(/config\.js$/)) {
       configPath    = configPath + 'config.js';
@@ -46,18 +45,18 @@ var _         = require('lodash');
       .pipe(helpers.copySeeder(seederFile))
       .pipe(helpers.overwriteFile(configContent, configPath))
       .pipe(helpers.runCli('db:migrate' +
-        ((flag.indexOf('coffee') === -1 && flag.indexOf('config') === -1) ?
-          '' : flag.replace('db:seed', ''))))
+        (flag.indexOf('config') === -1 ? '' : flag.replace('db:seed --seed seedPerson.js', ''))
+      ))
       .pipe(helpers.runCli(flag, { pipeStdout: true }))
       .pipe(helpers.teardown(callback));
   };
 
-  describe(Support.getTestDialectTeaser(flag) + ' (JSON)', function () {
+  describe(Support.getTestDialectTeaser(flag) + ' (JSON)', () => {
     it('populates the respective table', function (done) {
-      var self = this;
+      const self = this;
 
-      prepare(function () {
-        helpers.countTable(self.sequelize, 'Person', function (result) {
+      prepare(() => {
+        helpers.countTable(self.sequelize, 'Person', result => {
           expect(result).to.have.length(1);
           expect(result[0].count).to.eql(1);
           done();
@@ -65,29 +64,29 @@ var _         = require('lodash');
       });
     });
 
-    describe('the seeder storage file', function () {
-      it('should be written to the specified location', function (done) {
-        var storageFile = Support.resolveSupportPath('tmp', 'custom-data.json');
+    describe('the seeder storage file', () => {
+      it('should be written to the specified location', done => {
+        const storageFile = Support.resolveSupportPath('tmp', 'custom-data.json');
 
-        prepare(function () {
+        prepare(() => {
           expect(fs.statSync(storageFile).isFile()).to.be(true);
           expect(fs.readFileSync(storageFile).toString())
-            .to.match(/^\[\n  "seedPerson\.(js|coffee)"\n\]$/);
+            .to.match(/^\[\n  "seedPerson\.(js)"\n\]$/);
           done();
         }, { config: { seederStoragePath: storageFile, seederStorage: 'json' } });
       });
     });
 
-    describe('the logging option', function () {
-      it('does not print sql queries by default', function (done) {
-        prepare(function (_, stdout) {
+    describe('the logging option', () => {
+      it('does not print sql queries by default', done => {
+        prepare((__, stdout) => {
           expect(stdout).to.not.contain('Executing');
           done();
         });
       });
 
-      it('interprets a custom option', function (done) {
-        prepare(function (_, stdout) {
+      it('interprets a custom option', done => {
+        prepare((__, stdout) => {
           expect(stdout).to.contain('Executing');
           done();
         }, { config: { logging: true } });

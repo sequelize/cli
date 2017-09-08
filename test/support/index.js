@@ -2,13 +2,18 @@
 
 var fs        = require('fs');
 var path      = require('path');
-var helpers   = require(__dirname + '/../../lib/helpers');
-var Sequelize = helpers.generic.getSequelize();
+var Sequelize = require('sequelize');
 var _         = Sequelize.Utils._;
 var DataTypes = Sequelize;
 var Config    = require(__dirname + '/config/config');
 var expect    = require('expect.js');
-var execQuery = require('../../lib/helpers').generic.execQuery;
+var execQuery = function (sequelize, sql, options) {
+  if (sequelize.query.length === 2) {
+    return sequelize.query(sql, options);
+  } else {
+    return sequelize.query(sql, null, options);
+  }
+}
 
 var Support = {
   Sequelize: Sequelize,
@@ -50,7 +55,7 @@ var Support = {
 
   createSequelizeInstance: function (options) {
     options = options || {};
-    options.dialect = options.dialect || 'mysql';
+    options.dialect = options.dialect || 'sqlite';
 
     var config = Config[options.dialect];
     var sequelizeOptions = _.defaults(options, {
@@ -125,7 +130,7 @@ var Support = {
   },
 
   getTestDialect: function () {
-    var envDialect = process.env.DIALECT || 'mysql';
+    var envDialect = process.env.DIALECT || 'sqlite';
 
     if (envDialect === 'postgres-native') {
       envDialect = 'postgres';
@@ -159,7 +164,7 @@ var Support = {
       dialect = 'postgres-native';
     }
 
-    return '[' + dialect.toUpperCase() + '] bin/sequelize ' + moduleName;
+    return '[' + dialect.toUpperCase() + '] lib/sequelize ' + moduleName;
   },
 
   getTestUrl: function (config) {
@@ -183,7 +188,7 @@ var Support = {
   },
 
   getCliPath: function (cwd) {
-    return path.resolve(cwd, path.resolve(process.cwd(), 'bin', 'sequelize'));
+    return path.resolve(cwd, path.resolve(process.cwd(), 'lib', 'sequelize'));
   },
 
   getCliCommand: function (cwd, flags) {

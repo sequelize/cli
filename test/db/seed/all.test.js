@@ -1,32 +1,29 @@
-'use strict';
+const expect    = require('expect.js');
+const Support   = require(__dirname + '/../../support');
+const helpers   = require(__dirname + '/../../support/helpers');
+const gulp      = require('gulp');
+const _         = require('lodash');
 
-var expect    = require('expect.js');
-var Support   = require(__dirname + '/../../support');
-var helpers   = require(__dirname + '/../../support/helpers');
-var gulp      = require('gulp');
-var _         = require('lodash');
-
-([
+[
   'db:seed:all',
   'db:seed:all --seeders-path seeders',
   '--seeders-path seeders db:seed:all',
   'db:seed:all --seeders-path ./seeders',
   'db:seed:all --seeders-path ./seeders/',
-  'db:seed:all --coffee',
   'db:seed:all --config ../../support/tmp/config/config.json',
   'db:seed:all --config ' + Support.resolveSupportPath('tmp', 'config', 'config.json'),
   'db:seed:all --config ../../support/tmp/config/config.js'
-]).forEach(function (flag) {
-  var prepare = function (callback, options) {
+].forEach(flag => {
+  const prepare = function (callback, options) {
     options = _.assign({ config: {} }, options || {});
 
-    var configPath    = 'config/';
-    var seederFile    = options.seederFile || 'seedPerson';
-    var config        = _.assign({}, helpers.getTestConfig(), options.config);
-    var configContent = JSON.stringify(config);
-    var migrationFile = 'createPerson.'  + ((flag.indexOf('coffee') === -1) ? 'js' : 'coffee');
+    let configPath    = 'config/';
+    let seederFile    = options.seederFile || 'seedPerson';
+    const config        = _.assign({}, helpers.getTestConfig(), options.config);
+    let configContent = JSON.stringify(config);
+    const migrationFile = 'createPerson.js';
 
-    seederFile = seederFile + '.'  + ((flag.indexOf('coffee') === -1) ? 'js' : 'coffee');
+    seederFile = seederFile + '.js';
 
     if (flag.match(/config\.js$/)) {
       configPath    = configPath + 'config.js';
@@ -44,18 +41,18 @@ var _         = require('lodash');
       .pipe(helpers.copySeeder(seederFile))
       .pipe(helpers.overwriteFile(configContent, configPath))
       .pipe(helpers.runCli('db:migrate' +
-        ((flag.indexOf('coffee') === -1 && flag.indexOf('config') === -1) ? ''
-          : flag.replace('db:seed:all', ''))))
+        (flag.indexOf('config') === -1 ? '' : flag.replace('db:seed:all', ''))
+      ))
       .pipe(helpers.runCli(flag, { pipeStdout: true }))
       .pipe(helpers.teardown(callback));
   };
 
-  describe(Support.getTestDialectTeaser(flag), function () {
+  describe(Support.getTestDialectTeaser(flag), () => {
     it('creates a SequelizeData table', function (done) {
-      var self = this;
+      const self = this;
 
-      prepare(function () {
-        helpers.readTables(self.sequelize, function (tables) {
+      prepare(() => {
+        helpers.readTables(self.sequelize, tables => {
           expect(tables).to.have.length(3);
           expect(tables).to.contain('SequelizeData');
           done();
@@ -64,10 +61,10 @@ var _         = require('lodash');
     });
 
     it('populates the respective table', function (done) {
-      var self = this;
+      const self = this;
 
-      prepare(function () {
-        helpers.countTable(self.sequelize, 'Person', function (result) {
+      prepare(() => {
+        helpers.countTable(self.sequelize, 'Person', result => {
           expect(result).to.have.length(1);
           expect(result[0].count).to.eql(1);
           done();
@@ -75,28 +72,28 @@ var _         = require('lodash');
       });
     });
 
-    describe('the logging option', function () {
-      it('does not print sql queries by default', function (done) {
-        prepare(function (_, stdout) {
+    describe('the logging option', () => {
+      it('does not print sql queries by default', done => {
+        prepare((__, stdout) => {
           expect(stdout).to.not.contain('Executing');
           done();
         });
       });
 
-      it('interpretes a custom option', function (done) {
-        prepare(function (_, stdout) {
+      it('interpretes a custom option', done => {
+        prepare((__, stdout) => {
           expect(stdout).to.contain('Executing');
           done();
         }, { config: { logging: true } });
       });
     });
 
-    describe('custom meta table name', function () {
+    describe('custom meta table name', () => {
       it('correctly uses the defined table name', function (done) {
-        var self = this;
+        const self = this;
 
-        prepare(function () {
-          helpers.readTables(self.sequelize, function (tables) {
+        prepare(() => {
+          helpers.readTables(self.sequelize, tables => {
             expect(tables.sort()).to.eql(['Person', 'SequelizeMeta', 'sequelize_data']);
             done();
           });

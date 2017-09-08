@@ -190,6 +190,13 @@ module.exports = {
       .then(function (result) {
         return callback((result.length === 2) ? result[0] : result );
       });
+  },
+  execQuery: function(sequelize, sql, options) {
+    if (sequelize.query.length === 2) {
+      return sequelize.query(sql, options);
+    } else {
+      return sequelize.query(sql, null, options);
+    }
   }
 };
 

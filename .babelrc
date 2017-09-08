@@ -1,0 +1,24 @@
+{
+  "presets": [
+    ["env", {
+      "targets": {
+        "node": "4.0"
+      },
+      "exclude": [
+        "transform-async-to-generator",
+        "transform-regenerator"
+      ],
+      "useBuiltIns": true
+    }]
+  ],
+  "plugins": [
+    "transform-object-rest-spread",
+    ["transform-async-to-module-method", {
+      "module": "bluebird",
+      "method": "coroutine"
+    }]
+  ],
+  "ignore": [
+    "src/assets"
+  ]
+}

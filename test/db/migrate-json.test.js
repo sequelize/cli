@@ -1,34 +1,31 @@
-'use strict';
+const expect    = require('expect.js');
+const Support   = require(__dirname + '/../support');
+const helpers   = require(__dirname + '/../support/helpers');
+const gulp      = require('gulp');
+const fs        = require('fs');
+const _         = require('lodash');
 
-var expect    = require('expect.js');
-var Support   = require(__dirname + '/../support');
-var helpers   = require(__dirname + '/../support/helpers');
-var gulp      = require('gulp');
-var fs        = require('fs');
-var _         = require('lodash');
-
-([
+[
   'db:migrate',
   'db:migrate --migrations-path migrations',
   '--migrations-path migrations db:migrate',
   'db:migrate --migrations-path ./migrations',
   'db:migrate --migrations-path ./migrations/',
-  'db:migrate --coffee',
   'db:migrate --config ../../support/tmp/config/config.json',
   'db:migrate --config ' + Support.resolveSupportPath('tmp', 'config', 'config.json'),
   'db:migrate --config ../../support/tmp/config/config.js'
-]).forEach(function (flag) {
-  var prepare = function (callback, options) {
+].forEach(flag => {
+  const prepare = function (callback, options) {
     options = _.assign({ config: {} }, options || {});
 
-    var configPath    = 'config/';
-    var migrationFile = options.migrationFile || 'createPerson';
-    var config        = _.assign({
+    let configPath    = 'config/';
+    let migrationFile = options.migrationFile || 'createPerson';
+    const config        = _.assign({
       migrationStorage: 'json'
     }, helpers.getTestConfig(), options.config);
-    var configContent = JSON.stringify(config);
+    let configContent = JSON.stringify(config);
 
-    migrationFile = migrationFile + '.'  + ((flag.indexOf('coffee') === -1) ? 'js' : 'coffee');
+    migrationFile = migrationFile + '.js';
 
     if (flag.match(/config\.js$/)) {
       configPath    = configPath + 'config.js';
@@ -48,36 +45,36 @@ var _         = require('lodash');
       .pipe(helpers.teardown(callback));
   };
 
-  describe(Support.getTestDialectTeaser(flag) + ' (JSON)', function () {
-    describe('the migration storage file', function () {
-      it('should be written to the default location', function (done) {
-        var storageFile = Support.resolveSupportPath('tmp', 'sequelize-meta.json');
+  describe(Support.getTestDialectTeaser(flag) + ' (JSON)', () => {
+    describe('the migration storage file', () => {
+      it('should be written to the default location', done => {
+        const storageFile = Support.resolveSupportPath('tmp', 'sequelize-meta.json');
 
-        prepare(function () {
+        prepare(() => {
           expect(fs.statSync(storageFile).isFile()).to.be(true);
           expect(fs.readFileSync(storageFile).toString())
-            .to.match(/^\[\n  "\d{14}-createPerson\.(js|coffee)"\n\]$/);
+            .to.match(/^\[\n  "\d{14}-createPerson\.(js)"\n\]$/);
           done();
         });
       });
 
-      it('should be written to the specified location', function (done) {
-        var storageFile = Support.resolveSupportPath('tmp', 'custom-meta.json');
+      it('should be written to the specified location', done => {
+        const storageFile = Support.resolveSupportPath('tmp', 'custom-meta.json');
 
-        prepare(function () {
+        prepare(() => {
           expect(fs.statSync(storageFile).isFile()).to.be(true);
           expect(fs.readFileSync(storageFile).toString())
-            .to.match(/^\[\n  "\d{14}-createPerson\.(js|coffee)"\n\]$/);
+            .to.match(/^\[\n  "\d{14}-createPerson\.(js)"\n\]$/);
           done();
         }, { config: { migrationStoragePath: storageFile } });
       });
     });
 
     it('creates the respective table', function (done) {
-      var self = this;
+      const self = this;
 
-      prepare(function () {
-        helpers.readTables(self.sequelize, function (tables) {
+      prepare(() => {
+        helpers.readTables(self.sequelize, tables => {
           expect(tables).to.have.length(1);
           expect(tables).to.contain('Person');
           done();
@@ -85,28 +82,28 @@ var _         = require('lodash');
       });
     });
 
-    describe('the logging option', function () {
-      it('does not print sql queries by default', function (done) {
-        prepare(function (_, stdout) {
+    describe('the logging option', () => {
+      it('does not print sql queries by default', done => {
+        prepare((__, stdout) => {
           expect(stdout).to.not.contain('Executing');
           done();
         });
       });
 
-      it('interprets a custom option', function (done) {
-        prepare(function (_, stdout) {
+      it('interprets a custom option', done => {
+        prepare((__, stdout) => {
           expect(stdout).to.contain('Executing');
           done();
         }, { config: { logging: true } });
       });
     });
 
-    describe('promise based migrations', function () {
+    describe('promise based migrations', () => {
       it('correctly creates two tables', function (done) {
-        var self = this;
+        const self = this;
 
-        prepare(function () {
-          helpers.readTables(self.sequelize, function (tables) {
+        prepare(() => {
+          helpers.readTables(self.sequelize, tables => {
             expect(tables.sort()).to.eql([
               'Person',
               'Task'
