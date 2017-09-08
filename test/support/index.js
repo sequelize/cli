@@ -164,7 +164,7 @@ var Support = {
       dialect = 'postgres-native';
     }
 
-    return '[' + dialect.toUpperCase() + '] bin/sequelize ' + moduleName;
+    return '[' + dialect.toUpperCase() + '] lib/sequelize ' + moduleName;
   },
 
   getTestUrl: function (config) {
@@ -188,7 +188,7 @@ var Support = {
   },
 
   getCliPath: function (cwd) {
-    return path.resolve(cwd, path.resolve(process.cwd(), 'bin', 'sequelize'));
+    return path.resolve(cwd, path.resolve(process.cwd(), 'lib', 'sequelize'));
   },
 
   getCliCommand: function (cwd, flags) {

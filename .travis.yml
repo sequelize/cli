@@ -32,5 +32,4 @@ before_script:
   - npm run build
 
 script:
-  - npm run lint
-  - npm run test-cover-raw && bash <(curl -s https://codecov.io/bash) -f coverage/lcov.info
+  - npm run test

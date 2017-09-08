@@ -1,4 +1,4 @@
-# sequelize/cli [![Build Status](https://travis-ci.org/sequelize/cli.svg?branch=master)](https://travis-ci.org/sequelize/cli) [![Code Climate](https://codeclimate.com/github/sequelize/cli.png)](https://codeclimate.com/github/sequelize/cli) [![Greenkeeper badge](https://badges.greenkeeper.io/sequelize/cli.svg)](https://greenkeeper.io/)
+# sequelize/cli [![Build Status](https://travis-ci.org/sequelize/cli.svg?branch=master)](https://travis-ci.org/sequelize/cli) [![Greenkeeper badge](https://badges.greenkeeper.io/sequelize/cli.svg)](https://greenkeeper.io/)
 
 The Sequelize Command Line Interface (CLI)
 
@@ -24,9 +24,8 @@ $ npm install --save sequelize-cli
 ## Global Install Usage
 
 ```bash
-$ sequelize [--HARMONY-FLAGS]
+$ sequelize
 ```
-
 
 ```
 Sequelize CLI [Node: 6.11.2, CLI: 3.0.0, ORM: 4.8.0]
@@ -82,11 +81,6 @@ module.exports = {
 
 This will configure the CLI to always treat `config/database.json` as config file and
 `db/migrate` as the directory for migrations.
-
-### CoffeeScript support
-
-The CLI is compatible with CoffeeScript. You can tell the CLI to enable that support via the `--coffee`
-flag. Please note that you'll need to install `js2coffee` and `coffee-script` for full support.
 
 ### Configuration file
 
@@ -292,10 +286,6 @@ Please note that you can either return a Promise or call the third argument of t
 
 Additional note: If you need to access the sequelize instance, you can easily do that via `queryInterface.sequelize`. For example `queryInterface.sequelize.query('CREATE TABLE mytable();')`.
 
-## Help
+## Documentation and FAQ
 
-Read the manuals via `sequelize help:<task-name>` for further information.
-
-## FAQ
-
-You can find FAQ section [here](https://github.com/sequelize/cli/blob/master/FAQ.md)
+More documentation around migrations [here](http://docs.sequelizejs.com/manual/tutorial/migrations.html). You can find FAQ section [here](https://github.com/sequelize/cli/blob/master/FAQ.md)

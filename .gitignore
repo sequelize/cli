@@ -22,8 +22,6 @@ build/Release
 # Extra folders
 node_modules
 lib
-bin/*
-!bin/.gitkeep
 test/support/tmp/*
 !test/support/tmp/.gitkeep
 

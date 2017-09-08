@@ -3,7 +3,7 @@
   "version": "2.8.0",
   "description": "The Sequelize CLI",
   "bin": {
-    "sequelize": "./bin/sequelize"
+    "sequelize": "./lib/sequelize"
   },
   "dependencies": {
     "bluebird": "^3.5.0",
@@ -24,7 +24,6 @@
     "eslint": "^4.6.0",
     "expect.js": "^0.3.1",
     "gulp": "^3.9.1",
-    "istanbul": "^0.4.5",
     "mocha": "^3.5.0",
     "mysql": "^2.13.0",
     "nodeify": "^1.0.1",
@@ -43,12 +42,11 @@
   ],
   "scripts": {
     "build": "npm run build-clean && babel src -d lib && npm run build-bin && npm run build-assets",
-    "build-bin": "babel ./sequelize.js --out-file ./bin/sequelize && chmod +x ./bin/sequelize",
+    "build-bin": "mv ./lib/sequelize.js ./lib/sequelize && chmod +x ./lib/sequelize",
     "build-assets": "cp -R ./src/assets ./lib/",
     "build-clean": "rm -rf ./lib/",
     "lint": "eslint test src sequelize.js",
-    "test-raw": "mocha $npm_package_options_mocha 'test/*.test.js' 'test/**/*.test.js'",
-    "test-cover-raw": "COVERAGE=true node_modules/.bin/istanbul cover ./node_modules/mocha/bin/_mocha -- $npm_package_options_mocha --report lcovonly 'test/*.test.js' 'test/**/*.test.js'",
+    "test-raw": "mocha $npm_package_options_mocha 'test/**/*.test.js'",
     "test": "npm run lint && npm run build && npm run test-raw"
   },
   "repository": {

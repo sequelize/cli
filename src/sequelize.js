@@ -19,17 +19,17 @@ Promise.coroutine.addYieldHandler(yieldedValue => {
   }
 });
 
-import init from '../lib/commands/init';
-import migrate from '../lib/commands/migrate';
-import migrateUndo from '../lib/commands/migrate_undo';
-import migrateUndoAll from '../lib/commands/migrate_undo_all';
-import seed from '../lib/commands/seed';
-import seedOne from '../lib/commands/seed_one';
-import migrationGenerate from '../lib/commands/migration_generate';
-import modelGenerate from '../lib/commands/model_generate';
-import seedGenerate from '../lib/commands/seed_generate';
+import init from './commands/init';
+import migrate from './commands/migrate';
+import migrateUndo from './commands/migrate_undo';
+import migrateUndoAll from './commands/migrate_undo_all';
+import seed from './commands/seed';
+import seedOne from './commands/seed_one';
+import migrationGenerate from './commands/migration_generate';
+import modelGenerate from './commands/model_generate';
+import seedGenerate from './commands/seed_generate';
 
-import helpers from '../lib/helpers/index';
+import helpers from './helpers/index';
 
 helpers.view.teaser();
 
