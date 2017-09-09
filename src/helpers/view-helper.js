@@ -13,6 +13,16 @@ module.exports = {
     this.log();
     this.log(clc.underline('Sequelize CLI [' + versions.join(', ') + ']'));
     this.log();
+
+    // Remove in v4
+    if (helpers.version.getOrmVersion().match(/^4./)) {
+      this.log(clc.yellow(
+        'WARNING: This version of Sequelize CLI is not ' +
+        'fully compatible with Sequelize v4. ' +
+        'https://github.com/sequelize/cli#sequelize-support'
+      ));
+      this.log();
+    }
   },
 
   log: console.log,
