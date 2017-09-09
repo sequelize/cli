@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## Upcoming
 
+## v3.0.0-1 - 9th, Sep 2017
+
 ### Added
 - Warning with Sequelize v4
 
