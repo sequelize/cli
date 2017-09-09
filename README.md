@@ -68,7 +68,7 @@ Options:
 
 Sequelize CLI is always looking for contributions. You can help us with fixing bugs, reporting bugs or improving documentation.
 
-Please read [contributing documentation](CONTRIBUTING.md) to continue.
+Please read [contributing documentation](CONTRIBUTING.md)
 
 ## Sequelize Support
 
