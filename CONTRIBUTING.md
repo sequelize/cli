@@ -1,6 +1,6 @@
 # Contributing
 
-Sequelize CLI is entirely driven by community contributions. No external funding are backing this project. Any little contribution with code or documentation work helps us keeping this project running.
+Sequelize CLI is entirely driven by community contributions. Any little contribution with code or documentation work helps us keeping this project running.
 
 You can help us in various ways
 
@@ -61,4 +61,4 @@ Test can take about 7 to 10 minutes to finish, subjected to hardware configurati
 
 If you want to improve or expand our documentation you can start with documentation in `/docs` folder of this repository.
 
-You can also help by improving [Migration section]((http://docs.sequelizejs.com/manual/tutorial/migrations.html)). Please read more about contributing to Sequelize Docs [here](https://github.com/sequelize/sequelize/blob/master/CONTRIBUTING.DOCS.md)
+You can also help by improving [Migration section](http://docs.sequelizejs.com/manual/tutorial/migrations.html). Please read more about contributing to Sequelize Docs [here](https://github.com/sequelize/sequelize/blob/master/CONTRIBUTING.DOCS.md)
