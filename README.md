@@ -6,7 +6,7 @@ The Sequelize Command Line Interface (CLI)
 - [Installation](#installation)
 - [Contributing](#contributing)
 - [Sequelize Support](#sequelize-support)
-- [Documentation] (#documentation)
+- [Documentation](#documentation)
 
 ## Installation
 
