@@ -25,11 +25,11 @@
     "expect.js": "^0.3.1",
     "gulp": "^3.9.1",
     "mocha": "^3.5.0",
-    "mysql": "^2.13.0",
+    "mysql": "^2.*",
     "nodeify": "^1.0.1",
-    "pg": "^6.1.3",
+    "pg": "^6.*",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^4.0.0",
+    "sequelize": "^4.*",
     "sqlite3": "^3.1.8",
     "through2": "^2.0.3"
   },
@@ -45,7 +45,7 @@
     "build-bin": "mv ./lib/sequelize.js ./lib/sequelize && chmod +x ./lib/sequelize",
     "build-assets": "cp -R ./src/assets ./lib/",
     "build-clean": "rm -rf ./lib/",
-    "lint": "eslint test src sequelize.js",
+    "lint": "eslint test src",
     "test-raw": "mocha $npm_package_options_mocha 'test/**/*.test.js'",
     "test": "npm run lint && npm run build && npm run test-raw"
   },
