@@ -6,6 +6,9 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Warning with Sequelize v4
 
+### Changed
+- Skeletons are now ES6 based [#482](https://github.com/sequelize/cli/issues/482)
+
 ## v3.0.0-0 - 8th, Sep 2017
 
 ### Removed
