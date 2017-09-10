@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
-import yargs from 'yargs';
-import fs from 'fs';
-import path from 'path';
+import getYArgs from './core/yargs';
 import cliPackage from '../package';
 import Promise from 'bluebird';
 import { isEmpty } from 'lodash';
+
+const yargs = getYArgs();
 
 Promise.coroutine.addYieldHandler(yieldedValue => {
   if (Array.isArray(yieldedValue)) {
@@ -31,6 +31,7 @@ import seedGenerate from './commands/seed_generate';
 
 import helpers from './helpers/index';
 
+
 helpers.view.teaser();
 
 const cli = yargs
@@ -51,7 +52,6 @@ const cli = yargs
   .command(['migration:generate', 'migration:create'], 'Generates a new migration file', migrationGenerate)
   .command(['model:generate', 'model:create'], 'Generates a model and its migration', modelGenerate)
   .command(['seed:generate', 'seed:create'], 'Generates a new seed file', seedGenerate)
-  .config(loadRCFile(yargs.argv.optionsPath))
   .version(() => cliPackage.version)
   .wrap(yargs.terminalWidth())
   .strict()
@@ -63,11 +63,3 @@ const args = cli.argv;
 if (!args._[0]) {
   cli.showHelp();
 }
-
-function loadRCFile(optionsPath) {
-  const rcFile = optionsPath || path.resolve(process.cwd(), '.sequelizerc');
-  const rcFileResolved = path.resolve(rcFile);
-  return fs.existsSync(rcFileResolved)
-    ? JSON.parse(JSON.stringify(require(rcFileResolved)))
-    : {};
-};

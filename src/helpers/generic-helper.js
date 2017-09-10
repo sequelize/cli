@@ -1,7 +1,9 @@
 import path from 'path';
 
 const resolve = require('resolve').sync;
-const args = require('yargs').argv;
+import getYArgs from '../core/yargs';
+
+const args = getYArgs().argv;
 
 const generic = {
   getEnvironment: () => {
