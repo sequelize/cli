@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## Upcoming
 
+## v3.0.0-2 - 10th, Sep 2017
+
+### Fixed
+- `.sequelizerc` is not properly read [#536](https://github.com/sequelize/cli/issues/536)
+
 ## v3.0.0-1 - 9th, Sep 2017
 
 ### Added
