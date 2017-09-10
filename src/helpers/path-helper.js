@@ -2,7 +2,9 @@ import path from 'path';
 import fs from 'fs';
 
 const resolve = require('resolve').sync;
-const args    = require('yargs').argv;
+import getYArgs from '../core/yargs';
+
+const args = getYArgs().argv;
 
 function format (i) {
   return parseInt(i, 10) < 10 ? '0' + i : i;

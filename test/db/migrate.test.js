@@ -174,10 +174,8 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
     };
 
     it('creates a SequelizeMeta table', function (done) {
-      const self = this;
-
       prepare(() => {
-        helpers.readTables(self.sequelize, tables => {
+        helpers.readTables(this.sequelize, tables => {
           expect(tables).to.have.length(2);
           expect(tables).to.contain('SequelizeMeta');
           done();
@@ -186,10 +184,8 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
     });
 
     it('creates the respective table', function (done) {
-      const self = this;
-
       prepare(() => {
-        helpers.readTables(self.sequelize, tables => {
+        helpers.readTables(this.sequelize, tables => {
           expect(tables).to.have.length(2);
           expect(tables).to.contain('Person');
           done();

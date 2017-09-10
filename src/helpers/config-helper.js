@@ -4,8 +4,9 @@ import fs from 'fs';
 import url from 'url';
 import _ from 'lodash';
 import helpers from './index';
+import getYArgs from '../core/yargs';
 
-const args = require('yargs').argv;
+const args = getYArgs().argv;
 
 const api = {
   config: undefined,

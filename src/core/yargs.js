@@ -1,3 +1,22 @@
+import fs from 'fs';
+import yargs from 'yargs';
+import path from 'path';
+
+function loadRCFile(optionsPath) {
+  const rcFile = optionsPath || path.resolve(process.cwd(), '.sequelizerc');
+  const rcFileResolved = path.resolve(rcFile);
+  return fs.existsSync(rcFileResolved)
+    ? JSON.parse(JSON.stringify(require(rcFileResolved)))
+    : {};
+}
+
+const args = yargs
+  .config(loadRCFile(yargs.argv.optionsPath));
+
+export default function getYArgs () {
+  return args;
+}
+
 export function _baseOptions (yargs) {
   return yargs
     .option('env', {
