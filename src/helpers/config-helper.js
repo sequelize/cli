@@ -94,7 +94,7 @@ const api = {
     const configPath = path.dirname(api.getConfigFile());
 
     if (!helpers.path.existsSync(configPath)) {
-      fs.mkdirSync(configPath);
+      helpers.asset.mkdirp(configPath);
     }
 
     fs.writeFileSync(api.getConfigFile(), api.getDefaultConfig());
