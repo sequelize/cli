@@ -97,6 +97,22 @@ module.exports = {
 }
 ```
 
+### Configuration for connecting over SSL
+
+Ensure ssl is specified in both `dialectOptions` and in the base config.
+
+```
+{
+    "production": {
+        "use_env_variable":"DB_CONNECTION_STRING",
+        "dialect":"postgres",
+        "ssl": true,
+        "dialectOptions": {
+            "ssl": true
+        }
+    }
+}
+
 ### Storage
 
 There are three types of storage that you can use: `sequelize`, `json`, and `none`.
