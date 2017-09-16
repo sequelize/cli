@@ -144,7 +144,7 @@ var Support = {
   },
 
   dialectIsMySQL: function (strict) {
-    var envDialect = process.env.DIALECT || 'mysql';
+    var envDialect = this.getTestDialect();
 
     if (strict === undefined) {
       strict = false;
@@ -155,6 +155,11 @@ var Support = {
     } else {
       return ['mysql', 'mariadb'].indexOf(envDialect) !== -1;
     }
+  },
+
+  dialectIsPostgres: function (strict) {
+    var envDialect = this.getTestDialect();
+    return ['postgres', 'postgres-native'].indexOf(envDialect) !== -1;
   },
 
   getTestDialectTeaser: function (moduleName) {

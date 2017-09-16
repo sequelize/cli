@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 const Sequelize = helpers.generic.getSequelize();
 
-function logMigrator (s) {
+export function logMigrator (s) {
   if (s.indexOf('Executing') !== 0) {
     helpers.view.log(s);
   }
