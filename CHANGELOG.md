@@ -3,8 +3,13 @@ All notable changes to this project will be documented in this file.
 
 ## Upcoming
 
+## v3.0.0-3 - 16th, Sep 2017
+
 ### Fixed
 - Error when creating nested config path [#534](https://github.com/sequelize/cli/issues/534)
+
+### Added
+- `db:create` and `db:drop` for MySQL, Postgres and MSSQL [#70](https://github.com/sequelize/cli/issues/70)
 
 ## v3.0.0-2 - 10th, Sep 2017
 

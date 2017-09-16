@@ -50,6 +50,8 @@ Commands:
   db:seed:undo                      Deletes data from the database
   db:seed:all                       Run every seeder
   db:seed:undo:all                  Deletes data from the database
+  db:create                         Create database specified by configuration
+  db:drop                           Drop database specified by configuration
   init                              Initializes project
   init:config                       Initializes configuration
   init:migrations                   Initializes migrations
