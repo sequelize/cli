@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Upcoming
 
+### Fixed
+- Error when creating nested config path [#534](https://github.com/sequelize/cli/issues/534)
+
 ## v3.0.0-2 - 10th, Sep 2017
 
 ### Fixed

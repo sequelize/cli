@@ -40,6 +40,16 @@ const gulp    = require('gulp');
       'models/index.js'
     ]);
 
+    it('creates a custom config folder', done => {
+      gulp
+        .src(Support.resolveSupportPath('tmp'))
+        .pipe(helpers.clearDirectory())
+        .pipe(helpers.runCli(flag + ' --config my-config/config/config.json'))
+        .pipe(helpers.listFiles())
+        .pipe(helpers.ensureContent('my-config'))
+        .pipe(helpers.teardown(done));
+    });
+
     it('creates a custom migrations folder', done => {
       gulp
         .src(Support.resolveSupportPath('tmp'))
