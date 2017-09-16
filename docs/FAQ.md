@@ -17,7 +17,7 @@ Specify migration name with `--name` argument
 $ sequelize migration:create --name <migration_name>
 ```
 
-## What is the command to executes all migrations?
+## What is the command to execute all migrations?
 ```
 $ sequelize db:migrate
 ```
