@@ -112,6 +112,7 @@ Ensure ssl is specified in both `dialectOptions` and in the base config.
         }
     }
 }
+```
 
 ### Storage
 
