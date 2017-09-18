@@ -80,6 +80,6 @@ Full support for Sequelize v4 is coming soon with [Sequelize CLI v4](https://git
 
 ## Documentation
 
-- [Detailed CLI documentation](docs/README.md)
+- [Migrations Documentation](http://docs.sequelizejs.com/manual/tutorial/migrations.html)
+- [CLI Options](docs/README.md)
 - [Frequently Asked Questions](docs/FAQ.md)
-- [Query Interface API and Migrations](http://docs.sequelizejs.com/manual/tutorial/migrations.html)
