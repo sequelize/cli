@@ -9,7 +9,7 @@
     "bluebird": "^3.5.0",
     "cli-color": "^1.2.0",
     "fs-extra": "^4.0.1",
-    "js-beautify": "^1.6.14",
+    "js-beautify": "^1.7.1",
     "lodash": "^4.17.4",
     "resolve": "^1.4.0",
     "umzug": "^2.0.1",
