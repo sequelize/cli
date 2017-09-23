@@ -40,11 +40,47 @@ describe(Support.getTestDialectTeaser('db:create'), () => {
           }
         });
     });
+
+    it('correctly creates database with hyphen #545', function (done) {
+      const databaseName = `my_test-db_${_.random(10000, 99999)}`;
+      prepare(
+        'db:create',
+        () => {
+          this.sequelize.query(`SELECT 1 as exists FROM pg_database WHERE datname = '${databaseName}';`, {
+            type: this.sequelize.QueryTypes.SELECT
+          }).then(result => {
+            expect(result[0].exists).to.eql(1);
+            done();
+          });
+        }, {
+          config: {
+            database: databaseName
+          }
+        });
+    });
   }
 
   if (Support.dialectIsMySQL()) {
     it('correctly creates database', function (done) {
       const databaseName = `my_test_db_${_.random(10000, 99999)}`;
+      prepare(
+        'db:create',
+        () => {
+          this.sequelize.query(`SELECT IF('${databaseName}' IN(SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA), 1, 0) AS found;`, {
+            type: this.sequelize.QueryTypes.SELECT
+          }).then(result => {
+            expect(result[0].found).to.eql(1);
+            done();
+          });
+        }, {
+          config: {
+            database: databaseName
+          }
+        });
+    });
+
+    it('correctly creates database with hyphen #545', function (done) {
+      const databaseName = `my_test-db_${_.random(10000, 99999)}`;
       prepare(
         'db:create',
         () => {
