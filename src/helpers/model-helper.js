@@ -1,14 +1,6 @@
-import clc from 'cli-color';
 import helpers from './index';
 
 module.exports = {
-  notifyAboutExistingFile (file) {
-    helpers.view.error(
-      'The file ' + clc.blueBright(file) + ' already exists. ' +
-      'Run "sequelize model:create --force" to overwrite it.'
-    );
-  },
-
   transformAttributes (flag) {
     /*
       possible flag formats:

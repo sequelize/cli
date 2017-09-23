@@ -120,13 +120,13 @@ const api = {
       }
 
       if (args.url) {
-        console.log('Parsed url ' + api.filteredUrl(args.url, api.rawConfig));
+        helpers.view.log('Parsed url ' + api.filteredUrl(args.url, api.rawConfig));
       } else {
-        console.log('Loaded configuration file "' + api.relativeConfigFile() + '".');
+        helpers.view.log('Loaded configuration file "' + api.relativeConfigFile() + '".');
       }
 
       if (api.rawConfig[env]) {
-        console.log('Using environment "' + env + '".');
+        helpers.view.log('Using environment "' + env + '".');
 
         api.rawConfig = api.rawConfig[env];
       }

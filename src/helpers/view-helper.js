@@ -1,6 +1,9 @@
 import clc from 'cli-color';
 import _ from 'lodash';
 import helpers from './index';
+import getYArgs from '../core/yargs';
+
+const args = getYArgs().argv;
 
 module.exports = {
   teaser () {
@@ -16,17 +19,45 @@ module.exports = {
 
     // Remove in v4
     if (helpers.version.getOrmVersion().match(/^4./)) {
-      this.log(clc.yellow(
-        'WARNING: This version of Sequelize CLI is not ' +
+      this.warn(
+        'This version of Sequelize CLI is not ' +
         'fully compatible with Sequelize v4. ' +
         'https://github.com/sequelize/cli#sequelize-support'
-      ));
+      );
       this.log();
     }
   },
 
-  log: console.log,
-  error: console.error,
+  log () {
+    console.log.apply(this, arguments);
+  },
+
+  error (error) {
+    let message = error;
+
+    if (error instanceof Error) {
+      message = !args.debug
+        ? error.message
+        : error.stack;
+    }
+
+    this.log();
+    console.error(`${clc.red('ERROR:')} ${message}`);
+    this.log();
+
+    process.exit(1);
+  },
+
+  warn (message) {
+    this.log(`${clc.yellow('WARNING:')} ${message}`);
+  },
+
+  notifyAboutExistingFile (file) {
+    this.error(
+      'The file ' + clc.blueBright(file) + ' already exists. ' +
+      'Run command with --force to overwrite it.'
+    );
+  },
 
   pad (s, smth) {
     let margin = smth;

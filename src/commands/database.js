@@ -19,12 +19,9 @@ exports.handler = async function (args) {
 
   switch (command) {
     case 'db:create':
-      await sequelize.query(`CREATE DATABASE ${sequelize.queryInterface.quoteIdentifier(config.database)}`, {
+      await sequelize.query(`CREATE DATABASE ${sequelize.getQueryInterface().quoteIdentifier(config.database)}`, {
         type: sequelize.QueryTypes.RAW
-      }).catch(e => {
-        helpers.view.error(`Error: ${e.message}`);
-        process.exit(1);
-      });
+      }).catch(e => helpers.view.error(e));
 
       helpers.view.log(
         'Database',
@@ -34,12 +31,9 @@ exports.handler = async function (args) {
 
       break;
     case 'db:drop':
-      await sequelize.query(`DROP DATABASE ${sequelize.queryInterface.quoteIdentifier(config.database)}`, {
+      await sequelize.query(`DROP DATABASE ${sequelize.getQueryInterface().quoteIdentifier(config.database)}`, {
         type: sequelize.QueryTypes.RAW
-      }).catch(e => {
-        helpers.view.error(`Error: ${e.message}`);
-        process.exit(1);
-      });
+      }).catch(e => helpers.view.error(e));
 
       helpers.view.log(
         'Database',
@@ -59,8 +53,7 @@ function getDatabaseLessSequelize () {
   try {
     config = helpers.config.readConfig();
   } catch (e) {
-    helpers.view.error(`Error: ${e.message}`);
-    process.exit(1);
+    helpers.view.error(e);
   }
 
   config = cloneDeep(config);
@@ -82,13 +75,11 @@ function getDatabaseLessSequelize () {
 
     default:
       helpers.view.error(`Dialect ${config.dialect} does not support db:create / db:drop commands`);
-      process.exit(1);
   }
 
   try {
     return new Sequelize(config);
   } catch (e) {
-    helpers.view.error(`Error: ${e.message}`);
-    process.exit(1);
+    helpers.view.error(e);
   }
 }

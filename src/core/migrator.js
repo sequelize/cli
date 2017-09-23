@@ -1,7 +1,8 @@
-import helpers from '../helpers/index';
 import Umzug from 'umzug';
 import Bluebird from 'bluebird';
 import _ from 'lodash';
+
+import helpers from '../helpers/index';
 
 const Sequelize = helpers.generic.getSequelize();
 
@@ -17,8 +18,7 @@ function getSequelizeInstance () {
   try {
     config = helpers.config.readConfig();
   } catch (e) {
-    console.log(e.message);
-    process.exit(1);
+    helpers.view.error(e);
   }
 
   config = _.defaults(config, { logging: logMigrator });
@@ -26,15 +26,14 @@ function getSequelizeInstance () {
   try {
     return new Sequelize(config);
   } catch (e) {
-    console.warn(e);
-    throw e;
+    helpers.view.error(e);
   }
 }
 
 export function getMigrator (type, args) {
   return Bluebird.try(() => {
     if (!(helpers.config.configFileExists() || args.url)) {
-      console.log(
+      helpers.view.error(
         'Cannot find "' + helpers.config.getConfigFile() +
         '". Have you run "sequelize init"?'
       );
@@ -45,7 +44,7 @@ export function getMigrator (type, args) {
     const migrator = new Umzug({
       storage: helpers.umzug.getStorage(type),
       storageOptions: helpers.umzug.getStorageOptions(type, { sequelize }),
-      logging: console.log,
+      logging: helpers.view.log,
       migrations: {
         params: [sequelize.getQueryInterface(), Sequelize],
         path: helpers.path.getPath(type),
@@ -63,10 +62,7 @@ export function getMigrator (type, args) {
     return sequelize
       .authenticate()
       .then(() => migrator)
-      .catch(err => {
-        console.error('Unable to connect to database: ' + err);
-        process.exit(1);
-      });
+      .catch(e => helpers.view.error(e));
   });
 }
 

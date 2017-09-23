@@ -49,7 +49,6 @@ function ensureModelsFolder () {
       helpers.path.getModelsPath() +
       '). Did you run ' + clc.blueBright('sequelize init') + '?'
     );
-    process.exit(1);
   }
 }
 
@@ -60,7 +59,6 @@ function ensureMigrationsFolder () {
       helpers.path.getPath('migration') +
       '). Did you run ' + clc.blueBright('sequelize init') + '?'
     );
-    process.exit(1);
   }
 }
 
@@ -68,7 +66,7 @@ function checkModelFileExistence (args) {
   const modelPath = helpers.path.getModelPath(args.name);
 
   if (!args.force && helpers.model.modelFileExists(modelPath)) {
-    helpers.model.notifyAboutExistingFile(modelPath);
+    helpers.view.notifyAboutExistingFile(modelPath);
     process.exit(1);
   }
 }
