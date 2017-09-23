@@ -55,7 +55,7 @@ module.exports = {
   notifyAboutExistingFile (file) {
     this.error(
       'The file ' + clc.blueBright(file) + ' already exists. ' +
-      'Run "sequelize model:create --force" to overwrite it.'
+      'Run command with --force to overwrite it.'
     );
   },
 
