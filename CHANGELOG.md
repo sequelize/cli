@@ -1,7 +1,21 @@
 # Change Log
 All notable changes to this project will be documented in this file.
 
-## Upcoming
+## Future
+
+## v3.0.0 - 23rd, Sep 2017
+
+### Fixed
+ - `db:create/drop` should properly quote database name [#545](https://github.com/sequelize/cli/issues/545)
+
+### Added
+ - `--debug` support, print full stack for errors, when available [#552](https://github.com/sequelize/cli/pull/552)
+
+### Changed
+ - All errors are now properly formatted and outputted to `console.error` [#552](https://github.com/sequelize/cli/pull/552)
+
+### Internal
+ - Refactor to use centralized `log/error/warn` methods [#552](https://github.com/sequelize/cli/pull/552)
 
 ## v3.0.0-3 - 16th, Sep 2017
 
