@@ -24,7 +24,7 @@ const prepare = function (flag, callback, options) {
 describe(Support.getTestDialectTeaser('db:create'), () => {
   if (Support.dialectIsPostgres()) {
     it('correctly creates database', function (done) {
-      const databaseName = `my_test_db_${_.random(10000, 99999)}`;
+      const databaseName = `my-test-db-${_.random(10000, 99999)}`;
       prepare(
         'db:create',
         () => {
