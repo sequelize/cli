@@ -17,6 +17,12 @@ exports.handler = async function (args) {
   const sequelize = getDatabaseLessSequelize();
   const config = helpers.config.readConfig();
 
+  switch (config.dialect) {
+    case 'postgres':
+      config.database = `"${config.database}"`;
+      break;
+  }
+
   switch (command) {
     case 'db:create':
       await sequelize.query(`CREATE DATABASE ${sequelize.getQueryInterface().quoteIdentifier(config.database)}`, {

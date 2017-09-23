@@ -25,7 +25,7 @@ const prepare = function (flag, callback, options) {
 describe(Support.getTestDialectTeaser('db:drop'), () => {
   if (Support.dialectIsPostgres()) {
     it('correctly drops database', function (done) {
-      const databaseName = `my_test_db_${_.random(10000, 99999)}`;
+      const databaseName = `my-test-db-${_.random(10000, 99999)}`;
       prepare(
         'db:drop',
         () => {
