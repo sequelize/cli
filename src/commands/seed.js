@@ -29,17 +29,13 @@ function seedAll (args) {
     return migrator.pending()
       .then(seeders => {
         if (seeders.length === 0) {
-          console.log('No seeders found.');
+          helpers.view.log('No seeders found.');
           return;
         }
 
         return migrator.up({ migrations: _.chain(seeders).map('file').value() });
-      })
-      .catch(err => {
-        console.error('Seed file failed with error:', err.message, err.stack);
-        process.exit(1);
       });
-  });
+  }).catch(e => helpers.view.error(e));
 }
 
 function seedUndoAll (args) {
@@ -49,15 +45,11 @@ function seedUndoAll (args) {
     )
       .then(seeders => {
         if (seeders.length === 0) {
-          console.log('No seeders found.');
+          helpers.view.log('No seeders found.');
           return;
         }
 
         return migrator.down({ migrations: _.chain(seeders).map('file').reverse().value() });
-      })
-      .catch(err => {
-        console.error('Seed file failed with error:', err.message, err.stack);
-        process.exit(1);
       });
-  });
+  }).catch(e => helpers.view.error(e));
 }

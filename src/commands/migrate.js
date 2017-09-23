@@ -32,16 +32,12 @@ function migrate(args) {
       .then(() =>  migrator.pending())
       .then(migrations => {
         if (migrations.length === 0) {
-          console.log('No migrations were executed, database schema was already up to date.');
+          helpers.view.log('No migrations were executed, database schema was already up to date.');
           process.exit(0);
         }
       })
-      .then(() => migrator.up())
-      .catch(err => {
-        console.error(err);
-        process.exit(1);
-      });
-  });
+      .then(() => migrator.up());
+  }).catch(e => helpers.view.error(e));
 }
 
 function migrationStatus(args) {
@@ -50,18 +46,15 @@ function migrationStatus(args) {
       .then(() => migrator.executed())
       .then(migrations => {
         _.forEach(migrations, migration => {
-          console.log('up', migration.file);
+          helpers.view.log('up', migration.file);
         });
       }).then(() => migrator.pending())
       .then(migrations => {
         _.forEach(migrations, migration => {
-          console.log('down', migration.file);
+          helpers.view.log('down', migration.file);
         });
-      }).catch(err => {
-        console.error(err);
-        process.exit(1);
       });
-  });
+  }).catch(e => helpers.view.error(e));
 }
 
 function migrateSchemaTimestampAdd(args) {
@@ -69,14 +62,10 @@ function migrateSchemaTimestampAdd(args) {
     return addTimestampsToSchema(migrator)
       .then(items => {
         if (items) {
-          console.log('Successfully added timestamps to MetaTable.');
+          helpers.view.log('Successfully added timestamps to MetaTable.');
         } else {
-          console.log('MetaTable already has timestamps.');
+          helpers.view.log('MetaTable already has timestamps.');
         }
-      })
-      .catch(err => {
-        console.error(err);
-        process.exit(1);
       });
-  });
+  }).catch(e => helpers.view.error(e));
 }

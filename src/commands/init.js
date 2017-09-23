@@ -44,9 +44,9 @@ exports.handler = async function (argv) {
 function initConfig (args) {
   if (!helpers.config.configFileExists() || !!args.force) {
     helpers.config.writeDefaultConfig();
-    console.log('Created "' + helpers.config.relativeConfigFile() + '"');
+    helpers.view.log('Created "' + helpers.config.relativeConfigFile() + '"');
   } else {
-    helpers.init.notifyAboutExistingFile(helpers.config.relativeConfigFile());
+    helpers.view.notifyAboutExistingFile(helpers.config.relativeConfigFile());
     process.exit(1);
   }
 }

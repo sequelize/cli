@@ -30,22 +30,14 @@ exports.handler = async function (args) {
   switch (command) {
     case 'db:seed':
       await getMigrator('seeder', args).then(migrator => {
-        return migrator.up(seeds)
-          .catch(err => {
-            console.error('Seed file failed with error:', err.message, err.stack);
-            process.exit(1);
-          });
-      });
+        return migrator.up(seeds);
+      }).catch(e => helpers.view.error(e));
       break;
 
     case 'db:seed:undo':
       await getMigrator('seeder', args).then(migrator => {
-        return migrator.down({ migrations: seeds })
-          .catch(err => {
-            console.error('Seed file failed with error:', err.message, err.stack);
-            process.exit(1);
-          });
-      });
+        return migrator.down({ migrations: seeds });
+      }).catch(e => helpers.view.error(e));
       break;
   }
 

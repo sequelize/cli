@@ -27,7 +27,7 @@ function migrateUndo (args) {
     return ensureCurrentMetaSchema(migrator).then(() => migrator.executed())
       .then(migrations => {
         if (migrations.length === 0) {
-          console.log('No executed migrations found.');
+          helpers.view.log('No executed migrations found.');
           process.exit(0);
         }
       })
@@ -37,10 +37,6 @@ function migrateUndo (args) {
         } else {
           return migrator.down();
         }
-      })
-      .catch(err => {
-        console.error(err);
-        process.exit(1);
       });
-  });
+  }).catch(e => helpers.view.error(e));
 }

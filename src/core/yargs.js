@@ -50,6 +50,11 @@ export function _baseOptions (yargs) {
     .option('url', {
       describe: 'The database connection string to use. Alternative to using --config files',
       type: 'string'
+    })
+    .option('debug', {
+      describe: 'When available show various debug information',
+      default: false,
+      type: 'boolean'
     });
 }
 

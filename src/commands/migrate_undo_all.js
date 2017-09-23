@@ -28,14 +28,10 @@ function migrationUndoAll (args) {
     return ensureCurrentMetaSchema(migrator).then(() => migrator.executed())
       .then(migrations => {
         if (migrations.length === 0) {
-          console.log('No executed migrations found.');
+          helpers.view.log('No executed migrations found.');
           process.exit(0);
         }
       })
-      .then(() => migrator.down({ to: args.to || 0 }))
-      .catch(err => {
-        console.error(err);
-        process.exit(1);
-      });
-  });
+      .then(() => migrator.down({ to: args.to || 0 }));
+  }).catch(e => helpers.view.error(e));
 }
