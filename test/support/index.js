@@ -3,7 +3,7 @@
 var fs        = require('fs');
 var path      = require('path');
 var Sequelize = require('sequelize');
-var _         = Sequelize.Utils._;
+var _         = require('lodash');
 var DataTypes = Sequelize;
 var Config    = require(__dirname + '/config/config');
 var expect    = require('expect.js');
@@ -40,7 +40,7 @@ var Support = {
     var dialect = Support.getTestDialect();
 
     if (dialect === 'sqlite') {
-      var options    = Sequelize.Utils._.extend({}, sequelize.options, {
+      var options    = _.extend({}, sequelize.options, {
         storage: path.join(__dirname, 'tmp', 'db.sqlite')
       });
       var _sequelize = new Sequelize(sequelize.config.datase, null, null, options);
