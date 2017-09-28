@@ -14,7 +14,7 @@ module.exports = {
     var config  = require(support.resolveSupportPath('config', 'config.js'));
 
     config.sqlite.storage = support.resolveSupportPath('tmp', 'test.sqlite');
-    config = support.Sequelize.Utils._.extend(
+    config = _.extend(
       config,
       config[dialect],
       mixin || {},
