@@ -281,7 +281,7 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
       let done = callback;
       return gulp
         .src(Support.resolveSupportPath('tmp'))
-        .pipe(helpers.runCli(cliArgs))
+        .pipe(helpers.runCli(cliArgs, { pipeStdout: true, exitCode: 0 }))
         .on('error', e => {
           done(e);
           done = () => {};
@@ -343,7 +343,8 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
         helpers.readTables(self.sequelize, tables => {
           expect(tables).to.have.length(3);
           expect(tables).to.contain('User');
-          runCli('db:migrate --to ' + createTriggers, err => {
+          runCli('db:migrate --to ' + createTriggers, (err, result) => {
+            expect(result).to.contain('No migrations were executed, database schema was already up to date.');
             done(err);
           });
         });
