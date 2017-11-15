@@ -76,9 +76,9 @@ const _         = require('lodash');
       });
 
       ;[
-        'first_name:string,last_name:string,bio:text',
-        '\'first_name:string last_name:string bio:text\'',
-        '\'first_name:string, last_name:string, bio:text\''
+        'first_name:string,last_name:string,bio:text,reviews:array:text',
+        '\'first_name:string last_name:string bio:text reviews:array:text\'',
+        '\'first_name:string, last_name:string, bio:text, reviews:array:text\''
       ].forEach(attributes => {
         describe('--attributes ' + attributes, () => {
           it('exits with exit code 0', done => {
@@ -111,6 +111,7 @@ const _         = require('lodash');
                 .pipe(helpers.ensureContent('first_name: DataTypes.STRING'))
                 .pipe(helpers.ensureContent('last_name: DataTypes.STRING'))
                 .pipe(helpers.ensureContent('bio: DataTypes.TEXT'))
+                .pipe(helpers.ensureContent('reviews: DataTypes.ARRAY(DataTypes.TEXT)'))
                 .pipe(helpers.teardown(done));
             });
           });
@@ -158,6 +159,9 @@ const _         = require('lodash');
                     ))
                     .pipe(helpers.ensureContent(
                       'bio: {\n        type: Sequelize.TEXT\n      },'
+                    ))
+                    .pipe(helpers.ensureContent(
+                      'reviews: {\n        type: Sequelize.ARRAY(Sequelize.TEXT)\n      },'
                     ))
                     .pipe(helpers.ensureContent([
                       '     id: {',
