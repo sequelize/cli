@@ -379,7 +379,8 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
           expect(tables).to.have.length(3);
           expect(tables).to.contain('Post');
           expect(tables).to.contain('trigger_test');
-          runCli('db:migrate --from ' + createPost, err => {
+          runCli('db:migrate --from ' + createPost, (err, result) => {
+            expect(result).to.contain('No migrations were executed, database schema was already up to date.');
             done(err);
           });
         });
