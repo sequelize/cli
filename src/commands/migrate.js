@@ -54,6 +54,10 @@ function migrate(args) {
           options.to = args.to;
         }
         if (args.from) {
+          if (migrations.map(migration => migration.file).lastIndexOf(args.from) === -1) {
+            helpers.view.log('No migrations were executed, database schema was already up to date.');
+            process.exit(0);
+          }
           options.from = args.from;
         }
         return options;
