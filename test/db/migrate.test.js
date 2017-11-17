@@ -1,5 +1,4 @@
-
-
+const fs        = require('fs');
 const expect    = require('expect.js');
 const Support   = require(__dirname + '/../support');
 const helpers   = require(__dirname + '/../support/helpers');
@@ -240,6 +239,166 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
         helpers.readTables(self.sequelize, tables => {
           expect(tables).to.have.length(2);
           expect(tables).to.contain('Person');
+          done();
+        });
+      });
+    });
+  });
+});
+
+describe(Support.getTestDialectTeaser('db:migrate'), () => {
+  describe('optional migration parameters', () => {
+    const prepare = function (runArgs = '', callback) {
+      const config        = { url: helpers.getTestUrl() };
+      const configContent = 'module.exports = ' + JSON.stringify(config);
+      let result        = '';
+
+      return gulp
+        .src(Support.resolveSupportPath('tmp'))
+        .pipe(helpers.clearDirectory())
+        .pipe(helpers.runCli('init'))
+        .pipe(helpers.removeFile('config/config.json'))
+        .pipe(helpers.copyMigration('createPerson.js'))
+        .pipe(helpers.copyMigration('renamePersonToUser.js'))
+        .pipe(helpers.copyMigration('createTestTableForTrigger.js'))
+        .pipe(helpers.copyMigration('createPost.js'))
+        .pipe(helpers.overwriteFile(configContent, 'config/config.js'))
+        .pipe(helpers.runCli('db:migrate ' + runArgs))
+        .on('error', e => {
+          callback(e);
+        })
+        .on('data', data => {
+          result += data.toString();
+        })
+        .on('end', () => {
+          callback(null, result);
+        });
+    };
+
+    const runCli = function (cliArgs, callback) {
+      let result = '';
+      // avoid double callbacks
+      let done = callback;
+      return gulp
+        .src(Support.resolveSupportPath('tmp'))
+        .pipe(helpers.runCli(cliArgs, { pipeStdout: true, exitCode: 0 }))
+        .on('error', e => {
+          done(e);
+          done = () => {};
+        })
+        .on('data', data => {
+          result += data.toString();
+        })
+        .on('end', () => {
+          done(null, result);
+        });
+    };
+
+    it('--to', function (done) {
+      const self = this;
+      const migrationsPath = Support.resolveSupportPath('assets', 'migrations');
+      const migrations = fs.readdirSync(migrationsPath);
+      const createTriggers = migrations.filter(migration => migration.indexOf('createTestTableForTrigger') > -1);
+
+      prepare('--to ' + createTriggers, () => {
+        helpers.readTables(self.sequelize, tables => {
+          expect(tables).to.have.length(3);
+          expect(tables).to.contain('User');
+          expect(tables).to.contain('trigger_test');
+          done();
+        });
+      });
+    });
+
+    it('--to full migration in two parts', function (done) {
+      const self = this;
+      const migrationsPath = Support.resolveSupportPath('assets', 'migrations');
+      const migrations = fs.readdirSync(migrationsPath);
+      const createTriggers = migrations.filter(migration => migration.indexOf('createTestTableForTrigger') > -1);
+      const createPost = migrations.filter(migration => migration.indexOf('createPost') > -1);
+
+      prepare('--to ' + createTriggers, () => {
+        helpers.readTables(self.sequelize, tables => {
+          expect(tables).to.have.length(3);
+          expect(tables).to.contain('User');
+          expect(tables).to.contain('trigger_test');
+          runCli('db:migrate --to ' + createPost, () => {
+            helpers.readTables(self.sequelize, tables => {
+              expect(tables).to.have.length(4);
+              expect(tables).to.contain('Post');
+              done();
+            });
+          });
+        });
+      });
+    });
+
+    it('--to should exit with 0 when there are no migrations', function (done) {
+      const self = this;
+      const migrationsPath = Support.resolveSupportPath('assets', 'migrations');
+      const migrations = fs.readdirSync(migrationsPath);
+      const createTriggers = migrations.filter(migration => migration.indexOf('createTestTableForTrigger') > -1);
+
+      prepare('--to ' + createTriggers, () => {
+        helpers.readTables(self.sequelize, tables => {
+          expect(tables).to.have.length(3);
+          expect(tables).to.contain('User');
+          runCli('db:migrate --to ' + createTriggers, (err, result) => {
+            expect(result).to.contain('No migrations were executed, database schema was already up to date.');
+            done(err);
+          });
+        });
+      });
+    });
+
+    it('--from', function (done) {
+      const self = this;
+      const migrationsPath = Support.resolveSupportPath('assets', 'migrations');
+      const migrations = fs.readdirSync(migrationsPath);
+      const createPersonMigration = migrations.filter(migration => migration.indexOf('renamePersonToUser') > -1);
+
+      prepare('--from ' + createPersonMigration, () => {
+        helpers.readTables(self.sequelize, tables => {
+          expect(tables).to.have.length(3);
+          expect(tables).to.contain('Post');
+          expect(tables).to.contain('trigger_test');
+          done();
+        });
+      });
+    });
+
+    it('--from should exit with 0 when there are no migrations', function (done) {
+      const self = this;
+      const migrationsPath = Support.resolveSupportPath('assets', 'migrations');
+      const migrations = fs.readdirSync(migrationsPath);
+      const createPersonMigration = migrations.filter(migration => migration.indexOf('renamePersonToUser') > -1);
+      const createPost = migrations.filter(migration => migration.indexOf('createPost') > -1);
+
+      prepare('--from ' + createPersonMigration, () => {
+        helpers.readTables(self.sequelize, tables => {
+          expect(tables).to.have.length(3);
+          expect(tables).to.contain('Post');
+          expect(tables).to.contain('trigger_test');
+          runCli('db:migrate --from ' + createPost, (err, result) => {
+            expect(result).to.contain('No migrations were executed, database schema was already up to date.');
+            done(err);
+          });
+        });
+      });
+    });
+
+
+    it('--to and --from together', function (done) {
+      const self = this;
+      const migrationsPath = Support.resolveSupportPath('assets', 'migrations');
+      const migrations = fs.readdirSync(migrationsPath);
+      const createPersonMigration = migrations.filter(migration => migration.indexOf('renamePersonToUser') > -1);
+      const createPost = migrations.filter(migration => migration.indexOf('createTestTableForTrigger') > -1);
+
+      prepare('--from ' + createPersonMigration + ' --to ' + createPost, () => {
+        helpers.readTables(self.sequelize, tables => {
+          expect(tables).to.have.length(2);
+          expect(tables).to.contain('trigger_test');
           done();
         });
       });
