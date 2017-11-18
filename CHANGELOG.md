@@ -3,6 +3,19 @@ All notable changes to this project will be documented in this file.
 
 ## Future
 
+## v3.1.0 - 18th, Nov 2017
+
+### Fixed
+- Pass full config to sequelize constructor [#584](https://github.com/sequelize/cli/issues/584)
+
+### Added
+- `db:migrate` support for from / to arguments [#581](https://github.com/sequelize/cli/pull/581)
+
+### Changed
+- Safer configuration using environment variables for production [#579](https://github.com/sequelize/cli/pull/579)
+
+- Updated dependencies
+
 ## v3.0.0 - 23rd, Sep 2017
 
 ### Fixed
