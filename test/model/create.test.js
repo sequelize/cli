@@ -75,6 +75,26 @@ const _         = require('lodash');
         });
       });
 
+      describe('when type is unknown', () => {
+        it('exits with an error code', done => {
+          prepare({
+            flags:  { name: 'User', attributes: 'first_name:stringlet' },
+            cli: { exitCode: 1 }
+          }, done);
+        });
+        
+        it('notifies the user about unknown attribute types', done => {
+          prepare({
+            flags: { name: 'User', attributes: 'first_name:stringlet' },
+            cli: { pipeStderr: true }
+          }, (err, stdout) => {
+            expect(stdout).to.match(/Unknown attribute type stringlet/);
+            done();
+          });
+        });
+
+      });
+
       ;[
         'first_name:string,last_name:string,bio:text',
         '\'first_name:string last_name:string bio:text\'',
