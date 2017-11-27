@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs';
 
 function createFolder (folderName, folder, force) {
-  if (force) {
+  if (force && fs.existsSync(folder) === true) {
     helpers.view.log('Deleting the ' + folderName + ' folder. (--force)');
 
     try {
@@ -23,8 +23,12 @@ function createFolder (folderName, folder, force) {
   }
 
   try {
-    helpers.asset.mkdirp(folder);
-    helpers.view.log('Successfully created ' + folderName + ' folder at "' + folder + '".');
+    if (fs.existsSync(folder) === false) {
+      helpers.asset.mkdirp(folder);
+      helpers.view.log('Successfully created ' + folderName + ' folder at "' + folder + '".');
+    } else {
+      helpers.view.log(folderName + ' folder at "' + folder + '" already exists.');
+    }
   } catch (e) {
     helpers.view.error(e);
   }
