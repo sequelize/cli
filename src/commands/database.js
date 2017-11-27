@@ -19,7 +19,11 @@ exports.handler = async function (args) {
 
   switch (command) {
     case 'db:create':
-      await sequelize.query(`CREATE DATABASE ${sequelize.getQueryInterface().quoteIdentifier(config.database)}`, {
+      const database = sequelize.getQueryInterface().quoteIdentifier(config.database);
+      const dialectOptions = config.dialectOptions || {};
+      const charset = dialectOptions.charset ? ('DEFAULT CHARSET=' + sequelize.getQueryInterface().quoteIdentifier(dialectOptions.charset)) : '';
+      const collation = dialectOptions.collate ? ('DEFAULT COLLATE=' + sequelize.getQueryInterface().quoteIdentifier(dialectOptions.collate)) : '';
+      await sequelize.query(`CREATE DATABASE ${database} ${charset} ${collation}`, {
         type: sequelize.QueryTypes.RAW
       }).catch(e => helpers.view.error(e));
 
