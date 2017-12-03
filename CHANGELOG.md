@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file.
 
 ## Future
+## v3.2.0 - 3rd, Dec 2017
+
+### Fixed
+- Better messages when files/folders already exists [#569](https://github.com/sequelize/cli/issues/569)
+- Specify ARRAY type with `model:create` [#155](https://github.com/sequelize/cli/issues/155)
+
+### Changed
+- Revert: safer configuration using environment variables for production [#594](https://github.com/sequelize/cli/pull/594)
+
 
 ## v3.1.0 - 18th, Nov 2017
 
