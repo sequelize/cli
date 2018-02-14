@@ -8,12 +8,11 @@ module.exports = (sequelize, DataTypes) => {
     <% }) %>
   }, {
     <%= underscored ? 'underscored: true,' : '' %>
-    classMethods: {
-      associate: function(models) {
-        // associations can be defined here
-      }
-    }
   });
+
+  <%= name %>.associate = function(models) {
+    // associations can be defined here
+  };
 
   return <%= name %>;
 };
