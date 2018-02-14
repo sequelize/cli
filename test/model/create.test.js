@@ -210,6 +210,7 @@ const _         = require('lodash');
                     .src(Support.resolveSupportPath('tmp', 'models'))
                     .pipe(helpers.readFile('user.js'))
                     .pipe(helpers.ensureContent(targetContent))
+                    .pipe(helpers.ensureContent('.associate'))
                     .pipe(helpers.teardown(done));
                 });
               });
