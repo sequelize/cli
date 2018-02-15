@@ -10,7 +10,7 @@
     "cli-color": "^1.2.0",
     "fs-extra": "^5.0.0",
     "js-beautify": "^1.7.4",
-    "lodash": "^4.17.4",
+    "lodash": "^4.17.5",
     "resolve": "^1.5.0",
     "umzug": "^2.1.0",
     "yargs": "^8.0.2"
@@ -27,10 +27,10 @@
     "mocha": "^3.5.0",
     "mysql": "^2.15.0",
     "nodeify": "^1.0.1",
-    "pg": "^6.*",
-    "pg-hstore": "^2.3.2",
-    "sequelize": "^4.*",
-    "sqlite3": "^3.1.8",
+    "pg": "^7.*",
+    "pg-hstore": "^2.x",
+    "sequelize": "^4.x",
+    "sqlite3": "^3.x",
     "through2": "^2.0.3"
   },
   "options": {

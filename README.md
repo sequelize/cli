@@ -72,12 +72,6 @@ Sequelize CLI is always looking for contributions. You can help us with fixing b
 
 Please read [contributing documentation](CONTRIBUTING.md)
 
-## Sequelize Support
-
-CLI v3 fully supports Sequelize v3. Support for Sequelize v4 is still experimental.
-
-Full support for Sequelize v4 is coming soon with [Sequelize CLI v4](https://github.com/sequelize/cli/issues/441)
-
 ## Documentation
 
 - [Migrations Documentation](http://docs.sequelizejs.com/manual/tutorial/migrations.html)
