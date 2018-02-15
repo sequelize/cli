@@ -2,6 +2,13 @@
 All notable changes to this project will be documented in this file.
 
 ## Future
+## v4.0.0 - 15th, Feb 2018
+
+### Changed
+- Removed warning about v4
+- Support for v4 [#620](https://github.com/sequelize/cli/pull/620) [#441](https://github.com/sequelize/cli/issues/441)
+
+
 ## v3.2.0 - 3rd, Dec 2017
 
 ### Fixed
