@@ -197,7 +197,7 @@ const _         = require('lodash');
 
                 const targetContent = attrUnd.underscored ?
                   'underscored: true'
-                  : '{\n    classMethods';
+                  : '{});';
 
                 if ( attrUnd.underscored ) {
                   flags.underscored = attrUnd.underscored;
@@ -210,6 +210,7 @@ const _         = require('lodash');
                     .src(Support.resolveSupportPath('tmp', 'models'))
                     .pipe(helpers.readFile('user.js'))
                     .pipe(helpers.ensureContent(targetContent))
+                    .pipe(helpers.ensureContent('.associate'))
                     .pipe(helpers.teardown(done));
                 });
               });
