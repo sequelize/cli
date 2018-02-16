@@ -158,19 +158,29 @@ const api = {
 
   urlStringToConfigHash (urlString) {
     try {
-      const urlParts = url.parse(urlString);
+      const urlParts = url.parse(urlString, true);
       let result   = {
         database: urlParts.pathname.replace(/^\//,  ''),
         host:     urlParts.hostname,
         port:     urlParts.port,
         protocol: urlParts.protocol.replace(/:$/, ''),
-        ssl:      urlParts.query ? urlParts.query.indexOf('ssl=true') >= 0 : false
+        ssl:      (urlParts.query && urlParts.query.ssl === 'true')
       };
 
       if (urlParts.auth) {
         result = _.assign(result, {
           username: urlParts.auth.split(':')[0],
           password: urlParts.auth.split(':')[1]
+        });
+      }
+
+      // If there is a search path key in the URL, then the prependSearchPath is being activated.
+      if (urlParts.protocol === 'postgres' && urlParts.searchPath) {
+        result = _.assign(result, {
+          searchPath:     urlParts.searchPath,
+          dialectOptions: {
+            prependSearchPath: true,
+          }
         });
       }
 

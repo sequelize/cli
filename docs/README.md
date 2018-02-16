@@ -71,6 +71,11 @@ use the `--url` option to pass in a connection string. For example:
 
 `sequelize db:migrate --url 'mysql://root:password@mysql_host.com/database_name'`
 
+If you are using PostgreSQL, then there is an optional `searchPath` query parameter to set the search path before each query.
+This is useful when you are migrating the same file into different _schemas_ (tenants). 
+
+`sequelize db:migrate --url 'postgres://root:password@postgres_host.com/database_name?searchPath=myCustomSchema'`
+
 ### Configuration Connection Environment Variable
 
 Another possibility is to store the URL in an environment variable and to tell
