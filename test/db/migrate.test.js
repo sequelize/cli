@@ -145,7 +145,7 @@ const _         = require('lodash');
     });
 
     describe('custom meta schema', () => {
-      it('correctly uses the defined schema (if postgres)', function (done) {
+      it('correctly uses the defined schema', function (done) {
         const self = this;
 
         prepare(() => {
@@ -160,9 +160,9 @@ const _         = require('lodash');
               });
             });
           } else {
-            // If not Postgres, schema option should have been ignored.
+            // If not Postgres, the schema option gets prepended to the table name.
             helpers.readTables(self.sequelize, tables => {
-              expect(tables.sort()).to.eql(['Person', 'Task', 'SequelizeMeta']);
+              expect(tables.sort()).to.eql(['Person', 'Task', 'sequelize_schema.SequelizeMeta']);
               done();
             });
           }
