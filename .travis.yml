@@ -19,7 +19,6 @@ jobs:
 before_script:
   - "mysql -e 'create database sequelize_test;'"
   - "psql -c 'create database sequelize_test;' -U postgres"
-  - "psql -c 'create schema sequelize_schema;' -U postgres sequelize_test"
   - npm install sequelize@$(echo $SEQUELIZE)
   - npm run build
 
