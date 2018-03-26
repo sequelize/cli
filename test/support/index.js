@@ -132,10 +132,10 @@ var Support = {
                   return sequelize.createSchema(schema)
                 });
             });
-
-            // Drop the public schema tables.
-            promise.then(dropAllTables);
           });
+
+          // Drop the public schema tables.
+          promise.then(dropAllTables);
         });
     } else {
       return dropAllTables();
