@@ -8,7 +8,10 @@ import esm from 'esm';
 const args = getYArgs().argv;
 
 if (args.esm) {
-  require = esm(module);
+  require = (...args) => {
+    const mod = esm(module)(...args);
+    return mod.default !== undefined ? mod.default : mod;
+  };
 }
 
 function format (i) {
