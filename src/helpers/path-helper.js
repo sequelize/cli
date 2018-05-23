@@ -3,8 +3,13 @@ import fs from 'fs';
 
 const resolve = require('resolve').sync;
 import getYArgs from '../core/yargs';
+import esm from 'esm';
 
 const args = getYArgs().argv;
+
+if (args.esm) {
+  require = esm(module);
+}
 
 function format (i) {
   return parseInt(i, 10) < 10 ? '0' + i : i;

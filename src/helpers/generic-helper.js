@@ -2,8 +2,13 @@ import path from 'path';
 
 const resolve = require('resolve').sync;
 import getYArgs from '../core/yargs';
+import esm from 'esm';
 
 const args = getYArgs().argv;
+
+if (args.esm) {
+  require = esm(module);
+}
 
 const generic = {
   getEnvironment: () => {

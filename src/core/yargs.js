@@ -2,7 +2,7 @@ import fs from 'fs';
 import yargs from 'yargs';
 import path from 'path';
 
-function loadRCFile(optionsPath) {
+function loadRCFile (optionsPath) {
   const rcFile = optionsPath || path.resolve(process.cwd(), '.sequelizerc');
   const rcFileResolved = path.resolve(rcFile);
   return fs.existsSync(rcFileResolved)
@@ -53,6 +53,11 @@ export function _baseOptions (yargs) {
     })
     .option('debug', {
       describe: 'When available show various debug information',
+      default: false,
+      type: 'boolean'
+    })
+    .option('esm', {
+      describe: 'Use esm for ECMAScript Module support for config, migrations, etc',
       default: false,
       type: 'boolean'
     });

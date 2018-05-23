@@ -5,8 +5,13 @@ import url from 'url';
 import _ from 'lodash';
 import helpers from './index';
 import getYArgs from '../core/yargs';
+import esm from 'esm';
 
 const args = getYArgs().argv;
+
+if (args.esm) {
+  require = esm(module);
+}
 
 const api = {
   config: undefined,
