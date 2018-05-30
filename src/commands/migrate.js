@@ -36,7 +36,7 @@ exports.handler = async function (args) {
   process.exit(0);
 };
 
-function migrate(args) {
+function migrate (args) {
   return getMigrator('migration', args).then(migrator => {
     return ensureCurrentMetaSchema(migrator)
       .then(() => migrator.pending())
@@ -66,7 +66,7 @@ function migrate(args) {
   }).catch(e => helpers.view.error(e));
 }
 
-function migrationStatus(args) {
+function migrationStatus (args) {
   return getMigrator('migration', args).then(migrator => {
     return ensureCurrentMetaSchema(migrator)
       .then(() => migrator.executed())
@@ -83,7 +83,7 @@ function migrationStatus(args) {
   }).catch(e => helpers.view.error(e));
 }
 
-function migrateSchemaTimestampAdd(args) {
+function migrateSchemaTimestampAdd (args) {
   return getMigrator('migration', args).then(migrator => {
     return addTimestampsToSchema(migrator)
       .then(items => {

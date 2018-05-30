@@ -8,6 +8,7 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "cli-color": "^1.2.0",
+    "esm": "^3.0.36",
     "fs-extra": "^5.0.0",
     "js-beautify": "^1.7.4",
     "lodash": "^4.17.5",
@@ -74,6 +75,6 @@
   },
   "homepage": "https://github.com/sequelize/cli",
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=6"
   }
 }

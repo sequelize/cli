@@ -1,6 +1,7 @@
 import Umzug from 'umzug';
 import Bluebird from 'bluebird';
 import _ from 'lodash';
+import esm from 'esm';
 
 import helpers from '../helpers/index';
 
@@ -55,7 +56,8 @@ export function getMigrator (type, args) {
           } else {
             return fun;
           }
-        }
+        },
+        customResolver: args.esm ? esm(module) : undefined
       }
     });
 

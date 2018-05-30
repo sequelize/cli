@@ -5,8 +5,17 @@ import url from 'url';
 import _ from 'lodash';
 import helpers from './index';
 import getYArgs from '../core/yargs';
+import esm from 'esm';
 
 const args = getYArgs().argv;
+
+if (args.esm) {
+  require = (...args) => {
+    const mod = esm(module)(...args);
+
+    return mod.default !== undefined ? mod.default : mod;
+  };
+}
 
 const api = {
   config: undefined,
