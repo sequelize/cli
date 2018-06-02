@@ -3,8 +3,8 @@
     "no-console": "off",
     "no-extra-parens": "warn",
     "valid-jsdoc": "off",
-    "new-cap": ["warn", {"properties": false}],
-    "comma-spacing": ["error", {"before": false, "after": true}],
+    "new-cap": ["warn", { "properties": false }],
+    "comma-spacing": ["error", { "before": false, "after": true }],
     "no-extra-boolean-cast": "warn",
     "strict": ["warn", "global"],
     "no-var": "error",
@@ -21,14 +21,14 @@
     "eqeqeq": "error",
     "no-extend-native": "error",
     "wrap-iife": ["error", "any"],
-    "indent": ["error", 2, {"SwitchCase": 1}],
+    "indent": ["error", 2, { "SwitchCase": 1 }],
     "no-use-before-define": "off",
     "no-caller": "error",
     "no-undef": "error",
     "no-unused-vars": "error",
     "no-irregular-whitespace": "error",
     "max-depth": ["error", 8],
-    "quotes": ["error", "single", {"avoidEscape": true}],
+    "quotes": ["error", "single", { "avoidEscape": true }],
     "linebreak-style": "error",
     "no-loop-func": "warn",
     "object-shorthand": "error",
@@ -45,5 +45,6 @@
     "node": true,
     "mocha": true,
     "es6": true
-  }
+  },
+  "root": true
 }

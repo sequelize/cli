@@ -197,7 +197,13 @@ var Support = {
   },
 
   getCliCommand: function (cwd, flags) {
-    return this.getCliPath(cwd) + ' ' + flags;
+    var command = this.getCliPath(cwd) + ' ' + flags;
+
+    if (process.platform.startsWith('win')) {
+      return `node ${command}`;
+    }
+
+    return command;
   },
 
   getSupportDirectoryPath: function () {

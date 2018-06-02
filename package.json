@@ -10,43 +10,40 @@
     "cli-color": "^1.2.0",
     "fs-extra": "^5.0.0",
     "js-beautify": "^1.7.4",
-    "lodash": "^4.17.5",
-    "resolve": "^1.5.0",
+    "lodash": "^4.17.10",
+    "resolve": "^1.7.1",
     "umzug": "^2.1.0",
     "yargs": "^8.0.2"
+  },
+  "peerDependencies": {
+    "sequelize": "=3 || =4"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
     "babel-plugin-transform-async-to-module-method": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-preset-env": "^1.6.1",
+    "babel-preset-env": "^1.7.0",
     "babel-register": "^6.24.1",
-    "eslint": "^4.11.0",
+    "eslint": "^4.19.1",
     "expect.js": "^0.3.1",
     "gulp": "^3.9.1",
     "mocha": "^3.5.0",
     "mysql": "^2.15.0",
     "nodeify": "^1.0.1",
-    "pg": "^7.*",
+    "pg": "^7.4.3",
     "pg-hstore": "^2.x",
-    "sequelize": "^4.x",
-    "sqlite3": "^3.x",
+    "sequelize": "^4.37.10",
+    "sqlite3": "^4.0.0",
+    "tedious": "^2.6.1",
     "through2": "^2.0.3"
   },
-  "options": {
-    "mocha": "--require scripts/mocha-bootload.js --check-leaks --timeout 30000 --colors --reporter spec"
-  },
-  "eslintIgnore": [
-    "test/support",
-    "src/assets"
-  ],
   "scripts": {
     "build": "npm run build-clean && babel src -d lib && npm run build-bin && npm run build-assets",
-    "build-bin": "mv ./lib/sequelize.js ./lib/sequelize && chmod +x ./lib/sequelize",
+    "build-bin": "cp ./lib/sequelize.js ./lib/sequelize && chmod +x ./lib/sequelize ./lib/sequelize.js",
     "build-assets": "cp -R ./src/assets ./lib/",
     "build-clean": "rm -rf ./lib/",
-    "lint": "eslint test src",
-    "test-raw": "mocha $npm_package_options_mocha 'test/**/*.test.js'",
+    "lint": "eslint test src --quiet",
+    "test-raw": "mocha --require scripts/mocha-bootload.js --check-leaks --timeout 30000 --colors --reporter spec test/**/*.test.js",
     "test": "npm run lint && npm run build && npm run test-raw"
   },
   "repository": {

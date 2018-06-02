@@ -1,0 +1,33 @@
+version: '{build}'
+
+platform:
+  - x64
+
+services:
+  - mssql2017
+
+shallow_clone: true
+
+build: off
+
+matrix:
+  fast_finish: true
+
+environment:
+  matrix:
+    - { NODE_VERSION: 6, DIALECT: mssql }
+
+install:
+  - ps: Install-Product node $env:NODE_VERSION x64
+  - "set PATH=%APPVEYOR_BUILD_FOLDER%\\lib;%PATH%"
+  - ps: |
+      $pkg = ConvertFrom-Json (Get-Content -Raw package.json)
+      $pkg.devDependencies.PSObject.Properties.Remove('sqlite3')
+      ConvertTo-Json $pkg | Out-File package.json -Encoding UTF8
+  - npm install
+
+before_test:
+  - ps: . .\appveyor-setup.ps1
+
+test_script:
+  - 'npm run test'
