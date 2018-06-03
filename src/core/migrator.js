@@ -87,6 +87,7 @@ export function ensureCurrentMetaSchema (migrator) {
 function ensureMetaTable (queryInterface, tableName) {
   return queryInterface.showAllTables()
     .then(tableNames => {
+      tableNames = tableNames.map(tableName => tableName.tableName || tableName); // MSSQL
       if (tableNames.indexOf(tableName) === -1) {
         throw new Error('No MetaTable table found.');
       }
