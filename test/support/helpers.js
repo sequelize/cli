@@ -178,7 +178,7 @@ module.exports = {
       .getQueryInterface()
       .showAllTables()
       .then(function (tables) {
-        return callback(tables.sort());
+        return callback(tables.map(tableName => tableName.tableName || tableName).sort());
       });
   },
 
