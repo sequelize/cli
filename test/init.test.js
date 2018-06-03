@@ -86,9 +86,9 @@ const gulp    = require('gulp');
 
     describe('models/index.js', () => {
       it('correctly injects the reference to the default config file', done => {
-        let path = Support.isWindows()
-         ? '__dirname + \'/..\\config\\config.json\''
-         : '__dirname + \'/../config/config.json\'';
+        const path = Support.isWindows()
+          ? '__dirname + \'/..\\config\\config.json\''
+          : '__dirname + \'/../config/config.json\'';
 
         gulp
           .src(Support.resolveSupportPath('tmp'))
@@ -104,9 +104,9 @@ const gulp    = require('gulp');
       });
 
       it('correctly injects the reference to the custom config file', done => {
-        let path = Support.isWindows()
-         ? '__dirname + \'/..\\my\\configuration-file.json\''
-         : '__dirname + \'/../my/configuration-file.json\'';
+        const path = Support.isWindows()
+          ? '__dirname + \'/..\\my\\configuration-file.json\''
+          : '__dirname + \'/../my/configuration-file.json\'';
 
         gulp
           .src(Support.resolveSupportPath('tmp'))
