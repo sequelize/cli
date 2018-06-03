@@ -199,11 +199,15 @@ var Support = {
   getCliCommand: function (cwd, flags) {
     var command = this.getCliPath(cwd) + ' ' + flags;
 
-    if (process.platform.startsWith('win')) {
+    if (this.isWindows()) {
       return `node ${command}`;
     }
 
     return command;
+  },
+
+  isWindows() {
+    return process.platform.startsWith('win');
   },
 
   getSupportDirectoryPath: function () {

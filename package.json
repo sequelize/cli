@@ -16,7 +16,7 @@
     "yargs": "^8.0.2"
   },
   "peerDependencies": {
-    "sequelize": "=3 || =4"
+    "sequelize": "=3 || =4 || =5"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
