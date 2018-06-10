@@ -29,7 +29,7 @@
     "no-irregular-whitespace": "error",
     "max-depth": ["error", 8],
     "quotes": ["error", "single", {"avoidEscape": true}],
-    "linebreak-style": "error",
+    "linebreak-style": ["error", "windows"],
     "no-loop-func": "warn",
     "object-shorthand": "error",
     "one-var-declaration-per-line": "warn",
