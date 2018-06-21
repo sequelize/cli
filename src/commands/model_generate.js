@@ -20,7 +20,8 @@ exports.builder =
         .option('timestamp', {
           describe: 'Specify if timestamp need to be set or not!',
           type: 'boolean',
-          demandOption: false
+          demandOption: false,
+          default: true
         })
     )
       .help()
