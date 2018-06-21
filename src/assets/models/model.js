@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     <% }) %>
   }, {
     <%= underscored ? 'underscored: true,' : '' %>
+    <%= (timestamp === false ) ? 'timestamps: false' : '' %>
   });
 
   <%= name %>.associate = function(models) {
