@@ -55,7 +55,7 @@ module.exports = {
   },
 
   getMigrationPath (migrationName) {
-    return path.resolve(this.getPath('migration'), this.getFileName('migration', migrationName));
+    return path.resolve(this.getPath('migration'), this.getFileName('migration', migrationName.toLowerCase()));
   },
 
   getSeederPath (seederName) {
