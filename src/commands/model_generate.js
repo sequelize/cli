@@ -17,6 +17,11 @@ exports.builder =
           type: 'string',
           demandOption: true
         })
+        .option('force', {
+          describe: 'Forcefully re-creates model with the same name',
+          type: 'string',
+          demandOption: false
+        })
     )
       .help()
       .argv;
