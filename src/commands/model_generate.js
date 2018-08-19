@@ -31,7 +31,13 @@ exports.handler = function (args) {
   ensureMigrationsFolder();
   checkModelFileExistence(args);
 
-  helpers.model.generateFile(args);
+
+  try {
+    helpers.model.generateFile(args);
+  } catch (err) {
+    helpers.view.error(err.message);
+  }
+
   helpers.migration.generateTableCreationFile(args);
   helpers.view.log(
     'New model was created at',
