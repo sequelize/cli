@@ -2,6 +2,17 @@
 All notable changes to this project will be documented in this file.
 
 ## Future
+
+## v4.1.0 - 19th, Aug 2018
+
+### Fixed
+- fix(model:generate) attribute datatype validation [#682](https://github.com/sequelize/cli/issues/682)
+- fix: add force flag to model:create [#680](https://github.com/sequelize/cli/issues/680)
+
+### Changed
+- Use const in generated files
+
+
 ## v4.0.0 - 15th, Feb 2018
 
 ### Changed
