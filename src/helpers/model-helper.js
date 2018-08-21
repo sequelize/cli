@@ -1,6 +1,6 @@
 import helpers from './index';
-import { DataTypes } from 'sequelize';
 
+const Sequelize = helpers.generic.getSequelize();
 const validAttributeFunctionType = 'array';
 
 /**
@@ -8,7 +8,7 @@ const validAttributeFunctionType = 'array';
  * @param {string} dataType
  */
 function validateDataType (dataType) {
-  if (!DataTypes[dataType.toUpperCase()]) {
+  if (!Sequelize.DataTypes[dataType.toUpperCase()]) {
     throw new Error(`Unknown type '${dataType}'`);
   }
 
