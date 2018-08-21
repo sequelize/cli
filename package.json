@@ -1,6 +1,6 @@
 {
   "name": "sequelize-cli",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "description": "The Sequelize CLI",
   "bin": {
     "sequelize": "./lib/sequelize"
