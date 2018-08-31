@@ -76,7 +76,7 @@ function ensureMigrationsFolder () {
 function checkModelFileExistence (args) {
   const modelPath = helpers.path.getModelPath(args.name);
 
-  if (!args.force && helpers.model.modelFileExists(modelPath)) {
+  if (args.force === undefined && helpers.model.modelFileExists(modelPath)) {
     helpers.view.notifyAboutExistingFile(modelPath);
     process.exit(1);
   }
