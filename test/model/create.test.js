@@ -75,6 +75,15 @@ const _         = require('lodash');
         });
       });
 
+      describe('when passed an invalid data type', () => {
+        it('exits with an error code', done => {
+          prepare({
+            flags: { name: 'User', attributes: 'badAttribute:datetime' },
+            cli: { exitCode: 1 }
+          }, done);
+        });
+      })
+
       ;[
         'first_name:string,last_name:string,bio:text,reviews:array:text',
         '\'first_name:string last_name:string bio:text reviews:array:text\'',

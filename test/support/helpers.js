@@ -74,7 +74,7 @@ module.exports = {
             expect(err.code).to.equal(1);
             callback(null, result);
           } catch (e) {
-            callback(e, result);
+            callback(new Error('Expected cli to exit with a non-zero code'), null);
           }
         } else {
           err = options.pipeStderr ? null : err;

@@ -1,6 +1,19 @@
 import helpers from './index';
 
+const Sequelize = helpers.generic.getSequelize();
 const validAttributeFunctionType = 'array';
+
+/**
+ * Check the given dataType actual exists.
+ * @param {string} dataType
+ */
+function validateDataType (dataType) {
+  if (!Sequelize.DataTypes[dataType.toUpperCase()]) {
+    throw new Error(`Unknown type '${dataType}'`);
+  }
+
+  return dataType;
+}
 
 function formatAttributes (attribute) {
   let result;
@@ -28,18 +41,19 @@ module.exports = {
       - 'first_name:string, last_name:string, bio:text, reviews:array:string'
     */
 
-    const set    = flag.replace(/,/g, ' ').split(/\s+/);
-    const result = [];
+    const attributeStrings = flag.replace(/,/g, ' ').split(/\s+/);
 
-    set.forEach(attribute => {
+    return attributeStrings.map(attribute => {
       const formattedAttribute = formatAttributes(attribute);
 
-      if (formattedAttribute) {
-        result.push(formattedAttribute);
+      try {
+        validateDataType(formattedAttribute.dataType);
+      } catch (err) {
+        throw new Error(`Attribute '${attribute}' cannot be parsed: ${err.message}`);
       }
-    });
 
-    return result;
+      return formattedAttribute;
+    });
   },
 
   generateFileContent (args) {

@@ -4,7 +4,8 @@ The manuals will show all the flags and options which are available for the resp
 If you find yourself in a situation where you always define certain flags in order to
 make the CLI compliant to your project, you can move those definitions also into a file called
 `.sequelizerc`. The file will get `require`d if available and can therefore be either a JSON file
-or a Node.JS script that exports a hash.
+or a Node.JS script that exports a hash. You can also use the `--options-path` option to declare a
+path to another configuration file.  
 
 ### Example for a Node.JS script
 

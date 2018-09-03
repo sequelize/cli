@@ -17,6 +17,11 @@ exports.builder =
           type: 'string',
           demandOption: true
         })
+        .option('force', {
+          describe: 'Forcefully re-creates model with the same name',
+          type: 'string',
+          demandOption: false
+        })
     )
       .help()
       .argv;
@@ -26,7 +31,13 @@ exports.handler = function (args) {
   ensureMigrationsFolder();
   checkModelFileExistence(args);
 
-  helpers.model.generateFile(args);
+
+  try {
+    helpers.model.generateFile(args);
+  } catch (err) {
+    helpers.view.error(err.message);
+  }
+
   helpers.migration.generateTableCreationFile(args);
   helpers.view.log(
     'New model was created at',
@@ -65,7 +76,7 @@ function ensureMigrationsFolder () {
 function checkModelFileExistence (args) {
   const modelPath = helpers.path.getModelPath(args.name);
 
-  if (!args.force && helpers.model.modelFileExists(modelPath)) {
+  if (args.force === undefined && helpers.model.modelFileExists(modelPath)) {
     helpers.view.notifyAboutExistingFile(modelPath);
     process.exit(1);
   }
