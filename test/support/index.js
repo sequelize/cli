@@ -117,25 +117,17 @@ var Support = {
 
     // If Postgres, loop through each of the non-public schemas and DROP/re-CREATE them.
     if (this.dialectIsPostgres()) {
-      sequelize
+      return sequelize
         .showAllSchemas()
         .then(function (schemas) {
           // showAllSchemas() leaves off the public schema.
-          let searchPathSchemas = schemas.join(', ');
-          let promise = Bluebird.resolve();
-
-          _.forEach(schemas, function (schema) {
-            promise = promise.then(function () {
-              return sequelize
-                .dropSchema(schema)
-                .then(function() {
-                  return sequelize.createSchema(schema)
-                });
+          return Bluebird.mapSeries(schemas, (schema) => {
+            return sequelize
+            .dropSchema(schema)
+            .then(function() {
+              return sequelize.createSchema(schema)
             });
-          });
-
-          // Drop the public schema tables.
-          promise.then(dropAllTables);
+          }).then(dropAllTables); // Drop the public schema tables.
         });
     } else {
       return dropAllTables();

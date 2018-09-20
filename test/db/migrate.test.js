@@ -146,22 +146,20 @@ const _         = require('lodash');
 
     describe('custom meta schema', () => {
       it('correctly uses the defined schema', function (done) {
-        const self = this;
-
         prepare(() => {
           if (Support.dialectIsPostgres()) {
-            helpers.readSchemas(self.sequelize, schemas => {
+            helpers.readSchemas(this.sequelize, schemas => {
               expect(schemas.sort()).to.eql(['sequelize_schema']);
 
               // Tables from public should still be the same.
-              helpers.readTables(self.sequelize, tables => {
+              helpers.readTables(this.sequelize, tables => {
                 expect(tables.sort()).to.eql(['Person', 'Task']);
                 done();
               });
             });
           } else {
             // If not Postgres, the schema option gets prepended to the table name.
-            helpers.readTables(self.sequelize, tables => {
+            helpers.readTables(this.sequelize, tables => {
               expect(tables.sort()).to.eql(['Person', 'Task', 'sequelize_schema.SequelizeMeta']);
               done();
             });
