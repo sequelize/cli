@@ -30,7 +30,7 @@
     "pg": "^7.*",
     "pg-hstore": "^2.x",
     "sequelize": "^4.x",
-    "sqlite3": "^3.x",
+    "sqlite3": "^4.0.2",
     "through2": "^2.0.3"
   },
   "options": {
