@@ -9,8 +9,8 @@ services:
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: sequelize_test
     ports:
-      - "54320:5432"
-    container_name: postgres-10
+      - "5432:5432"
+    container_name: postgres
 
   # MySQL
   mysql-57:
@@ -20,5 +20,5 @@ services:
       MYSQL_DATABASE: sequelize_test
       MYSQL_USER: root
     ports:
-      - "33060:3306"
-    container_name: mysql-57
+      - "3306:3306"
+    container_name: mysql

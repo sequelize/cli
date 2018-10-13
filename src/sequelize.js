@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import getYArgs from './core/yargs';
-import cliPackage from '../package';
 import Promise from 'bluebird';
 import { isEmpty } from 'lodash';
 
@@ -54,7 +53,6 @@ const cli = yargs
   .command(['migration:generate', 'migration:create'], 'Generates a new migration file', migrationGenerate)
   .command(['model:generate', 'model:create'], 'Generates a model and its migration', modelGenerate)
   .command(['seed:generate', 'seed:create'], 'Generates a new seed file', seedGenerate)
-  .version(() => cliPackage.version)
   .wrap(yargs.terminalWidth())
   .strict()
   .help();
