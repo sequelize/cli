@@ -3,11 +3,15 @@ All notable changes to this project will be documented in this file.
 
 ## Future
 
-## v4.2.0 - 13th, Oct 2018
+## v5.0.0 - 13th, Oct 2018
 
+### Fixed
 - fix(init): relative config path for windows [#648](https://github.com/sequelize/cli/pull/648)
 - fix(mode:generate): use force arg correctly [#691](https://github.com/sequelize/cli/pull/691)
 - updated dependencies
+
+### Breaking
+- Node 6 or up is supported
 
 ## v4.1.0 - 19th, Aug 2018
 
