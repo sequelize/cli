@@ -1,6 +1,6 @@
 {
   "name": "sequelize-cli",
-  "version": "4.1.1",
+  "version": "5.0.1",
   "description": "The Sequelize CLI",
   "bin": {
     "sequelize": "./lib/sequelize"
@@ -8,12 +8,12 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "cli-color": "^1.2.0",
-    "fs-extra": "^5.0.0",
+    "fs-extra": "^7.0.0",
     "js-beautify": "^1.7.4",
     "lodash": "^4.17.5",
     "resolve": "^1.5.0",
     "umzug": "^2.1.0",
-    "yargs": "^8.0.2"
+    "yargs": "^12.0.2"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -21,20 +21,20 @@
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-env": "^1.6.1",
     "babel-register": "^6.24.1",
-    "eslint": "^4.11.0",
+    "eslint": "^5.7.0",
     "expect.js": "^0.3.1",
     "gulp": "^3.9.1",
-    "mocha": "^3.5.0",
-    "mysql": "^2.15.0",
+    "mocha": "^5.2.0",
+    "mysql2": "^1.6.1",
     "nodeify": "^1.0.1",
-    "pg": "^7.*",
-    "pg-hstore": "^2.x",
+    "pg": "^7.5.0",
+    "pg-hstore": "^2.3.2",
     "sequelize": "^4.x",
-    "sqlite3": "^3.x",
+    "sqlite3": "^4.0.2",
     "through2": "^2.0.3"
   },
   "options": {
-    "mocha": "--require scripts/mocha-bootload.js --check-leaks --timeout 30000 --colors --reporter spec"
+    "mocha": "--require scripts/mocha-bootload.js --check-leaks --exit --timeout 30000 --colors --reporter spec"
   },
   "eslintIgnore": [
     "test/support",
@@ -57,15 +57,18 @@
     "sequelize",
     "cli"
   ],
-  "author": "Sascha Depold <sascha@depold.com>",
   "contributors": [
     {
-      "name": "Sushant Dhiman",
-      "email": "sushantdhiman@outlook.com"
+      "name": "Sascha Depold",
+      "email": "sascha@depold.com"
     },
     {
       "name": "Paulo R Lopes",
       "email": "prplopes@gmail.com"
+    },
+    {
+      "name": "Sushant Dhiman",
+      "email": "sushantdhiman@outlook.com"
     }
   ],
   "license": "MIT",
@@ -74,6 +77,6 @@
   },
   "homepage": "https://github.com/sequelize/cli",
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=6.0.0"
   }
 }

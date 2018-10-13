@@ -1,26 +1,36 @@
-sudo: false
+sudo: true
 dist: trusty
 
 language: node_js
 
-cache:
-  directories:
-    - node_modules
+cache: yarn
 
 jobs:
   include:
-    - stage: tests
-      node_js: 4
-      env: DIALECT=postgres SEQUELIZE=latest
-    - stage: tests
-      node_js: 4
+    - stage: test
+      node_js: 6
+      env: DIALECT=postgres SEQUELIZE=latest SEQ_PORT=54320
+    - stage: test
+      node_js: 6
+      env: DIALECT=mysql SEQUELIZE=latest SEQ_PORT=33060
+    - stage: test
+      node_js: 6
       env: DIALECT=sqlite SEQUELIZE=latest
+    - stage: test
+      node_js: 6
+      env: DIALECT=sqlite SEQUELIZE=next
+
+install:
+  - npm install -g yarn
+  - yarn
+  - yarn add sequelize@$(echo $SEQUELIZE)
+  - yarn build
 
 before_script:
-  - "mysql -e 'create database sequelize_test;'"
-  - "psql -c 'create database sequelize_test;' -U postgres"
-  - npm install sequelize@$(echo $SEQUELIZE)
-  - npm run build
+  - |-
+    if [ "$DIALECT" = "postgres" ] || [ "$DIALECT" = "mysql" ]; then docker-compose up -d ${DIALECT}; fi
+  - |-
+    if [ "$DIALECT" = "postgres" ] || [ "$DIALECT" = "mysql" ]; then docker run --link ${DIALECT}:db -e CHECK_PORT=${SEQ_PORT::-1} -e CHECK_HOST=db --net cli_default giorgos/takis; fi
 
 script:
-  - npm run test
+  - yarn test
