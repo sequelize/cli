@@ -15,7 +15,7 @@ jobs:
       env: DIALECT=mysql SEQUELIZE=latest SEQ_PORT=3306
     - stage: test
       node_js: 6
-      env: DIALECT=sqlite SEQUELIZE=latest SEQ_PORT=5432
+      env: DIALECT=sqlite SEQUELIZE=latest
     - stage: test
       node_js: 6
       env: DIALECT=sqlite SEQUELIZE=next
