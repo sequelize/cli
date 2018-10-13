@@ -2,7 +2,7 @@
   "presets": [
     ["env", {
       "targets": {
-        "node": "4.0"
+        "node": "6.0"
       },
       "exclude": [
         "transform-async-to-generator",
