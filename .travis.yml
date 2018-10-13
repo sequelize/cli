@@ -9,16 +9,16 @@ jobs:
   include:
     - stage: test
       node_js: 4
-      env: DIALECT=postgres SEQUELIZE=latest
+      env: DIALECT=postgres SEQUELIZE=latest SEQ_PORT=54320
     - stage: test
       node_js: 4
       env: DIALECT=sqlite SEQUELIZE=latest
     - stage: test
       node_js: 6
-      env: DIALECT=postgres SEQUELIZE=beta
+      env: DIALECT=postgres SEQUELIZE=next SEQ_PORT=54320
     - stage: test
       node_js: 6
-      env: DIALECT=sqlite SEQUELIZE=beta
+      env: DIALECT=sqlite SEQUELIZE=next
 
 install:
   - npm install -g yarn
