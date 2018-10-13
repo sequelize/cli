@@ -28,9 +28,9 @@ install:
 
 before_script:
   - |-
-    if [ "$DIALECT" === "postgres" ]; then docker-compose up -d postgres-10; fi
+    if [ "$DIALECT" = "postgres" ]; then docker-compose up -d postgres-10; fi
   - |-
-    if [ "$DIALECT" === "postgres" ]; then docker run --link postgres-10:db -e CHECK_PORT=5432 -e CHECK_HOST=db --net cli_default giorgos/takis; fi
+    if [ "$DIALECT" = "postgres" ]; then docker run --link postgres-10:db -e CHECK_PORT=5432 -e CHECK_HOST=db --net cli_default giorgos/takis; fi
 
 script:
   - yarn test
