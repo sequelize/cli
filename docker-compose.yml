@@ -2,7 +2,7 @@ version: '2'
 
 services:
   # PostgreSQL
-  postgres-10:
+  postgres:
     image: sushantdhiman/postgres:10
     environment:
       POSTGRES_USER: postgres
@@ -10,10 +10,10 @@ services:
       POSTGRES_DB: sequelize_test
     ports:
       - "54320:5432"
-    container_name: postgres-10
+    container_name: postgres
 
   # MySQL
-  mysql-57:
+  mysql:
     image: mysql:5.7
     environment:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
@@ -21,4 +21,4 @@ services:
       MYSQL_USER: root
     ports:
       - "33060:3306"
-    container_name: mysql-57
+    container_name: mysql

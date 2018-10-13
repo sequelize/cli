@@ -13,7 +13,7 @@
     "lodash": "^4.17.5",
     "resolve": "^1.5.0",
     "umzug": "^2.1.0",
-    "yargs": "^8.0.2"
+    "yargs": "^12.0.2"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -25,10 +25,10 @@
     "expect.js": "^0.3.1",
     "gulp": "^3.9.1",
     "mocha": "^5.2.0",
-    "mysql": "^2.15.0",
+    "mysql2": "^1.6.1",
     "nodeify": "^1.0.1",
-    "pg": "^7.*",
-    "pg-hstore": "^2.x",
+    "pg": "^7.5.0",
+    "pg-hstore": "^2.3.2",
     "sequelize": "^4.x",
     "sqlite3": "^4.0.2",
     "through2": "^2.0.3"
@@ -57,15 +57,18 @@
     "sequelize",
     "cli"
   ],
-  "author": "Sascha Depold <sascha@depold.com>",
   "contributors": [
     {
-      "name": "Sushant Dhiman",
-      "email": "sushantdhiman@outlook.com"
+      "name": "Sascha Depold",
+      "email": "sascha@depold.com"
     },
     {
       "name": "Paulo R Lopes",
       "email": "prplopes@gmail.com"
+    },
+    {
+      "name": "Sushant Dhiman",
+      "email": "sushantdhiman@outlook.com"
     }
   ],
   "license": "MIT",

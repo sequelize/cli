@@ -12,10 +12,10 @@ jobs:
       env: DIALECT=postgres SEQUELIZE=latest SEQ_PORT=54320
     - stage: test
       node_js: 6
-      env: DIALECT=sqlite SEQUELIZE=latest
+      env: DIALECT=mysql SEQUELIZE=latest SEQ_PORT=33060
     - stage: test
       node_js: 6
-      env: DIALECT=postgres SEQUELIZE=next SEQ_PORT=54320
+      env: DIALECT=sqlite SEQUELIZE=latest
     - stage: test
       node_js: 6
       env: DIALECT=sqlite SEQUELIZE=next
@@ -28,9 +28,9 @@ install:
 
 before_script:
   - |-
-    if [ "$DIALECT" = "postgres" ]; then docker-compose up -d postgres-10; fi
+    if [ "$DIALECT" = "postgres" ] || [ "$DIALECT" = "mysql" ]; then docker-compose up -d ${DIALECT}; fi
   - |-
-    if [ "$DIALECT" = "postgres" ]; then docker run --link postgres-10:db -e CHECK_PORT=5432 -e CHECK_HOST=db --net cli_default giorgos/takis; fi
+    if [ "$DIALECT" = "postgres" ] || [ "$DIALECT" = "mysql" ]; then docker run --link ${DIALECT}:db -e CHECK_PORT=${SEQ_PORT::-1} -e CHECK_HOST=db --net cli_default giorgos/takis; fi
 
 script:
   - yarn test
