@@ -30,7 +30,7 @@ before_script:
   - |-
     if [ "$DIALECT" = "postgres" ] || [ "$DIALECT" = "mysql" ]; then docker-compose up -d ${DIALECT}; fi
   - |-
-    if [ "$DIALECT" = "postgres" ] || [ "$DIALECT" = "mysql" ]; then docker run -e CHECK_PORT=${SEQ_PORT} giorgos/takis; fi
+    if [ "$DIALECT" = "postgres" ] || [ "$DIALECT" = "mysql" ]; then docker run --link ${DIALECT}:db -e CHECK_PORT=${SEQ_PORT::-1} -e CHECK_HOST=db --net cli_default giorgos/takis; fi
 
 script:
   - yarn test
