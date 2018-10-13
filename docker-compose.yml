@@ -2,14 +2,15 @@ version: '2'
 
 services:
   # PostgreSQL
-  postgres-95:
-    image: camptocamp/postgis:9.5
+  postgres-10:
+    image: sushantdhiman/postgres:10
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: sequelize_test
     ports:
       - "5432:5432"
+    container_name: postgres-10
 
   # MySQL
   mysql-57:
@@ -20,3 +21,4 @@ services:
       MYSQL_USER: root
     ports:
       - "3306:3306"
+    container_name: mysql-57
