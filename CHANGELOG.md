@@ -2,6 +2,32 @@
 All notable changes to this project will be documented in this file.
 
 ## Future
+
+## v5.1.0 - 14th, Oct 2018
+
+### Feature
+- feat(postgres): migrationStorageTableSchema [#635](https://github.com/sequelize/cli/pull/635)
+
+## v5.0.0 - 13th, Oct 2018
+
+### Fixed
+- fix(init): relative config path for windows [#648](https://github.com/sequelize/cli/pull/648)
+- fix(mode:generate): use force arg correctly [#691](https://github.com/sequelize/cli/pull/691)
+- updated dependencies
+
+### Breaking
+- Node 6 or up is supported
+
+## v4.1.0 - 19th, Aug 2018
+
+### Fixed
+- fix(model:generate) attribute datatype validation [#682](https://github.com/sequelize/cli/issues/682)
+- fix: add force flag to model:create [#680](https://github.com/sequelize/cli/issues/680)
+
+### Changed
+- Use const in generated files
+
+
 ## v4.0.0 - 15th, Feb 2018
 
 ### Changed

@@ -4,6 +4,7 @@ var fs        = require('fs');
 var path      = require('path');
 var Sequelize = require('sequelize');
 var _         = require('lodash');
+var Bluebird  = require('bluebird');
 var DataTypes = Sequelize;
 var Config    = require(__dirname + '/config/config');
 var expect    = require('expect.js');
@@ -90,27 +91,47 @@ var Support = {
   },
 
   clearDatabase: function (sequelize, callback) {
-    sequelize
-      .getQueryInterface()
-      .dropAllTables()
-      .then(function () {
-        if (sequelize.daoFactoryManager) {
-          sequelize.daoFactoryManager.daos = [];
-        } else {
-          sequelize.modelManager.models = [];
-        }
+    function dropAllTables() {
+      return sequelize
+        .getQueryInterface()
+        .dropAllTables()
+        .then(function () {
+          if (sequelize.daoFactoryManager) {
+            sequelize.daoFactoryManager.daos = [];
+          } else {
+            sequelize.modelManager.models = [];
+          }
 
-        return sequelize
-          .getQueryInterface()
-          .dropAllEnums()
-            .then(callback)
-            .catch(function (err) {
-              console.log('Error in support.clearDatabase() dropAllEnums() :: ', err);
+          return sequelize
+            .getQueryInterface()
+            .dropAllEnums()
+              .then(callback)
+              .catch(function (err) {
+                console.log('Error in support.clearDatabase() dropAllEnums() :: ', err);
+              });
+        })
+        .catch(function (err) {
+          console.log('Error in support.clearDatabase() dropAllTables() :: ', err);
+        });
+    };
+
+    // If Postgres, loop through each of the non-public schemas and DROP/re-CREATE them.
+    if (this.dialectIsPostgres()) {
+      return sequelize
+        .showAllSchemas()
+        .then(function (schemas) {
+          // showAllSchemas() leaves off the public schema.
+          return Bluebird.mapSeries(schemas, (schema) => {
+            return sequelize
+            .dropSchema(schema)
+            .then(function() {
+              return sequelize.createSchema(schema)
             });
-      })
-      .catch(function (err) {
-        console.log('Error in support.clearDatabase() dropAllTables() :: ', err);
-      });
+          }).then(dropAllTables); // Drop the public schema tables.
+        });
+    } else {
+      return dropAllTables();
+    }
   },
 
   getSupportedDialects: function () {

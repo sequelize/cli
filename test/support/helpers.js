@@ -74,7 +74,7 @@ module.exports = {
             expect(err.code).to.equal(1);
             callback(null, result);
           } catch (e) {
-            callback(e, result);
+            callback(new Error('Expected cli to exit with a non-zero code'), null);
           }
         } else {
           err = options.pipeStderr ? null : err;
@@ -179,6 +179,14 @@ module.exports = {
       .showAllTables()
       .then(function (tables) {
         return callback(tables.sort());
+      });
+  },
+
+  readSchemas: function (sequelize, callback) {
+    return sequelize
+      .showAllSchemas()
+      .then(function (schemas) {
+        return callback(schemas.sort());
       });
   },
 
