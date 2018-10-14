@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## Future
 
+## v5.1.0 - 14th, Oct 2018
+
+### Feature
+- feat(postgres): migrationStorageTableSchema [#635](https://github.com/sequelize/cli/pull/635)
+
 ## v5.0.0 - 13th, Oct 2018
 
 ### Fixed
