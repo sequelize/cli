@@ -182,6 +182,14 @@ module.exports = {
       });
   },
 
+  readSchemas: function (sequelize, callback) {
+    return sequelize
+      .showAllSchemas()
+      .then(function (schemas) {
+        return callback(schemas.sort());
+      });
+  },
+
   countTable: function (sequelize, table, callback) {
     var QueryGenerator =  sequelize.getQueryInterface().QueryGenerator;
 

@@ -61,6 +61,18 @@ export function getMigrator (type, args) {
 
     return sequelize
       .authenticate()
+      .then(() => {
+        // Check if this is a PostgreSQL run and if there is a custom schema specified, and if there is, check if it's
+        // been created. If not, attempt to create it.
+        if (helpers.version.getDialectName() === 'pg') {
+          const customSchemaName = helpers.umzug.getSchema('migration');
+          if (customSchemaName && customSchemaName !== 'public') {
+            return sequelize.createSchema(customSchemaName);
+          }
+        }
+
+        return Bluebird.resolve();
+      })
       .then(() => migrator)
       .catch(e => helpers.view.error(e));
   });
@@ -127,7 +139,8 @@ export function addTimestampsToSchema (migrator) {
             }
           }, {
             tableName,
-            timestamps: true
+            timestamps: true,
+            schema: helpers.umzug.getSchema()
           });
 
           return SequelizeMeta.sync()

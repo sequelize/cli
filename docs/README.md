@@ -150,7 +150,10 @@ database, using `sequelize`, but want to use a different table, you can change t
     "migrationStoragePath": "sequelizeMeta.json",
 
     // Use a different table name. Default: SequelizeMeta
-    "migrationStorageTableName": "sequelize_meta"
+    "migrationStorageTableName": "sequelize_meta",
+
+    // Use a different schema (Postgres-only). Default: undefined
+    "migrationStorageTableSchema": "sequelize_schema"
   }
 }
 ```

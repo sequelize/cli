@@ -34,6 +34,10 @@ module.exports = {
     return this.getStorageOption(type + 'StorageTableName', storageTableName[type]);
   },
 
+  getSchema (type) {
+    return this.getStorageOption(type + 'StorageTableSchema', undefined);
+  },
+
   getStorageOptions (type, extraOptions) {
     const options = {};
 
@@ -41,6 +45,7 @@ module.exports = {
       options.path = this.getStoragePath(type);
     } else if (this.getStorage(type) === 'sequelize') {
       options.tableName = this.getTableName(type);
+      options.schema = this.getSchema(type);
     }
 
     _.assign(options, extraOptions);

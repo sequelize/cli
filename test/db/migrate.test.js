@@ -143,6 +143,33 @@ const _         = require('lodash');
         });
       });
     });
+
+    describe('custom meta schema', () => {
+      it('correctly uses the defined schema', function (done) {
+        prepare(() => {
+          if (Support.dialectIsPostgres()) {
+            helpers.readSchemas(this.sequelize, schemas => {
+              expect(schemas.sort()).to.eql(['sequelize_schema']);
+
+              // Tables from public should still be the same.
+              helpers.readTables(this.sequelize, tables => {
+                expect(tables.sort()).to.eql(['Person', 'Task']);
+                done();
+              });
+            });
+          } else {
+            // If not Postgres, the schema option gets prepended to the table name.
+            helpers.readTables(this.sequelize, tables => {
+              expect(tables.sort()).to.eql(['Person', 'Task', 'sequelize_schema.SequelizeMeta']);
+              done();
+            });
+          }
+        }, {
+          migrationFile: 'new/*createPerson',
+          config:        { migrationStorageTableSchema: 'sequelize_schema' }
+        });
+      });
+    });
   });
 });
 
