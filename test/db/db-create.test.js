@@ -161,7 +161,7 @@ describe(Support.getTestDialectTeaser('db:create'), () => {
             type: this.sequelize.QueryTypes.SELECT
           }).then(result => {
             expect(result[0].charset).to.eql('utf8mb4');
-            expect(result[0].collation).to.eql('utf8mb4_generic_ui');
+            expect(result[0].collation).to.eql('utf8mb4_general_ci');
             done();
           });
         }, {
