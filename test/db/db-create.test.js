@@ -174,7 +174,7 @@ describe(Support.getTestDialectTeaser('db:create'), () => {
     it('correctly creates database with charset and collation', function (done) {
       const databaseName = `my_test-db_${_.random(10000, 99999)}`;
       prepare(
-        'db:create --charset utf8mb4 --collate utf8mb4_unicode_ui',
+        'db:create --charset utf8mb4 --collate utf8mb4_unicode_ci',
         () => {
           this.sequelize.query(`SELECT
             DEFAULT_CHARACTER_SET_NAME as charset,
@@ -183,7 +183,7 @@ describe(Support.getTestDialectTeaser('db:create'), () => {
             type: this.sequelize.QueryTypes.SELECT
           }).then(result => {
             expect(result[0].charset).to.eql('utf8mb4');
-            expect(result[0].collation).to.eql('utf8mb4_unicode_ui');
+            expect(result[0].collation).to.eql('utf8mb4_unicode_ci');
             done();
           });
         }, {
