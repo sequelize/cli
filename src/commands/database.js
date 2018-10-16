@@ -2,12 +2,37 @@ import { _baseOptions } from '../core/yargs';
 import { logMigrator } from '../core/migrator';
 
 import helpers from '../helpers';
-import { cloneDeep, defaults } from 'lodash';
+import { cloneDeep, defaults, pick } from 'lodash';
 import clc from 'cli-color';
 
 const Sequelize = helpers.generic.getSequelize();
 
-exports.builder = yargs => _baseOptions(yargs).help().argv;
+exports.builder =
+  yargs =>
+    _baseOptions(yargs)
+      .option('charset', {
+        describe: 'Pass charset option to dialect, MYSQL only',
+        type: 'string'
+      })
+      .option('collate', {
+        describe: 'Pass collate option to dialect',
+        type: 'string'
+      })
+      .option('encoding', {
+        describe: 'Pass encoding option to dialect, PostgreSQL only',
+        type: 'string'
+      })
+      .option('ctype', {
+        describe: 'Pass ctype option to dialect, PostgreSQL only',
+        type: 'string'
+      })
+      .option('template', {
+        describe: 'Pass template option to dialect, PostgreSQL only',
+        type: 'string'
+      })
+      .help()
+      .argv;
+
 exports.handler = async function (args) {
   const command = args._[0];
 
@@ -19,9 +44,17 @@ exports.handler = async function (args) {
 
   switch (command) {
     case 'db:create':
-      await sequelize.query(`CREATE DATABASE ${sequelize.getQueryInterface().quoteIdentifier(config.database)}`, {
-        type: sequelize.QueryTypes.RAW
-      }).catch(e => helpers.view.error(e));
+      const options = pick(args, [
+        'charset',
+        'collate',
+        'encoding',
+        'ctype',
+        'template'
+      ]);
+
+      await sequelize.getQueryInterface()
+        .createDatabase(config.database, options)
+        .catch(e => helpers.view.error(e));
 
       helpers.view.log(
         'Database',
@@ -31,9 +64,9 @@ exports.handler = async function (args) {
 
       break;
     case 'db:drop':
-      await sequelize.query(`DROP DATABASE ${sequelize.getQueryInterface().quoteIdentifier(config.database)}`, {
-        type: sequelize.QueryTypes.RAW
-      }).catch(e => helpers.view.error(e));
+      await sequelize.getQueryInterface()
+        .dropDatabase(config.database)
+        .catch(e => helpers.view.error(e));
 
       helpers.view.log(
         'Database',
