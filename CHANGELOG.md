@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## Future
 
+## v5.2.0 - 20th, Oct 2018
+
+### Feature
+- feat(db:create): support options on db:create with sequelize@4 [#700](https://github.com/sequelize/cli/pull/700)
+
 ## v5.1.0 - 14th, Oct 2018
 
 ### Feature
