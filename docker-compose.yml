@@ -11,6 +11,10 @@ services:
     ports:
       - "54320:5432"
     container_name: postgres
+    command: >
+      bash -c "sed -i -e 's/# \(zh_TW\|en_US\).UTF-8 UTF-8/\1.UTF-8 UTF-8/' /etc/locale.gen
+      && locale-gen
+      && docker-entrypoint.sh postgres"
 
   # MySQL
   mysql:
