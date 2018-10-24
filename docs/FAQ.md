@@ -8,7 +8,7 @@ $ sequelize init
 ## How can I generate a model?
 Specify model name with `--name` argument. List of table fields can be passed with `--attributes` option
 ``` 
-$ sequelize model:create --name User --attributes name:string,state:boolean,birth:date,card:integer
+$ sequelize model:create --name User --attributes name:string,state:boolean,birth:date,card:integer,role:enum:{Admin,Guest}
 ```
 
 ## How can I create a migration?
