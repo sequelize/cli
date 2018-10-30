@@ -257,5 +257,47 @@ const _         = require('lodash');
         });
       });
     });
+
+    describe.skip('class', () => {
+      ;[
+        'first_name:string,last_name:string,bio:text,role:enum:{Admin,"Guest User"},reviews:array:text',
+        // 'first_name:string,last_name:string,bio:text,role:enum:{Admin,\'Guest User\'},reviews:array:text',
+        // '\'first_name:string last_name:string bio:text role:enum:{Admin,Guest User} reviews:array:text\'',
+        // '\'first_name:string, last_name:string, bio:text, role:enum:{Admin, Guest User}, reviews:array:text\''
+      ].forEach(attributes => {
+        describe('--attributes ' + attributes, () => {
+          it('creates the model file', done => {
+            prepare({
+              flags: { name: 'User', attributes, class: true }
+            }, () => {
+              gulp
+                .src(Support.resolveSupportPath('tmp', 'models'))
+                .pipe(helpers.listFiles())
+                .pipe(helpers.ensureContent('user.js'))
+                .pipe(helpers.teardown(done));
+            });
+          });
+
+          it('generates the model attributes correctly', done => {
+            prepare({
+              flags: { name: 'User', attributes, class: true }
+            }, () => {
+              gulp
+                .src(Support.resolveSupportPath('tmp', 'models'))
+                .pipe(helpers.readFile('user.js'))
+                .pipe(helpers.ensureContent('class User extends Model'))
+                .pipe(helpers.ensureContent('static init(sequelize)'))
+                .pipe(helpers.ensureContent('static associate(models)'))
+                .pipe(helpers.ensureContent('first_name: DataTypes.STRING'))
+                .pipe(helpers.ensureContent('last_name: DataTypes.STRING'))
+                .pipe(helpers.ensureContent('bio: DataTypes.TEXT'))
+                .pipe(helpers.ensureContent('role: DataTypes.ENUM(\'Admin\', \'Guest User\')'))
+                .pipe(helpers.ensureContent('reviews: DataTypes.ARRAY(DataTypes.TEXT)'))
+                .pipe(helpers.teardown(done));
+            });
+          });
+        });
+      });
+    });
   });
 });
