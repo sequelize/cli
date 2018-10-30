@@ -57,11 +57,17 @@ module.exports = {
   },
 
   generateFileContent (args) {
-    return helpers.template.render('models/model.js', {
-      name:       args.name,
-      attributes: this.transformAttributes(args.attributes),
-      underscored: args.underscored
-    });
+    return args.class
+      ? helpers.template.render('models/class-model.js', {
+        name:       args.name,
+        attributes: this.transformAttributes(args.attributes),
+        underscored: args.underscored
+      })
+      : helpers.template.render('models/model.js', {
+        name:       args.name,
+        attributes: this.transformAttributes(args.attributes),
+        underscored: args.underscored
+      });
   },
 
   generateFile (args) {

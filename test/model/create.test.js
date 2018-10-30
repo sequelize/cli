@@ -252,5 +252,65 @@ const _         = require('lodash');
         });
       });
     });
+
+    describe('class', () => {
+      ;[
+        'first_name:string,last_name:string,bio:text,reviews:array:text',
+        '\'first_name:string last_name:string bio:text reviews:array:text\'',
+        '\'first_name:string, last_name:string, bio:text, reviews:array:text\''
+      ].forEach(attributes => {
+        describe('--attributes ' + attributes, () => {
+          it('exits with exit code 0', done => {
+            prepare({
+              flags: { name: 'User', attributes, class: true },
+              cli: { exitCode: 0 }
+            }, done);
+          });
+
+          it('creates the model file', done => {
+            prepare({
+              flags: { name: 'User', attributes, class: true }
+            }, () => {
+              gulp
+                .src(Support.resolveSupportPath('tmp', 'models'))
+                .pipe(helpers.listFiles())
+                .pipe(helpers.ensureContent('user.js'))
+                .pipe(helpers.teardown(done));
+            });
+          });
+
+          it('generates the model attributes correctly', done => {
+            prepare({
+              flags: { name: 'User', attributes, class: true }
+            }, () => {
+              gulp
+                .src(Support.resolveSupportPath('tmp', 'models'))
+                .pipe(helpers.readFile('user.js'))
+                .pipe(helpers.ensureContent('class User extends Model {'))
+                .pipe(helpers.ensureContent('first_name: DataTypes.STRING'))
+                .pipe(helpers.ensureContent('last_name: DataTypes.STRING'))
+                .pipe(helpers.ensureContent('bio: DataTypes.TEXT'))
+                .pipe(helpers.ensureContent('reviews: DataTypes.ARRAY(DataTypes.TEXT)'))
+                .pipe(helpers.ensureContent('module.exports = User;'))
+                .pipe(helpers.teardown(done));
+            });
+          });
+
+          it('generates the model init and associate', done => {
+            prepare({
+              flags: { name: 'User', attributes, class: true }
+            }, () => {
+              gulp
+                .src(Support.resolveSupportPath('tmp', 'models'))
+                .pipe(helpers.readFile('user.js'))
+                .pipe(helpers.ensureContent('static init'))
+                .pipe(helpers.ensureContent('static init(sequelize, DataTypes)'))
+                .pipe(helpers.ensureContent('static associate(models)'))
+                .pipe(helpers.teardown(done));
+            });
+          });
+        });
+      });
+    });
   });
 });

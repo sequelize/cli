@@ -22,6 +22,11 @@ exports.builder =
           type: 'string',
           demandOption: false
         })
+        .option('class', {
+          describe: 'Generate ES6 class model',
+          default: false,
+          type: 'boolean'
+        })
     )
       .help()
       .argv;
