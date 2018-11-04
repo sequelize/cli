@@ -98,11 +98,11 @@ function getCreateDatabaseQuery (sequelize, config, options) {
         + (options.collate ? ' DEFAULT COLLATE '       + sequelize.getQueryInterface().quoteIdentifier(options.collate) : '');
 
     case 'mssql':
-      return 'IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = \'', config.database, '\')'
-        + 'BEGIN'
-        + 'CREATE DATABASE ' + sequelize.getQueryInterface().escape(config.database)
-        + (options.collate ? ' COLLATE ' + sequelize.getQueryInterface().escape(options.collate) : '')
-        + 'END;';
+      return 'IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = N\'' + config.database + '\')'
+        + ' BEGIN'
+        + ' CREATE DATABASE ' + sequelize.getQueryInterface().quoteIdentifier(config.database)
+        + (options.collate ? ' COLLATE ' + options.collate : '')
+        + ' END;';
       break;
 
     default:
