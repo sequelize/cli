@@ -3,6 +3,15 @@ All notable changes to this project will be documented in this file.
 
 ## Future
 
+## v5.3.0 - 4th, Nov 2018
+
+### Fixed
+- fix(db:create): syntax errors with mssql create statement [#711](https://github.com/sequelize/cli/pull/711)
+- style: grammar mistake in seeder skeleton [#705](https://github.com/sequelize/cli/pull/705)
+
+### Feature
+- feat(mode:generate) add enum support [#704](https://github.com/sequelize/cli/pull/704)
+
 ## v5.2.0 - 20th, Oct 2018
 
 ### Feature
