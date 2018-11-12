@@ -31,7 +31,7 @@
     "pg-hstore": "^2.3.2",
     "sequelize": "^4.x",
     "sqlite3": "^4.0.2",
-    "through2": "^2.0.3"
+    "through2": "^3.0.0"
   },
   "options": {
     "mocha": "--require scripts/mocha-bootload.js --check-leaks --exit --timeout 30000 --colors --reporter spec"
