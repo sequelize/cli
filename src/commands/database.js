@@ -30,7 +30,6 @@ exports.builder =
         describe: 'Pass template option to dialect, PostgreSQL only',
         type: 'string'
       })
-      .help()
       .argv;
 
 exports.handler = async function (args) {

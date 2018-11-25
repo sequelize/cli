@@ -11,7 +11,6 @@ exports.builder =
         default: 0,
         type: 'string'
       })
-      .help()
       .argv;
 
 exports.handler = async function (args) {

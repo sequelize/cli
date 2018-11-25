@@ -10,7 +10,6 @@ exports.builder =
         describe: 'Name of the migration to undo',
         type: 'string'
       })
-      .help()
       .argv;
 
 exports.handler = async function (args) {

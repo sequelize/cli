@@ -11,6 +11,8 @@ function loadRCFile(optionsPath) {
 }
 
 const args = yargs
+  .help(false)
+  .version(false)
   .config(loadRCFile(yargs.argv.optionsPath));
 
 export default function getYArgs () {
