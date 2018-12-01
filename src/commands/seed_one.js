@@ -11,7 +11,6 @@ exports.builder =
         describe: 'List of seed files',
         type: 'array'
       })
-      .help()
       .argv;
 
 exports.handler = async function (args) {

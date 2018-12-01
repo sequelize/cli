@@ -12,7 +12,6 @@ exports.builder =
         type: 'string',
         demandOption: true
       })
-      .help()
       .argv;
 
 exports.handler = function (args) {

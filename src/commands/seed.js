@@ -4,7 +4,7 @@ import { getMigrator } from '../core/migrator';
 import helpers from '../helpers';
 import _ from 'lodash';
 
-exports.builder = yargs => _baseOptions(yargs).help().argv;
+exports.builder = yargs => _baseOptions(yargs).argv;
 exports.handler = async function (args) {
   const command = args._[0];
 

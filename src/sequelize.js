@@ -34,6 +34,8 @@ import helpers from './helpers/index';
 helpers.view.teaser();
 
 const cli = yargs
+  .help()
+  .version()
   .command('db:migrate', 'Run pending migrations', migrate)
   .command('db:migrate:schema:timestamps:add', 'Update migration table to have timestamps', migrate)
   .command('db:migrate:status', 'List the status of all migrations', migrate)
@@ -54,8 +56,7 @@ const cli = yargs
   .command(['model:generate', 'model:create'], 'Generates a model and its migration', modelGenerate)
   .command(['seed:generate', 'seed:create'], 'Generates a new seed file', seedGenerate)
   .wrap(yargs.terminalWidth())
-  .strict()
-  .help();
+  .strict();
 
 const args = cli.argv;
 

@@ -13,8 +13,8 @@ exports.builder = yargs => _baseOptions(yargs)
     describe: 'Migration name to start migrations from (excluding)',
     type: 'string'
   })
-  .help()
   .argv;
+
 exports.handler = async function (args) {
   const command = args._[0];
 
