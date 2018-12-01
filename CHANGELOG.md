@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## Future
 
+## v5.4.0 - 1st, Dec 2018
+
+### Fixed
+- fix: show commands with --help [#719](https://github.com/sequelize/cli/pull/719)
+
 ## v5.3.0 - 4th, Nov 2018
 
 ### Fixed
