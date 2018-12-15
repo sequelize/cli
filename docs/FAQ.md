@@ -8,7 +8,7 @@ $ sequelize init
 ## How can I generate a model?
 Specify model name with `--name` argument. List of table fields can be passed with `--attributes` option
 ``` 
-$ sequelize model:create --name User --attributes name:string,state:boolean,birth:date,card:integer,role:enum:{Admin,Guest}
+$ sequelize model:create --name User --attributes name:string,state:boolean,birth:date,card:integer,role:enum:'{Admin,Guest}'
 ```
 
 ## How can I create a migration?
@@ -40,5 +40,15 @@ $ sequelize db:seed:all
 ## How can I make the seeders rollback?
 ```
 $ sequelize db:seed:undo:all
+```
+
+## I am getting an error when attempting to create a model with an enum type.
+The brackets `{}` likely need to be quoted in your shell
+```
+sequelize model:create --name User --attributes role:enum:'{Admin,Guest}'
+```
+or possibly
+```
+sequelize model:create --name User --attributes role:enum:\{Admin,Guest\}
 ```
 
