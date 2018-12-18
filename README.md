@@ -13,7 +13,7 @@ The Sequelize Command Line Interface (CLI)
 Install CLI globally with
 
 ```bash
-$ npm install -g sequelize-cli
+$ npm install -g sequelize sequelize-cli
 ```
 
 Now you can run CLI using following command anywhere
@@ -26,7 +26,7 @@ $ sequelize
 Install CLI locally to your `node_modules` folder with
 
 ```bash
-$ npm install --save sequelize-cli
+$ npm install --save sequelize sequelize-cli
 ```
 
 You should be able to run CLI with
