@@ -92,12 +92,15 @@ const api = {
 
   writeDefaultConfig () {
     const configPath = path.dirname(api.getConfigFile());
-
+    const configFilePath = api.getConfigFile();
+    const ext = configFilePath.split('.').pop();
+    const configContent = ext === 'json' ? api.getDefaultConfig() : `module.exports = ${ api.getDefaultConfig() }`;
+          
     if (!helpers.path.existsSync(configPath)) {
       helpers.asset.mkdirp(configPath);
     }
 
-    fs.writeFileSync(api.getConfigFile(), api.getDefaultConfig());
+    fs.writeFileSync(configFilePath, configContent);
   },
 
   readConfig () {
