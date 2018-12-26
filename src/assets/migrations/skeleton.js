@@ -23,7 +23,7 @@ module.exports = {
       return queryInterface.dropTable('users');
 
       Or, await execution:
-      queryInterface.dropTable('users');
+      await queryInterface.dropTable('users');
     */
   },
 };
