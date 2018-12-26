@@ -46,8 +46,8 @@ const gulp      = require('gulp');
           .src(Support.resolveSupportPath('tmp', 'migrations'))
           .pipe(helpers.readFile('*-' + migrationFile))
           .pipe(helpers.expect(stdout => {
-            expect(stdout).to.contain('up: (queryInterface, Sequelize) => {');
-            expect(stdout).to.contain('down: (queryInterface, Sequelize) => {');
+            expect(stdout).to.contain('up: async (queryInterface, Sequelize) => {');
+            expect(stdout).to.contain('down: async (queryInterface, Sequelize) => {');
           }))
           .pipe(helpers.teardown(done));
       });
