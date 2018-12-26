@@ -25,5 +25,5 @@ module.exports = {
       Or, await execution:
       queryInterface.dropTable('users');
     */
-  }
+  },
 };
