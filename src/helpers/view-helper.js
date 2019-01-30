@@ -24,22 +24,22 @@ module.exports = {
 
   error (error) {
     let message = error;
-    let extraMessages = [];
+    const extraMessages = [];
 
     if (error instanceof Error) {
       message = !args.debug
         ? error.message
         : error.stack;
       if (error.original) {
-        extraMessages.push('Message: ' + error.original.message + '. Details: ' + error.original.detail)
+        extraMessages.push('Message: ' + error.original.message + '. Details: ' + error.original.detail);
       }
     }
 
     this.log();
     console.error(`${clc.red('ERROR:')} ${message}`);
-    extraMessages.forEach(message => {
-      console.error(message);
-    })
+    extraMessages.forEach(m => {
+      console.error(m);
+    });
     this.log();
 
     process.exit(1);
