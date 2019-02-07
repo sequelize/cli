@@ -12,7 +12,7 @@ const api = {
   config: undefined,
   rawConfig: undefined,
   error: undefined,
-  init() {
+  init () {
     return Bluebird.resolve()
       .then(() => {
         let config;
@@ -45,7 +45,7 @@ const api = {
         return api;
       });
   },
-  getConfigFile() {
+  getConfigFile () {
     if (args.config) {
       return path.resolve(process.cwd(), args.config);
     }
@@ -56,15 +56,15 @@ const api = {
     return helpers.path.existsSync(alternativePath) ? alternativePath : defaultPath;
   },
 
-  relativeConfigFile() {
+  relativeConfigFile () {
     return path.relative(process.cwd(), api.getConfigFile());
   },
 
-  configFileExists() {
+  configFileExists () {
     return helpers.path.existsSync(api.getConfigFile());
   },
 
-  getDefaultConfig() {
+  getDefaultConfig () {
     return JSON.stringify({
       development: {
         username: 'root',
@@ -93,7 +93,7 @@ const api = {
     }, undefined, 2) + '\n';
   },
 
-  writeDefaultConfig() {
+  writeDefaultConfig () {
     const configPath = path.dirname(api.getConfigFile());
 
     if (!helpers.path.existsSync(configPath)) {
@@ -103,22 +103,22 @@ const api = {
     fs.writeFileSync(api.getConfigFile(), api.getDefaultConfig());
   },
 
-  readConfig() {
+  readConfig () {
     if (!api.config) {
       const env = helpers.generic.getEnvironment();
 
       if (api.rawConfig === undefined) {
         throw new Error(
           'Error reading "' +
-          api.relativeConfigFile() +
-          '". Error: ' + api.error
+            api.relativeConfigFile() +
+            '". Error: ' + api.error
         );
       }
 
       if (typeof api.rawConfig !== 'object') {
         throw new Error(
           'Config must be an object or a promise for an object: ' +
-          api.relativeConfigFile()
+            api.relativeConfigFile()
         );
       }
 
@@ -154,20 +154,20 @@ const api = {
     return api.config;
   },
 
-  filteredUrl(uri, config) {
+  filteredUrl (uri, config) {
     const regExp = new RegExp(':?' + (config.password || '') + '@');
     return uri.replace(regExp, ':*****@');
   },
 
-  urlStringToConfigHash(urlString) {
+  urlStringToConfigHash (urlString) {
     try {
       const urlParts = url.parse(urlString);
-      let result = {
-        database: urlParts.pathname.replace(/^\//, ''),
-        host: urlParts.hostname,
-        port: urlParts.port,
+      let result   = {
+        database: urlParts.pathname.replace(/^\//,  ''),
+        host:     urlParts.hostname,
+        port:     urlParts.port,
         protocol: urlParts.protocol.replace(/:$/, ''),
-        ssl: urlParts.query ? urlParts.query.indexOf('ssl=true') >= 0 : false
+        ssl:      urlParts.query ? urlParts.query.indexOf('ssl=true') >= 0 : false
       };
 
       if (urlParts.auth) {
@@ -183,7 +183,7 @@ const api = {
     }
   },
 
-  parseDbUrl(urlString) {
+  parseDbUrl (urlString) {
     let config = api.urlStringToConfigHash(urlString);
 
     config = _.assign(config, {
