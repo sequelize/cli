@@ -67,7 +67,14 @@ export function getMigrator (type, args) {
         if (helpers.version.getDialectName() === 'pg') {
           const customSchemaName = helpers.umzug.getSchema('migration');
           if (customSchemaName && customSchemaName !== 'public') {
-            return sequelize.createSchema(customSchemaName);
+            return sequelize.createSchema(customSchemaName).catch((err) => {
+              helpers.view.log(
+                `Failed attempting to create schema named`,
+                clc.blueBright(customSchemaName),
+                `: ${err.message}
+Migration may still succeed if the schema already exists.`
+                );
+            });
           }
         }
 
