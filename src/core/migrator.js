@@ -1,3 +1,4 @@
+import clc from 'cli-color';
 import Umzug from 'umzug';
 import Bluebird from 'bluebird';
 import _ from 'lodash';
@@ -67,13 +68,12 @@ export function getMigrator (type, args) {
         if (helpers.version.getDialectName() === 'pg') {
           const customSchemaName = helpers.umzug.getSchema('migration');
           if (customSchemaName && customSchemaName !== 'public') {
-            return sequelize.createSchema(customSchemaName).catch((err) => {
+            return sequelize.createSchema(customSchemaName).catch(err => {
               helpers.view.log(
-                `Failed attempting to create schema named`,
+                'Failed attempting to create schema named',
                 clc.blueBright(customSchemaName),
-                `: ${err.message}
-Migration may still succeed if the schema already exists.`
-                );
+                ': ' + err.message + '\nMigration may still succeed if the schema already exists.'
+              );
             });
           }
         }
