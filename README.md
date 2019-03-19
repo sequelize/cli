@@ -22,6 +22,16 @@ Now you can run CLI using following command anywhere
 $ sequelize
 ```
 
+If after you run `sequelize` and you get an error similar to:
+```bash
+Unable to resolve sequelize package in ....
+```
+You will need to install sequelize globally.
+```bash
+npm install -g sequelize
+```
+
+
 ### Locally
 Install CLI locally to your `node_modules` folder with
 
