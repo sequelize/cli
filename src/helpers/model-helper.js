@@ -23,8 +23,8 @@ function formatAttributes (attribute) {
     result = { fieldName: split[0], dataType: split[1], dataFunction: null, dataValues: null };
   } else if (split.length === 3) {
     const validValues = /^\{(,? ?[A-z0-9 ]+)+\}$/;
-    const isValidFunction = validAttributeFunctionType.indexOf(split[1].toLowerCase()) !== -1;
-    const isValidValue = validAttributeFunctionType.indexOf(split[2].toLowerCase()) === -1 && split[2].match(validValues) === null;
+    const isValidFunction = validAttributeFunctionType.includes(split[1].toLowerCase());
+    const isValidValue = !validAttributeFunctionType.includes(split[2].toLowerCase()) && split[2].match(validValues) === null;
     const isValidValues = split[2].match(validValues) !== null;
 
     if (isValidFunction && isValidValue && !isValidValues) {

@@ -167,11 +167,11 @@ const api = {
         host:     urlParts.hostname,
         port:     urlParts.port,
         protocol: urlParts.protocol.replace(/:$/, ''),
-        ssl:      urlParts.query ? urlParts.query.indexOf('ssl=true') >= 0 : false
+        ssl:      urlParts.query ? urlParts.query.includes('ssl=true') : false
       };
 
       if (urlParts.auth) {
-        result = _.assign(result, {
+        result = Object.assign(result, {
           username: urlParts.auth.split(':')[0],
           password: urlParts.auth.split(':')[1]
         });
@@ -186,12 +186,12 @@ const api = {
   parseDbUrl (urlString) {
     let config = api.urlStringToConfigHash(urlString);
 
-    config = _.assign(config, {
+    config = Object.assign(config, {
       dialect: config.protocol
     });
 
     if (config.dialect === 'sqlite' && config.database.indexOf(':memory') !== 0) {
-      config = _.assign(config, {
+      config = Object.assign(config, {
         storage: '/' + config.database
       });
     }

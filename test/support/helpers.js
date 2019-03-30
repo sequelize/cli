@@ -1,6 +1,5 @@
 'use strict';
 
-var _       = require('lodash');
 var exec    = require('child_process').exec;
 var support = require('./index');
 var through = require('through2');
@@ -14,7 +13,7 @@ module.exports = {
     var config  = require(support.resolveSupportPath('config', 'config.js'));
 
     config.sqlite.storage = support.resolveSupportPath('tmp', 'test.sqlite');
-    config = _.extend(
+    config = Object.assign(
       config,
       config[dialect],
       mixin || {},
@@ -49,7 +48,7 @@ module.exports = {
 
     return through.obj(function (file, encoding, callback) {
       var command = support.getCliCommand(file.path, args);
-      var env     = _.extend({}, process.env, options.env);
+      var env     = Object.assign({}, process.env, options.env);
 
       logToFile(command);
 

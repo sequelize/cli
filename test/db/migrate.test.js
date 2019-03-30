@@ -17,13 +17,13 @@ const _         = require('lodash');
   'db:migrate --config ../../support/tmp/config/config-promise.js'
 ].forEach(flag => {
   const prepare = function (callback, options) {
-    options = _.assign({ config: {} }, options || {});
+    options = Object.assign({ config: {} }, options || {});
     options.cli = options.cli || {};
     _.defaults(options.cli, { pipeStdout: true });
 
     let configPath    = 'config/';
     let migrationFile = options.migrationFile || 'createPerson';
-    const config        = _.assign({}, helpers.getTestConfig(), options.config);
+    const config        = Object.assign({}, helpers.getTestConfig(), options.config);
     let configContent = JSON.stringify(config);
 
     migrationFile = migrationFile + '.js';
@@ -325,7 +325,7 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
       const self = this;
       const migrationsPath = Support.resolveSupportPath('assets', 'migrations');
       const migrations = fs.readdirSync(migrationsPath);
-      const createTriggers = migrations.filter(migration => migration.indexOf('createTestTableForTrigger') > -1);
+      const createTriggers = migrations.filter(migration => migration.includes('createTestTableForTrigger'));
 
       prepare('--to ' + createTriggers, () => {
         helpers.readTables(self.sequelize, tables => {
@@ -341,8 +341,8 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
       const self = this;
       const migrationsPath = Support.resolveSupportPath('assets', 'migrations');
       const migrations = fs.readdirSync(migrationsPath);
-      const createTriggers = migrations.filter(migration => migration.indexOf('createTestTableForTrigger') > -1);
-      const createPost = migrations.filter(migration => migration.indexOf('createPost') > -1);
+      const createTriggers = migrations.filter(migration => migration.includes('createTestTableForTrigger'));
+      const createPost = migrations.filter(migration => migration.includes('createPost'));
 
       prepare('--to ' + createTriggers, () => {
         helpers.readTables(self.sequelize, tables => {
@@ -364,7 +364,7 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
       const self = this;
       const migrationsPath = Support.resolveSupportPath('assets', 'migrations');
       const migrations = fs.readdirSync(migrationsPath);
-      const createTriggers = migrations.filter(migration => migration.indexOf('createTestTableForTrigger') > -1);
+      const createTriggers = migrations.filter(migration => migration.includes('createTestTableForTrigger'));
 
       prepare('--to ' + createTriggers, () => {
         helpers.readTables(self.sequelize, tables => {
@@ -382,7 +382,7 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
       const self = this;
       const migrationsPath = Support.resolveSupportPath('assets', 'migrations');
       const migrations = fs.readdirSync(migrationsPath);
-      const createPersonMigration = migrations.filter(migration => migration.indexOf('renamePersonToUser') > -1);
+      const createPersonMigration = migrations.filter(migration => migration.includes('renamePersonToUser'));
 
       prepare('--from ' + createPersonMigration, () => {
         helpers.readTables(self.sequelize, tables => {
@@ -398,8 +398,8 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
       const self = this;
       const migrationsPath = Support.resolveSupportPath('assets', 'migrations');
       const migrations = fs.readdirSync(migrationsPath);
-      const createPersonMigration = migrations.filter(migration => migration.indexOf('renamePersonToUser') > -1);
-      const createPost = migrations.filter(migration => migration.indexOf('createPost') > -1);
+      const createPersonMigration = migrations.filter(migration => migration.includes('renamePersonToUser'));
+      const createPost = migrations.filter(migration => migration.includes('createPost'));
 
       prepare('--from ' + createPersonMigration, () => {
         helpers.readTables(self.sequelize, tables => {
@@ -419,8 +419,8 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
       const self = this;
       const migrationsPath = Support.resolveSupportPath('assets', 'migrations');
       const migrations = fs.readdirSync(migrationsPath);
-      const createPersonMigration = migrations.filter(migration => migration.indexOf('renamePersonToUser') > -1);
-      const createPost = migrations.filter(migration => migration.indexOf('createTestTableForTrigger') > -1);
+      const createPersonMigration = migrations.filter(migration => migration.includes('renamePersonToUser'));
+      const createPost = migrations.filter(migration => migration.includes('createTestTableForTrigger'));
 
       prepare('--from ' + createPersonMigration + ' --to ' + createPost, () => {
         helpers.readTables(self.sequelize, tables => {

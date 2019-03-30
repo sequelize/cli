@@ -1,6 +1,8 @@
 'use strict';
 
-module.exports = (sequelize, DataTypes, Model) => {
+const { DataTypes, Model } = require('sequelize');
+
+module.exports = sequelize => {
   class <%= name %> extends Model {
     static associate (models) {
       // associations can be defined here

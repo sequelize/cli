@@ -4,7 +4,6 @@ const expect    = require('expect.js');
 const Support   = require(__dirname + '/../support');
 const helpers   = require(__dirname + '/../support/helpers');
 const gulp      = require('gulp');
-const _         = require('lodash');
 
 [
   'db:seed --seed seedPerson.js',
@@ -19,11 +18,11 @@ const _         = require('lodash');
   'db:seed --seed seedPerson.js --config ../../support/tmp/config/config-promise.js'
 ].forEach(flag => {
   const prepare = function (callback, options) {
-    options = _.assign({ config: {} }, options || {});
+    options = Object.assign({ config: {} }, options || {});
 
     let configPath    = 'config/';
     let seederFile    = 'seedPerson';
-    const config        = _.assign({}, helpers.getTestConfig(), options.config);
+    const config        = Object.assign({}, helpers.getTestConfig(), options.config);
     let configContent = JSON.stringify(config);
     const migrationFile = 'createPerson.js';
 
@@ -50,7 +49,7 @@ const _         = require('lodash');
       .pipe(helpers.copySeeder(seederFile))
       .pipe(helpers.overwriteFile(configContent, configPath))
       .pipe(helpers.runCli('db:migrate' +
-        (flag.indexOf('config') === -1 ? '' : flag.replace('db:seed --seed seedPerson.js', ''))
+        (!flag.includes('config') ? '' : flag.replace('db:seed --seed seedPerson.js', ''))
       ))
       .pipe(helpers.runCli(flag, { pipeStdout: true }))
       .pipe(helpers.teardown(callback));

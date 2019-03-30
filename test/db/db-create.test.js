@@ -5,10 +5,10 @@ const gulp = require('gulp');
 const _ = require('lodash');
 
 const prepare = function (flag, callback, options) {
-  options = _.assign({ config: {} }, options || {});
+  options = Object.assign({ config: {} }, options || {});
 
   const configPath = 'config/config.json';
-  const config = _.assign({}, helpers.getTestConfig(), options.config);
+  const config = Object.assign({}, helpers.getTestConfig(), options.config);
   const configContent = JSON.stringify(config);
 
   gulp
@@ -170,7 +170,7 @@ describe(Support.getTestDialectTeaser('db:create'), () => {
           }
         });
     });
-  
+
 
     it('correctly creates database with charset and collation', function (done) {
       const databaseName = `my_test-db_${_.random(10000, 99999)}`;

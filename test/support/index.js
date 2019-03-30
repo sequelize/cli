@@ -41,7 +41,7 @@ var Support = {
     var dialect = Support.getTestDialect();
 
     if (dialect === 'sqlite') {
-      var options    = _.extend({}, sequelize.options, {
+      var options    = Object.assign({}, sequelize.options, {
         storage: path.join(__dirname, 'tmp', 'db.sqlite')
       });
       var _sequelize = new Sequelize(sequelize.config.datase, null, null, options);
@@ -138,7 +138,7 @@ var Support = {
     var dir = __dirname + '/../../node_modules/sequelize/lib/dialects';
 
     return fs.readdirSync(dir).filter(function (file) {
-      return ((file.indexOf('.js') === -1) && (file.indexOf('abstract') === -1));
+      return (!file.includes('.js') && !file.includes('abstract'));
     });
   },
 
@@ -157,7 +157,7 @@ var Support = {
       envDialect = 'postgres';
     }
 
-    if (this.getSupportedDialects().indexOf(envDialect) === -1) {
+    if (!this.getSupportedDialects().includes(envDialect)) {
       throw new Error('The dialect you have passed is unknown. Did you really mean: ' + envDialect);
     }
 
@@ -174,13 +174,13 @@ var Support = {
     if (strict) {
       return envDialect === 'mysql';
     } else {
-      return ['mysql', 'mariadb'].indexOf(envDialect) !== -1;
+      return ['mysql', 'mariadb'].includes(envDialect);
     }
   },
 
   dialectIsPostgres: function (strict) {
     var envDialect = this.getTestDialect();
-    return ['postgres', 'postgres-native'].indexOf(envDialect) !== -1;
+    return ['postgres', 'postgres-native'].includes(envDialect);
   },
 
   getTestDialectTeaser: function (moduleName) {

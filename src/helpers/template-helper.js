@@ -4,7 +4,7 @@ import helpers from './index';
 
 module.exports = {
   render (path, locals, options) {
-    options = _.assign({
+    options = Object.assign({
       beautify: true,
       indent_size: 2,
       preserve_newlines: false

@@ -37,8 +37,8 @@ const gulp      = require('gulp');
 
       helpers.readTables(self.sequelize, tables => {
         expect(tables).to.have.length(3);
-        expect(tables.indexOf('SequelizeMeta')).to.be.above(-1);
-        expect(tables.indexOf('SequelizeMetaBackup')).to.be.above(-1);
+        expect(tables).to.be.contain('SequelizeMeta');
+        expect(tables).to.be.contain('SequelizeMetaBackup');
         done();
       });
     });

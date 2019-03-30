@@ -3,7 +3,6 @@ const Support   = require(__dirname + '/../support');
 const helpers   = require(__dirname + '/../support/helpers');
 const gulp      = require('gulp');
 const fs        = require('fs');
-const _         = require('lodash');
 
 [
   'db:migrate',
@@ -16,11 +15,11 @@ const _         = require('lodash');
   'db:migrate --config ../../support/tmp/config/config.js'
 ].forEach(flag => {
   const prepare = function (callback, options) {
-    options = _.assign({ config: {} }, options || {});
+    options = Object.assign({ config: {} }, options || {});
 
     let configPath    = 'config/';
     let migrationFile = options.migrationFile || 'createPerson';
-    const config        = _.assign({
+    const config        = Object.assign({
       migrationStorage: 'json'
     }, helpers.getTestConfig(), options.config);
     let configContent = JSON.stringify(config);

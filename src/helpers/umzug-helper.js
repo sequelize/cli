@@ -1,5 +1,4 @@
 import path from 'path';
-import _ from 'lodash';
 import helpers from './index';
 
 const storage = {
@@ -48,7 +47,7 @@ module.exports = {
       options.schema = this.getSchema(type);
     }
 
-    _.assign(options, extraOptions);
+    Object.assign(options, extraOptions);
 
     return options;
   }

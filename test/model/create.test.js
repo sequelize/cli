@@ -21,7 +21,7 @@ const _         = require('lodash');
     };
 
     const prepare = function (options, callback) {
-      options = _.assign({
+      options = Object.assign({
         flags: {},
         cli:   { pipeStdout: true }
       }, options || {});

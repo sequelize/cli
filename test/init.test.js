@@ -12,7 +12,7 @@ const gulp    = require('gulp');
           let sourcePath = Support.resolveSupportPath('tmp');
           let file       = folder;
 
-          if (folder.indexOf('/') > -1) {
+          if (folder.includes('/')) {
             const split = folder.split('/');
 
             file = split.pop();

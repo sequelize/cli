@@ -2,7 +2,6 @@ import { _baseOptions } from '../core/yargs';
 import { getMigrator } from '../core/migrator';
 
 import helpers from '../helpers';
-import _ from 'lodash';
 
 exports.builder = yargs => _baseOptions(yargs).argv;
 exports.handler = async function (args) {
@@ -33,7 +32,7 @@ function seedAll (args) {
           return;
         }
 
-        return migrator.up({ migrations: _.chain(seeders).map('file').value() });
+        return migrator.up({ migrations: seeders.map(s => s.file) });
       });
   }).catch(e => helpers.view.error(e));
 }
@@ -49,7 +48,7 @@ function seedUndoAll (args) {
           return;
         }
 
-        return migrator.down({ migrations: _.chain(seeders).map('file').reverse().value() });
+        return migrator.down({ migrations: seeders.map(s => s.file).reverse() });
       });
   }).catch(e => helpers.view.error(e));
 }

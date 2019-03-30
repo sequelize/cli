@@ -89,7 +89,7 @@ export function ensureCurrentMetaSchema (migrator) {
 
       if (columns.length === 1 && columns[0] === columnName) {
         return;
-      } else if (columns.length === 3 && columns.indexOf('createdAt') >= 0) {
+      } else if (columns.length === 3 && columns.includes('createdAt')) {
         return;
       }
     })
@@ -99,7 +99,7 @@ export function ensureCurrentMetaSchema (migrator) {
 function ensureMetaTable (queryInterface, tableName) {
   return queryInterface.showAllTables()
     .then(tableNames => {
-      if (tableNames.indexOf(tableName) === -1) {
+      if (!tableNames.includes(tableName)) {
         throw new Error('No MetaTable table found.');
       }
       return queryInterface.describeTable(tableName);

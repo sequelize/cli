@@ -2,14 +2,13 @@ const expect  = require('expect.js');
 const Support = require(__dirname + '/../../../support');
 const helpers = require(__dirname + '/../../../support/helpers');
 const gulp    = require('gulp');
-const _       = require('lodash');
 
 [
   'db:seed:undo:all'
 ].forEach(flag => {
   const prepare = function (callback, options) {
     const _flag  = options.flag || flag;
-    const config = _.assign({}, helpers.getTestConfig(), options.config || {});
+    const config = Object.assign({}, helpers.getTestConfig(), options.config || {});
 
     const pipeline = gulp
       .src(Support.resolveSupportPath('tmp'))

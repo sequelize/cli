@@ -2,7 +2,6 @@ import { _baseOptions } from '../core/yargs';
 import { getMigrator, ensureCurrentMetaSchema, addTimestampsToSchema } from '../core/migrator';
 
 import helpers from '../helpers';
-import _ from 'lodash';
 
 exports.builder = yargs => _baseOptions(yargs)
   .option('to', {
@@ -54,7 +53,7 @@ function migrate(args) {
           options.to = args.to;
         }
         if (args.from) {
-          if (migrations.map(migration => migration.file).lastIndexOf(args.from) === -1) {
+          if (!migrations.map(migration => migration.file).includes(args.from)) {
             helpers.view.log('No migrations were executed, database schema was already up to date.');
             process.exit(0);
           }
@@ -71,12 +70,12 @@ function migrationStatus(args) {
     return ensureCurrentMetaSchema(migrator)
       .then(() => migrator.executed())
       .then(migrations => {
-        _.forEach(migrations, migration => {
+        migrations.forEach(migration => {
           helpers.view.log('up', migration.file);
         });
       }).then(() => migrator.pending())
       .then(migrations => {
-        _.forEach(migrations, migration => {
+        migrations.forEach(migration => {
           helpers.view.log('down', migration.file);
         });
       });
