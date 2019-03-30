@@ -1,13 +1,13 @@
 const expect  = require('expect.js');
-const Support = require(__dirname + '/../../support');
-const helpers = require(__dirname + '/../../support/helpers');
+const Support = require(`${__dirname}/../../support`);
+const helpers = require(`${__dirname}/../../support/helpers`);
 const gulp    = require('gulp');
 const fs      = require('fs');
 
 [
   'db:migrate:undo'
 ].forEach(flag => {
-  const prepare = function (callback, _flag) {
+  const prepare = function(callback, _flag) {
     _flag = _flag || flag;
 
     gulp
@@ -21,7 +21,7 @@ const fs      = require('fs');
   };
 
   describe(Support.getTestDialectTeaser(flag), () => {
-    it('creates a SequelizeMeta table', function (done) {
+    it('creates a SequelizeMeta table', function(done) {
       const self = this;
 
       prepare(() => {
@@ -41,7 +41,7 @@ const fs      = require('fs');
       });
     });
 
-    it('is correctly undoing a migration if they have been done already', function (done) {
+    it('is correctly undoing a migration if they have been done already', function(done) {
       const self = this;
 
       prepare(() => {
@@ -63,7 +63,7 @@ const fs      = require('fs');
       }, 'db:migrate');
     });
 
-    it('correctly undoes a named migration', function (done) {
+    it('correctly undoes a named migration', function(done) {
       const self = this;
 
       prepare(() => {
@@ -79,7 +79,7 @@ const fs      = require('fs');
             .src(Support.resolveSupportPath('tmp'))
             .pipe(helpers.copyMigration('emptyMigration.js'))
             .pipe(helpers.runCli('db:migrate'))
-            .pipe(helpers.runCli(flag + ' --name ' + createPersonMigration, { pipeStdout: true }))
+            .pipe(helpers.runCli(`${flag} --name ${createPersonMigration}`, { pipeStdout: true }))
             .pipe(helpers.teardown(() => {
               helpers.readTables(self.sequelize, tables => {
                 expect(tables).to.have.length(1);

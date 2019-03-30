@@ -1,14 +1,14 @@
 
 
 const expect    = require('expect.js');
-const Support   = require(__dirname + '/../../../support');
-const helpers   = require(__dirname + '/../../../support/helpers');
+const Support   = require(`${__dirname}/../../../support`);
+const helpers   = require(`${__dirname}/../../../support/helpers`);
 const gulp      = require('gulp');
 
 [
   'db:migrate:schema:timestamps:add'
 ].forEach(flag => {
-  const prepare = function (config, callback) {
+  const prepare = function(config, callback) {
     config = helpers.getTestConfig(config);
 
     gulp
@@ -23,7 +23,7 @@ const gulp      = require('gulp');
   };
 
   describe(Support.getTestDialectTeaser(flag), () => {
-    beforeEach(function (done) {
+    beforeEach(function(done) {
       prepare.call(this, null, () => {
         return gulp
           .src(Support.resolveSupportPath('tmp'))
@@ -32,7 +32,7 @@ const gulp      = require('gulp');
       });
     });
 
-    it('renames the original table', function (done) {
+    it('renames the original table', function(done) {
       const self = this;
 
       helpers.readTables(self.sequelize, tables => {
@@ -43,7 +43,7 @@ const gulp      = require('gulp');
       });
     });
 
-    it('keeps the data in the original table', function (done) {
+    it('keeps the data in the original table', function(done) {
       helpers.execQuery(
         this.sequelize,
         this.sequelize.getQueryInterface().QueryGenerator.selectQuery('SequelizeMetaBackup'),
@@ -54,7 +54,7 @@ const gulp      = require('gulp');
       });
     });
 
-    it('keeps the structure of the original table', function (done) {
+    it('keeps the structure of the original table', function(done) {
       const self = this;
 
       helpers.readTables(self.sequelize, () => {
@@ -70,14 +70,14 @@ const gulp      = require('gulp');
       });
     });
 
-    it('creates a new SequelizeMeta table with the new structure', function (done) {
+    it('creates a new SequelizeMeta table with the new structure', function(done) {
       this.sequelize.getQueryInterface().describeTable('SequelizeMeta').then(fields => {
         expect(Object.keys(fields).sort()).to.eql(['createdAt', 'name', 'updatedAt']);
         done();
       });
     });
 
-    it('copies the entries into the new table', function (done) {
+    it('copies the entries into the new table', function(done) {
       helpers.execQuery(
         this.sequelize,
         this.sequelize.getQueryInterface().QueryGenerator.selectQuery('SequelizeMeta'),
@@ -89,7 +89,7 @@ const gulp      = require('gulp');
       });
     });
 
-    it('is possible to undo one of the already executed migrations', function (done) {
+    it('is possible to undo one of the already executed migrations', function(done) {
       const self = this;
 
       gulp

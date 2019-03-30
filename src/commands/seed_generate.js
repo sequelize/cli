@@ -14,7 +14,7 @@ exports.builder =
       })
       .argv;
 
-exports.handler = function (args) {
+exports.handler = function(args) {
   helpers.init.createSeedersFolder();
 
   fs.writeFileSync(

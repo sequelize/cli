@@ -1,5 +1,5 @@
-const Support = require(__dirname + '/support');
-const helpers = require(__dirname + '/support/helpers');
+const Support = require(`${__dirname}/support`);
+const helpers = require(`${__dirname}/support/helpers`);
 const gulp = require('gulp');
 const optionsPath = Support.resolveSupportPath('config', 'options.js');
 
@@ -9,11 +9,11 @@ describe(Support.getTestDialectTeaser('options'), () => {
       optionsPath,
       require('path').relative(Support.resolveSupportPath('tmp'), optionsPath)
     ].forEach(path => {
-      it('using options file instead of cli switches (' + path + ')', done => {
+      it(`using options file instead of cli switches (${path})`, done => {
         gulp
           .src(Support.resolveSupportPath('tmp'))
           .pipe(helpers.clearDirectory())
-          .pipe(helpers.runCli('init --options-path ' + path))
+          .pipe(helpers.runCli(`init --options-path ${path}`))
           .pipe(helpers.listFiles())
           .pipe(helpers.ensureContent('models'))
           .pipe(helpers.teardown(done));
@@ -51,7 +51,7 @@ describe(Support.getTestDialectTeaser('options'), () => {
         .src(Support.resolveSupportPath('tmp'))
         .pipe(helpers.clearDirectory())
         .pipe(helpers.copyFile(optionsPath, '.sequelizerc'))
-        .pipe(helpers.runCli('init --config=' + configPath))
+        .pipe(helpers.runCli(`init --config=${configPath}`))
         .pipe(helpers.listFiles())
         .pipe(helpers.ensureContent('models'))
         .pipe(helpers.teardown(done));

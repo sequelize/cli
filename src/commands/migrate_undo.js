@@ -12,7 +12,7 @@ exports.builder =
       })
       .argv;
 
-exports.handler = async function (args) {
+exports.handler = async function(args) {
   // legacy, gulp used to do this
   await helpers.config.init();
 
@@ -21,7 +21,7 @@ exports.handler = async function (args) {
   process.exit(0);
 };
 
-function migrateUndo (args) {
+function migrateUndo(args) {
   return getMigrator('migration', args).then(migrator => {
     return ensureCurrentMetaSchema(migrator).then(() => migrator.executed())
       .then(migrations => {
@@ -33,9 +33,9 @@ function migrateUndo (args) {
       .then(() => {
         if (args.name) {
           return migrator.down(args.name);
-        } else {
-          return migrator.down();
-        }
+        } 
+        return migrator.down();
+        
       });
   }).catch(e => helpers.view.error(e));
 }

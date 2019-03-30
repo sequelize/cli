@@ -1,12 +1,12 @@
 const expect  = require('expect.js');
-const Support = require(__dirname + '/../../support');
-const helpers = require(__dirname + '/../../support/helpers');
+const Support = require(`${__dirname}/../../support`);
+const helpers = require(`${__dirname}/../../support/helpers`);
 const gulp    = require('gulp');
 
 [
   'db:seed:undo --seed seedPerson.js'
 ].forEach(flag => {
-  const prepare = function (callback, options) {
+  const prepare = function(callback, options) {
     const _flag = options.flag || flag;
 
     const pipeline = gulp
@@ -31,10 +31,10 @@ const gulp    = require('gulp');
       prepare((err, output) => {
         expect(output).to.contain('Unable to find migration');
         done();
-      }, {copySeeds: false});
+      }, { copySeeds: false });
     });
 
-    it('is correctly undoing a seeder if they have been done already', function (done) {
+    it('is correctly undoing a seeder if they have been done already', function(done) {
       const self = this;
 
       prepare(() => {
@@ -53,7 +53,7 @@ const gulp    = require('gulp');
               });
             }));
         });
-      }, {flag: 'db:seed:all', copySeeds: true});
+      }, { flag: 'db:seed:all', copySeeds: true });
     });
   });
 });

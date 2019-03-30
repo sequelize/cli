@@ -4,15 +4,15 @@ import helpers from './index';
 const packageJson = require(path.resolve(__dirname, '..', '..', 'package.json'));
 
 module.exports = {
-  getCliVersion () {
+  getCliVersion() {
     return packageJson.version;
   },
 
-  getOrmVersion () {
+  getOrmVersion() {
     return helpers.generic.getSequelize('package.json').version;
   },
 
-  getDialect () {
+  getDialect() {
     try {
       return helpers.config.readConfig();
     } catch (e) {
@@ -20,22 +20,22 @@ module.exports = {
     }
   },
 
-  getDialectName () {
+  getDialectName() {
     const config = this.getDialect();
 
     if (config) {
       return {
-        'sqlite':   'sqlite3',
+        'sqlite': 'sqlite3',
         'postgres': 'pg',
-        'mariadb':  'mariasql',
-        'mysql':    'mysql'
+        'mariadb': 'mariasql',
+        'mysql': 'mysql'
       }[config.dialect];
-    } else {
-      return null;
-    }
+    } 
+    return null;
+    
   },
 
-  getNodeVersion () {
+  getNodeVersion() {
     return process.version.replace('v', '');
   }
 };

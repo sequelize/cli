@@ -13,7 +13,7 @@ exports.builder =
       })
       .argv;
 
-exports.handler = async function (args) {
+exports.handler = async function(args) {
   const command = args._[0];
 
   // legacy, gulp used to do this

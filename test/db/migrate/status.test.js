@@ -1,7 +1,7 @@
 
 
-const Support = require(__dirname + '/../../support');
-const helpers = require(__dirname + '/../../support/helpers');
+const Support = require(`${__dirname}/../../support`);
+const helpers = require(`${__dirname}/../../support/helpers`);
 const gulp    = require('gulp');
 
 [

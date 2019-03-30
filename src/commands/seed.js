@@ -4,7 +4,7 @@ import { getMigrator } from '../core/migrator';
 import helpers from '../helpers';
 
 exports.builder = yargs => _baseOptions(yargs).argv;
-exports.handler = async function (args) {
+exports.handler = async function(args) {
   const command = args._[0];
 
   // legacy, gulp used to do this
@@ -23,7 +23,7 @@ exports.handler = async function (args) {
   process.exit(0);
 };
 
-function seedAll (args) {
+function seedAll(args) {
   return getMigrator('seeder', args).then(migrator => {
     return migrator.pending()
       .then(seeders => {
@@ -37,7 +37,7 @@ function seedAll (args) {
   }).catch(e => helpers.view.error(e));
 }
 
-function seedUndoAll (args) {
+function seedUndoAll(args) {
   return getMigrator('seeder', args).then(migrator => {
     return (
       helpers.umzug.getStorage('seeder') === 'none' ? migrator.pending() : migrator.executed()

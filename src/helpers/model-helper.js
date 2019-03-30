@@ -7,7 +7,7 @@ const validAttributeFunctionType = ['array', 'enum'];
  * Check the given dataType actual exists.
  * @param {string} dataType
  */
-function validateDataType (dataType) {
+function validateDataType(dataType) {
   if (!Sequelize.DataTypes[dataType.toUpperCase()]) {
     throw new Error(`Unknown type '${dataType}'`);
   }
@@ -15,7 +15,7 @@ function validateDataType (dataType) {
   return dataType;
 }
 
-function formatAttributes (attribute) {
+function formatAttributes(attribute) {
   let result;
   const split = attribute.split(':');
 
@@ -40,7 +40,7 @@ function formatAttributes (attribute) {
 }
 
 module.exports = {
-  transformAttributes (flag) {
+  transformAttributes(flag) {
     /*
       possible flag formats:
       - first_name:string,last_name:string,bio:text,role:enum:{Admin, 'Guest User'},reviews:array:string
@@ -77,22 +77,22 @@ module.exports = {
     });
   },
 
-  generateFileContent (args) {
+  generateFileContent(args) {
 
     return helpers.template.render('models/model.js', {
-      name:       args.name,
+      name: args.name,
       attributes: this.transformAttributes(args.attributes),
       underscored: args.underscored
     });
   },
 
-  generateFile (args) {
+  generateFile(args) {
     const modelPath = helpers.path.getModelPath(args.name);
 
     helpers.asset.write(modelPath, this.generateFileContent(args));
   },
 
-  modelFileExists (filePath) {
+  modelFileExists(filePath) {
     return helpers.path.existsSync(filePath);
   }
 };

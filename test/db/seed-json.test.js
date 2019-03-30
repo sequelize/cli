@@ -1,8 +1,8 @@
 
 
 const expect    = require('expect.js');
-const Support   = require(__dirname + '/../support');
-const helpers   = require(__dirname + '/../support/helpers');
+const Support   = require(`${__dirname}/../support`);
+const helpers   = require(`${__dirname}/../support/helpers`);
 const gulp      = require('gulp');
 const fs        = require('fs');
 
@@ -13,11 +13,11 @@ const fs        = require('fs');
   'db:seed --seed seedPerson.js --seeders-path ./seeders',
   'db:seed --seed seedPerson.js --seeders-path ./seeders/',
   'db:seed --seed seedPerson.js --config ../../support/tmp/config/config.json',
-  'db:seed --seed seedPerson.js --config ' +
-    Support.resolveSupportPath('tmp', 'config', 'config.json'),
+  `db:seed --seed seedPerson.js --config ${
+    Support.resolveSupportPath('tmp', 'config', 'config.json')}`,
   'db:seed --seed seedPerson.js --config ../../support/tmp/config/config.js'
 ].forEach(flag => {
-  const prepare = function (callback, options) {
+  const prepare = function(callback, options) {
     options = Object.assign({ config: {} }, options || {});
 
     let configPath    = 'config/';
@@ -26,13 +26,13 @@ const fs        = require('fs');
     let configContent = JSON.stringify(config);
     const migrationFile = 'createPerson.js';
 
-    seederFile = seederFile + '.js';
+    seederFile = `${seederFile}.js`;
 
     if (flag.match(/config\.js$/)) {
-      configPath    = configPath + 'config.js';
-      configContent = 'module.exports = ' + configContent;
+      configPath    = `${configPath}config.js`;
+      configContent = `module.exports = ${configContent}`;
     } else {
-      configPath = configPath + 'config.json';
+      configPath = `${configPath}config.json`;
     }
 
     gulp
@@ -43,15 +43,15 @@ const fs        = require('fs');
       .pipe(helpers.copyMigration(migrationFile))
       .pipe(helpers.copySeeder(seederFile))
       .pipe(helpers.overwriteFile(configContent, configPath))
-      .pipe(helpers.runCli('db:migrate' +
-        (!flag.includes('config') ? '' : flag.replace('db:seed --seed seedPerson.js', ''))
+      .pipe(helpers.runCli(`db:migrate${
+        !flag.includes('config') ? '' : flag.replace('db:seed --seed seedPerson.js', '')}`
       ))
       .pipe(helpers.runCli(flag, { pipeStdout: true }))
       .pipe(helpers.teardown(callback));
   };
 
-  describe(Support.getTestDialectTeaser(flag) + ' (JSON)', () => {
-    it('populates the respective table', function (done) {
+  describe(`${Support.getTestDialectTeaser(flag)} (JSON)`, () => {
+    it('populates the respective table', function(done) {
       const self = this;
 
       prepare(() => {
@@ -70,7 +70,7 @@ const fs        = require('fs');
         prepare(() => {
           expect(fs.statSync(storageFile).isFile()).to.be(true);
           expect(fs.readFileSync(storageFile).toString())
-            .to.match(/^\[\n  "seedPerson\.(js)"\n\]$/);
+            .to.match(/^\[\n {2}"seedPerson\.(js)"\n\]$/);
           done();
         }, { config: { seederStoragePath: storageFile, seederStorage: 'json' } });
       });

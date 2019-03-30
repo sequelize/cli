@@ -1,14 +1,14 @@
-const Support = require(__dirname + '/support');
-const helpers = require(__dirname + '/support/helpers');
+const Support = require(`${__dirname}/support`);
+const helpers = require(`${__dirname}/support/helpers`);
 const gulp    = require('gulp');
 
 [
   'init'
 ].forEach(flag => {
   describe(Support.getTestDialectTeaser(flag), () => {
-    (function (folders) {
+    (function(folders) {
       folders.forEach(folder => {
-        it('creates "' + folder + '"', done => {
+        it(`creates "${folder}"`, done => {
           let sourcePath = Support.resolveSupportPath('tmp');
           let file       = folder;
 
@@ -44,7 +44,7 @@ const gulp    = require('gulp');
       gulp
         .src(Support.resolveSupportPath('tmp'))
         .pipe(helpers.clearDirectory())
-        .pipe(helpers.runCli(flag + ' --config my-config/config/config.json'))
+        .pipe(helpers.runCli(`${flag} --config my-config/config/config.json`))
         .pipe(helpers.listFiles())
         .pipe(helpers.ensureContent('my-config'))
         .pipe(helpers.teardown(done));
@@ -54,7 +54,7 @@ const gulp    = require('gulp');
       gulp
         .src(Support.resolveSupportPath('tmp'))
         .pipe(helpers.clearDirectory())
-        .pipe(helpers.runCli(flag + ' --migrations-path ./db/migrate'))
+        .pipe(helpers.runCli(`${flag} --migrations-path ./db/migrate`))
         .pipe(helpers.listFiles())
         .pipe(helpers.ensureContent('db'))
         .pipe(helpers.teardown(done));
@@ -64,7 +64,7 @@ const gulp    = require('gulp');
       gulp
         .src(Support.resolveSupportPath('tmp'))
         .pipe(helpers.clearDirectory())
-        .pipe(helpers.runCli(flag + ' --config config/database.json'))
+        .pipe(helpers.runCli(`${flag} --config config/database.json`))
         .pipe(helpers.teardown(() => {
           gulp
             .src(Support.resolveSupportPath('tmp', 'config'))
@@ -78,7 +78,7 @@ const gulp    = require('gulp');
       gulp
         .src(Support.resolveSupportPath('tmp'))
         .pipe(helpers.clearDirectory())
-        .pipe(helpers.runCli(flag + ' --models-path daos'))
+        .pipe(helpers.runCli(`${flag} --models-path daos`))
         .pipe(helpers.listFiles())
         .pipe(helpers.ensureContent('daos'))
         .pipe(helpers.teardown(done));
@@ -103,7 +103,7 @@ const gulp    = require('gulp');
         gulp
           .src(Support.resolveSupportPath('tmp'))
           .pipe(helpers.clearDirectory())
-          .pipe(helpers.runCli(flag + ' --config my/configuration-file.json'))
+          .pipe(helpers.runCli(`${flag} --config my/configuration-file.json`))
           .pipe(helpers.teardown(() => {
             gulp
               .src(Support.resolveSupportPath('tmp', 'models'))

@@ -1,10 +1,10 @@
 const expect = require('expect.js');
-const Support = require(__dirname + '/../support');
-const helpers = require(__dirname + '/../support/helpers');
+const Support = require(`${__dirname}/../support`);
+const helpers = require(`${__dirname}/../support/helpers`);
 const gulp = require('gulp');
 const _ = require('lodash');
 
-const prepare = function (flag, callback, options) {
+const prepare = function(flag, callback, options) {
   options = Object.assign({ config: {} }, options || {});
 
   const configPath = 'config/config.json';
@@ -23,7 +23,7 @@ const prepare = function (flag, callback, options) {
 
 describe(Support.getTestDialectTeaser('db:create'), () => {
   if (Support.dialectIsPostgres()) {
-    it('correctly creates database', function (done) {
+    it('correctly creates database', function(done) {
       const databaseName = `my_test_db_${_.random(10000, 99999)}`;
       prepare(
         'db:create',
@@ -41,7 +41,7 @@ describe(Support.getTestDialectTeaser('db:create'), () => {
         });
     });
 
-    it('correctly creates database with hyphen #545', function (done) {
+    it('correctly creates database with hyphen #545', function(done) {
       const databaseName = `my_test-db_${_.random(10000, 99999)}`;
       prepare(
         'db:create',
@@ -59,7 +59,7 @@ describe(Support.getTestDialectTeaser('db:create'), () => {
         });
     });
 
-    it('correctly creates database with encoding, collate and template', function (done) {
+    it('correctly creates database with encoding, collate and template', function(done) {
       const databaseName = `my_test-db_${_.random(10000, 99999)}`;
       prepare(
         'db:create --encoding UTF8 --collate zh_TW.UTF-8 --template template0',
@@ -85,7 +85,7 @@ describe(Support.getTestDialectTeaser('db:create'), () => {
         });
     });
 
-    it('correctly creates database with encoding, collate, ctype and template', function (done) {
+    it('correctly creates database with encoding, collate, ctype and template', function(done) {
       const databaseName = `my_test-db_${_.random(10000, 99999)}`;
       prepare(
         'db:create --encoding UTF8 --collate zh_TW.UTF-8 --ctype zh_TW.UTF-8 --template template0',
@@ -113,7 +113,7 @@ describe(Support.getTestDialectTeaser('db:create'), () => {
   }
 
   if (Support.dialectIsMySQL()) {
-    it('correctly creates database', function (done) {
+    it('correctly creates database', function(done) {
       const databaseName = `my_test_db_${_.random(10000, 99999)}`;
       prepare(
         'db:create',
@@ -131,7 +131,7 @@ describe(Support.getTestDialectTeaser('db:create'), () => {
         });
     });
 
-    it('correctly creates database with hyphen #545', function (done) {
+    it('correctly creates database with hyphen #545', function(done) {
       const databaseName = `my_test-db_${_.random(10000, 99999)}`;
       prepare(
         'db:create',
@@ -149,7 +149,7 @@ describe(Support.getTestDialectTeaser('db:create'), () => {
         });
     });
 
-    it('correctly creates database with charset', function (done) {
+    it('correctly creates database with charset', function(done) {
       const databaseName = `my_test-db_${_.random(10000, 99999)}`;
       prepare(
         'db:create --charset utf8mb4',
@@ -172,7 +172,7 @@ describe(Support.getTestDialectTeaser('db:create'), () => {
     });
 
 
-    it('correctly creates database with charset and collation', function (done) {
+    it('correctly creates database with charset and collation', function(done) {
       const databaseName = `my_test-db_${_.random(10000, 99999)}`;
       prepare(
         'db:create --charset utf8mb4 --collate utf8mb4_unicode_ci',

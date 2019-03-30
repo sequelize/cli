@@ -1,8 +1,8 @@
 
 
 const expect    = require('expect.js');
-const Support   = require(__dirname + '/../support');
-const helpers   = require(__dirname + '/../support/helpers');
+const Support   = require(`${__dirname}/../support`);
+const helpers   = require(`${__dirname}/../support/helpers`);
 const gulp      = require('gulp');
 
 [
@@ -12,12 +12,12 @@ const gulp      = require('gulp');
   'db:seed --seeders-path ./seeders --seed seedPerson.js',
   'db:seed --seeders-path ./seeders/ --seed seedPerson.js',
   'db:seed --seed seedPerson.js --config ../../support/tmp/config/config.json',
-  'db:seed --seed seedPerson.js --config ' +
-    Support.resolveSupportPath('tmp', 'config', 'config.json'),
+  `db:seed --seed seedPerson.js --config ${
+    Support.resolveSupportPath('tmp', 'config', 'config.json')}`,
   'db:seed --seed seedPerson.js --config ../../support/tmp/config/config.js',
   'db:seed --seed seedPerson.js --config ../../support/tmp/config/config-promise.js'
 ].forEach(flag => {
-  const prepare = function (callback, options) {
+  const prepare = function(callback, options) {
     options = Object.assign({ config: {} }, options || {});
 
     let configPath    = 'config/';
@@ -26,18 +26,18 @@ const gulp      = require('gulp');
     let configContent = JSON.stringify(config);
     const migrationFile = 'createPerson.js';
 
-    seederFile = seederFile + '.js';
+    seederFile = `${seederFile}.js`;
 
     if (flag.match(/config\.js$/)) {
-      configPath    = configPath + 'config.js';
-      configContent = 'module.exports = ' + configContent;
+      configPath    = `${configPath}config.js`;
+      configContent = `module.exports = ${configContent}`;
     } else if (flag.match(/config-promise\.js/)) {
-      configPath    = configPath + 'config-promise.js';
-      configContent = '' +
+      configPath    = `${configPath}config-promise.js`;
+      configContent = `${'' +
         'var b = require("bluebird");' +
-        'module.exports = b.resolve(' + configContent + ');';
+        'module.exports = b.resolve('}${configContent});`;
     } else {
-      configPath = configPath + 'config.json';
+      configPath = `${configPath}config.json`;
     }
 
     gulp
@@ -48,15 +48,15 @@ const gulp      = require('gulp');
       .pipe(helpers.copyMigration(migrationFile))
       .pipe(helpers.copySeeder(seederFile))
       .pipe(helpers.overwriteFile(configContent, configPath))
-      .pipe(helpers.runCli('db:migrate' +
-        (!flag.includes('config') ? '' : flag.replace('db:seed --seed seedPerson.js', ''))
+      .pipe(helpers.runCli(`db:migrate${
+        !flag.includes('config') ? '' : flag.replace('db:seed --seed seedPerson.js', '')}`
       ))
       .pipe(helpers.runCli(flag, { pipeStdout: true }))
       .pipe(helpers.teardown(callback));
   };
 
   describe(Support.getTestDialectTeaser(flag), () => {
-    it('creates a SequelizeData table', function (done) {
+    it('creates a SequelizeData table', function(done) {
       const self = this;
 
       prepare(() => {
@@ -68,7 +68,7 @@ const gulp      = require('gulp');
       }, { config: { seederStorage: 'sequelize' } });
     });
 
-    it('populates the respective table', function (done) {
+    it('populates the respective table', function(done) {
       const self = this;
 
       prepare(() => {
@@ -97,7 +97,7 @@ const gulp      = require('gulp');
     });
 
     describe('custom meta table name', () => {
-      it('correctly uses the defined table name', function (done) {
+      it('correctly uses the defined table name', function(done) {
         const self = this;
 
         prepare(() => {

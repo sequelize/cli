@@ -19,12 +19,14 @@ const generic = {
     try {
       sequelizePath = require.resolve(resolvePath, resolveOptions);
     } catch (e) {
+      // ignore
     }
 
     try {
       sequelizePath = sequelizePath || resolve(resolvePath, resolveOptions);
     } catch (e) {
-      console.error('Unable to resolve sequelize package in ' + process.cwd());
+      // eslint-disable-next-line no-console
+      console.error(`Unable to resolve sequelize package in ${process.cwd()}`);
       process.exit(1);
     }
 
@@ -34,9 +36,9 @@ const generic = {
   execQuery: (sequelize, sql, options) => {
     if (sequelize.query.length === 2) {
       return sequelize.query(sql, options);
-    } else {
-      return sequelize.query(sql, null, options);
     }
+    return sequelize.query(sql, null, options);
+
   }
 };
 

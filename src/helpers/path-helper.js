@@ -6,11 +6,11 @@ import getYArgs from '../core/yargs';
 
 const args = getYArgs().argv;
 
-function format (i) {
-  return parseInt(i, 10) < 10 ? '0' + i : i;
-};
+function format(i) {
+  return parseInt(i, 10) < 10 ? `0${i}` : i;
+}
 
-function getCurrentYYYYMMDDHHmms () {
+function getCurrentYYYYMMDDHHmms() {
   const date = new Date();
   return [
     date.getUTCFullYear(),
@@ -23,10 +23,10 @@ function getCurrentYYYYMMDDHHmms () {
 }
 
 module.exports = {
-  getPath (type) {
-    type = type + 's';
+  getPath(type) {
+    type = `${type}s`;
 
-    let result = args[type + 'Path'] || path.resolve(process.cwd(), type);
+    let result = args[`${type}Path`] || path.resolve(process.cwd(), type);
 
     if (path.normalize(result) !== path.resolve(result)) {
       // the path is relative
@@ -36,44 +36,44 @@ module.exports = {
     return result;
   },
 
-  getFileName (type, name, options) {
+  getFileName(type, name, options) {
     return this.addFileExtension(
       [
         getCurrentYYYYMMDDHHmms(),
-        name ? name : 'unnamed-' + type
+        name ? name : `unnamed-${type}`
       ].join('-'),
       options
     );
   },
 
-  getFileExtension () {
+  getFileExtension() {
     return 'js';
   },
 
-  addFileExtension (basename, options) {
+  addFileExtension(basename, options) {
     return [basename, this.getFileExtension(options)].join('.');
   },
 
-  getMigrationPath (migrationName) {
+  getMigrationPath(migrationName) {
     return path.resolve(this.getPath('migration'), this.getFileName('migration', migrationName));
   },
 
-  getSeederPath (seederName) {
+  getSeederPath(seederName) {
     return path.resolve(this.getPath('seeder'), this.getFileName('seeder', seederName));
   },
 
-  getModelsPath () {
+  getModelsPath() {
     return args.modelsPath || path.resolve(process.cwd(), 'models');
   },
 
-  getModelPath (modelName) {
+  getModelPath(modelName) {
     return path.resolve(
       this.getModelsPath(),
       this.addFileExtension(modelName.toLowerCase())
     );
   },
 
-  resolve (packageName) {
+  resolve(packageName) {
     let result;
 
     try {
@@ -82,13 +82,15 @@ module.exports = {
     } catch (e) {
       try {
         result = require(packageName);
-      } catch (err) {}
+      } catch (err) {
+        // ignore
+      }
     }
 
     return result;
   },
 
-  existsSync (pathToCheck) {
+  existsSync(pathToCheck) {
     if (fs.accessSync) {
       try {
         fs.accessSync(pathToCheck, fs.R_OK);

@@ -1,14 +1,14 @@
 
 
 const expect  = require('expect.js');
-const Support = require(__dirname + '/../../../support');
-const helpers = require(__dirname + '/../../../support/helpers');
+const Support = require(`${__dirname}/../../../support`);
+const helpers = require(`${__dirname}/../../../support/helpers`);
 const gulp    = require('gulp');
 
 [
   'db:migrate:undo:all'
 ].forEach(flag => {
-  const prepare = function (callback, _flag) {
+  const prepare = function(callback, _flag) {
     _flag = _flag || flag;
 
     gulp
@@ -23,7 +23,7 @@ const gulp    = require('gulp');
   };
 
   describe(Support.getTestDialectTeaser(flag), () => {
-    it('creates a SequelizeMeta table', function (done) {
+    it('creates a SequelizeMeta table', function(done) {
       const self = this;
 
       prepare(() => {
@@ -43,7 +43,7 @@ const gulp    = require('gulp');
       });
     });
 
-    it('is correctly undoing all migrations if they have been done already', function (done) {
+    it('is correctly undoing all migrations if they have been done already', function(done) {
       const self = this;
 
       prepare(() => {

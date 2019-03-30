@@ -3,10 +3,12 @@ import beautify from 'js-beautify';
 import helpers from './index';
 
 module.exports = {
-  render (path, locals, options) {
+  render(path, locals, options) {
     options = Object.assign({
       beautify: true,
+      // eslint-disable-next-line camelcase
       indent_size: 2,
+      // eslint-disable-next-line camelcase
       preserve_newlines: false
     }, options || {});
 

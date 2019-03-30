@@ -1,10 +1,10 @@
 const expect = require('expect.js');
-const Support = require(__dirname + '/../support');
-const helpers = require(__dirname + '/../support/helpers');
+const Support = require(`${__dirname}/../support`);
+const helpers = require(`${__dirname}/../support/helpers`);
 const gulp = require('gulp');
 const _ = require('lodash');
 
-const prepare = function (flag, callback, options) {
+const prepare = function(flag, callback, options) {
   options = Object.assign({ config: {} }, options || {});
 
   const configPath = 'config/config.json';
@@ -24,7 +24,7 @@ const prepare = function (flag, callback, options) {
 
 describe(Support.getTestDialectTeaser('db:drop'), () => {
   if (Support.dialectIsPostgres()) {
-    it('correctly drops database', function (done) {
+    it('correctly drops database', function(done) {
       const databaseName = `my_test_db_${_.random(10000, 99999)}`;
       prepare(
         'db:drop',
@@ -44,7 +44,7 @@ describe(Support.getTestDialectTeaser('db:drop'), () => {
   }
 
   if (Support.dialectIsMySQL()) {
-    it('correctly drops database', function (done) {
+    it('correctly drops database', function(done) {
       const databaseName = `my_test_db_${_.random(10000, 99999)}`;
       prepare(
         'db:drop',

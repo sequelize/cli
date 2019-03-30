@@ -20,7 +20,7 @@ const assets = {
   },
 
   injectConfigFilePath: (filePath, configPath) => {
-    this.inject(filePath, '__CONFIG_FILE__', configPath);
+    assets.inject(filePath, '__CONFIG_FILE__', configPath);
   },
 
   mkdirp: pathToCreate => {

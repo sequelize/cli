@@ -2,9 +2,9 @@ import helpers from './index';
 import path from 'path';
 import fs from 'fs';
 
-function createFolder (folderName, folder, force) {
+function createFolder(folderName, folder, force) {
   if (force && fs.existsSync(folder) === true) {
-    helpers.view.log('Deleting the ' + folderName + ' folder. (--force)');
+    helpers.view.log(`Deleting the ${folderName} folder. (--force)`);
 
     try {
       fs.readdirSync(folder).forEach(filename => {
@@ -16,7 +16,7 @@ function createFolder (folderName, folder, force) {
 
     try {
       fs.rmdirSync(folder);
-      helpers.view.log('Successfully deleted the ' + folderName + ' folder.');
+      helpers.view.log(`Successfully deleted the ${folderName} folder.`);
     } catch (e) {
       helpers.view.error(e);
     }
@@ -25,14 +25,14 @@ function createFolder (folderName, folder, force) {
   try {
     if (fs.existsSync(folder) === false) {
       helpers.asset.mkdirp(folder);
-      helpers.view.log('Successfully created ' + folderName + ' folder at "' + folder + '".');
+      helpers.view.log(`Successfully created ${folderName} folder at "${folder}".`);
     } else {
-      helpers.view.log(folderName + ' folder at "' + folder + '" already exists.');
+      helpers.view.log(`${folderName} folder at "${folder}" already exists.`);
     }
   } catch (e) {
     helpers.view.error(e);
   }
-};
+}
 
 const init = {
   createMigrationsFolder: force => {
@@ -67,7 +67,7 @@ const init = {
       helpers.asset.write(
         indexPath,
         helpers.template.render('models/index.js', {
-          configFile: '__dirname + \'/' + relativeConfigPath.replace(/\\/g, '/') + '\''
+          configFile: `__dirname + '/${relativeConfigPath.replace(/\\/g, '/')}'`
         }, {
           beautify: false
         })

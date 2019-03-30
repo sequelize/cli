@@ -13,7 +13,7 @@ exports.builder =
       })
       .argv;
 
-exports.handler = async function (args) {
+exports.handler = async function(args) {
   // legacy, gulp used to do this
   await helpers.config.init();
 
@@ -22,7 +22,7 @@ exports.handler = async function (args) {
   process.exit(0);
 };
 
-function migrationUndoAll (args) {
+function migrationUndoAll(args) {
   return getMigrator('migration', args).then(migrator => {
     return ensureCurrentMetaSchema(migrator).then(() => migrator.executed())
       .then(migrations => {

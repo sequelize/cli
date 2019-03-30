@@ -1,9 +1,9 @@
 const expect  = require('expect.js');
-const Support = require(__dirname + '/support');
-const helpers = require(__dirname + '/support/helpers');
+const Support = require(`${__dirname}/support`);
+const helpers = require(`${__dirname}/support/helpers`);
 const gulp    = require('gulp');
 
-const prepare = function (callback) {
+const prepare = function(callback) {
   gulp
     .src(Support.resolveSupportPath('tmp'))
     .pipe(helpers.clearDirectory())
@@ -11,6 +11,7 @@ const prepare = function (callback) {
     .pipe(helpers.copyMigration('createPerson.js'))
     .pipe(
       helpers.overwriteFile(
+        // eslint-disable-next-line camelcase
         JSON.stringify({ use_env_variable: 'SEQUELIZE_DB_URL' }),
         'config/config.json'
       )
@@ -22,7 +23,7 @@ const prepare = function (callback) {
 describe(Support.getTestDialectTeaser('use_env_variable'), () => {
   beforeEach(prepare);
 
-  it('correctly runs the migration', function (done) {
+  it('correctly runs the migration', function(done) {
     helpers.readTables(this.sequelize, tables => {
       expect(tables).to.have.length(2);
       expect(tables).to.contain('SequelizeMeta');

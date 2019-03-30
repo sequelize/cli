@@ -12,7 +12,7 @@ const api = {
   config: undefined,
   rawConfig: undefined,
   error: undefined,
-  init () {
+  init() {
     return Bluebird.resolve()
       .then(() => {
         let config;
@@ -31,11 +31,11 @@ const api = {
       .then(config => {
         if (typeof config === 'object' || config === undefined) {
           return config;
-        } else if (config.length === 1) {
+        } if (config.length === 1) {
           return Bluebird.promisify(config)();
-        } else {
-          return config();
         }
+        return config();
+
       })
       .then(config => {
         api.rawConfig = config;
@@ -45,7 +45,7 @@ const api = {
         return api;
       });
   },
-  getConfigFile () {
+  getConfigFile() {
     if (args.config) {
       return path.resolve(process.cwd(), args.config);
     }
@@ -56,16 +56,16 @@ const api = {
     return helpers.path.existsSync(alternativePath) ? alternativePath : defaultPath;
   },
 
-  relativeConfigFile () {
+  relativeConfigFile() {
     return path.relative(process.cwd(), api.getConfigFile());
   },
 
-  configFileExists () {
+  configFileExists() {
     return helpers.path.existsSync(api.getConfigFile());
   },
 
-  getDefaultConfig () {
-    return JSON.stringify({
+  getDefaultConfig() {
+    return `${JSON.stringify({
       development: {
         username: 'root',
         password: null,
@@ -90,10 +90,10 @@ const api = {
         dialect: 'mysql',
         operatorsAliases: false
       }
-    }, undefined, 2) + '\n';
+    }, undefined, 2)  }\n`;
   },
 
-  writeDefaultConfig () {
+  writeDefaultConfig() {
     const configPath = path.dirname(api.getConfigFile());
 
     if (!helpers.path.existsSync(configPath)) {
@@ -103,39 +103,40 @@ const api = {
     fs.writeFileSync(api.getConfigFile(), api.getDefaultConfig());
   },
 
-  readConfig () {
+  readConfig() {
     if (!api.config) {
       const env = helpers.generic.getEnvironment();
 
       if (api.rawConfig === undefined) {
         throw new Error(
-          'Error reading "' +
-            api.relativeConfigFile() +
-            '". Error: ' + api.error
+          `Error reading "${
+            api.relativeConfigFile()
+          }". Error: ${api.error}`
         );
       }
 
       if (typeof api.rawConfig !== 'object') {
         throw new Error(
-          'Config must be an object or a promise for an object: ' +
-            api.relativeConfigFile()
+          `Config must be an object or a promise for an object: ${
+            api.relativeConfigFile()}`
         );
       }
 
       if (args.url) {
-        helpers.view.log('Parsed url ' + api.filteredUrl(args.url, api.rawConfig));
+        helpers.view.log(`Parsed url ${api.filteredUrl(args.url, api.rawConfig)}`);
       } else {
-        helpers.view.log('Loaded configuration file "' + api.relativeConfigFile() + '".');
+        helpers.view.log(`Loaded configuration file "${api.relativeConfigFile()}".`);
       }
 
       if (api.rawConfig[env]) {
-        helpers.view.log('Using environment "' + env + '".');
+        helpers.view.log(`Using environment "${env}".`);
 
         api.rawConfig = api.rawConfig[env];
       }
 
       // The Sequelize library needs a function passed in to its logging option
       if (api.rawConfig.logging && !_.isFunction(api.rawConfig.logging)) {
+        // eslint-disable-next-line no-console
         api.rawConfig.logging = console.log;
       }
 
@@ -154,20 +155,20 @@ const api = {
     return api.config;
   },
 
-  filteredUrl (uri, config) {
-    const regExp = new RegExp(':?' + (config.password || '') + '@');
+  filteredUrl(uri, config) {
+    const regExp = new RegExp(`:?${config.password || ''}@`);
     return uri.replace(regExp, ':*****@');
   },
 
-  urlStringToConfigHash (urlString) {
+  urlStringToConfigHash(urlString) {
     try {
       const urlParts = url.parse(urlString);
       let result   = {
         database: urlParts.pathname.replace(/^\//,  ''),
-        host:     urlParts.hostname,
-        port:     urlParts.port,
+        host: urlParts.hostname,
+        port: urlParts.port,
         protocol: urlParts.protocol.replace(/:$/, ''),
-        ssl:      urlParts.query ? urlParts.query.includes('ssl=true') : false
+        ssl: urlParts.query ? urlParts.query.includes('ssl=true') : false
       };
 
       if (urlParts.auth) {
@@ -179,11 +180,11 @@ const api = {
 
       return result;
     } catch (e) {
-      throw new Error('Error parsing url: ' + urlString);
+      throw new Error(`Error parsing url: ${urlString}`);
     }
   },
 
-  parseDbUrl (urlString) {
+  parseDbUrl(urlString) {
     let config = api.urlStringToConfigHash(urlString);
 
     config = Object.assign(config, {
@@ -192,7 +193,7 @@ const api = {
 
     if (config.dialect === 'sqlite' && config.database.indexOf(':memory') !== 0) {
       config = Object.assign(config, {
-        storage: '/' + config.database
+        storage: `/${config.database}`
       });
     }
 

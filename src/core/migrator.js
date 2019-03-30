@@ -6,13 +6,13 @@ import helpers from '../helpers/index';
 
 const Sequelize = helpers.generic.getSequelize();
 
-export function logMigrator (s) {
+export function logMigrator(s) {
   if (s.indexOf('Executing') !== 0) {
     helpers.view.log(s);
   }
 }
 
-function getSequelizeInstance () {
+function getSequelizeInstance() {
   let config = null;
 
   try {
@@ -30,12 +30,12 @@ function getSequelizeInstance () {
   }
 }
 
-export function getMigrator (type, args) {
+export function getMigrator(type, args) {
   return Bluebird.try(() => {
     if (!(helpers.config.configFileExists() || args.url)) {
       helpers.view.error(
-        'Cannot find "' + helpers.config.getConfigFile() +
-        '". Have you run "sequelize init"?'
+        `Cannot find "${helpers.config.getConfigFile()
+        }". Have you run "sequelize init"?`
       );
       process.exit(1);
     }
@@ -52,9 +52,9 @@ export function getMigrator (type, args) {
         wrap: fun => {
           if (fun.length === 3) {
             return Bluebird.promisify(fun);
-          } else {
-            return fun;
           }
+          return fun;
+
         }
       }
     });
@@ -78,7 +78,7 @@ export function getMigrator (type, args) {
   });
 }
 
-export function ensureCurrentMetaSchema (migrator) {
+export function ensureCurrentMetaSchema(migrator) {
   const queryInterface = migrator.options.storageOptions.sequelize.getQueryInterface();
   const tableName = migrator.options.storageOptions.tableName;
   const columnName = migrator.options.storageOptions.columnName;
@@ -89,14 +89,14 @@ export function ensureCurrentMetaSchema (migrator) {
 
       if (columns.length === 1 && columns[0] === columnName) {
         return;
-      } else if (columns.length === 3 && columns.includes('createdAt')) {
+      } if (columns.length === 3 && columns.includes('createdAt')) {
         return;
       }
     })
     .catch(() => {});
 }
 
-function ensureMetaTable (queryInterface, tableName) {
+function ensureMetaTable(queryInterface, tableName) {
   return queryInterface.showAllTables()
     .then(tableNames => {
       if (!tableNames.includes(tableName)) {
@@ -111,7 +111,7 @@ function ensureMetaTable (queryInterface, tableName) {
  *
  * @return {Promise}
  */
-export function addTimestampsToSchema (migrator) {
+export function addTimestampsToSchema(migrator) {
   const sequelize = migrator.options.storageOptions.sequelize;
   const queryInterface = sequelize.getQueryInterface();
   const tableName = migrator.options.storageOptions.tableName;
@@ -123,9 +123,9 @@ export function addTimestampsToSchema (migrator) {
       }
 
       return ensureCurrentMetaSchema(migrator)
-        .then(() => queryInterface.renameTable(tableName, tableName + 'Backup'))
+        .then(() => queryInterface.renameTable(tableName, `${tableName}Backup`))
         .then(() => {
-          const sql = queryInterface.QueryGenerator.selectQuery(tableName + 'Backup');
+          const sql = queryInterface.QueryGenerator.selectQuery(`${tableName}Backup`);
           return helpers.generic.execQuery(sequelize, sql, { type: 'SELECT', raw: true });
         })
         .then(result => {

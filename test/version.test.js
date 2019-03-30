@@ -1,7 +1,7 @@
 const expect    = require('expect.js');
-const Support   = require(__dirname + '/support');
-const version   = (require(__dirname + '/../package.json')).version;
-const helpers   = require(__dirname + '/support/helpers');
+const Support   = require(`${__dirname}/support`);
+const version   = require(`${__dirname}/../package.json`).version;
+const helpers   = require(`${__dirname}/support/helpers`);
 const gulp      = require('gulp');
 
 [

@@ -25,7 +25,7 @@ exports.builder =
     )
       .argv;
 
-exports.handler = function (args) {
+exports.handler = function(args) {
   ensureModelsFolder();
   ensureMigrationsFolder();
   checkModelFileExistence(args);
@@ -52,27 +52,27 @@ exports.handler = function (args) {
   process.exit(0);
 };
 
-function ensureModelsFolder () {
+function ensureModelsFolder() {
   if (!helpers.path.existsSync(helpers.path.getModelsPath())) {
     helpers.view.error(
-      'Unable to find models path (' +
-      helpers.path.getModelsPath() +
-      '). Did you run ' + clc.blueBright('sequelize init') + '?'
+      `Unable to find models path (${
+        helpers.path.getModelsPath()
+      }). Did you run ${clc.blueBright('sequelize init')}?`
     );
   }
 }
 
-function ensureMigrationsFolder () {
+function ensureMigrationsFolder() {
   if (!helpers.path.existsSync(helpers.path.getPath('migration'))) {
     helpers.view.error(
-      'Unable to find migrations path (' +
-      helpers.path.getPath('migration') +
-      '). Did you run ' + clc.blueBright('sequelize init') + '?'
+      `Unable to find migrations path (${
+        helpers.path.getPath('migration')
+      }). Did you run ${clc.blueBright('sequelize init')}?`
     );
   }
 }
 
-function checkModelFileExistence (args) {
+function checkModelFileExistence(args) {
   const modelPath = helpers.path.getModelPath(args.name);
 
   if (args.force === undefined && helpers.model.modelFileExists(modelPath)) {

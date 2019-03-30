@@ -15,11 +15,11 @@ const args = yargs
   .version(false)
   .config(loadRCFile(yargs.argv.optionsPath));
 
-export default function getYArgs () {
+export default function getYArgs() {
   return args;
 }
 
-export function _baseOptions (yargs) {
+export function _baseOptions(yargs) {
   return yargs
     .option('env', {
       describe: 'The environment to run the command in',
@@ -60,7 +60,7 @@ export function _baseOptions (yargs) {
     });
 }
 
-export function _underscoreOption (yargs) {
+export function _underscoreOption(yargs) {
   return yargs
     .option('underscored', {
       describe: "Use snake case for the timestamp's attribute names",

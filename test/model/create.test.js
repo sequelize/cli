@@ -1,8 +1,8 @@
 
 
 const expect    = require('expect.js');
-const Support   = require(__dirname + '/../support');
-const helpers   = require(__dirname + '/../support/helpers');
+const Support   = require(`${__dirname}/../support`);
+const helpers   = require(`${__dirname}/../support/helpers`);
 const gulp      = require('gulp');
 const _         = require('lodash');
 
@@ -10,20 +10,20 @@ const _         = require('lodash');
   'model:create'
 ].forEach(flag => {
   describe(Support.getTestDialectTeaser(flag), () => {
-    const combineFlags = function (flags) {
+    const combineFlags = function(flags) {
       let result = flag;
 
       _.forEach(flags || {}, (value, key) => {
-        result = result + ' --' + key + ' ' + value;
+        result = `${result} --${key} ${value}`;
       });
 
       return result;
     };
 
-    const prepare = function (options, callback) {
+    const prepare = function(options, callback) {
       options = Object.assign({
         flags: {},
-        cli:   { pipeStdout: true }
+        cli: { pipeStdout: true }
       }, options || {});
 
       gulp
@@ -90,7 +90,7 @@ const _         = require('lodash');
         '\'first_name:string last_name:string bio:text role:enum:{Admin,Guest User} reviews:array:text\'',
         '\'first_name:string, last_name:string, bio:text, role:enum:{Admin, Guest User}, reviews:array:text\''
       ].forEach(attributes => {
-        describe('--attributes ' + attributes, () => {
+        describe(`--attributes ${attributes}`, () => {
           it('exits with exit code 0', done => {
             prepare({
               flags: { name: 'User', attributes },
@@ -140,10 +140,10 @@ const _         = require('lodash');
           });
 
           [
-            { underscored: true, createdAt: 'created_at', updatedAt: 'updated_at'},
-            { underscored: false, createdAt: 'createdAt', updatedAt: 'updatedAt'}
+            { underscored: true, createdAt: 'created_at', updatedAt: 'updated_at' },
+            { underscored: false, createdAt: 'createdAt', updatedAt: 'updatedAt' }
           ].forEach(attrUnd => {
-            describe((attrUnd.underscored ? '' : 'without ') + '--underscored', () => {
+            describe(`${attrUnd.underscored ? '' : 'without '}--underscored`, () => {
               it('generates the migration content correctly', done => {
                 const flags = {
                   name: 'User',
@@ -186,13 +186,13 @@ const _         = require('lodash');
                       '      },'
                     ].join('\n')))
                     .pipe(helpers.ensureContent([
-                      '     ' + attrUnd.createdAt + ': {',
+                      `     ${attrUnd.createdAt}: {`,
                       '        allowNull: false,',
                       '        type: Sequelize.DATE',
                       '      },'
                     ].join('\n')))
                     .pipe(helpers.ensureContent([
-                      '     ' + attrUnd.updatedAt + ': {',
+                      `     ${attrUnd.updatedAt}: {`,
                       '        allowNull: false,',
                       '        type: Sequelize.DATE',
                       '      }'
@@ -232,19 +232,19 @@ const _         = require('lodash');
           });
 
           describe('when called twice', () => {
-            beforeEach(function (done) {
+            beforeEach(function(done) {
               this.flags = { name: 'User', attributes };
               prepare({ flags: this.flags }, done);
             });
 
-            it('exits with an error code', function (done) {
+            it('exits with an error code', function(done) {
               gulp
                 .src(Support.resolveSupportPath('tmp'))
                 .pipe(helpers.runCli(combineFlags(this.flags), { exitCode: 1 }))
                 .pipe(helpers.teardown(done));
             });
 
-            it('notifies the user about the possibility of --flags', function (done) {
+            it('notifies the user about the possibility of --flags', function(done) {
               gulp
                 .src(Support.resolveSupportPath('tmp'))
                 .pipe(helpers.runCli(combineFlags(this.flags), { pipeStderr: true }))

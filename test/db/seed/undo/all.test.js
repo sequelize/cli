@@ -1,12 +1,12 @@
 const expect  = require('expect.js');
-const Support = require(__dirname + '/../../../support');
-const helpers = require(__dirname + '/../../../support/helpers');
+const Support = require(`${__dirname}/../../../support`);
+const helpers = require(`${__dirname}/../../../support/helpers`);
 const gulp    = require('gulp');
 
 [
   'db:seed:undo:all'
 ].forEach(flag => {
-  const prepare = function (callback, options) {
+  const prepare = function(callback, options) {
     const _flag  = options.flag || flag;
     const config = Object.assign({}, helpers.getTestConfig(), options.config || {});
 
@@ -34,10 +34,10 @@ const gulp    = require('gulp');
         expect(err).to.equal(null);
         expect(output).to.contain('No seeders found.');
         done();
-      }, {copySeeds: false});
+      }, { copySeeds: false });
     });
 
-    it('is correctly undoing all seeders if they have been done already', function (done) {
+    it('is correctly undoing all seeders if they have been done already', function(done) {
       const self = this;
 
       prepare(() => {
@@ -56,10 +56,10 @@ const gulp    = require('gulp');
               });
             }));
         });
-      }, {flag: 'db:seed:all', copySeeds: true});
+      }, { flag: 'db:seed:all', copySeeds: true });
     });
 
-    it('is correctly undoing all seeders when storage is none', function (done) {
+    it('is correctly undoing all seeders when storage is none', function(done) {
       const self = this;
 
       prepare(() => {

@@ -9,7 +9,7 @@ exports.builder = yargs => _baseOptions(yargs)
   })
   .argv;
 
-exports.handler = async function (argv) {
+exports.handler = async function(argv) {
   const command = argv._[0];
 
   switch (command) {
@@ -40,25 +40,25 @@ exports.handler = async function (argv) {
   process.exit(0);
 };
 
-function initConfig (args) {
+function initConfig(args) {
   if (!helpers.config.configFileExists() || !!args.force) {
     helpers.config.writeDefaultConfig();
-    helpers.view.log('Created "' + helpers.config.relativeConfigFile() + '"');
+    helpers.view.log(`Created "${helpers.config.relativeConfigFile()}"`);
   } else {
     helpers.view.notifyAboutExistingFile(helpers.config.relativeConfigFile());
     process.exit(1);
   }
 }
 
-function initModels (args) {
+function initModels(args) {
   helpers.init.createModelsFolder(!!args.force);
   helpers.init.createModelsIndexFile(!!args.force);
 }
 
-function initMigrations (args) {
+function initMigrations(args) {
   helpers.init.createMigrationsFolder(!!args.force);
 }
 
-function initSeeders (args) {
+function initSeeders(args) {
   helpers.init.createSeedersFolder(!!args.force);
 }

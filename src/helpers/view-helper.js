@@ -6,23 +6,24 @@ import getYArgs from '../core/yargs';
 const args = getYArgs().argv;
 
 module.exports = {
-  teaser () {
+  teaser() {
     const versions = [
-      'Node: ' + helpers.version.getNodeVersion(),
-      'CLI: '  + helpers.version.getCliVersion(),
-      'ORM: '  + helpers.version.getOrmVersion()
+      `Node: ${helpers.version.getNodeVersion()}`,
+      `CLI: ${helpers.version.getCliVersion()}`,
+      `ORM: ${helpers.version.getOrmVersion()}`
     ];
 
     this.log();
-    this.log(clc.underline('Sequelize CLI [' + versions.join(', ') + ']'));
+    this.log(clc.underline(`Sequelize CLI [${versions.join(', ')}]`));
     this.log();
   },
 
-  log () {
+  log() {
+    // eslint-disable-next-line no-console
     console.log.apply(this, arguments);
   },
 
-  error (error) {
+  error(error) {
     let message = error;
 
     if (error instanceof Error) {
@@ -32,24 +33,25 @@ module.exports = {
     }
 
     this.log();
+    // eslint-disable-next-line no-console
     console.error(`${clc.red('ERROR:')} ${message}`);
     this.log();
 
     process.exit(1);
   },
 
-  warn (message) {
+  warn(message) {
     this.log(`${clc.yellow('WARNING:')} ${message}`);
   },
 
-  notifyAboutExistingFile (file) {
+  notifyAboutExistingFile(file) {
     this.error(
-      'The file ' + clc.blueBright(file) + ' already exists. ' +
+      `The file ${clc.blueBright(file)} already exists. ` +
       'Run command with --force to overwrite it.'
     );
   },
 
-  pad (s, smth) {
+  pad(s, smth) {
     let margin = smth;
 
     if (_.isObject(margin)) {

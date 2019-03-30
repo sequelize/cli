@@ -1,6 +1,6 @@
 const expect    = require('expect.js');
-const Support   = require(__dirname + '/../support');
-const helpers   = require(__dirname + '/../support/helpers');
+const Support   = require(`${__dirname}/../support`);
+const helpers   = require(`${__dirname}/../support/helpers`);
 const gulp      = require('gulp');
 const fs        = require('fs');
 
@@ -11,10 +11,10 @@ const fs        = require('fs');
   'db:migrate --migrations-path ./migrations',
   'db:migrate --migrations-path ./migrations/',
   'db:migrate --config ../../support/tmp/config/config.json',
-  'db:migrate --config ' + Support.resolveSupportPath('tmp', 'config', 'config.json'),
+  `db:migrate --config ${Support.resolveSupportPath('tmp', 'config', 'config.json')}`,
   'db:migrate --config ../../support/tmp/config/config.js'
 ].forEach(flag => {
-  const prepare = function (callback, options) {
+  const prepare = function(callback, options) {
     options = Object.assign({ config: {} }, options || {});
 
     let configPath    = 'config/';
@@ -24,13 +24,13 @@ const fs        = require('fs');
     }, helpers.getTestConfig(), options.config);
     let configContent = JSON.stringify(config);
 
-    migrationFile = migrationFile + '.js';
+    migrationFile = `${migrationFile}.js`;
 
     if (flag.match(/config\.js$/)) {
-      configPath    = configPath + 'config.js';
-      configContent = 'module.exports = ' + configContent;
+      configPath    = `${configPath}config.js`;
+      configContent = `module.exports = ${configContent}`;
     } else {
-      configPath = configPath + 'config.json';
+      configPath = `${configPath}config.json`;
     }
 
     gulp
@@ -44,7 +44,7 @@ const fs        = require('fs');
       .pipe(helpers.teardown(callback));
   };
 
-  describe(Support.getTestDialectTeaser(flag) + ' (JSON)', () => {
+  describe(`${Support.getTestDialectTeaser(flag)} (JSON)`, () => {
     describe('the migration storage file', () => {
       it('should be written to the default location', done => {
         const storageFile = Support.resolveSupportPath('tmp', 'sequelize-meta.json');
@@ -52,7 +52,7 @@ const fs        = require('fs');
         prepare(() => {
           expect(fs.statSync(storageFile).isFile()).to.be(true);
           expect(fs.readFileSync(storageFile).toString())
-            .to.match(/^\[\n  "\d{14}-createPerson\.(js)"\n\]$/);
+            .to.match(/^\[\n {2}"\d{14}-createPerson\.(js)"\n\]$/);
           done();
         });
       });
@@ -63,13 +63,13 @@ const fs        = require('fs');
         prepare(() => {
           expect(fs.statSync(storageFile).isFile()).to.be(true);
           expect(fs.readFileSync(storageFile).toString())
-            .to.match(/^\[\n  "\d{14}-createPerson\.(js)"\n\]$/);
+            .to.match(/^\[\n {2}"\d{14}-createPerson\.(js)"\n\]$/);
           done();
         }, { config: { migrationStoragePath: storageFile } });
       });
     });
 
-    it('creates the respective table', function (done) {
+    it('creates the respective table', function(done) {
       const self = this;
 
       prepare(() => {
@@ -98,7 +98,7 @@ const fs        = require('fs');
     });
 
     describe('promise based migrations', () => {
-      it('correctly creates two tables', function (done) {
+      it('correctly creates two tables', function(done) {
         const self = this;
 
         prepare(() => {
@@ -111,7 +111,7 @@ const fs        = require('fs');
           });
         }, {
           migrationFile: 'new/*createPerson',
-          config:        { promisifyMigrations: false }
+          config: { promisifyMigrations: false }
         });
       });
     });

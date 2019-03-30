@@ -1,12 +1,12 @@
 const expect  = require('expect.js');
-const Support = require(__dirname + '/../../../support');
-const helpers = require(__dirname + '/../../../support/helpers');
+const Support = require(`${__dirname}/../../../support`);
+const helpers = require(`${__dirname}/../../../support/helpers`);
 const gulp    = require('gulp');
 
 [
   'db:migrate:undo:all --to 20130909175939-createTestTableForTrigger.js'
 ].forEach(flag => {
-  const prepare = function (callback, _flag) {
+  const prepare = function(callback, _flag) {
     _flag = _flag || flag;
 
     gulp
@@ -23,7 +23,7 @@ const gulp    = require('gulp');
   };
 
   describe(Support.getTestDialectTeaser(flag), () => {
-    it('creates a SequelizeMeta table', function (done) {
+    it('creates a SequelizeMeta table', function(done) {
       const self = this;
 
       prepare(() => {
@@ -43,7 +43,7 @@ const gulp    = require('gulp');
       });
     });
 
-    it('is properly undoing migration with --to option and all migrations after', function (done) {
+    it('is properly undoing migration with --to option and all migrations after', function(done) {
       const self = this;
 
       prepare(() => {

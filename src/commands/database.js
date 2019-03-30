@@ -32,7 +32,7 @@ exports.builder =
       })
       .argv;
 
-exports.handler = async function (args) {
+exports.handler = async function(args) {
   const command = args._[0];
 
   // legacy, gulp used to do this
@@ -81,36 +81,35 @@ exports.handler = async function (args) {
   process.exit(0);
 };
 
-function getCreateDatabaseQuery (sequelize, config, options) {
+function getCreateDatabaseQuery(sequelize, config, options) {
   switch (config.dialect) {
     case 'postgres':
     case 'postgres-native':
-      return 'CREATE DATABASE ' + sequelize.getQueryInterface().quoteIdentifier(config.database)
-        + (options.encoding ? ' ENCODING = '   + sequelize.getQueryInterface().quoteIdentifier(options.encoding) : '')
-        + (options.collate  ? ' LC_COLLATE = ' + sequelize.getQueryInterface().quoteIdentifier(options.collate)  : '')
-        + (options.ctype    ? ' LC_CTYPE = '   + sequelize.getQueryInterface().quoteIdentifier(options.ctype)    : '')
-        + (options.template ? ' TEMPLATE = '   + sequelize.getQueryInterface().quoteIdentifier(options.template) : '');
+      return `CREATE DATABASE ${sequelize.getQueryInterface().quoteIdentifier(config.database)
+      }${options.encoding ? ` ENCODING = ${ sequelize.getQueryInterface().quoteIdentifier(options.encoding)}` : ''
+      }${options.collate  ? ` LC_COLLATE = ${sequelize.getQueryInterface().quoteIdentifier(options.collate)}`  : ''
+      }${options.ctype    ? ` LC_CTYPE = ${ sequelize.getQueryInterface().quoteIdentifier(options.ctype)}`    : ''
+      }${options.template ? ` TEMPLATE = ${ sequelize.getQueryInterface().quoteIdentifier(options.template)}` : ''}`;
 
     case 'mysql':
-      return 'CREATE DATABASE IF NOT EXISTS ' + sequelize.getQueryInterface().quoteIdentifier(config.database)
-        + (options.charset ? ' DEFAULT CHARACTER SET ' + sequelize.getQueryInterface().quoteIdentifier(options.charset) : '')
-        + (options.collate ? ' DEFAULT COLLATE '       + sequelize.getQueryInterface().quoteIdentifier(options.collate) : '');
+      return `CREATE DATABASE IF NOT EXISTS ${sequelize.getQueryInterface().quoteIdentifier(config.database)
+      }${options.charset ? ` DEFAULT CHARACTER SET ${sequelize.getQueryInterface().quoteIdentifier(options.charset)}` : ''
+      }${options.collate ? ` DEFAULT COLLATE ${sequelize.getQueryInterface().quoteIdentifier(options.collate)}` : ''}`;
 
     case 'mssql':
-      return 'IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = N\'' + config.database + '\')'
+      return `IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = N'${config.database}')`
         + ' BEGIN'
-        + ' CREATE DATABASE ' + sequelize.getQueryInterface().quoteIdentifier(config.database)
-        + (options.collate ? ' COLLATE ' + options.collate : '')
-        + ' END;';
-      break;
+        + ` CREATE DATABASE ${sequelize.getQueryInterface().quoteIdentifier(config.database)
+        }${options.collate ? ` COLLATE ${options.collate}` : ''
+        } END;`;
 
     default:
       helpers.view.error(`Dialect ${config.dialect} does not support db:create / db:drop commands`);
-      return 'CREATE DATABASE ' + sequelize.getQueryInterface().quoteIdentifier(config.database);
+      return `CREATE DATABASE ${sequelize.getQueryInterface().quoteIdentifier(config.database)}`;
   }
 }
 
-function getDatabaseLessSequelize () {
+function getDatabaseLessSequelize() {
   let config = null;
 
   try {
