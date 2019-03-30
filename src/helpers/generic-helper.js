@@ -1,6 +1,5 @@
 import path from 'path';
 
-const resolve = require('resolve').sync;
 import getYArgs from '../core/yargs';
 
 const args = getYArgs().argv;
@@ -12,18 +11,12 @@ const generic = {
 
   getSequelize: file => {
     const resolvePath = file ? path.join('sequelize', file) : 'sequelize';
-    const resolveOptions = { basedir: process.cwd() };
+    const resolveOptions = { paths: [process.cwd()] };
 
     let sequelizePath;
 
     try {
       sequelizePath = require.resolve(resolvePath, resolveOptions);
-    } catch (e) {
-      // ignore
-    }
-
-    try {
-      sequelizePath = sequelizePath || resolve(resolvePath, resolveOptions);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.error(`Unable to resolve sequelize package in ${process.cwd()}`);

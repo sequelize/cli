@@ -1,7 +1,6 @@
 import path from 'path';
 import fs from 'fs';
 
-const resolve = require('resolve').sync;
 import getYArgs from '../core/yargs';
 
 const args = getYArgs().argv;
@@ -77,7 +76,7 @@ module.exports = {
     let result;
 
     try {
-      result = resolve(packageName, { basedir: process.cwd() });
+      result = require.resolve(packageName, { paths: [process.cwd()] });
       result = require(result);
     } catch (e) {
       try {
