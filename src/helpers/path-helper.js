@@ -1,7 +1,9 @@
-import path from 'path';
-import fs from 'fs';
+'use strict';
 
-import getYArgs from '../core/yargs';
+const path = require('path');
+const fs = require('fs');
+
+const { getYArgs } = require('../core/yargs');
 
 const args = getYArgs().argv;
 

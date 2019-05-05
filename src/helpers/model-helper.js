@@ -1,4 +1,6 @@
-import helpers from './index';
+'use strict';
+
+const helpers = require('./index');
 
 const Sequelize = helpers.generic.getSequelize();
 const validAttributeFunctionType = ['array', 'enum'];

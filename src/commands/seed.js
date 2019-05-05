@@ -1,7 +1,9 @@
-import { _baseOptions } from '../core/yargs';
-import { getMigrator } from '../core/migrator';
+'use strict';
 
-import helpers from '../helpers';
+const { _baseOptions } = require('../core/yargs');
+const { getMigrator } = require('../core/migrator');
+
+const helpers = require('../helpers');
 
 exports.builder = yargs => _baseOptions(yargs).argv;
 exports.handler = async function(args) {

@@ -1,9 +1,10 @@
+'use strict';
+
 const fs        = require('fs');
 const expect    = require('expect.js');
-const Support   = require(`${__dirname}/../support`);
-const helpers   = require(`${__dirname}/../support/helpers`);
+const Support   = require('../support');
+const helpers   = require('../support/helpers');
 const gulp      = require('gulp');
-const _         = require('lodash');
 
 [
   'db:migrate',
@@ -19,7 +20,10 @@ const _         = require('lodash');
   const prepare = function(callback, options) {
     options = Object.assign({ config: {} }, options || {});
     options.cli = options.cli || {};
-    _.defaults(options.cli, { pipeStdout: true });
+    options.cli = {
+      pipeStdout: true,
+      ...options.cli
+    };
 
     let configPath    = 'config/';
     let migrationFile = options.migrationFile || 'createPerson';

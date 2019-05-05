@@ -1,5 +1,7 @@
-import path from 'path';
-import fs from 'fs';
+'use strict';
+
+const path = require('path');
+const fs = require('fs');
 
 module.exports = {};
 

@@ -1,7 +1,9 @@
-import { _baseOptions, _underscoreOption } from '../core/yargs';
+'use strict';
 
-import helpers from '../helpers';
-import clc from 'cli-color';
+const { _baseOptions, _underscoreOption } = require('../core/yargs');
+
+const helpers = require('../helpers');
+const clc = require('cli-color');
 
 exports.builder =
   yargs =>

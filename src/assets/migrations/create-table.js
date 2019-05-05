@@ -11,7 +11,7 @@ module.exports = {
           type: Sequelize.INTEGER
         },
 
-        <% attributes.forEach(function(attribute) { %>
+        <% attributes.forEach(attribute => { %>
           <%= attribute.fieldName %>: {
             type: Sequelize.<%= attribute.dataFunction ? `${attribute.dataFunction.toUpperCase()}(Sequelize.${attribute.dataType.toUpperCase()})` : attribute.dataValues ? `${attribute.dataType.toUpperCase()}(${attribute.dataValues})` : attribute.dataType.toUpperCase() %>
           },

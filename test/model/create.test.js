@@ -1,10 +1,9 @@
-
+'use strict';
 
 const expect    = require('expect.js');
-const Support   = require(`${__dirname}/../support`);
-const helpers   = require(`${__dirname}/../support/helpers`);
+const Support   = require('../support');
+const helpers   = require('../support/helpers');
 const gulp      = require('gulp');
-const _         = require('lodash');
 
 [
   'model:create'
@@ -12,11 +11,12 @@ const _         = require('lodash');
   describe(Support.getTestDialectTeaser(flag), () => {
     const combineFlags = function(flags) {
       let result = flag;
-
-      _.forEach(flags || {}, (value, key) => {
-        result = `${result} --${key} ${value}`;
-      });
-
+      if (!flags) {
+        return result;
+      }
+      for (const [key, value] of Object.entries(flags)) {
+        result += ` --${key} ${value}`;
+      }
       return result;
     };
 
@@ -117,7 +117,7 @@ const _         = require('lodash');
               gulp
                 .src(Support.resolveSupportPath('tmp', 'models'))
                 .pipe(helpers.readFile('user.js'))
-                .pipe(helpers.ensureContent('sequelize.define(\'User\''))
+                .pipe(helpers.ensureContent('class User extends Model'))
                 .pipe(helpers.ensureContent('first_name: DataTypes.STRING'))
                 .pipe(helpers.ensureContent('last_name: DataTypes.STRING'))
                 .pipe(helpers.ensureContent('bio: DataTypes.TEXT'))

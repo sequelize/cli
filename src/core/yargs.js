@@ -1,6 +1,8 @@
-import fs from 'fs';
-import yargs from 'yargs';
-import path from 'path';
+'use strict';
+
+const fs = require('fs');
+const yargs = require('yargs');
+const path = require('path');
 
 function loadRCFile(optionsPath) {
   const rcFile = optionsPath || path.resolve(process.cwd(), '.sequelizerc');
@@ -15,11 +17,11 @@ const args = yargs
   .version(false)
   .config(loadRCFile(yargs.argv.optionsPath));
 
-export default function getYArgs() {
+exports.getYArgs = function getYArgs() {
   return args;
-}
+};
 
-export function _baseOptions(yargs) {
+exports._baseOptions = function _baseOptions(yargs) {
   return yargs
     .option('env', {
       describe: 'The environment to run the command in',
@@ -58,13 +60,13 @@ export function _baseOptions(yargs) {
       default: false,
       type: 'boolean'
     });
-}
+};
 
-export function _underscoreOption(yargs) {
+exports._underscoreOption = function _underscoreOption(yargs) {
   return yargs
     .option('underscored', {
       describe: "Use snake case for the timestamp's attribute names",
       default: false,
       type: 'boolean'
     });
-}
+};

@@ -1,5 +1,7 @@
-const Support = require(`${__dirname}/support`);
-const helpers = require(`${__dirname}/support/helpers`);
+'use strict';
+
+const Support = require('./support');
+const helpers = require('./support/helpers');
 const gulp = require('gulp');
 const optionsPath = Support.resolveSupportPath('config', 'options.js');
 

@@ -1,5 +1,7 @@
-import fs from 'fs-extra';
-import path from 'path';
+'use strict';
+
+const fs = require('fs-extra');
+const path = require('path');
 
 const assets = {
   copy: (from, to) => {

@@ -1,7 +1,9 @@
-import clc from 'cli-color';
-import _ from 'lodash';
-import helpers from './index';
-import getYArgs from '../core/yargs';
+'use strict';
+
+const clc = require('cli-color');
+const _ = require('lodash');
+const helpers = require('./index');
+const { getYArgs } = require('../core/yargs');
 
 const args = getYArgs().argv;
 

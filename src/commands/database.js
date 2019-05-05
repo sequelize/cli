@@ -1,9 +1,11 @@
-import { _baseOptions } from '../core/yargs';
-import { logMigrator } from '../core/migrator';
+'use strict';
 
-import helpers from '../helpers';
-import { cloneDeep, defaults, pick } from 'lodash';
-import clc from 'cli-color';
+const { _baseOptions } = require('../core/yargs');
+const { logMigrator } = require('../core/migrator');
+
+const helpers = require('../helpers');
+const { cloneDeep, pick } = require('lodash');
+const clc = require('cli-color');
 
 const Sequelize = helpers.generic.getSequelize();
 
@@ -118,8 +120,10 @@ function getDatabaseLessSequelize() {
     helpers.view.error(e);
   }
 
-  config = cloneDeep(config);
-  config = defaults(config, { logging: logMigrator });
+  config = {
+    logging: logMigrator,
+    ...cloneDeep(config)
+  };
 
   switch (config.dialect) {
     case 'postgres':

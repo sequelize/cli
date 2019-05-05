@@ -1,5 +1,7 @@
-import path from 'path';
-import helpers from './index';
+'use strict';
+
+const path = require('path');
+const helpers = require('./index');
 
 const storage = {
   migration: 'sequelize',

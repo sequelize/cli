@@ -1,61 +1,61 @@
 'use strict';
 
-var exec    = require('child_process').exec;
-var support = require('./index');
-var through = require('through2');
-var expect  = require('expect.js');
-var path    = require('path');
-var fs      = require('fs-extra');
+const exec    = require('child_process').exec;
+const support = require('./index');
+const through = require('through2');
+const expect  = require('expect.js');
+const path    = require('path');
+const fs      = require('fs-extra');
 
 module.exports = {
-  getTestConfig: function (mixin) {
-    var dialect = support.getTestDialect();
-    var config  = require(support.resolveSupportPath('config', 'config.js'));
+  getTestConfig(mixin) {
+    const dialect = support.getTestDialect();
+    let config  = require(support.resolveSupportPath('config', 'config.js'));
 
     config.sqlite.storage = support.resolveSupportPath('tmp', 'test.sqlite');
     config = Object.assign(
       config,
       config[dialect],
       mixin || {},
-      { dialect: dialect }
+      { dialect }
     );
 
     return config;
   },
 
-  getTestUrl: function () {
+  getTestUrl() {
     return support.getTestUrl(this.getTestConfig());
   },
 
-  clearDirectory: function () {
-    return through.obj(function (file, encoding, callback) {
-      exec('rm -rf ./* && rm -f ./.sequelizerc', { cwd: file.path }, function (err) {
+  clearDirectory() {
+    return through.obj((file, encoding, callback) => {
+      exec('rm -rf ./* && rm -f ./.sequelizerc', { cwd: file.path }, err => {
         callback(err, file);
       });
     });
   },
 
-  removeFile: function (filePath) {
-    return through.obj(function (file, encoding, callback) {
-      exec('rm ' + filePath, { cwd: file.path }, function (err) {
+  removeFile(filePath) {
+    return through.obj((file, encoding, callback) => {
+      exec(`rm ${filePath}`, { cwd: file.path }, err => {
         callback(err, file);
       });
     });
   },
 
-  runCli: function (args, options) {
+  runCli(args, options) {
     options = options || {};
 
-    return through.obj(function (file, encoding, callback) {
-      var command = support.getCliCommand(file.path, args);
-      var env     = Object.assign({}, process.env, options.env);
+    return through.obj((file, encoding, callback) => {
+      const command = support.getCliCommand(file.path, args);
+      const env     = Object.assign({}, process.env, options.env);
 
       logToFile(command);
 
-      exec(command, { cwd: file.path, env: env }, function (err, stdout, stderr) {
-        var result = file;
+      exec(command, { cwd: file.path, env }, (err, stdout, stderr) => {
+        let result = file;
 
-        logToFile({err: err, stdout: stdout, stderr: stderr});
+        logToFile({ err, stdout, stderr });
 
         if (stdout) {
           expect(stdout).to.not.contain('EventEmitter');
@@ -83,36 +83,37 @@ module.exports = {
     });
   },
 
-  copyFile: function (from, to) {
-    return through.obj(function (file, encoding, callback) {
-      fs.copy(from, path.resolve(file.path, to), function (err) {
+  copyFile(from, to) {
+    return through.obj((file, encoding, callback) => {
+      fs.copy(from, path.resolve(file.path, to), err => {
         callback(err, file);
       });
     });
   },
 
-  listFiles: function (subPath) {
-    return through.obj(function (file, encoding, callback) {
-      var cwd = path.resolve(file.path, subPath || '');
+  listFiles(subPath) {
+    return through.obj((file, encoding, callback) => {
+      const cwd = path.resolve(file.path, subPath || '');
 
-      exec('ls -ila', { cwd: cwd }, callback);
+      exec('ls -ila', { cwd }, callback);
     });
   },
 
-  expect: function (fun) {
-    return through.obj(function (stdout, encoding, callback) {
+  expect(fun) {
+    return through.obj((stdout, encoding, callback) => {
       try {
         fun(stdout);
         callback(null, stdout);
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.log(e);
         callback(e, null);
       }
     });
   },
 
-  ensureContent: function (needle) {
-    return this.expect(function (stdout) {
+  ensureContent(needle) {
+    return this.expect(stdout => {
       if (needle instanceof RegExp) {
         expect(stdout).to.match(needle);
       } else {
@@ -121,97 +122,97 @@ module.exports = {
     });
   },
 
-  overwriteFile: function (content, pathToFile) {
-    return through.obj(function (file, encoding, callback) {
-      var filePath = path.join(file.path, pathToFile);
+  overwriteFile(content, pathToFile) {
+    return through.obj((file, encoding, callback) => {
+      const filePath = path.join(file.path, pathToFile);
 
-      fs.writeFile(filePath, content, function (err) {
+      fs.writeFile(filePath, content, err => {
         callback(err, file);
       });
     });
   },
 
-  readFile: function (pathToFile) {
-    return through.obj(function (file, encoding, callback) {
-      exec('cat ' + pathToFile, { cwd: file.path }, callback);
+  readFile(pathToFile) {
+    return through.obj((file, encoding, callback) => {
+      exec(`cat ${pathToFile}`, { cwd: file.path }, callback);
     });
   },
 
-  copyMigration: function (fileName, migrationsFolder) {
+  copyMigration(fileName, migrationsFolder) {
     migrationsFolder = migrationsFolder || 'migrations';
 
-    return through.obj(function (file, encoding, callback) {
-      var migrationSource = support.resolveSupportPath('assets', 'migrations');
-      var migrationTarget = path.resolve(file.path, migrationsFolder);
+    return through.obj((file, encoding, callback) => {
+      const migrationSource = support.resolveSupportPath('assets', 'migrations');
+      const migrationTarget = path.resolve(file.path, migrationsFolder);
 
-      exec('cp ' + migrationSource + '/*' + fileName + ' ' + migrationTarget + '/', function (err) {
+      exec(`cp ${migrationSource}/*${fileName  } ${migrationTarget}/`, err => {
         callback(err, file);
       });
     });
   },
 
-  copySeeder: function (fileName, seedersFolder) {
+  copySeeder(fileName, seedersFolder) {
     seedersFolder = seedersFolder || 'seeders';
 
-    return through.obj(function (file, encoding, callback) {
-      var seederSource = support.resolveSupportPath('assets', 'seeders');
-      var seederTarget = path.resolve(file.path, seedersFolder);
+    return through.obj((file, encoding, callback) => {
+      const seederSource = support.resolveSupportPath('assets', 'seeders');
+      const seederTarget = path.resolve(file.path, seedersFolder);
 
-      exec('cp ' + seederSource + '/*' + fileName + ' ' + seederTarget + '/' + fileName,
-        function (err) {
+      exec(`cp ${seederSource}/*${fileName  } ${seederTarget}/${fileName}`,
+        err => {
           callback(err, file);
         }
       );
     });
   },
 
-  teardown: function (done) {
-    return through.obj(function (smth, encoding, callback) {
+  teardown(done) {
+    return through.obj((smth, encoding, callback) => {
       callback();
       done(null, smth);
     });
   },
 
-  readTables: function (sequelize, callback) {
+  readTables(sequelize, callback) {
     return sequelize
       .getQueryInterface()
       .showAllTables()
-      .then(function (tables) {
+      .then(tables => {
         return callback(tables.sort());
       });
   },
 
-  readSchemas: function (sequelize, callback) {
+  readSchemas(sequelize, callback) {
     return sequelize
       .showAllSchemas()
-      .then(function (schemas) {
+      .then(schemas => {
         return callback(schemas.sort());
       });
   },
 
-  countTable: function (sequelize, table, callback) {
-    var QueryGenerator =  sequelize.getQueryInterface().QueryGenerator;
+  countTable(sequelize, table, callback) {
+    const QueryGenerator =  sequelize.getQueryInterface().QueryGenerator;
 
     return sequelize
-      .query('SELECT count(*) as count FROM ' + QueryGenerator.quoteTable(table))
-      .then(function (result) {
-        return callback((result.length === 2) ? result[0] : result );
+      .query(`SELECT count(*) as count FROM ${QueryGenerator.quoteTable(table)}`)
+      .then(result => {
+        return callback(result.length === 2 ? result[0] : result );
       });
   },
-  execQuery: function(sequelize, sql, options) {
+  execQuery(sequelize, sql, options) {
     if (sequelize.query.length === 2) {
       return sequelize.query(sql, options);
-    } else {
-      return sequelize.query(sql, null, options);
     }
+    return sequelize.query(sql, null, options);
+
   }
 };
 
-function logToFile (thing) {
-  var text = (typeof thing === 'string') ? thing : JSON.stringify(thing);
-  var logPath = __dirname + '/../../logs';
-  var logFile = logPath + '/test.log';
+function logToFile(thing) {
+  const text = typeof thing === 'string' ? thing : JSON.stringify(thing);
+  const logPath = '../../logs';
+  const logFile = `${logPath}/test.log`;
 
   fs.mkdirpSync(logPath);
-  fs.appendFileSync(logFile, '[' + new Date() + '] ' + text + '\n');
+  fs.appendFileSync(logFile, `[${new Date()  }] ${text  }\n`);
 }

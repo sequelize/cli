@@ -49,7 +49,7 @@ $ npm install
 
 ### Running tests
 
-By default CLI use SQLite, which requires no database configuration. We use Babel to build CLI. Running default test command will automatically build it for you.
+By default CLI use SQLite, which requires no database configuration.
 
 ```bash
 $ npm test

@@ -1,5 +1,7 @@
-import path from 'path';
-import helpers from './index';
+'use strict';
+
+const path = require('path');
+const helpers = require('./index');
 
 const packageJson = require(path.resolve(__dirname, '..', '..', 'package.json'));
 
@@ -30,9 +32,9 @@ module.exports = {
         'mariadb': 'mariasql',
         'mysql': 'mysql'
       }[config.dialect];
-    } 
+    }
     return null;
-    
+
   },
 
   getNodeVersion() {

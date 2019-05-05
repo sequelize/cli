@@ -1,6 +1,8 @@
-import helpers from './index';
-import path from 'path';
-import fs from 'fs';
+'use strict';
+
+const helpers = require('./index');
+const path = require('path');
+const fs = require('fs');
 
 function createFolder(folderName, folder, force) {
   if (force && fs.existsSync(folder) === true) {

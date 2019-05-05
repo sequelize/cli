@@ -1,7 +1,6 @@
 {
   "extends": "eslint:recommended",
   "rules": {
-    // style
     "array-bracket-spacing": "error",
     "comma-spacing": "error",
     "key-spacing": "error",
@@ -52,7 +51,6 @@
     "camelcase": "error",
     "comma-dangle": "error",
 
-    // functional
     "valid-jsdoc": "off",
     "strict": [
       "error",
@@ -94,8 +92,8 @@
     "no-case-declarations": "off"
   },
   "parserOptions": {
-    "ecmaVersion": 8,
-    "sourceType": "module"
+    "ecmaVersion": 9,
+    "sourceType": "script"
   },
   "env": {
     "node": true,

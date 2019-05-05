@@ -1,10 +1,12 @@
-import Bluebird from 'bluebird';
-import path from 'path';
-import fs from 'fs';
-import url from 'url';
-import _ from 'lodash';
-import helpers from './index';
-import getYArgs from '../core/yargs';
+'use strict';
+
+const Bluebird = require('bluebird');
+const path = require('path');
+const fs = require('fs');
+const url = require('url');
+const _ = require('lodash');
+const helpers = require('./index');
+const { getYArgs } = require('../core/yargs');
 
 const args = getYArgs().argv;
 

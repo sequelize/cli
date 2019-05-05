@@ -1,8 +1,10 @@
-import { _baseOptions } from '../core/yargs';
-import { getMigrator } from '../core/migrator';
+'use strict';
 
-import helpers from '../helpers';
-import path from 'path';
+const { _baseOptions } = require('../core/yargs');
+const { getMigrator } = require('../core/migrator');
+
+const helpers = require('../helpers');
+const path = require('path');
 
 exports.builder =
   yargs =>

@@ -6,7 +6,7 @@ const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(<%= configFile %>)[env];
-const db = {};
+const models = {};
 
 let sequelize;
 if (config.use_env_variable) {
@@ -17,21 +17,20 @@ if (config.use_env_variable) {
 
 fs
   .readdirSync(__dirname)
-  .filter(file => {
-    return (file.indexOf('.') !== 0) && (file !== basename) && (file.slice(-3) === '.js');
-  })
+  .filter(file => !file.startsWith('.') && file !== basename && file.endsWith('.js'))
   .forEach(file => {
-    const model = sequelize['import'](path.join(__dirname, file));
-    db[model.name] = model;
+    const model = require(file);
+    models[model.name] = model;
   });
 
-Object.keys(db).forEach(modelName => {
-  if (db[modelName].associate) {
-    db[modelName].associate(db);
+for (const model of Object.values(models)) {
+  model.setup(models);
+}
+for (const model of Object.values(models)) {
+  if (model.associate) {
+    model.associate(models);
   }
-});
+}
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
-
-module.exports = db;
+exports.sequelize = sequelize;
+exports.models = models;

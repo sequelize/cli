@@ -1,5 +1,7 @@
-import { _baseOptions } from '../core/yargs';
-import helpers from '../helpers';
+'use strict';
+
+const { _baseOptions } = require('../core/yargs');
+const helpers = require('../helpers');
 
 exports.builder = yargs => _baseOptions(yargs)
   .option('force', {

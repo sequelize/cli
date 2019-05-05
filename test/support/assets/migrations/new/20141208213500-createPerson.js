@@ -1,16 +1,16 @@
 'use strict';
 
-var Bluebird  = require('bluebird');
-var Sequelize = require('sequelize');
+const Bluebird  = require('bluebird');
+const Sequelize = require('sequelize');
 
 module.exports = {
-  up: function (db) {
+  up(db) {
     return Bluebird
       .delay(1000)
-      .then(function () {
+      .then(() => {
         return db.createTable('Person', { name: Sequelize.STRING });
       })
-      .then(function () {
+      .then(() => {
         return db.createTable('Task', { title: Sequelize.STRING });
       });
   }

@@ -8,16 +8,16 @@ cache: yarn
 jobs:
   include:
     - stage: test
-      node_js: 6
+      node_js: 8
       env: DIALECT=postgres SEQUELIZE=latest SEQ_PORT=54320
     - stage: test
-      node_js: 6
+      node_js: 8
       env: DIALECT=mysql SEQUELIZE=latest SEQ_PORT=33060
     - stage: test
-      node_js: 6
+      node_js: 8
       env: DIALECT=sqlite SEQUELIZE=latest
     - stage: test
-      node_js: 6
+      node_js: 8
       env: DIALECT=sqlite SEQUELIZE=next
 
 install:

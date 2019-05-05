@@ -229,14 +229,10 @@ The CLI uses [umzug](https://github.com/sequelize/umzug) and its migration schem
 "use strict";
 
 module.exports = {
-  up: function(queryInterface, Sequelize, done) {
-    done();
+  async up(queryInterface, Sequelize) {
   },
 
-  down: function(queryInterface) {
-    return new Promise(function (resolve, reject) {
-      resolve();
-    });
+  async down(queryInterface) {
   }
 };
 ```

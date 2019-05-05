@@ -1,9 +1,9 @@
 'use strict';
 
-var nodeify = require('nodeify');
+const nodeify = require('nodeify');
 
 module.exports = {
-  up: function (migration, DataTypes, done) {
+  up(migration, DataTypes, done) {
     nodeify(migration
       .createTable('Person', {
         name: DataTypes.STRING,
@@ -15,7 +15,7 @@ module.exports = {
       }), done);
   },
 
-  down: function (migration, DataTypes, done) {
+  down(migration, DataTypes, done) {
     nodeify(migration.dropTable('Person'), done);
   }
 };

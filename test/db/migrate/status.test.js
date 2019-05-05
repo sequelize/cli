@@ -1,7 +1,7 @@
+'use strict';
 
-
-const Support = require(`${__dirname}/../../support`);
-const helpers = require(`${__dirname}/../../support/helpers`);
+const Support = require('../../support');
+const helpers = require('../../support/helpers');
 const gulp    = require('gulp');
 
 [

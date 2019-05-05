@@ -1,8 +1,9 @@
 #!/usr/bin/env node
+'use strict';
 
-import getYArgs from './core/yargs';
-import Promise from 'bluebird';
-import { isEmpty } from 'lodash';
+const { getYArgs } = require('./core/yargs');
+const Promise = require('bluebird');
+const { isEmpty } = require('lodash');
 
 const yargs = getYArgs();
 
@@ -18,18 +19,18 @@ Promise.coroutine.addYieldHandler(yieldedValue => {
   }
 });
 
-import init from './commands/init';
-import migrate from './commands/migrate';
-import migrateUndo from './commands/migrate_undo';
-import migrateUndoAll from './commands/migrate_undo_all';
-import seed from './commands/seed';
-import seedOne from './commands/seed_one';
-import migrationGenerate from './commands/migration_generate';
-import modelGenerate from './commands/model_generate';
-import seedGenerate from './commands/seed_generate';
-import database from './commands/database';
+const init = require('./commands/init');
+const migrate = require('./commands/migrate');
+const migrateUndo = require('./commands/migrate_undo');
+const migrateUndoAll = require('./commands/migrate_undo_all');
+const seed = require('./commands/seed');
+const seedOne = require('./commands/seed_one');
+const migrationGenerate = require('./commands/migration_generate');
+const modelGenerate = require('./commands/model_generate');
+const seedGenerate = require('./commands/seed_generate');
+const database = require('./commands/database');
 
-import helpers from './helpers/index';
+const helpers = require('./helpers/index');
 
 helpers.view.teaser();
 

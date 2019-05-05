@@ -3,7 +3,7 @@
   "version": "5.4.0",
   "description": "The Sequelize CLI",
   "bin": {
-    "sequelize": "./lib/sequelize"
+    "sequelize": "./src/sequelize"
   },
   "dependencies": {
     "bluebird": "^3.5.3",
@@ -15,11 +15,6 @@
     "yargs": "^13.1.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-plugin-transform-async-to-module-method": "^6.24.1",
-    "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-register": "^6.24.1",
     "eslint": "^5.9.0",
     "expect.js": "^0.3.1",
     "gulp": "^4.0.0",
@@ -33,20 +28,18 @@
     "through2": "^3.0.0"
   },
   "options": {
-    "mocha": "--require scripts/mocha-bootload.js --check-leaks --exit --timeout 30000 --colors --reporter spec"
+    "mocha": "--check-leaks --exit --timeout 30000 --colors --reporter spec"
   },
   "eslintIgnore": [
-    "test/support",
-    "src/assets"
+    "src/assets/seeders",
+    "src/assets/models",
+    "src/assets/migrations",
+    "test/support/tmp/"
   ],
   "scripts": {
-    "build": "npm run build-clean && babel src -d lib && npm run build-bin && npm run build-assets",
-    "build-bin": "mv ./lib/sequelize.js ./lib/sequelize && chmod +x ./lib/sequelize",
-    "build-assets": "cp -R ./src/assets ./lib/",
-    "build-clean": "rm -rf ./lib/",
-    "lint": "eslint test src",
+    "lint": "eslint \"test/**/*.js\" \"src/**/*.js\"",
     "test-raw": "mocha $npm_package_options_mocha 'test/**/*.test.js'",
-    "test": "npm run lint && npm run build && npm run test-raw"
+    "test": "npm run lint && npm run test-raw"
   },
   "repository": {
     "type": "git",
@@ -76,6 +69,6 @@
   },
   "homepage": "https://github.com/sequelize/cli",
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=8.0.0"
   }
 }

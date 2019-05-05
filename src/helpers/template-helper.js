@@ -1,6 +1,8 @@
-import _ from 'lodash';
-import beautify from 'js-beautify';
-import helpers from './index';
+'use strict';
+
+const _ = require('lodash');
+const beautify = require('js-beautify');
+const helpers = require('./index');
 
 module.exports = {
   render(path, locals, options) {

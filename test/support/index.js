@@ -1,28 +1,27 @@
 'use strict';
 
-var fs        = require('fs');
-var path      = require('path');
-var Sequelize = require('sequelize');
-var _         = require('lodash');
-var Bluebird  = require('bluebird');
-var DataTypes = Sequelize;
-var Config    = require(__dirname + '/config/config');
-var expect    = require('expect.js');
-var execQuery = function (sequelize, sql, options) {
+const fs        = require('fs');
+const path      = require('path');
+const Sequelize = require('sequelize');
+const Bluebird  = require('bluebird');
+const DataTypes = Sequelize;
+const Config    = require('./config/config');
+const expect    = require('expect.js');
+const execQuery = function(sequelize, sql, options) {
   if (sequelize.query.length === 2) {
     return sequelize.query(sql, options);
-  } else {
-    return sequelize.query(sql, null, options);
   }
-}
+  return sequelize.query(sql, null, options);
 
-var Support = {
-  Sequelize: Sequelize,
+};
 
-  initTests: function (options) {
-    var sequelize = this.createSequelizeInstance(options);
+const Support = {
+  Sequelize,
 
-    this.clearDatabase(sequelize, function () {
+  initTests(options) {
+    const sequelize = this.createSequelizeInstance(options);
+
+    this.clearDatabase(sequelize, () => {
       if (options.context) {
         options.context.sequelize = sequelize;
       }
@@ -37,16 +36,16 @@ var Support = {
     });
   },
 
-  prepareTransactionTest: function (sequelize, callback) {
-    var dialect = Support.getTestDialect();
+  prepareTransactionTest(sequelize, callback) {
+    const dialect = Support.getTestDialect();
 
     if (dialect === 'sqlite') {
-      var options    = Object.assign({}, sequelize.options, {
+      const options    = Object.assign({}, sequelize.options, {
         storage: path.join(__dirname, 'tmp', 'db.sqlite')
       });
-      var _sequelize = new Sequelize(sequelize.config.datase, null, null, options);
+      const _sequelize = new Sequelize(sequelize.config.datase, null, null, options);
 
-      _sequelize.sync({ force: true }).then(function () {
+      _sequelize.sync({ force: true }).then(() => {
         callback(_sequelize);
       });
     } else {
@@ -54,25 +53,26 @@ var Support = {
     }
   },
 
-  createSequelizeInstance: function (options) {
+  createSequelizeInstance(options) {
     options = options || {};
     options.dialect = options.dialect || 'sqlite';
 
-    var config = Config[options.dialect];
-    var sequelizeOptions = _.defaults(options, {
-      host:           options.host || config.host,
-      logging:        false,
-      dialect:        options.dialect,
-      port:           options.port || process.env.SEQ_PORT || config.port,
-      pool:           config.pool,
-      dialectOptions: options.dialectOptions || {}
-    });
+    const config = Config[options.dialect];
+    const sequelizeOptions = {
+      host: options.host || config.host,
+      logging: false,
+      dialect: options.dialect,
+      port: options.port || process.env.SEQ_PORT || config.port,
+      pool: config.pool,
+      dialectOptions: options.dialectOptions || {},
+      ...options
+    };
 
     if (process.env.DIALECT === 'postgres-native') {
       sequelizeOptions.native = true;
     }
 
-    if (!!config.storage) {
+    if (config.storage) {
       sequelizeOptions.storage = config.storage;
     }
 
@@ -84,18 +84,18 @@ var Support = {
     );
   },
 
-  getSequelizeInstance: function (db, user, pass, options) {
+  getSequelizeInstance(db, user, pass, options) {
     options = options || {};
     options.dialect = options.dialect || this.getTestDialect();
     return new Sequelize(db, user, pass, options);
   },
 
-  clearDatabase: function (sequelize, callback) {
+  clearDatabase(sequelize, callback) {
     function dropAllTables() {
       return sequelize
         .getQueryInterface()
         .dropAllTables()
-        .then(function () {
+        .then(() => {
           if (sequelize.daoFactoryManager) {
             sequelize.daoFactoryManager.daos = [];
           } else {
@@ -105,67 +105,69 @@ var Support = {
           return sequelize
             .getQueryInterface()
             .dropAllEnums()
-              .then(callback)
-              .catch(function (err) {
-                console.log('Error in support.clearDatabase() dropAllEnums() :: ', err);
-              });
+            .then(callback)
+            .catch(err => {
+              // eslint-disable-next-line no-console
+              console.log('Error in support.clearDatabase() dropAllEnums() :: ', err);
+            });
         })
-        .catch(function (err) {
+        .catch(err => {
+          // eslint-disable-next-line no-console
           console.log('Error in support.clearDatabase() dropAllTables() :: ', err);
         });
-    };
+    }
 
     // If Postgres, loop through each of the non-public schemas and DROP/re-CREATE them.
     if (this.dialectIsPostgres()) {
       return sequelize
         .showAllSchemas()
-        .then(function (schemas) {
+        .then(schemas => {
           // showAllSchemas() leaves off the public schema.
-          return Bluebird.mapSeries(schemas, (schema) => {
+          return Bluebird.mapSeries(schemas, schema => {
             return sequelize
-            .dropSchema(schema)
-            .then(function() {
-              return sequelize.createSchema(schema)
-            });
+              .dropSchema(schema)
+              .then(() => {
+                return sequelize.createSchema(schema);
+              });
           }).then(dropAllTables); // Drop the public schema tables.
         });
-    } else {
-      return dropAllTables();
     }
+    return dropAllTables();
+
   },
 
-  getSupportedDialects: function () {
-    var dir = __dirname + '/../../node_modules/sequelize/lib/dialects';
+  getSupportedDialects() {
+    const dir = path.join(path.dirname(require.resolve('sequelize')), '/lib/dialects');
 
-    return fs.readdirSync(dir).filter(function (file) {
-      return (!file.includes('.js') && !file.includes('abstract'));
+    return fs.readdirSync(dir).filter(file => {
+      return !file.includes('.js') && !file.includes('abstract');
     });
   },
 
-  checkMatchForDialects: function (dialect, value, expectations) {
-    if (!!expectations[dialect]) {
+  checkMatchForDialects(dialect, value, expectations) {
+    if (expectations[dialect]) {
       expect(value).to.match(expectations[dialect]);
     } else {
-      throw new Error('Undefined expectation for \'' + dialect + '\'!');
+      throw new Error(`Undefined expectation for '${dialect  }'!`);
     }
   },
 
-  getTestDialect: function () {
-    var envDialect = process.env.DIALECT || 'sqlite';
+  getTestDialect() {
+    let envDialect = process.env.DIALECT || 'sqlite';
 
     if (envDialect === 'postgres-native') {
       envDialect = 'postgres';
     }
 
     if (!this.getSupportedDialects().includes(envDialect)) {
-      throw new Error('The dialect you have passed is unknown. Did you really mean: ' + envDialect);
+      throw new Error(`The dialect you have passed is unknown. Did you really mean: ${envDialect}`);
     }
 
     return envDialect;
   },
 
-  dialectIsMySQL: function (strict) {
-    var envDialect = this.getTestDialect();
+  dialectIsMySQL(strict) {
+    const envDialect = this.getTestDialect();
 
     if (strict === undefined) {
       strict = false;
@@ -173,85 +175,85 @@ var Support = {
 
     if (strict) {
       return envDialect === 'mysql';
-    } else {
-      return ['mysql', 'mariadb'].includes(envDialect);
     }
+    return ['mysql', 'mariadb'].includes(envDialect);
+
   },
 
-  dialectIsPostgres: function (strict) {
-    var envDialect = this.getTestDialect();
+  dialectIsPostgres() {
+    const envDialect = this.getTestDialect();
     return ['postgres', 'postgres-native'].includes(envDialect);
   },
 
-  getTestDialectTeaser: function (moduleName) {
-    var dialect = this.getTestDialect();
+  getTestDialectTeaser(moduleName) {
+    let dialect = this.getTestDialect();
 
     if (process.env.DIALECT === 'postgres-native') {
       dialect = 'postgres-native';
     }
 
-    return '[' + dialect.toUpperCase() + '] lib/sequelize ' + moduleName;
+    return `[${dialect.toUpperCase()}] src/sequelize ${moduleName}`;
   },
 
-  getTestUrl: function (config) {
-    var url      = null;
-    var dbConfig = config[config.dialect];
+  getTestUrl(config) {
+    let url      = null;
+    const dbConfig = config[config.dialect];
 
     if (config.dialect === 'sqlite') {
-      url = 'sqlite://' + dbConfig.storage;
+      url = `sqlite://${dbConfig.storage}`;
     } else {
-      var credentials = dbConfig.username;
+      let credentials = dbConfig.username;
 
       if (dbConfig.password) {
-        credentials += ':' + dbConfig.password;
+        credentials += `:${dbConfig.password}`;
       }
 
-      url = config.dialect + '://' + credentials + '@' + dbConfig.host +
-        ':' + dbConfig.port + '/' + dbConfig.database;
+      url = `${config.dialect  }://${credentials  }@${dbConfig.host
+      }:${dbConfig.port}/${dbConfig.database}`;
     }
 
     return url;
   },
 
-  getCliPath: function (cwd) {
-    return path.resolve(cwd, path.resolve(process.cwd(), 'lib', 'sequelize'));
+  getCliPath(cwd) {
+    return path.resolve(cwd, path.resolve(process.cwd(), 'src', 'sequelize'));
   },
 
-  getCliCommand: function (cwd, flags) {
-    return this.getCliPath(cwd) + ' ' + flags;
+  getCliCommand(cwd, flags) {
+    return `${this.getCliPath(cwd)  } ${flags}`;
   },
 
-  getSupportDirectoryPath: function () {
+  getSupportDirectoryPath() {
     return path.resolve(__dirname);
   },
 
-  resolveSupportPath: function () {
-    var args = [].slice.apply(arguments);
+  resolveSupportPath() {
+    let args = [].slice.apply(arguments);
 
     args = [this.getSupportDirectoryPath()].concat(args);
     return path.resolve.apply(path, args);
   }
 };
 
-var sequelize = Support.createSequelizeInstance({ dialect: Support.getTestDialect() });
+let sequelize = Support.createSequelizeInstance({ dialect: Support.getTestDialect() });
 
 // For Postgres' HSTORE functionality and to properly execute it's commands we'll need this...
-before(function (done) {
-  var dialect = Support.getTestDialect();
+before(done => {
+  const dialect = Support.getTestDialect();
 
   if (dialect !== 'postgres' && dialect !== 'postgres-native') {
     return done();
   }
 
-  execQuery(sequelize, 'CREATE EXTENSION IF NOT EXISTS hstore', {raw: true}).then(function () {
+  execQuery(sequelize, 'CREATE EXTENSION IF NOT EXISTS hstore', { raw: true }).then(() => {
     done();
   });
 });
 
-beforeEach(function (done) {
-  Support.clearDatabase(sequelize, function () {
+beforeEach(function(done) {
+  Support.clearDatabase(sequelize, () => {
     if (sequelize.options.dialect === 'sqlite') {
-      var options = sequelize.options;
+      const options = sequelize.options;
 
       options.storage = Support.resolveSupportPath('tmp', 'test.sqlite');
       sequelize = new Support.Sequelize('', '', '', options);
@@ -260,7 +262,7 @@ beforeEach(function (done) {
     this.sequelize = sequelize;
 
     done();
-  }.bind(this));
+  });
 });
 
 module.exports = Support;

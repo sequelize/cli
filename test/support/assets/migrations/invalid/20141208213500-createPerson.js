@@ -1,12 +1,12 @@
 'use strict';
 
-var Bluebird  = require('bluebird');
+const Bluebird  = require('bluebird');
 
 module.exports = {
-  up: function (db) {
+  up(db) {
     return Bluebird
       .delay(1000)
-      .then(function () {
+      .then(() => {
         return db.sequelize.query('INVALID QUERY');
       });
   }

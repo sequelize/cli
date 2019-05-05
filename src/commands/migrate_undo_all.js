@@ -1,7 +1,9 @@
-import { _baseOptions } from '../core/yargs';
-import { getMigrator, ensureCurrentMetaSchema } from '../core/migrator';
+'use strict';
 
-import helpers from '../helpers';
+const { _baseOptions } = require('../core/yargs');
+const { getMigrator, ensureCurrentMetaSchema } = require('../core/migrator');
+
+const helpers = require('../helpers');
 
 exports.builder =
   yargs =>

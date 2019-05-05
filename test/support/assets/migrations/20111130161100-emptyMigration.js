@@ -1,10 +1,10 @@
 'use strict';
 
 module.exports = {
-  up: function (migration, DataTypes, done) {
+  up(migration, DataTypes, done) {
     done();
   },
-  down: function (migration, DataTypes, done) {
+  down(migration, DataTypes, done) {
     done();
   }
 };

@@ -1,16 +1,18 @@
-import Umzug from 'umzug';
-import Bluebird from 'bluebird';
-import _ from 'lodash';
+'use strict';
 
-import helpers from '../helpers/index';
+const Umzug = require('umzug');
+const Bluebird = require('bluebird');
+
+const helpers = require('../helpers/index');
 
 const Sequelize = helpers.generic.getSequelize();
 
-export function logMigrator(s) {
-  if (s.indexOf('Executing') !== 0) {
+function logMigrator(s) {
+  if (!s.startsWith('Executing')) {
     helpers.view.log(s);
   }
 }
+exports.logMigrator = logMigrator;
 
 function getSequelizeInstance() {
   let config = null;
@@ -21,7 +23,10 @@ function getSequelizeInstance() {
     helpers.view.error(e);
   }
 
-  config = _.defaults(config, { logging: logMigrator });
+  config = {
+    logging: logMigrator,
+    ...config
+  };
 
   try {
     return new Sequelize(config);
@@ -30,7 +35,7 @@ function getSequelizeInstance() {
   }
 }
 
-export function getMigrator(type, args) {
+exports.getMigrator = function getMigrator(type, args) {
   return Bluebird.try(() => {
     if (!(helpers.config.configFileExists() || args.url)) {
       helpers.view.error(
@@ -76,9 +81,9 @@ export function getMigrator(type, args) {
       .then(() => migrator)
       .catch(e => helpers.view.error(e));
   });
-}
+};
 
-export function ensureCurrentMetaSchema(migrator) {
+function ensureCurrentMetaSchema(migrator) {
   const queryInterface = migrator.options.storageOptions.sequelize.getQueryInterface();
   const tableName = migrator.options.storageOptions.tableName;
   const columnName = migrator.options.storageOptions.columnName;
@@ -95,6 +100,7 @@ export function ensureCurrentMetaSchema(migrator) {
     })
     .catch(() => {});
 }
+exports.ensureCurrentMetaSchema = ensureCurrentMetaSchema;
 
 function ensureMetaTable(queryInterface, tableName) {
   return queryInterface.showAllTables()
@@ -111,7 +117,7 @@ function ensureMetaTable(queryInterface, tableName) {
  *
  * @return {Promise}
  */
-export function addTimestampsToSchema(migrator) {
+exports.addTimestampsToSchema = function addTimestampsToSchema(migrator) {
   const sequelize = migrator.options.storageOptions.sequelize;
   const queryInterface = sequelize.getQueryInterface();
   const tableName = migrator.options.storageOptions.tableName;
@@ -149,4 +155,4 @@ export function addTimestampsToSchema(migrator) {
             });
         });
     });
-}
+};
