@@ -155,7 +155,7 @@ const api = {
   },
 
   filteredUrl (uri, config) {
-    const regExp = new RegExp(':?' + (config.password || '') + '@');
+    const regExp = new RegExp(':?' + _.escapeRegExp(config.password) + '@');
     return uri.replace(regExp, ':*****@');
   },
 
