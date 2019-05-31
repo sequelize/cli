@@ -187,7 +187,10 @@ const api = {
     let config = api.urlStringToConfigHash(urlString);
 
     config = _.assign(config, {
-      dialect: config.protocol
+      dialect: config.protocol,
+      dialectOptions: {
+        ssl: config.ssl
+      }
     });
 
     if (config.dialect === 'sqlite' && config.database.indexOf(':memory') !== 0) {
