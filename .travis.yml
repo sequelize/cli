@@ -16,9 +16,6 @@ jobs:
     - stage: test
       node_js: 6
       env: DIALECT=sqlite SEQUELIZE=latest
-    - stage: test
-      node_js: 6
-      env: DIALECT=sqlite SEQUELIZE=next
 
 install:
   - npm install -g yarn
