@@ -3,6 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## Future
 
+## v5.5.0 - 11th, June 2019
+
+### Fixed
+- fix: special characters in password are not escaped [#722](https://github.com/sequelize/cli/pull/722)
+- change: default config for operator aliases [#743](https://github.com/sequelize/cli/pull/743)
+
 ## v5.4.0 - 1st, Dec 2018
 
 ### Fixed
