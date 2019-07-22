@@ -4,8 +4,9 @@ const helpers = require(__dirname + '/../../support/helpers');
 const gulp    = require('gulp');
 
 [
-  'db:seed:undo --seed seedPerson.js'
+  'db:seed:undo --seed'
 ].forEach(flag => {
+  const seedFile = 'seedPerson.js';
   const prepare = function (callback, options) {
     const _flag = options.flag || flag;
 
@@ -27,11 +28,26 @@ const gulp    = require('gulp');
   };
 
   describe(Support.getTestDialectTeaser(flag), () => {
-    it('stops execution if no seeder file is found', done => {
-      prepare((err, output) => {
-        expect(output).to.contain('Unable to find migration');
-        done();
-      }, {copySeeds: false});
+    it('should not undo seed if no seed parameter inputted', function (done) {
+      const self = this;
+
+      prepare(() => {
+        helpers.readTables(self.sequelize, tables => {
+          expect(tables).to.have.length(2);
+          expect(tables[0]).to.equal('Person');
+
+          gulp
+            .src(Support.resolveSupportPath('tmp'))
+            .pipe(helpers.runCli(flag, { pipeStdout: true }))
+            .pipe(helpers.teardown(() => {
+              helpers.countTable(self.sequelize, 'Person', res => {
+                expect(res).to.have.length(1);
+                expect(res[0].count).to.equal(1);
+                done();
+              });
+            }));
+        });
+      }, {flag: 'db:seed:all', copySeeds: true});
     });
 
     it('is correctly undoing a seeder if they have been done already', function (done) {
@@ -44,7 +60,7 @@ const gulp    = require('gulp');
 
           gulp
             .src(Support.resolveSupportPath('tmp'))
-            .pipe(helpers.runCli(flag, { pipeStdout: true }))
+            .pipe(helpers.runCli(`${flag} ${seedFile}`, { pipeStdout: true }))
             .pipe(helpers.teardown(() => {
               helpers.countTable(self.sequelize, 'Person', res => {
                 expect(res).to.have.length(1);
