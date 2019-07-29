@@ -134,7 +134,7 @@ or the CLI will write to the file `sequelize-meta.json`. If you want to keep the
 database, using `sequelize`, but want to use a different table, you can change the table name using
 `migrationStorageTableName`.
 
-```json
+```js
 {
   "development": {
     "username": "root",
@@ -170,7 +170,7 @@ you can specify the path of the file using `seederStoragePath` or the CLI will w
 `sequelize-data.json`. If you want to keep the information in the database, using `sequelize`, you can
 specify the table name using `seederStorageTableName`, or it will default to `SequelizeData`.
 
-```json
+```js
 {
   "development": {
     "username": "root",
