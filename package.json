@@ -3,7 +3,8 @@
   "version": "5.5.0",
   "description": "The Sequelize CLI",
   "bin": {
-    "sequelize": "./lib/sequelize"
+    "sequelize": "./lib/sequelize",
+    "sequelize-cli": "./lib/sequelize"
   },
   "dependencies": {
     "bluebird": "^3.5.3",
