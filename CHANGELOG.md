@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 
 ## Future
 
+## v5.5.1 - 31st, August 2019
+
+### Fixed
+- change: use sequelize-cli as an alias for the binary [#812](https://github.com/sequelize/cli/pull/812)
+
 ## v5.5.0 - 11th, June 2019
 
 ### Fixed

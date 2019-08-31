@@ -3,8 +3,6 @@ dist: trusty
 
 language: node_js
 
-cache: yarn
-
 jobs:
   include:
     - stage: test
@@ -18,10 +16,8 @@ jobs:
       env: DIALECT=sqlite SEQUELIZE=latest
 
 install:
-  - npm install -g yarn
-  - yarn
-  - yarn add sequelize@$(echo $SEQUELIZE)
-  - yarn build
+  - npm install sequelize@$(echo $SEQUELIZE)
+  - npm run build
 
 before_script:
   - |-
@@ -30,4 +26,4 @@ before_script:
     if [ "$DIALECT" = "postgres" ] || [ "$DIALECT" = "mysql" ]; then docker run --link ${DIALECT}:db -e CHECK_PORT=${SEQ_PORT::-1} -e CHECK_HOST=db --net cli_default giorgos/takis; fi
 
 script:
-  - yarn test
+  - npm run test
