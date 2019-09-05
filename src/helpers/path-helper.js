@@ -36,17 +36,22 @@ module.exports = {
     return result;
   },
 
-  getFileName (type, name, options) {
+  getFullFilename(type, name, { mode, action }) {
+    const filename = this.getFileName(type, name);
     return this.addFileExtension(
-      [
-        getCurrentYYYYMMDDHHmms(),
-        name ? name : 'unnamed-' + type
-      ].join('-'),
-      options
+      mode && action ? `${filename}.${action}` : filename,
+      mode
     );
   },
+  getFileName (type, name) {
+    return  [
+      getCurrentYYYYMMDDHHmms(),
+      name ? name : 'unnamed-' + type
+    ].join('-');
+  },
 
-  getFileExtension () {
+  getFileExtension(fileExtension) {
+    if (fileExtension) return fileExtension
     return 'js';
   },
 
@@ -54,12 +59,12 @@ module.exports = {
     return [basename, this.getFileExtension(options)].join('.');
   },
 
-  getMigrationPath (migrationName) {
-    return path.resolve(this.getPath('migration'), this.getFileName('migration', migrationName));
+  getMigrationPath (migrationName, migrationMode) {
+    return path.resolve(this.getPath('migration'), this.getFullFilename('migration', migrationName, migrationMode));
   },
 
   getSeederPath (seederName) {
-    return path.resolve(this.getPath('seeder'), this.getFileName('seeder', seederName));
+    return path.resolve(this.getPath('seeder'), this.getFullFilename('seeder', seederName));
   },
 
   getModelsPath () {

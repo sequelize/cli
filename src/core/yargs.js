@@ -39,6 +39,11 @@ export function _baseOptions (yargs) {
       default: 'migrations',
       type: 'string'
     })
+    .option('migration-mode', {
+      describe: 'The mode of migrations files, js or sql',
+      default: 'js',
+      type: 'string'
+    })
     .option('seeders-path', {
       describe: 'The path to the seeders folder',
       default: 'seeders',

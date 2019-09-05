@@ -16,19 +16,31 @@ exports.builder =
     )
       .argv;
 
-exports.handler = function (args) {
-  helpers.init.createMigrationsFolder();
+const writeTemplate = (name, mode) => {
+  if (mode === 'sql') {
+    fs.writeFileSync(
+      helpers.path.getMigrationPath(name, { mode, action: 'down'}),
+      '',
+    );
 
-  fs.writeFileSync(
-    helpers.path.getMigrationPath(args.name),
+    return fs.writeFileSync(
+      helpers.path.getMigrationPath(name, { mode, action: 'up'}),
+      '',
+    );
+  }
+  return fs.writeFileSync(
+    helpers.path.getMigrationPath(name, mode),
     helpers.template.render('migrations/skeleton.js', {}, {
       beautify: false
-    })
+    }),
   );
-
+}
+exports.handler = function (args) {
+  helpers.init.createMigrationsFolder();
+  writeTemplate(args.name, args['migration-mode']);
   helpers.view.log(
     'New migration was created at',
-    clc.blueBright(helpers.path.getMigrationPath(args.name)),
+    clc.blueBright(helpers.path.getMigrationPath(args.name, args['migration-mode'])),
     '.'
   );
 
