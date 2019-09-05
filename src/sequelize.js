@@ -6,6 +6,7 @@ import { isEmpty } from 'lodash';
 
 const yargs = getYArgs();
 
+
 Promise.coroutine.addYieldHandler(yieldedValue => {
   if (Array.isArray(yieldedValue)) {
     return Promise.all(yieldedValue);

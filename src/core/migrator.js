@@ -45,7 +45,7 @@ export function getMigrator (type, args) {
       storage: helpers.umzug.getStorage(type),
       storageOptions: helpers.umzug.getStorageOptions(type, { sequelize }),
       logging: helpers.view.log,
-      migrations: {
+       migrations: [{
         params: [sequelize.getQueryInterface(), Sequelize],
         path: helpers.path.getPath(type),
         pattern: /\.js$/,
@@ -56,7 +56,22 @@ export function getMigrator (type, args) {
             return fun;
           }
         }
+      },
+      {
+        pattern: /\.down.sql$/,
+        path: helpers.path.getPath(type),
+        customResolver: function (sqlPath)  {
+          return { down: () => sequelize.query(require('fs').readFileSync(sqlPath, 'utf8')) }
+        }
+      },
+      {
+        pattern: /\.up.sql$/,
+        path: helpers.path.getPath(type),
+        customResolver: function (sqlPath)  {
+          return { up: () => sequelize.query(require('fs').readFileSync(sqlPath, 'utf8')) }
+        },
       }
+    ]
     });
 
     return sequelize
