@@ -24,8 +24,8 @@ const filesToCreate = (name) => {
 }
 
 const template = `
-    const runner = require('migration-cli');
-    module.exports = runner(__filename, __dirname);
+    const { run } = require('sequelize-cli');
+    module.exports = run(__filename, __dirname);
 `;
 
 const writeFiles = (dirname, files) => Object.keys(files)

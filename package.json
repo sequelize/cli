@@ -6,6 +6,7 @@
     "sequelize": "./lib/sequelize",
     "sequelize-cli": "./lib/sequelize"
   },
+  "main": "./lib/index",
   "dependencies": {
     "bluebird": "^3.5.3",
     "cli-color": "^1.4.0",
