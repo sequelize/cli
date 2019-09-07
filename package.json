@@ -42,7 +42,7 @@
     "src/assets"
   ],
   "scripts": {
-    "build": "npm run build-clean && ./node_modules/.bin/babel src -d lib && npm run build-bin && npm run build-assets",
+    "build": "npm run build-clean && babel src -d lib && npm run build-bin && npm run build-assets",
     "build-bin": "mv ./lib/sequelize.js ./lib/sequelize && chmod +x ./lib/sequelize",
     "build-assets": "cp -R ./src/assets ./lib/",
     "build-clean": "rm -rf ./lib/",
