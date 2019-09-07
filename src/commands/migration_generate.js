@@ -19,18 +19,28 @@ exports.builder =
 exports.handler = function (args) {
   helpers.init.createMigrationsFolder();
 
-  fs.writeFileSync(
-    helpers.path.getMigrationPath(args.name),
-    helpers.template.render('migrations/skeleton.js', {}, {
-      beautify: false
-    })
-  );
-
-  helpers.view.log(
-    'New migration was created at',
-    clc.blueBright(helpers.path.getMigrationPath(args.name)),
-    '.'
-  );
-
+  if (args.raw) {
+    helpers.raw.write(helpers.getPath('migration'), args.name);
+    helpers.view.log(
+      'New migration files was created at',
+      clc.blueBright(helpers.path.getPath('migration')),
+      '.'
+    );
+  
+  } else {
+    fs.writeFileSync(
+      helpers.path.getMigrationPath(args.name),
+      helpers.template.render('migrations/skeleton.js', {}, {
+        beautify: false
+      })
+    );
+  
+    helpers.view.log(
+      'New migration was created at',
+      clc.blueBright(helpers.path.getMigrationPath(args.name)),
+      '.'
+    );
+  }
+  
   process.exit(0);
 };

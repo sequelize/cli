@@ -1,11 +1,14 @@
 'use strict';
-const path = require('path');
-const fs = require('fs');
+import helpers from './index';
+import path from'path';
+import fs from 'fs';
+import clc from 'cli-color';
 
-const template = `
-    const runner = require('migration-cli');
-    module.exports = runner(__filename, __dirname);
-`;
+const writeSql = (actionName, dirname) => {
+    const name = getActionName(actionName);
+    const files = filesToCreate(name);
+    return writeFiles(dirname, files) 
+};
 
 const getActionName = (actionName) => {
     const datetime = (new Date()).toJSON().replace(/[^0-9]/g, '');
@@ -17,27 +20,34 @@ const filesToCreate = (name) => {
         [`${name}.down.sql`]: '',
         [`${name}.up.sql`]: '',
         [`${name}.js`]: template,
-    }   
+    }
 }
-const writeFiles = (writeFileSync, resolve) => (dirname, files) => Object.keys(files)
+
+const template = `
+    const runner = require('migration-cli');
+    module.exports = runner(__filename, __dirname);
+`;
+
+const writeFiles = (dirname, files) => Object.keys(files)
     .forEach(
-        filename => (
-            writeFileSync(resolve(dirname, filename), files[filename]),
-            console.log('\x1b[36m', `created ${filename}`,'\x1b[0m')),
+        filename => {
+            const fullpath = path.resolve(dirname, filename);
+            return (
+                fs.writeFileSync(fullpath, files[filename]),
+                helpers.view.log(
+                    'File created at',
+                    clc.blueBright(fullpath),
+                    '.'
+                ))
+            }
     );
 
-const writeSql = (writeFileSync, resolve) => (actionName, dirname) => {
-    const name = getActionName(actionName);
-    const files = filesToCreate(name);
-    return writeFiles(writeFileSync, resolve)(dirname, files) 
-};
+const runnerRaw = pipe(
+    readSqlFiles,
+    buildMigrations,
+)
 
-
-const readFile = (dirname, migrationName) => 
-    (action) => fs.readFileSync(
-        path.resolve(dirname, migrationName.replace(/\.[^/.]+$/, `.${action}.sql`)),
-        'utf8',
-    );
+const pipe = (...functions) => args => functions.reduce((arg, fn) => fn(arg), args);
 
 const readSqlFiles = function (filename, dirname) {
     var migrationName = path.basename(filename);
@@ -48,21 +58,20 @@ const readSqlFiles = function (filename, dirname) {
     };
 };
 
+const readFile = (dirname, migrationName) => 
+    (action) => fs.readFileSync(
+        path.resolve(dirname, migrationName.replace(/\.[^/.]+$/, `.${action}.sql`)),
+        'utf8',
+    );
+
 const buildMigrations = (scripts) => Object.keys(scripts).reduce(
     (migrations, action) => Object.assign(migrations, {
-        [action]: ({ sequelize }, Sequelize) => sequelize
-            .query(scripts[action])
+        [action]: ({ sequelize }) => sequelize.query(scripts[action])
     }),
     {},
 )
 
-const runnerRaw = (filename, dirname) =>
-    buildMigrations(
-        readSqlFiles(filename, dirname)
-    );
-
 module.exports = {
-    read: readSqlFiles,
     write: writeSql,
     run: runnerRaw,
 };

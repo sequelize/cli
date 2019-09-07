@@ -16,19 +16,27 @@ exports.builder =
 
 exports.handler = function (args) {
   helpers.init.createSeedersFolder();
-
-  fs.writeFileSync(
-    helpers.path.getSeederPath(args.name),
-    helpers.template.render('seeders/skeleton.js', {}, {
-      beautify: false
-    })
-  );
-
-  helpers.view.log(
-    'New seed was created at',
-    clc.blueBright(helpers.path.getSeederPath(args.name)),
-    '.'
-  );
+  if (args.raw) {
+    helpers.raw.write(helpers.getPath('seed'), args.name);
+    helpers.view.log(
+      'New seed files was created at',
+      clc.blueBright(helpers.path.getPath('seed')),
+      '.'
+    );
+  } else {
+    fs.writeFileSync(
+      helpers.path.getSeederPath(args.name),
+      helpers.template.render('seeders/skeleton.js', {}, {
+        beautify: false
+      })
+    );
+  
+    helpers.view.log(
+      'New seed was created at',
+      clc.blueBright(helpers.path.getSeederPath(args.name)),
+      '.'
+    );
+  }
 
   process.exit(0);
 };
