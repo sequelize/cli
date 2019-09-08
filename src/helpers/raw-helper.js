@@ -42,14 +42,14 @@ const writeFiles = (dirname, files) => Object.keys(files)
             }
     );
 
-const runnerRaw = pipe(
+const runnerRaw = (filename, dirname) => pipe(
     readSqlFiles,
     buildMigrations,
-)
+)([filename, dirname]);
 
 const pipe = (...functions) => args => functions.reduce((arg, fn) => fn(arg), args);
 
-const readSqlFiles = function (filename, dirname) {
+const readSqlFiles = function ([filename, dirname]) {
     var migrationName = path.basename(filename);
     var read = readFile(dirname, migrationName);
     return {
