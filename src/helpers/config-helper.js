@@ -71,21 +71,24 @@ const api = {
         password: null,
         database: 'database_development',
         host: '127.0.0.1',
-        dialect: 'mysql'
+        dialect: 'mysql',
+        operatorsAliases: false
       },
       test: {
         username: 'root',
         password: null,
         database: 'database_test',
         host: '127.0.0.1',
-        dialect: 'mysql'
+        dialect: 'mysql',
+        operatorsAliases: false
       },
       production: {
         username: 'root',
         password: null,
         database: 'database_production',
         host: '127.0.0.1',
-        dialect: 'mysql'
+        dialect: 'mysql',
+        operatorsAliases: false
       }
     }, undefined, 2) + '\n';
   },
@@ -152,7 +155,7 @@ const api = {
   },
 
   filteredUrl (uri, config) {
-    const regExp = new RegExp(':?' + (config.password || '') + '@');
+    const regExp = new RegExp(':?' + _.escapeRegExp(config.password) + '@');
     return uri.replace(regExp, ':*****@');
   },
 

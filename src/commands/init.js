@@ -7,7 +7,6 @@ exports.builder = yargs => _baseOptions(yargs)
     type: 'boolean',
     default: false
   })
-  .help()
   .argv;
 
 exports.handler = async function (argv) {

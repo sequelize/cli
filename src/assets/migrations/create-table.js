@@ -13,7 +13,7 @@ module.exports = {
 
         <% attributes.forEach(function(attribute, index) { %>
           <%= attribute.fieldName %>: {
-            type: Sequelize.<%= attribute.dataFunction ? `${attribute.dataFunction.toUpperCase()}(Sequelize.${attribute.dataType.toUpperCase()})` : attribute.dataType.toUpperCase() %>
+            type: Sequelize.<%= attribute.dataFunction ? `${attribute.dataFunction.toUpperCase()}(Sequelize.${attribute.dataType.toUpperCase()})` : attribute.dataValues ? `${attribute.dataType.toUpperCase()}(${attribute.dataValues})` : attribute.dataType.toUpperCase() %>
           }
           
           <% if(attributes.length -1 !== index) { %>

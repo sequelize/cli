@@ -14,7 +14,6 @@ exports.builder =
           demandOption: true
         })
     )
-      .help()
       .argv;
 
 exports.handler = function (args) {

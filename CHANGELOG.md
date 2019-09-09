@@ -3,6 +3,36 @@ All notable changes to this project will be documented in this file.
 
 ## Future
 
+## v5.5.1 - 31st, August 2019
+
+### Fixed
+- change: use sequelize-cli as an alias for the binary [#812](https://github.com/sequelize/cli/pull/812)
+
+## v5.5.0 - 11th, June 2019
+
+### Fixed
+- fix: special characters in password are not escaped [#722](https://github.com/sequelize/cli/pull/722)
+- change: default config for operator aliases [#743](https://github.com/sequelize/cli/pull/743)
+
+## v5.4.0 - 1st, Dec 2018
+
+### Fixed
+- fix: show commands with --help [#719](https://github.com/sequelize/cli/pull/719)
+
+## v5.3.0 - 4th, Nov 2018
+
+### Fixed
+- fix(db:create): syntax errors with mssql create statement [#711](https://github.com/sequelize/cli/pull/711)
+- style: grammar mistake in seeder skeleton [#705](https://github.com/sequelize/cli/pull/705)
+
+### Feature
+- feat(mode:generate) add enum support [#704](https://github.com/sequelize/cli/pull/704)
+
+## v5.2.0 - 20th, Oct 2018
+
+### Feature
+- feat(db:create): support options on db:create with sequelize@4 [#700](https://github.com/sequelize/cli/pull/700)
+
 ## v5.1.0 - 14th, Oct 2018
 
 ### Feature

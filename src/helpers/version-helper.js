@@ -27,6 +27,7 @@ module.exports = {
       return {
         'sqlite':   'sqlite3',
         'postgres': 'pg',
+        'postgresql': 'pg',
         'mariadb':  'mariasql',
         'mysql':    'mysql'
       }[config.dialect];
