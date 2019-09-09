@@ -43,7 +43,7 @@ const _         = require('lodash');
           }, done);
         });
 
-        it.skip('notifies the user about a missing name flag', done => {
+        it('notifies the user about a missing name flag', done => {
           prepare({
             flags: { attributes: 'first_name:string' },
             cli: { pipeStderr: true }
@@ -64,7 +64,7 @@ const _         = require('lodash');
           }, done);
         });
 
-        it.skip('notifies the user about a missing attributes flag', done => {
+        it('notifies the user about a missing attributes flag', done => {
           prepare({
             flags: { name: 'User' },
             cli: { pipeStderr: true }
@@ -85,10 +85,10 @@ const _         = require('lodash');
       })
 
       ;[
-        // 'first_name:string,last_name:string,bio:text,role:enum:{Admin,"Guest User"},reviews:array:text',
-        // 'first_name:string,last_name:string,bio:text,role:enum:{Admin,\'Guest User\'},reviews:array:text',
-        // '\'first_name:string last_name:string bio:text role:enum:{Admin,Guest User} reviews:array:text\'',
-        // '\'first_name:string, last_name:string, bio:text, role:enum:{Admin, Guest User}, reviews:array:text\''
+        'first_name:string,last_name:string,bio:text,role:enum:{Admin,"Guest User"},reviews:array:text',
+        'first_name:string,last_name:string,bio:text,role:enum:{Admin,\'Guest User\'},reviews:array:text',
+        '\'first_name:string last_name:string bio:text role:enum:{Admin,Guest User} reviews:array:text\'',
+        '\'first_name:string, last_name:string, bio:text, role:enum:{Admin, Guest User}, reviews:array:text\''
       ].forEach(attributes => {
         describe('--attributes ' + attributes, () => {
           it('exits with exit code 0', done => {
