@@ -1,13 +1,13 @@
-import fs from 'fs';
 import yargs from 'yargs';
 import path from 'path';
+import cosmiconfig from 'cosmiconfig';
 
-function loadRCFile(optionsPath) {
-  const rcFile = optionsPath || path.resolve(process.cwd(), '.sequelizerc');
-  const rcFileResolved = path.resolve(rcFile);
-  return fs.existsSync(rcFileResolved)
-    ? JSON.parse(JSON.stringify(require(rcFileResolved)))
-    : {};
+const explorer = cosmiconfig('sequelize', {stopDir: process.cwd()});
+
+function loadRCFile (optionsPath) {
+  optionsPath = path.resolve(optionsPath || process.cwd());
+
+  return explorer.searchSync(optionsPath).config;
 }
 
 const args = yargs

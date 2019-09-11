@@ -9,6 +9,7 @@
   "dependencies": {
     "bluebird": "^3.5.3",
     "cli-color": "^1.4.0",
+    "cosmiconfig": "^5.2.1",
     "fs-extra": "^7.0.1",
     "js-beautify": "^1.8.8",
     "lodash": "^4.17.5",
