@@ -7,7 +7,9 @@ const explorer = cosmiconfig('sequelize', {stopDir: process.cwd()});
 function loadRCFile (optionsPath) {
   optionsPath = path.resolve(optionsPath || process.cwd());
 
-  return explorer.searchSync(optionsPath).config;
+  const file = explorer.searchSync(optionsPath);
+
+  return file ? file.config : {};
 }
 
 const args = yargs

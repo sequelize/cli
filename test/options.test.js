@@ -22,21 +22,47 @@ describe(Support.getTestDialectTeaser('options'), () => {
   });
 
   describe('.sequelizerc', () => {
+    const configContent = `
+      var path = require('path');
+
+      module.exports = {
+        'config':          path.resolve('config-new', 'database.json'),
+        'migrations-path': path.resolve('migrations-new')
+      };
+    `;
+
     it('uses .sequelizerc file', done => {
-      const configContent = `
-        var path = require('path');
-
-        module.exports = {
-          'config':          path.resolve('config-new', 'database.json'),
-          'migrations-path': path.resolve('migrations-new')
-        };
-      `;
-
       gulp
         .src(Support.resolveSupportPath('tmp'))
         .pipe(helpers.clearDirectory())
         .pipe(helpers.copyFile(optionsPath, '.sequelizerc'))
         .pipe(helpers.overwriteFile(configContent, '.sequelizerc'))
+        .pipe(helpers.runCli('init'))
+        .pipe(helpers.listFiles())
+        .pipe(helpers.ensureContent('migrations-new'))
+        .pipe(helpers.ensureContent('config-new'))
+        .pipe(helpers.teardown(done));
+    });
+
+    it('uses .sequelizerc.js file', done => {
+      gulp
+        .src(Support.resolveSupportPath('tmp'))
+        .pipe(helpers.clearDirectory())
+        .pipe(helpers.copyFile(optionsPath, '.sequelizerc.js'))
+        .pipe(helpers.overwriteFile(configContent, '.sequelizerc.js'))
+        .pipe(helpers.runCli('init'))
+        .pipe(helpers.listFiles())
+        .pipe(helpers.ensureContent('migrations-new'))
+        .pipe(helpers.ensureContent('config-new'))
+        .pipe(helpers.teardown(done));
+    });
+
+    it('uses sequelize.config.js file', done => {
+      gulp
+        .src(Support.resolveSupportPath('tmp'))
+        .pipe(helpers.clearDirectory())
+        .pipe(helpers.copyFile(optionsPath, 'sequelize.config.js'))
+        .pipe(helpers.overwriteFile(configContent, 'sequelize.config.js'))
         .pipe(helpers.runCli('init'))
         .pipe(helpers.listFiles())
         .pipe(helpers.ensureContent('migrations-new'))
