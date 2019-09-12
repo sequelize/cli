@@ -83,7 +83,7 @@ describe(Support.getTestDialectTeaser('options'), () => {
       gulp
         .src(Support.resolveSupportPath('tmp'))
         .pipe(helpers.clearDirectory())
-        .pipe(helpers.copyFile(optionsPath, '.sequelizerc'))
+        .pipe(helpers.copyFile(optionsPath, '.sequelizerc.js'))
         .pipe(helpers.runCli('init --config=' + configPath))
         .pipe(helpers.listFiles())
         .pipe(helpers.ensureContent('models'))
