@@ -15,10 +15,6 @@ module.exports = {
           <%= attribute.fieldName %>: {
             type: Sequelize.<%= attribute.dataFunction ? `${attribute.dataFunction.toUpperCase()}(Sequelize.${attribute.dataType.toUpperCase()})` : attribute.dataValues ? `${attribute.dataType.toUpperCase()}(${attribute.dataValues})` : attribute.dataType.toUpperCase() %>
           }
-          
-          <% if (attributes.length - 1 !== index) { %>
-            ,
-          <% } %>
 
         <% }) %>
 
