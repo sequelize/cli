@@ -83,7 +83,7 @@ module.exports = {
       name:       args.name,
       attributes: this.transformAttributes(args.attributes),
       underscored: args.underscored,
-      timestamp: args.timestamp
+      timestamps: args.timestamps
     });
   },
 

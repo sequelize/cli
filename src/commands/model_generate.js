@@ -17,8 +17,8 @@ exports.builder =
           type: 'string',
           demandOption: true
         })
-        .option('timestamp', {
-          describe: 'Specify if timestamp need to be set or not!',
+        .option('timestamps', {
+          describe: 'Specify if timestamps need to be set or not!',
           type: 'boolean',
           demandOption: false,
           default: true

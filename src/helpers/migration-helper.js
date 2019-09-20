@@ -15,8 +15,8 @@ module.exports = {
     };
 
 
-    //If timestamp argument is not false or is not set then add timestamp 
-    if (args.timestamp !== false) {
+    //If timestamps argument is not false or is not set then add timestamps 
+    if (args.timestamps !== false) {
       templateOptions.createdAt = args.underscored ? 'created_at' : 'createdAt';
       templateOptions.updatedAt = args.underscored ? 'updated_at' : 'updatedAt';
     }
