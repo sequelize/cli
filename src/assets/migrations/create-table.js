@@ -16,13 +16,13 @@ module.exports = {
             type: Sequelize.<%= attribute.dataFunction ? `${attribute.dataFunction.toUpperCase()}(Sequelize.${attribute.dataType.toUpperCase()})` : attribute.dataValues ? `${attribute.dataType.toUpperCase()}(${attribute.dataValues})` : attribute.dataType.toUpperCase() %>
           }
           
-          <% if(attributes.length -1 !== index) { %>
+          <% if (attributes.length - 1 !== index) { %>
             ,
           <% } %>
 
         <% }) %>
 
-        <% if(typeof(createdAt) != "undefined"){ %>
+        <% if (typeof createdAt !== "undefined") { %>
           ,
           <%= createdAt %>: {
             allowNull: false,
