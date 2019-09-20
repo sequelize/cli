@@ -32,18 +32,11 @@ describe(Support.getTestDialectTeaser('options'), () => {
     `;
 
     it('uses .sequelizerc file', done => {
-      const content = `
-        {
-          "config": "config-new/database.json",
-          "migrations-path": "migrations-new"
-        }
-      `;
-
       gulp
         .src(Support.resolveSupportPath('tmp'))
         .pipe(helpers.clearDirectory())
         .pipe(helpers.copyFile(optionsPath, '.sequelizerc'))
-        .pipe(helpers.overwriteFile(content, '.sequelizerc'))
+        .pipe(helpers.overwriteFile(configContent, '.sequelizerc'))
         .pipe(helpers.runCli('init'))
         .pipe(helpers.listFiles())
         .pipe(helpers.ensureContent('migrations-new'))

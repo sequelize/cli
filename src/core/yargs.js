@@ -2,7 +2,20 @@ import yargs from 'yargs';
 import path from 'path';
 import cosmiconfig from 'cosmiconfig';
 
-const explorer = cosmiconfig('sequelize', {stopDir: process.cwd()});
+function noExtLoader (filename, content) {
+  try {
+    return JSON.parse(content);
+  } catch (_) {
+    return require(filename);
+  }
+}
+
+const explorer = cosmiconfig('sequelize', {
+  stopDir: process.cwd(),
+  loaders: {
+    noExt: noExtLoader
+  }
+});
 
 function loadRCFile (optionsPath) {
   optionsPath = path.resolve(optionsPath || process.cwd());
