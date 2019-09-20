@@ -4,7 +4,7 @@ import cosmiconfig from 'cosmiconfig';
 
 function noExtLoader (filename, content) {
   try {
-    return JSON.parse(content);
+    return cosmiconfig.loadJson(filename, content);
   } catch (_) {
     return require(filename);
   }
