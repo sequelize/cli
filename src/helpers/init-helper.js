@@ -46,6 +46,10 @@ const init = {
   createModelsFolder: force => {
     createFolder('models', helpers.path.getModelsPath(), force);
   },
+  
+  createControllersFolder: force => {
+    createFolder('controllers', helpers.path.getControllersPath(), force);
+  },
 
   createModelsIndexFile: force => {
     const modelsPath = helpers.path.getModelsPath();
@@ -67,6 +71,34 @@ const init = {
       helpers.asset.write(
         indexPath,
         helpers.template.render('models/index.js', {
+          configFile: '__dirname + \'/' + relativeConfigPath.replace(/\\/g, '/') + '\''
+        }, {
+          beautify: false
+        })
+      );
+    }
+  },
+  
+  createControllersIndexFile: force => {
+    const controllersPath = helpers.path.getControllersPath();
+    const indexPath  = path.resolve(
+      controllersPath,
+      helpers.path.addFileExtension('index')
+    );
+    
+    if (!helpers.path.existsSync(controllersPath)) {
+      helpers.view.log('Controllers folder not available.');
+    } else if (helpers.path.existsSync(indexPath) && !force) {
+      helpers.view.notifyAboutExistingFile(indexPath);
+    } else {
+      const relativeConfigPath = path.relative(
+        helpers.path.getControllersPath(),
+        helpers.config.getConfigFile()
+      );
+      
+      helpers.asset.write(
+        indexPath,
+        helpers.template.render('controllers/index.js', {
           configFile: '__dirname + \'/' + relativeConfigPath.replace(/\\/g, '/') + '\''
         }, {
           beautify: false

@@ -65,11 +65,22 @@ module.exports = {
   getModelsPath () {
     return args.modelsPath || path.resolve(process.cwd(), 'models');
   },
+  
+  getControllersPath () {
+    return args.controllersPath || path.resolve(process.cwd(), 'controllers');
+  },
 
   getModelPath (modelName) {
     return path.resolve(
       this.getModelsPath(),
       this.addFileExtension(modelName.toLowerCase())
+    );
+  },
+  
+  getControllerPath (controllerName) {
+    return path.resolve(
+      this.getControllersPath(),
+      this.addFileExtension(controllerName.toLowerCase())
     );
   },
 

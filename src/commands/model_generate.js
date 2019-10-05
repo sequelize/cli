@@ -27,12 +27,14 @@ exports.builder =
 
 exports.handler = function (args) {
   ensureModelsFolder();
+  ensureControllersFolder();
   ensureMigrationsFolder();
   checkModelFileExistence(args);
 
 
   try {
     helpers.model.generateFile(args);
+    helpers.controller.generateFile(args);
   } catch (err) {
     helpers.view.error(err.message);
   }
@@ -67,6 +69,16 @@ function ensureMigrationsFolder () {
     helpers.view.error(
       'Unable to find migrations path (' +
       helpers.path.getPath('migration') +
+      '). Did you run ' + clc.blueBright('sequelize init') + '?'
+    );
+  }
+}
+
+function ensureControllersFolder () {
+  if (!helpers.path.existsSync(helpers.path.getPath('controller'))) {
+    helpers.view.error(
+      'Unable to find controllers path (' +
+      helpers.path.getPath('controller') +
       '). Did you run ' + clc.blueBright('sequelize init') + '?'
     );
   }

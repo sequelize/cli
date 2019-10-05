@@ -44,6 +44,7 @@ Commands:
   sequelize init:config                       Initializes configuration
   sequelize init:migrations                   Initializes migrations
   sequelize init:models                       Initializes models
+  sequelize init:controllers                  Initializes controllers
   sequelize init:seeders                      Initializes seeders
   sequelize migration:generate                Generates a new migration file       [aliases: migration:create]
   sequelize model:generate                    Generates a model and its migration  [aliases: model:create]

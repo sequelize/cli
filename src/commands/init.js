@@ -16,6 +16,7 @@ exports.handler = async function (argv) {
     case 'init':
       await initConfig(argv);
       await initModels(argv);
+      await initControllers(argv);
       await initMigrations(argv);
       await initSeeders(argv);
       break;
@@ -26,6 +27,10 @@ exports.handler = async function (argv) {
 
     case 'init:models':
       await initModels(argv);
+      break;
+  
+    case 'init:controllers':
+      await initControllers(argv);
       break;
 
     case 'init:migrations':
@@ -53,6 +58,11 @@ function initConfig (args) {
 function initModels (args) {
   helpers.init.createModelsFolder(!!args.force);
   helpers.init.createModelsIndexFile(!!args.force);
+}
+
+function initControllers (args) {
+  helpers.init.createControllersFolder(!!args.force);
+  helpers.init.createControllersIndexFile(!!args.force);
 }
 
 function initMigrations (args) {

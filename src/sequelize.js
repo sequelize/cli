@@ -51,9 +51,10 @@ const cli = yargs
   .command('init:config', 'Initializes configuration', init)
   .command('init:migrations', 'Initializes migrations', init)
   .command('init:models', 'Initializes models', init)
+  .command('init:controllers', 'Initializes controllers', init)
   .command('init:seeders', 'Initializes seeders', init)
   .command(['migration:generate', 'migration:create'], 'Generates a new migration file', migrationGenerate)
-  .command(['model:generate', 'model:create'], 'Generates a model and its migration', modelGenerate)
+  .command(['model:generate', 'model:create'], 'Generates a model along with its migration and controller', modelGenerate)
   .command(['seed:generate', 'seed:create'], 'Generates a new seed file', seedGenerate)
   .wrap(yargs.terminalWidth())
   .strict();
