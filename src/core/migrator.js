@@ -34,7 +34,7 @@ function getSequelizeInstance () {
 function createSchemaIfNotExists(sequelize, schemaName) {
   return sequelize.showAllSchemas().then(
     schemaNames => {
-      if(schemaNames.indexOf(schemaName === -1)) {
+      if(schemaNames.indexOf(schemaName) === -1) {
         return sequelize.createSchema(schemaName);
       }
       return;
