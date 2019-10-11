@@ -31,6 +31,17 @@ function getSequelizeInstance () {
   }
 }
 
+function createSchemaIfNotExists(sequelize, schemaName) {
+  return sequelize.showAllSchemas().then(
+    schemaNames => {
+      if(schemaNames.indexOf(schemaName === -1)) {
+        return sequelize.createSchema(schemaName);
+      }
+      return;
+    }
+  );
+}
+
 export function getMigrator (type, args) {
   return Bluebird.try(() => {
     if (!(helpers.config.configFileExists() || args.url)) {
@@ -67,12 +78,12 @@ export function getMigrator (type, args) {
         // been created. If not, attempt to create it.
         if (helpers.version.getDialectName() === 'pg') {
           const customSchemaName = helpers.umzug.getSchema('migration');
-          if (customSchemaName && customSchemaName !== 'public') {
-            return sequelize.createSchema(customSchemaName).catch(err => {
+          if (customSchemaName && customSchemaName !== 'public' ) {
+            return createSchemaIfNotExists(sequelize, customSchemaName).catch(err => {
               helpers.view.log(
                 'Failed attempting to create schema named',
                 clc.blueBright(customSchemaName),
-                ': ' + err.message + '\nMigration may still succeed if the schema already exists.'
+                ': ' + err.message
               );
             });
           }
