@@ -30,7 +30,7 @@
     "nodeify": "^1.0.1",
     "pg": "^7.5.0",
     "pg-hstore": "^2.3.2",
-    "sequelize": "^4.x",
+    "sequelize": "^5.19.6",
     "sqlite3": "^4.0.2",
     "through2": "^3.0.0"
   },
