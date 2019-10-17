@@ -1,0 +1,83 @@
+#!/usr/bin/env node
+'use strict';
+
+var _yargs = require('./core/yargs');
+
+var _yargs2 = _interopRequireDefault(_yargs);
+
+var _bluebird = require('bluebird');
+
+var _bluebird2 = _interopRequireDefault(_bluebird);
+
+var _lodash = require('lodash');
+
+var _init = require('./commands/init');
+
+var _init2 = _interopRequireDefault(_init);
+
+var _migrate = require('./commands/migrate');
+
+var _migrate2 = _interopRequireDefault(_migrate);
+
+var _migrate_undo = require('./commands/migrate_undo');
+
+var _migrate_undo2 = _interopRequireDefault(_migrate_undo);
+
+var _migrate_undo_all = require('./commands/migrate_undo_all');
+
+var _migrate_undo_all2 = _interopRequireDefault(_migrate_undo_all);
+
+var _seed = require('./commands/seed');
+
+var _seed2 = _interopRequireDefault(_seed);
+
+var _seed_one = require('./commands/seed_one');
+
+var _seed_one2 = _interopRequireDefault(_seed_one);
+
+var _migration_generate = require('./commands/migration_generate');
+
+var _migration_generate2 = _interopRequireDefault(_migration_generate);
+
+var _model_generate = require('./commands/model_generate');
+
+var _model_generate2 = _interopRequireDefault(_model_generate);
+
+var _seed_generate = require('./commands/seed_generate');
+
+var _seed_generate2 = _interopRequireDefault(_seed_generate);
+
+var _database = require('./commands/database');
+
+var _database2 = _interopRequireDefault(_database);
+
+var _index = require('./helpers/index');
+
+var _index2 = _interopRequireDefault(_index);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+const yargs = (0, _yargs2.default)();
+
+_bluebird2.default.coroutine.addYieldHandler(yieldedValue => {
+  if (Array.isArray(yieldedValue)) {
+    return _bluebird2.default.all(yieldedValue);
+  }
+});
+
+_bluebird2.default.coroutine.addYieldHandler(yieldedValue => {
+  if ((0, _lodash.isEmpty)(yieldedValue)) {
+    return _bluebird2.default.resolve(yieldedValue);
+  }
+});
+
+_index2.default.view.teaser();
+
+const cli = yargs.help().version().command('db:migrate', 'Run pending migrations', _migrate2.default).command('db:migrate:schema:timestamps:add', 'Update migration table to have timestamps', _migrate2.default).command('db:migrate:status', 'List the status of all migrations', _migrate2.default).command('db:migrate:undo', 'Reverts a migration', _migrate_undo2.default).command('db:migrate:undo:all', 'Revert all migrations ran', _migrate_undo_all2.default).command('db:seed', 'Run specified seeder', _seed_one2.default).command('db:seed:undo', 'Deletes data from the database', _seed_one2.default).command('db:seed:all', 'Run every seeder', _seed2.default).command('db:seed:undo:all', 'Deletes data from the database', _seed2.default).command('db:create', 'Create database specified by configuration', _database2.default).command('db:drop', 'Drop database specified by configuration', _database2.default).command('init', 'Initializes project', _init2.default).command('init:config', 'Initializes configuration', _init2.default).command('init:migrations', 'Initializes migrations', _init2.default).command('init:models', 'Initializes models', _init2.default).command('init:seeders', 'Initializes seeders', _init2.default).command(['migration:generate', 'migration:create'], 'Generates a new migration file', _migration_generate2.default).command(['model:generate', 'model:create'], 'Generates a model and its migration', _model_generate2.default).command(['seed:generate', 'seed:create'], 'Generates a new seed file', _seed_generate2.default).wrap(yargs.terminalWidth()).strict();
+
+const args = cli.argv;
+
+// if no command then show help
+if (!args._[0]) {
+  cli.showHelp();
+}

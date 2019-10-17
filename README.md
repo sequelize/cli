@@ -1,33 +1,10 @@
-# sequelize/cli [![npm version](https://badge.fury.io/js/sequelize-cli.svg)](https://badge.fury.io/js/sequelize-cli) [![Build Status](https://travis-ci.org/sequelize/cli.svg?branch=master)](https://travis-ci.org/sequelize/cli) [![Greenkeeper badge](https://badges.greenkeeper.io/sequelize/cli.svg)](https://greenkeeper.io/)
+# **Forked from: Sequelize/cli**
 
-The [Sequelize](https://sequelize.org) Command Line Interface (CLI)
-
-## Table of Contents
-- [Installation](#installation)
-- [Contributing](#contributing)
-- [Documentation](#documentation)
-
-## Installation
-
-Make sure you have [Sequelize](https://sequelize.org) installed. Then install the Sequelize CLI to be used in your project with
-
-```bash
-$ npm install --save-dev sequelize-cli
-```
-
-And then you should be able to run the CLI with
-
-```bash
-$ npx sequelize --help
-```
+`This fork enable sequelize to use .ts and .js files`
 
 ### Usage
 
 ```
-Sequelize CLI [Node: 10.15.0, CLI: 5.5.0, ORM: 5.11.0]
-
-npx sequelize [command]
-
 Commands:
   sequelize db:migrate                        Run pending migrations
   sequelize db:migrate:schema:timestamps:add  Update migration table to have timestamps
@@ -53,15 +30,3 @@ Options:
   --version  Show version number                                         [boolean]
   --help     Show help                                                   [boolean]
 ```
-
-## Contributing
-
-Sequelize CLI is always looking for contributions. You can help us by fixing bugs, reporting bugs or improving documentation.
-
-Please read the [contributing guidelines](CONTRIBUTING.md).
-
-## Documentation
-
-- [Migrations Documentation](https://sequelize.org/master/manual/migrations.html)
-- [CLI Options](docs/README.md)
-- [Frequently Asked Questions](docs/FAQ.md)
