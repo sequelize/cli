@@ -65,7 +65,7 @@ exports.handler = async function (args) {
 
       break;
     case 'db:drop':
-      await sequelize.query(`DROP DATABASE ${sequelize.getQueryInterface().quoteIdentifier(config.database)}`, {
+      await sequelize.query(`DROP DATABASE IF EXISTS ${sequelize.getQueryInterface().quoteIdentifier(config.database)}`, {
         type: sequelize.QueryTypes.RAW
       }).catch(e => helpers.view.error(e));
 
