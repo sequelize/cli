@@ -10,16 +10,6 @@ const _         = require('lodash');
   'model:create'
 ].forEach(flag => {
   describe(Support.getTestDialectTeaser(flag), () => {
-    const combineFlags = function (flags) {
-      let result = flag;
-
-      _.forEach(flags || {}, (value, key) => {
-        result = result + ' --' + key + ' ' + value;
-      });
-
-      return result;
-    };
-
     const prepare = function (options, callback) {
       options = _.assign({
         flags: {},
@@ -30,7 +20,7 @@ const _         = require('lodash');
         .src(Support.resolveSupportPath('tmp'))
         .pipe(helpers.clearDirectory())
         .pipe(helpers.runCli('init'))
-        .pipe(helpers.runCli(combineFlags(options.flags), options.cli))
+        .pipe(helpers.runCli(helpers.buildCommand(flag, options.flags), options.cli))
         .pipe(helpers.teardown(callback));
     };
 
@@ -240,14 +230,14 @@ const _         = require('lodash');
             it('exits with an error code', function (done) {
               gulp
                 .src(Support.resolveSupportPath('tmp'))
-                .pipe(helpers.runCli(combineFlags(this.flags), { exitCode: 1 }))
+                .pipe(helpers.runCli(helpers.buildCommand(flag, this.flags), { exitCode: 1 }))
                 .pipe(helpers.teardown(done));
             });
 
             it('notifies the user about the possibility of --flags', function (done) {
               gulp
                 .src(Support.resolveSupportPath('tmp'))
-                .pipe(helpers.runCli(combineFlags(this.flags), { pipeStderr: true }))
+                .pipe(helpers.runCli(helpers.buildCommand(flag, this.flags), { pipeStderr: true }))
                 .pipe(helpers.teardown((err, stderr) => {
                   expect(stderr).to.contain('already exists');
                   done();

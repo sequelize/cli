@@ -205,6 +205,13 @@ module.exports = {
     } else {
       return sequelize.query(sql, null, options);
     }
+  },
+  buildCommand: function (cmd, flags) {
+    let result = cmd;
+    _.forEach(flags || {}, (value, key) => {
+      result = result + ' --' + key + ' ' + value;
+    });
+    return result;
   }
 };
 
