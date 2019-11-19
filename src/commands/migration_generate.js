@@ -13,6 +13,12 @@ exports.builder =
           type: 'string',
           demandOption: true
         })
+        .option('filename-date-format', {
+          describe: 'Defines the type of date format used in the file name',
+          type: 'string',
+          choices: ['dateYYYYMMDDHHmms', 'unix-timestamp', 'unix-timestamp-millis'],
+          demandOption: false
+        })
     )
       .argv;
 
@@ -20,7 +26,7 @@ exports.handler = function (args) {
   helpers.init.createMigrationsFolder();
 
   fs.writeFileSync(
-    helpers.path.getMigrationPath(args.name),
+    helpers.path.getMigrationPath(args),
     helpers.template.render('migrations/skeleton.js', {}, {
       beautify: false
     })

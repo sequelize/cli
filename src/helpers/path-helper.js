@@ -22,6 +22,27 @@ function getCurrentYYYYMMDDHHmms () {
   ].join('');
 }
 
+function getUnixTimestampMillis () {
+  return Date.now();
+}
+
+function getUnixTimestamp () {
+  return Math.round(Date.now() / 1000);
+}
+
+function getFormattedDate (timestampOption) {
+  switch (timestampOption) {
+    case 'dateYYYYMMDDHHmms':
+      return getCurrentYYYYMMDDHHmms();
+    case 'unix-timestamp':
+      return getUnixTimestamp();
+    case 'unix-timestamp-millis':
+      return getUnixTimestampMillis ();
+    default:
+      return getCurrentYYYYMMDDHHmms();
+  }
+}
+
 module.exports = {
   getPath (type) {
     type = type + 's';
@@ -36,11 +57,11 @@ module.exports = {
     return result;
   },
 
-  getFileName (type, name, options) {
+  getFileName (type, options) {
     return this.addFileExtension(
       [
-        getCurrentYYYYMMDDHHmms(),
-        name ? name : 'unnamed-' + type
+        getFormattedDate(options.filenameDateFormat),
+        options.name ? options.name : 'unnamed-' + type
       ].join('-'),
       options
     );
@@ -54,8 +75,8 @@ module.exports = {
     return [basename, this.getFileExtension(options)].join('.');
   },
 
-  getMigrationPath (migrationName) {
-    return path.resolve(this.getPath('migration'), this.getFileName('migration', migrationName));
+  getMigrationPath (options) {
+    return path.resolve(this.getPath('migration'), this.getFileName('migration', options));
   },
 
   getSeederPath (seederName) {
