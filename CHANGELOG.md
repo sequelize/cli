@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## Future
 
+### Feature
+- feat(mode:generate) add `--filename-date-format` flag [#850](https://github.com/sequelize/cli/pull/850)
+
 ## v5.5.1 - 31st, August 2019
 
 ### Fixed
