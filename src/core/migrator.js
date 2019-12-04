@@ -41,11 +41,10 @@ export function getMigrator (type) {
     }
 
     const sequelize = getSequelizeInstance();
-    const migrator = new Umzug({
-      storage: helpers.umzug.getStorage(type),
-      storageOptions: helpers.umzug.getStorageOptions(type, { sequelize }),
-      logging: helpers.view.log,
-      migrations: {
+    let migrator;
+
+    return Bluebird.resolve()
+      .then(() => helpers.umzug.getMigrationsOptions({
         params: [sequelize.getQueryInterface(), Sequelize],
         path: helpers.path.getPath(type),
         pattern: /\.js$/,
@@ -56,11 +55,16 @@ export function getMigrator (type) {
             return fun;
           }
         }
-      }
-    });
-
-    return sequelize
-      .authenticate()
+      }))
+      .then(migrations => {
+        migrator = new Umzug({
+          storage: helpers.umzug.getStorage(type),
+          storageOptions: helpers.umzug.getStorageOptions(type, { sequelize }),
+          logging: helpers.view.log,
+          migrations
+        });
+      })
+      .then(() => sequelize.authenticate())
       .then(() => {
         // Check if this is a PostgreSQL run and if there is a custom schema specified, and if there is, check if it's
         // been created. If not, attempt to create it.

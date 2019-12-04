@@ -1,6 +1,9 @@
 import path from 'path';
 import _ from 'lodash';
 import helpers from './index';
+import getYArgs from '../core/yargs';
+
+const args = getYArgs().argv;
 
 const storage = {
   migration: 'sequelize',
@@ -51,5 +54,16 @@ module.exports = {
     _.assign(options, extraOptions);
 
     return options;
+  },
+
+  async getMigrationsOptions (defaultOptions) {
+    if (typeof args.migrations === 'function') {
+      const result = args.migrations();
+      return _.assign(
+        defaultOptions,
+        result && typeof result.then === 'function' ? await result : result
+      );
+    }
+    return _.assign(defaultOptions, args.migrations);
   }
 };

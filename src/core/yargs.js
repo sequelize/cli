@@ -54,6 +54,9 @@ export function _baseOptions (yargs) {
       describe: 'The database connection string to use. Alternative to using --config files',
       type: 'string'
     })
+    .option('migrations', {
+      describe: 'Overrides umzug migrations configuration'
+    })
     .option('debug', {
       describe: 'When available show various debug information',
       default: false,
