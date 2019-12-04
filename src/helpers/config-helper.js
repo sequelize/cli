@@ -11,6 +11,7 @@ const args = getYArgs().argv;
 const api = {
   config: undefined,
   rawConfig: undefined,
+  configSource: undefined,
   error: undefined,
   init () {
     return Bluebird.resolve()
@@ -18,8 +19,13 @@ const api = {
         let config;
 
         if (args.url) {
+          api.configSource = 'url';
           config = api.parseDbUrl(args.url);
+        } else if (typeof args.config === 'function') {
+          api.configSource = 'function';
+          config = args.config;
         } else {
+          api.configSource = 'file';
           try {
             config = require(api.getConfigFile());
           } catch (e) {
@@ -46,7 +52,7 @@ const api = {
       });
   },
   getConfigFile () {
-    if (args.config) {
+    if (typeof args.config === 'string') {
       return path.resolve(process.cwd(), args.config);
     }
 
@@ -122,10 +128,16 @@ const api = {
         );
       }
 
-      if (args.url) {
-        helpers.view.log('Parsed url ' + api.filteredUrl(args.url, api.rawConfig));
-      } else {
-        helpers.view.log('Loaded configuration file "' + api.relativeConfigFile() + '".');
+      switch (api.configSource) {
+        case 'url':
+          helpers.view.log('Parsed url ' + api.filteredUrl(args.url, api.rawConfig));
+          break;
+        case 'file':
+          helpers.view.log('Loaded configuration file "' + api.relativeConfigFile() + '".');
+          break;
+        case 'function':
+          helpers.view.log('Got config from provided function.');
+          break;
       }
 
       if (api.rawConfig[env]) {

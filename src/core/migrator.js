@@ -30,9 +30,9 @@ function getSequelizeInstance () {
   }
 }
 
-export function getMigrator (type, args) {
+export function getMigrator (type) {
   return Bluebird.try(() => {
-    if (!(helpers.config.configFileExists() || args.url)) {
+    if (!(helpers.config.configSource !== 'file' || helpers.config.configFileExists())) {
       helpers.view.error(
         'Cannot find "' + helpers.config.getConfigFile() +
         '". Have you run "sequelize init"?'

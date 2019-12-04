@@ -5,8 +5,9 @@ import path from 'path';
 function loadRCFile(optionsPath) {
   const rcFile = optionsPath || path.resolve(process.cwd(), '.sequelizerc');
   const rcFileResolved = path.resolve(rcFile);
+
   return fs.existsSync(rcFileResolved)
-    ? JSON.parse(JSON.stringify(require(rcFileResolved)))
+    ? require(rcFileResolved)
     : {};
 }
 
