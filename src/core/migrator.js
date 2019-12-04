@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import helpers from '../helpers/index';
 
-const Sequelize = helpers.generic.getSequelize();
+const { Sequelize } = helpers.generic.getSequelize();
 
 export function logMigrator (s) {
   if (s.indexOf('Executing') !== 0) {

@@ -138,6 +138,16 @@ module.exports = {
     });
   },
 
+  createDirectory: function (pathToDirectory) {
+    return through.obj(function (file, encoding, callback) {
+      var dirPath = path.join(file.path, pathToDirectory);
+
+      fs.mkdir(dirPath, function (err) {
+        callback(err, file);
+      });
+    });
+  },
+
   copyMigration: function (fileName, migrationsFolder) {
     migrationsFolder = migrationsFolder || 'migrations';
 
