@@ -108,5 +108,28 @@ describe(Support.getTestDialectTeaser('options'), () => {
           .pipe(helpers.teardown(resolve))
         )), Promise.resolve());
     });
+
+    it.only('supports migrations option', () => {
+      const migrationsLiteral = { path: Support.resolveSupportPath('tmp', 'migrations-new') };
+
+      return [
+        JSON.stringify(migrationsLiteral),
+        `() => (${JSON.stringify(migrationsLiteral)})`,
+        `() => Promise.resolve(${JSON.stringify(migrationsLiteral)})`
+      ].reduce((p, migrations) => p.then(
+        () => new Promise(resolve => gulp
+          .src(Support.resolveSupportPath('tmp'))
+          .pipe(helpers.clearDirectory())
+          .pipe(helpers.runCli('init'))
+          .pipe(helpers.overwriteFile(JSON.stringify(helpers.getTestConfig()), 'config/config.json'))
+          .pipe(helpers.copyFile(optionsPath, '.sequelizerc'))
+          .pipe(helpers.overwriteFile(`exports.migrations = ${migrations}`, '.sequelizerc'))
+          .pipe(helpers.createDirectory('migrations-new'))
+          .pipe(helpers.copyMigration('createPerson.js', 'migrations-new'))
+          .pipe(helpers.runCli('db:migrate:status', { pipeStdout: true }))
+          .pipe(helpers.ensureContent('down 20111117063700-createPerson.js'))
+          .pipe(helpers.teardown(resolve))
+        )), Promise.resolve());
+    });
   });
 });
