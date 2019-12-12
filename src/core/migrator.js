@@ -49,6 +49,7 @@ export function getMigrator (type, args) {
         params: [sequelize.getQueryInterface(), Sequelize],
         path: helpers.path.getPath(type),
         pattern: /\.js$/,
+        traverseDirectories: args.traverseDirectories,
         wrap: fun => {
           if (fun.length === 3) {
             return Bluebird.promisify(fun);

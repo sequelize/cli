@@ -57,6 +57,11 @@ export function _baseOptions (yargs) {
       describe: 'When available show various debug information',
       default: false,
       type: 'boolean'
+    })
+    .options('traverseDirectories', {
+      describe: 'Search for migrations into subfolders',
+      default: false,
+      type: 'boolean',
     });
 }
 
