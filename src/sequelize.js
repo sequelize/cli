@@ -60,8 +60,3 @@ const cli = yargs
   .strict();
 
 const args = cli.argv;
-
-/* if no command then show help
-if (!args._[0]) {
-  cli.showHelp();
-} */
