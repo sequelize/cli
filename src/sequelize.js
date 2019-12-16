@@ -33,7 +33,7 @@ import helpers from './helpers/index';
 
 helpers.view.teaser();
 
-const cli = yargs
+yargs
   .help()
   .version()
   .command('db:migrate', 'Run pending migrations', migrate)
