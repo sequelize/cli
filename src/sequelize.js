@@ -58,5 +58,3 @@ const cli = yargs
   .wrap(yargs.terminalWidth())
   .demandCommand(1, '# Please specify a command')
   .strict();
-
-const args = cli.argv;
