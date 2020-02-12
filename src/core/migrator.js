@@ -99,6 +99,11 @@ export function ensureCurrentMetaSchema (migrator) {
 function ensureMetaTable (queryInterface, tableName) {
   return queryInterface.showAllTables()
     .then(tableNames => {
+      // flatten table name array to only contain the table name and not the schema
+      tableNames = tableNames.map(function(name) {
+        return name.tableName === undefined ? name : name.tableName;
+      });
+
       if (tableNames.indexOf(tableName) === -1) {
         throw new Error('No MetaTable table found.');
       }
