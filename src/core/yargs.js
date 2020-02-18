@@ -68,7 +68,7 @@ export function _underscoreOption (yargs) {
       type: 'boolean'
     })
     .option('freezeTableName', {
-      describe: "prevent pluralizing the table name.",
+      describe: 'Use singular form for table name.',
       default: false,
       type: 'boolean'
     });
