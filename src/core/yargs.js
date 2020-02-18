@@ -66,5 +66,10 @@ export function _underscoreOption (yargs) {
       describe: "Use snake case for the timestamp's attribute names",
       default: false,
       type: 'boolean'
+    })
+    .option('freezeTableName', {
+      describe: "prevent pluralizing the table name.",
+      default: false,
+      type: 'boolean'
     });
 }
