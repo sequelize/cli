@@ -94,8 +94,9 @@ const api = {
     const configPath = path.dirname(api.getConfigFile());
     const configFilePath = api.getConfigFile();
     const ext = configFilePath.split('.').pop();
-    const configContent = ext === 'json' ? api.getDefaultConfig() : `module.exports = ${ api.getDefaultConfig() }`;
-          
+    const defaultConfigContent = api.getDefaultConfig()
+    const configContent = ext === 'json' ? defaultConfigContent : `module.exports = ${ defaultConfigContent }`;
+    
     if (!helpers.path.existsSync(configPath)) {
       helpers.asset.mkdirp(configPath);
     }
