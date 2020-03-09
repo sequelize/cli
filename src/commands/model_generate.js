@@ -17,6 +17,11 @@ exports.builder =
           type: 'string',
           demandOption: true
         })
+        .option('associations', {
+          describe: 'A list of associations',
+          type: 'string',
+          demandOption: false
+        })
         .option('force', {
           describe: 'Forcefully re-creates model with the same name',
           type: 'string',
@@ -38,6 +43,7 @@ exports.handler = function (args) {
   }
 
   helpers.migration.generateTableCreationFile(args);
+  helpers.migration.generateAssociationCreationFile(args);
   helpers.view.log(
     'New model was created at',
     clc.blueBright(helpers.path.getModelPath(args.name)),

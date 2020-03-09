@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
 
   <%= name %>.associate = function(models) {
     // associations can be defined here
+    <% associations.forEach(function(association) { %>
+      <%= name %>.<%= association.relation %>(models.<%= association.model %><%= association.through ? `, {through: '${association.through}'}` : null %> );
+    <% }) %>
+
   };
 
   return <%= name %>;
