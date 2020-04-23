@@ -72,7 +72,6 @@ const api = {
         database: 'database_development',
         host: '127.0.0.1',
         dialect: 'mysql',
-        operatorsAliases: false
       },
       test: {
         username: 'root',
@@ -80,7 +79,6 @@ const api = {
         database: 'database_test',
         host: '127.0.0.1',
         dialect: 'mysql',
-        operatorsAliases: false
       },
       production: {
         username: 'root',
@@ -88,7 +86,6 @@ const api = {
         database: 'database_production',
         host: '127.0.0.1',
         dialect: 'mysql',
-        operatorsAliases: false
       }
     }, undefined, 2) + '\n';
   },
