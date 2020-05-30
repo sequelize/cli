@@ -118,5 +118,25 @@ const gulp = require('gulp');
           })
         );
     });
+
+    it('run migration again with timestamp fields present', function (done) {
+      gulp
+        .src(Support.resolveSupportPath('tmp'))
+        .pipe(helpers.runCli('db:migrate'))
+        .pipe(
+          helpers.teardown(() => {
+            helpers
+              .execQuery(
+                this.sequelize,
+                this.queryGenerator.selectQuery('SequelizeMeta'),
+                { raw: true, type: 'SELECT' }
+              )
+              .then((items) => {
+                expect(items.length).to.equal(2);
+                done();
+              });
+          })
+        );
+    });
   });
 });

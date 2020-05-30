@@ -77,6 +77,8 @@ export function ensureCurrentMetaSchema(migrator) {
       if (columns.length === 1 && columns[0] === columnName) {
         return;
       } else if (columns.length === 3 && columns.indexOf('createdAt') >= 0) {
+        // If found createdAt - indicate we have timestamps enabled
+        helpers.umzug.enableTimestamps();
         return;
       }
     })
