@@ -1,22 +1,8 @@
 #!/usr/bin/env node
 
 import getYArgs from './core/yargs';
-import Promise from 'bluebird';
-import { isEmpty } from 'lodash';
 
 const yargs = getYArgs();
-
-Promise.coroutine.addYieldHandler(yieldedValue => {
-  if (Array.isArray(yieldedValue)) {
-    return Promise.all(yieldedValue);
-  }
-});
-
-Promise.coroutine.addYieldHandler(yieldedValue => {
-  if (isEmpty(yieldedValue)) {
-    return Promise.resolve(yieldedValue);
-  }
-});
 
 import init from './commands/init';
 import migrate from './commands/migrate';

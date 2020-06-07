@@ -5,7 +5,7 @@ var Bluebird  = require('bluebird');
 module.exports = {
   up: function (db) {
     return Bluebird
-      .delay(1000)
+      .delay(1)
       .then(function () {
         return db.bulkInsert('Person', [{ name: 'John Doe' }], { name: {} });
       })
