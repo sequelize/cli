@@ -6,36 +6,39 @@
     "sequelize": "./lib/sequelize",
     "sequelize-cli": "./lib/sequelize"
   },
+  "files": [
+    "lib"
+  ],
   "dependencies": {
-    "bluebird": "^3.5.3",
     "cli-color": "^1.4.0",
     "fs-extra": "^7.0.1",
     "js-beautify": "^1.8.8",
     "lodash": "^4.17.5",
+    "p-try": "^2.2.0",
     "resolve": "^1.5.0",
     "umzug": "^2.1.0",
     "yargs": "^13.1.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-plugin-transform-async-to-module-method": "^6.24.1",
-    "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-register": "^6.24.1",
-    "eslint": "^5.9.0",
+    "@babel/cli": "^7.10.1",
+    "@babel/core": "^7.10.2",
+    "@babel/preset-env": "^7.10.2",
+    "@babel/register": "^7.10.1",
+    "bluebird": "^3.7.2",
+    "eslint": "^7.2.0",
     "expect.js": "^0.3.1",
     "gulp": "^4.0.0",
     "mocha": "^6.0.0",
-    "mysql2": "^1.6.1",
+    "mysql2": "latest",
     "nodeify": "^1.0.1",
-    "pg": "^7.5.0",
-    "pg-hstore": "^2.3.2",
-    "sequelize": "^4.x",
-    "sqlite3": "^4.0.2",
+    "pg": "latest",
+    "pg-hstore": "latest",
+    "sequelize": "latest",
+    "sqlite3": "latest",
     "through2": "^3.0.0"
   },
   "options": {
-    "mocha": "--require scripts/mocha-bootload.js --check-leaks --exit --timeout 30000 --colors --reporter spec"
+    "mocha": "--require scripts/mocha-bootload.js --check-leaks --exit --timeout 30000 --colors --recursive --reporter spec"
   },
   "eslintIgnore": [
     "test/support",
@@ -78,6 +81,6 @@
   },
   "homepage": "https://github.com/sequelize/cli",
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=10.0.0"
   }
 }

@@ -30,7 +30,7 @@ module.exports = {
 
   clearDirectory: function () {
     return through.obj(function (file, encoding, callback) {
-      exec('rm -rf ./* && rm -f ./.sequelizerc', { cwd: file.path }, function (err) {
+      exec('rm -rf * & rm -rf .sequelizerc', { cwd: file.path }, function (err) {
         callback(err, file);
       });
     });
@@ -38,7 +38,8 @@ module.exports = {
 
   removeFile: function (filePath) {
     return through.obj(function (file, encoding, callback) {
-      exec('rm ' + filePath, { cwd: file.path }, function (err) {
+      fs.unlink(path.join(file.path, filePath), function (err) {
+        if (!err || err.code === 'ENOENT') return callback(null, file);
         callback(err, file);
       });
     });

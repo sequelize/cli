@@ -6,13 +6,13 @@ language: node_js
 jobs:
   include:
     - stage: test
-      node_js: 6
+      node_js: 10
       env: DIALECT=postgres SEQUELIZE=latest SEQ_PORT=54320
     - stage: test
-      node_js: 6
+      node_js: 10
       env: DIALECT=mysql SEQUELIZE=latest SEQ_PORT=33060
     - stage: test
-      node_js: 6
+      node_js: 10
       env: DIALECT=sqlite SEQUELIZE=latest
 
 install:

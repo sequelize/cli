@@ -1,24 +1,25 @@
-# sequelize/cli [![npm version](https://badge.fury.io/js/sequelize-cli.svg)](https://badge.fury.io/js/sequelize-cli) [![Build Status](https://travis-ci.org/sequelize/cli.svg?branch=master)](https://travis-ci.org/sequelize/cli) [![Greenkeeper badge](https://badges.greenkeeper.io/sequelize/cli.svg)](https://greenkeeper.io/)
+# sequelize/cli [![npm version](https://badge.fury.io/js/sequelize-cli.svg)](https://npmjs.com/package/sequelize-cli) [![Build Status](https://travis-ci.org/sequelize/cli.svg?branch=master)](https://travis-ci.org/sequelize/cli)
 
 The [Sequelize](https://sequelize.org) Command Line Interface (CLI)
 
 ## Table of Contents
-- [Installation](#installation)
-- [Contributing](#contributing)
-- [Documentation](#documentation)
+
+-   [Installation](#installation)
+-   [Contributing](#contributing)
+-   [Documentation](#documentation)
 
 ## Installation
 
 Make sure you have [Sequelize](https://sequelize.org) installed. Then install the Sequelize CLI to be used in your project with
 
 ```bash
-$ npm install --save-dev sequelize-cli
+npm install --save-dev sequelize-cli
 ```
 
 And then you should be able to run the CLI with
 
 ```bash
-$ npx sequelize --help
+npx sequelize --help
 ```
 
 ### Usage
@@ -62,6 +63,6 @@ Please read the [contributing guidelines](CONTRIBUTING.md).
 
 ## Documentation
 
-- [Migrations Documentation](https://sequelize.org/master/manual/migrations.html)
-- [CLI Options](docs/README.md)
-- [Frequently Asked Questions](docs/FAQ.md)
+-   [Migrations Documentation](https://sequelize.org/master/manual/migrations.html)
+-   [CLI Options](docs/README.md)
+-   [Frequently Asked Questions](docs/FAQ.md)

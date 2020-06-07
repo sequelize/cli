@@ -1,8 +1,8 @@
-import Bluebird from 'bluebird';
 import path from 'path';
 import fs from 'fs';
 import url from 'url';
 import _ from 'lodash';
+import { promisify } from 'util';
 import helpers from './index';
 import getYArgs from '../core/yargs';
 
@@ -13,7 +13,7 @@ const api = {
   rawConfig: undefined,
   error: undefined,
   init () {
-    return Bluebird.resolve()
+    return Promise.resolve()
       .then(() => {
         let config;
 
@@ -32,7 +32,7 @@ const api = {
         if (typeof config === 'object' || config === undefined) {
           return config;
         } else if (config.length === 1) {
-          return Bluebird.promisify(config)();
+          return promisify(config)();
         } else {
           return config();
         }
@@ -71,24 +71,21 @@ const api = {
         password: null,
         database: 'database_development',
         host: '127.0.0.1',
-        dialect: 'mysql',
-        operatorsAliases: false
+        dialect: 'mysql'
       },
       test: {
         username: 'root',
         password: null,
         database: 'database_test',
         host: '127.0.0.1',
-        dialect: 'mysql',
-        operatorsAliases: false
+        dialect: 'mysql'
       },
       production: {
         username: 'root',
         password: null,
         database: 'database_production',
         host: '127.0.0.1',
-        dialect: 'mysql',
-        operatorsAliases: false
+        dialect: 'mysql'
       }
     }, undefined, 2) + '\n';
   },

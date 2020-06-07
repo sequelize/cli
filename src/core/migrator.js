@@ -1,6 +1,7 @@
 import Umzug from 'umzug';
-import Bluebird from 'bluebird';
 import _ from 'lodash';
+import { promisify } from 'util';
+import pTry from 'p-try';
 
 import helpers from '../helpers/index';
 
@@ -31,7 +32,7 @@ function getSequelizeInstance () {
 }
 
 export function getMigrator (type, args) {
-  return Bluebird.try(() => {
+  return pTry(() => {
     if (!(helpers.config.configFileExists() || args.url)) {
       helpers.view.error(
         'Cannot find "' + helpers.config.getConfigFile() +
@@ -51,7 +52,7 @@ export function getMigrator (type, args) {
         pattern: /\.js$/,
         wrap: fun => {
           if (fun.length === 3) {
-            return Bluebird.promisify(fun);
+            return promisify(fun);
           } else {
             return fun;
           }
@@ -71,7 +72,7 @@ export function getMigrator (type, args) {
           }
         }
 
-        return Bluebird.resolve();
+        return Promise.resolve();
       })
       .then(() => migrator)
       .catch(e => helpers.view.error(e));

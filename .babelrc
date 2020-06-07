@@ -1,21 +1,11 @@
 {
   "presets": [
-    ["env", {
+    ["@babel/env", {
       "targets": {
-        "node": "6.0"
+        "node": "10.0"
       },
-      "exclude": [
-        "transform-async-to-generator",
-        "transform-regenerator"
-      ],
-      "useBuiltIns": true
-    }]
-  ],
-  "plugins": [
-    "transform-object-rest-spread",
-    ["transform-async-to-module-method", {
-      "module": "bluebird",
-      "method": "coroutine"
+      "shippedProposals": true,
+
     }]
   ],
   "ignore": [
