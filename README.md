@@ -13,7 +13,8 @@ The [Sequelize](https://sequelize.org) Command Line Interface (CLI)
 Make sure you have [Sequelize](https://sequelize.org) installed. Then install the Sequelize CLI to be used in your project with
 
 ```bash
-npm install --save-dev sequelize-cli
+npm install --save-dev sequelize-cli // will install v5
+npm install --save-dev sequelize-cli@next // will install v6
 ```
 
 And then you should be able to run the CLI with
