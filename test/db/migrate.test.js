@@ -26,7 +26,9 @@ const _         = require('lodash');
     const config        = _.assign({}, helpers.getTestConfig(), options.config);
     let configContent = JSON.stringify(config);
 
-    migrationFile = migrationFile + '.js';
+    if(!migrationFile.match(/\.cjs$/)){
+      migrationFile = migrationFile + '.js';
+    }
     if (flag.match(/config\.js$/)) {
       configPath    = configPath + 'config.js';
       configContent = 'module.exports = ' + configContent;
@@ -124,6 +126,20 @@ const _         = require('lodash');
         }, {
           migrationFile: 'new/*createPerson',
           config:        { promisifyMigrations: false }
+        });
+      });
+    });
+
+    describe('migrations with cjs extension', () => {
+      it('correctly migrates', function (done) {
+        const self = this;
+        prepare(() => {
+          helpers.readTables(self.sequelize, tables => {
+            expect(tables.sort()).to.contain('Comment');
+            done();
+          });
+        }, {
+          migrationFile: 'cjs/*createComment.cjs'
         });
       });
     });
