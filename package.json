@@ -50,6 +50,7 @@
     "build-assets": "cp -R ./src/assets ./lib/",
     "build-clean": "rm -rf ./lib/",
     "lint": "eslint test src",
+    "prepare": "npm run build",
     "test-raw": "mocha $npm_package_options_mocha 'test/**/*.test.js'",
     "test": "npm run lint && npm run build && npm run test-raw"
   },
