@@ -8,7 +8,11 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
--   `db:seed:undo` now reverts last seed
+-   `db:seed:undo` now reverts last seed [#908](https://github.com/sequelize/cli/pull/908)
+
+### Feature
+
+-   feat: `cjs` extension support [#905](https://github.com/sequelize/cli/pull/905)
 
 ## v6.0.0-beta.1 - 7th, June 2020
 
