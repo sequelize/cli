@@ -1,17 +1,13 @@
 'use strict';
 
-var nodeify = require('nodeify');
-
 module.exports = {
-  up: function (migration, DataTypes, done) {
-    nodeify(migration
-      .createTable('Comment', {
-        title: DataTypes.STRING,
-        body: DataTypes.TEXT
-      }), done);
+  up: async (queryInterface, DataTypes) => {
+    await queryInterface.createTable('Comment', {
+      title: DataTypes.STRING,
+      body: DataTypes.TEXT
+    });
   },
-
-  down: function (migration, DataTypes, done) {
-    nodeify(migration.dropTable('Comment'), done);
+  down: async (queryInterface, DataTypes) => {
+    await queryInterface.dropTable('Comment');
   }
 };

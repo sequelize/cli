@@ -30,7 +30,6 @@
     "gulp": "^4.0.0",
     "mocha": "^6.0.0",
     "mysql2": "latest",
-    "nodeify": "^1.0.1",
     "pg": "latest",
     "pg-hstore": "latest",
     "sequelize": "latest",
@@ -38,7 +37,7 @@
     "through2": "^3.0.0"
   },
   "options": {
-    "mocha": "--require scripts/mocha-bootload.js --check-leaks --exit --timeout 30000 --colors --recursive --reporter spec"
+    "mocha": "--require scripts/mocha-bootload.js --bail --check-leaks --exit --timeout 30000 --colors --recursive --reporter spec"
   },
   "eslintIgnore": [
     "test/support",

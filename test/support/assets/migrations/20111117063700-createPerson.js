@@ -1,21 +1,18 @@
-'use strict';
-
-var nodeify = require('nodeify');
+"use strict";
 
 module.exports = {
-  up: function (migration, DataTypes, done) {
-    nodeify(migration
-      .createTable('Person', {
-        name: DataTypes.STRING,
-        isBetaMember: {
-          type: DataTypes.BOOLEAN,
-          defaultValue: false,
-          allowNull: false
-        }
-      }), done);
+  up: function (migration, DataTypes) {
+    return migration.createTable("Person", {
+      name: DataTypes.STRING,
+      isBetaMember: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false,
+      },
+    });
   },
 
-  down: function (migration, DataTypes, done) {
-    nodeify(migration.dropTable('Person'), done);
-  }
+  down: function (migration, DataTypes) {
+    return migration.dropTable("Person");
+  },
 };

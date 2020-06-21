@@ -117,7 +117,7 @@ const _         = require('lodash');
               gulp
                 .src(Support.resolveSupportPath('tmp', 'models'))
                 .pipe(helpers.readFile('user.js'))
-                .pipe(helpers.ensureContent('sequelize.define(\'User\''))
+                .pipe(helpers.ensureContent('class User extends Model {'))
                 .pipe(helpers.ensureContent('first_name: DataTypes.STRING'))
                 .pipe(helpers.ensureContent('last_name: DataTypes.STRING'))
                 .pipe(helpers.ensureContent('bio: DataTypes.TEXT'))
@@ -160,7 +160,7 @@ const _         = require('lodash');
                   gulp
                     .src(Support.resolveSupportPath('tmp', 'migrations'))
                     .pipe(helpers.readFile('*-create-user.js'))
-                    .pipe(helpers.ensureContent('return queryInterface'))
+                    .pipe(helpers.ensureContent('await queryInterface'))
                     .pipe(helpers.ensureContent('.createTable(\'Users\', {'))
                     .pipe(helpers.ensureContent(
                       'first_name: {\n        type: Sequelize.STRING\n      },'
@@ -209,9 +209,9 @@ const _         = require('lodash');
                   attributes
                 };
 
-                const targetContent = attrUnd.underscored ?
-                  'underscored: true'
-                  : '{});';
+                const targetContent = attrUnd.underscored
+                  ? 'modelName: \'User\',\n    underscored: true,\n  });'
+                  : 'modelName: \'User\',\n  });';
 
                 if ( attrUnd.underscored ) {
                   flags.underscored = attrUnd.underscored;
@@ -224,7 +224,7 @@ const _         = require('lodash');
                     .src(Support.resolveSupportPath('tmp', 'models'))
                     .pipe(helpers.readFile('user.js'))
                     .pipe(helpers.ensureContent(targetContent))
-                    .pipe(helpers.ensureContent('.associate'))
+                    .pipe(helpers.ensureContent('static associate'))
                     .pipe(helpers.teardown(done));
                 });
               });
