@@ -3,6 +3,7 @@ import { getMigrator } from '../core/migrator';
 
 import helpers from '../helpers';
 import path from 'path';
+import _ from 'lodash';
 
 exports.builder =
   yargs =>
@@ -19,24 +20,49 @@ exports.handler = async function (args) {
   // legacy, gulp used to do this
   await helpers.config.init();
 
-  // filter out cmd names
-  // for case like --seeders-path seeders --seed seedPerson.js db:seed
-  const seeds= (args.seed || [])
-    .filter(name => name !== 'db:seed' && name !== 'db:seed:undo')
-    .map(file => path.basename(file));
-
-
   switch (command) {
     case 'db:seed':
-      await getMigrator('seeder', args).then(migrator => {
+      try {
+        const migrator = await getMigrator('seeder', args);
+
+        // filter out cmd names
+        // for case like --seeders-path seeders --seed seedPerson.js db:seed
+        const seeds= (args.seed || [])
+          .filter(name => name !== 'db:seed' && name !== 'db:seed:undo')
+          .map(file => path.basename(file));
+
         return migrator.up(seeds);
-      }).catch(e => helpers.view.error(e));
+      } catch (e) {
+        helpers.view.error(e);
+      }
       break;
 
     case 'db:seed:undo':
-      await getMigrator('seeder', args).then(migrator => {
-        return migrator.down({ migrations: seeds });
-      }).catch(e => helpers.view.error(e));
+      try {
+        const migrator = await getMigrator('seeder', args);
+        let seeders = helpers.umzug.getStorage('seeder') === 'none'
+          ? await migrator.pending()
+          : await migrator.executed();
+
+        if (args.seed) {
+          seeders = seeders.filter(seed => {
+            return args.seed.includes(seed.file);
+          });
+        }
+
+        if (seeders.length === 0) {
+          helpers.view.log('No seeders found.');
+          return;
+        }
+
+        if (!args.seed) {
+          seeders = seeders.slice(-1);
+        }
+
+        return migrator.down({ migrations: _.chain(seeders).map('file').reverse().value() });
+      } catch (e) {
+        helpers.view.error(e);
+      }
       break;
   }
 
