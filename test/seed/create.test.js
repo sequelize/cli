@@ -1,11 +1,9 @@
-const expect    = require('expect.js');
-const Support   = require(__dirname + '/../support');
-const helpers   = require(__dirname + '/../support/helpers');
-const gulp      = require('gulp');
+const expect = require('expect.js');
+const Support = require(__dirname + '/../support');
+const helpers = require(__dirname + '/../support/helpers');
+const gulp = require('gulp');
 
-[
-  'seed:create'
-].forEach(flag => {
+['seed:create'].forEach((flag) => {
   describe(Support.getTestDialectTeaser(flag), () => {
     const seedFile = 'foo.js';
 
@@ -18,18 +16,18 @@ const gulp      = require('gulp');
         .pipe(helpers.teardown(callback));
     };
 
-    it('creates a new file with the current timestamp', done => {
+    it('creates a new file with the current timestamp', (done) => {
       prepare(() => {
-        const date        = new Date();
-        const format      = function (i) {
+        const date = new Date();
+        const format = function (i) {
           return parseInt(i, 10) < 10 ? '0' + i : i;
         };
-        const sDate       = [
+        const sDate = [
           date.getUTCFullYear(),
           format(date.getUTCMonth() + 1),
           format(date.getUTCDate()),
           format(date.getUTCHours()),
-          format(date.getUTCMinutes())
+          format(date.getUTCMinutes()),
         ].join('');
 
         const expectation = new RegExp(sDate + '..-' + seedFile);
@@ -42,15 +40,21 @@ const gulp      = require('gulp');
       });
     });
 
-    it('adds a skeleton with an up and a down method', done => {
+    it('adds a skeleton with an up and a down method', (done) => {
       prepare(() => {
         gulp
           .src(Support.resolveSupportPath('tmp', 'seeders'))
           .pipe(helpers.readFile('*-' + seedFile))
-          .pipe(helpers.expect(stdout => {
-            expect(stdout).to.contain('up: async (queryInterface, Sequelize) => {');
-            expect(stdout).to.contain('down: async (queryInterface, Sequelize) => {');
-          }))
+          .pipe(
+            helpers.expect((stdout) => {
+              expect(stdout).to.contain(
+                'up: async (queryInterface, Sequelize) => {'
+              );
+              expect(stdout).to.contain(
+                'down: async (queryInterface, Sequelize) => {'
+              );
+            })
+          )
           .pipe(helpers.teardown(done));
       });
     });

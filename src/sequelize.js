@@ -23,7 +23,11 @@ yargs
   .help()
   .version()
   .command('db:migrate', 'Run pending migrations', migrate)
-  .command('db:migrate:schema:timestamps:add', 'Update migration table to have timestamps', migrate)
+  .command(
+    'db:migrate:schema:timestamps:add',
+    'Update migration table to have timestamps',
+    migrate
+  )
   .command('db:migrate:status', 'List the status of all migrations', migrate)
   .command('db:migrate:undo', 'Reverts a migration', migrateUndo)
   .command('db:migrate:undo:all', 'Revert all migrations ran', migrateUndoAll)
@@ -38,11 +42,22 @@ yargs
   .command('init:migrations', 'Initializes migrations', init)
   .command('init:models', 'Initializes models', init)
   .command('init:seeders', 'Initializes seeders', init)
-  .command(['migration:generate', 'migration:create'], 'Generates a new migration file', migrationGenerate)
-  .command(['model:generate', 'model:create'], 'Generates a model and its migration', modelGenerate)
-  .command(['seed:generate', 'seed:create'], 'Generates a new seed file', seedGenerate)
+  .command(
+    ['migration:generate', 'migration:create'],
+    'Generates a new migration file',
+    migrationGenerate
+  )
+  .command(
+    ['model:generate', 'model:create'],
+    'Generates a model and its migration',
+    modelGenerate
+  )
+  .command(
+    ['seed:generate', 'seed:create'],
+    'Generates a new seed file',
+    seedGenerate
+  )
   .wrap(yargs.terminalWidth())
   .demandCommand(1, 'Please specify a command')
   .help()
-  .strict()
-  .argv;
+  .strict().argv;

@@ -1,10 +1,10 @@
 {
   "plugins": ["prettier"],
-  "extends": ["plugin:prettier/recommended"],
+  "extends": ["eslint:recommended", "plugin:prettier/recommended"],
   "rules": {
     "prettier/prettier": "error"
   },
-  "ignorePatterns": ["test/support", "src/assets"],
+  "ignorePatterns": ["test/support/tmp", "src/assets"],
   "parserOptions": {
     "ecmaVersion": 2020,
     "sourceType": "module"

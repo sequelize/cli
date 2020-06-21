@@ -4,41 +4,44 @@ import helpers from './index';
 
 const storage = {
   migration: 'sequelize',
-  seeder: 'none'
+  seeder: 'none',
 };
 const storageTableName = {
   migration: 'SequelizeMeta',
-  seeder: 'SequelizeData'
+  seeder: 'SequelizeData',
 };
 const storageJsonName = {
   migration: 'sequelize-meta.json',
-  seeder: 'sequelize-data.json'
+  seeder: 'sequelize-data.json',
 };
 
 module.exports = {
-  getStorageOption (property, fallback) {
+  getStorageOption(property, fallback) {
     return helpers.config.readConfig()[property] || fallback;
   },
 
-  getStorage (type) {
+  getStorage(type) {
     return this.getStorageOption(type + 'Storage', storage[type]);
   },
 
-  getStoragePath (type) {
+  getStoragePath(type) {
     const fallbackPath = path.join(process.cwd(), storageJsonName[type]);
 
     return this.getStorageOption(type + 'StoragePath', fallbackPath);
   },
 
-  getTableName (type) {
-    return this.getStorageOption(type + 'StorageTableName', storageTableName[type]);
+  getTableName(type) {
+    return this.getStorageOption(
+      type + 'StorageTableName',
+      storageTableName[type]
+    );
   },
 
-  getSchema (type) {
+  getSchema(type) {
     return this.getStorageOption(type + 'StorageTableSchema', undefined);
   },
 
-  getStorageOptions (type, extraOptions) {
+  getStorageOptions(type, extraOptions) {
     const options = {};
 
     if (this.getStorage(type) === 'json') {
@@ -51,5 +54,5 @@ module.exports = {
     _.assign(options, extraOptions);
 
     return options;
-  }
+  },
 };

@@ -29,17 +29,24 @@ describe(Support.getTestDialectTeaser('db:drop'), () => {
       prepare(
         'db:drop',
         () => {
-          this.sequelize.query(`SELECT 1 as exists FROM pg_database WHERE datname = '${databaseName}';`, {
-            type: this.sequelize.QueryTypes.SELECT
-          }).then(result => {
-            expect(result).to.be.empty;
-            done();
-          });
-        }, {
+          this.sequelize
+            .query(
+              `SELECT 1 as exists FROM pg_database WHERE datname = '${databaseName}';`,
+              {
+                type: this.sequelize.QueryTypes.SELECT,
+              }
+            )
+            .then((result) => {
+              expect(result).to.be.empty;
+              done();
+            });
+        },
+        {
           config: {
-            database: databaseName
-          }
-        });
+            database: databaseName,
+          },
+        }
+      );
     });
   }
 
@@ -49,17 +56,24 @@ describe(Support.getTestDialectTeaser('db:drop'), () => {
       prepare(
         'db:drop',
         () => {
-          this.sequelize.query(`SELECT IF('${databaseName}' IN(SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA), 1, 0) AS found;`, {
-            type: this.sequelize.QueryTypes.SELECT
-          }).then(result => {
-            expect(result[0].found).to.eql(0);
-            done();
-          });
-        }, {
+          this.sequelize
+            .query(
+              `SELECT IF('${databaseName}' IN(SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA), 1, 0) AS found;`,
+              {
+                type: this.sequelize.QueryTypes.SELECT,
+              }
+            )
+            .then((result) => {
+              expect(result[0].found).to.eql(0);
+              done();
+            });
+        },
+        {
           config: {
-            database: databaseName
-          }
-        });
+            database: databaseName,
+          },
+        }
+      );
     });
   }
 });

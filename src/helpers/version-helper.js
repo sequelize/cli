@@ -1,18 +1,23 @@
 import path from 'path';
 import helpers from './index';
 
-const packageJson = require(path.resolve(__dirname, '..', '..', 'package.json'));
+const packageJson = require(path.resolve(
+  __dirname,
+  '..',
+  '..',
+  'package.json'
+));
 
 module.exports = {
-  getCliVersion () {
+  getCliVersion() {
     return packageJson.version;
   },
 
-  getOrmVersion () {
+  getOrmVersion() {
     return helpers.generic.getSequelize('package.json').version;
   },
 
-  getDialect () {
+  getDialect() {
     try {
       return helpers.config.readConfig();
     } catch (e) {
@@ -20,23 +25,23 @@ module.exports = {
     }
   },
 
-  getDialectName () {
+  getDialectName() {
     const config = this.getDialect();
 
     if (config) {
       return {
-        'sqlite':   'sqlite3',
-        'postgres': 'pg',
-        'postgresql': 'pg',
-        'mariadb':  'mariasql',
-        'mysql':    'mysql'
+        sqlite: 'sqlite3',
+        postgres: 'pg',
+        postgresql: 'pg',
+        mariadb: 'mariasql',
+        mysql: 'mysql',
       }[config.dialect];
     } else {
       return null;
     }
   },
 
-  getNodeVersion () {
+  getNodeVersion() {
     return process.version.replace('v', '');
-  }
+  },
 };
