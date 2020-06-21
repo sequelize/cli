@@ -6,11 +6,11 @@ import getYArgs from '../core/yargs';
 
 const args = getYArgs().argv;
 
-function format (i) {
+function format(i) {
   return parseInt(i, 10) < 10 ? '0' + i : i;
-};
+}
 
-function getCurrentYYYYMMDDHHmms () {
+function getCurrentYYYYMMDDHHmms() {
   const date = new Date();
   return [
     date.getUTCFullYear(),
@@ -18,12 +18,12 @@ function getCurrentYYYYMMDDHHmms () {
     format(date.getUTCDate()),
     format(date.getUTCHours()),
     format(date.getUTCMinutes()),
-    format(date.getUTCSeconds())
+    format(date.getUTCSeconds()),
   ].join('');
 }
 
 module.exports = {
-  getPath (type) {
+  getPath(type) {
     type = type + 's';
 
     let result = args[type + 'Path'] || path.resolve(process.cwd(), type);
@@ -36,44 +36,47 @@ module.exports = {
     return result;
   },
 
-  getFileName (type, name, options) {
+  getFileName(type, name, options) {
     return this.addFileExtension(
-      [
-        getCurrentYYYYMMDDHHmms(),
-        name ? name : 'unnamed-' + type
-      ].join('-'),
+      [getCurrentYYYYMMDDHHmms(), name ? name : 'unnamed-' + type].join('-'),
       options
     );
   },
 
-  getFileExtension () {
+  getFileExtension() {
     return 'js';
   },
 
-  addFileExtension (basename, options) {
+  addFileExtension(basename, options) {
     return [basename, this.getFileExtension(options)].join('.');
   },
 
-  getMigrationPath (migrationName) {
-    return path.resolve(this.getPath('migration'), this.getFileName('migration', migrationName));
+  getMigrationPath(migrationName) {
+    return path.resolve(
+      this.getPath('migration'),
+      this.getFileName('migration', migrationName)
+    );
   },
 
-  getSeederPath (seederName) {
-    return path.resolve(this.getPath('seeder'), this.getFileName('seeder', seederName));
+  getSeederPath(seederName) {
+    return path.resolve(
+      this.getPath('seeder'),
+      this.getFileName('seeder', seederName)
+    );
   },
 
-  getModelsPath () {
+  getModelsPath() {
     return args.modelsPath || path.resolve(process.cwd(), 'models');
   },
 
-  getModelPath (modelName) {
+  getModelPath(modelName) {
     return path.resolve(
       this.getModelsPath(),
       this.addFileExtension(modelName.toLowerCase())
     );
   },
 
-  resolve (packageName) {
+  resolve(packageName) {
     let result;
 
     try {
@@ -82,13 +85,15 @@ module.exports = {
     } catch (e) {
       try {
         result = require(packageName);
-      } catch (err) {}
+      } catch (err) {
+        // ignore error
+      }
     }
 
     return result;
   },
 
-  existsSync (pathToCheck) {
+  existsSync(pathToCheck) {
     if (fs.accessSync) {
       try {
         fs.accessSync(pathToCheck, fs.R_OK);
@@ -99,5 +104,5 @@ module.exports = {
     } else {
       return fs.existsSync(pathToCheck);
     }
-  }
+  },
 };

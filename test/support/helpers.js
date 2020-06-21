@@ -1,25 +1,22 @@
 'use strict';
 
-var _       = require('lodash');
-var exec    = require('child_process').exec;
+var _ = require('lodash');
+var exec = require('child_process').exec;
 var support = require('./index');
 var through = require('through2');
-var expect  = require('expect.js');
-var path    = require('path');
-var fs      = require('fs-extra');
+var expect = require('expect.js');
+var path = require('path');
+var fs = require('fs-extra');
 
 module.exports = {
   getTestConfig: function (mixin) {
     var dialect = support.getTestDialect();
-    var config  = require(support.resolveSupportPath('config', 'config.js'));
+    var config = require(support.resolveSupportPath('config', 'config.js'));
 
     config.sqlite.storage = support.resolveSupportPath('tmp', 'test.sqlite');
-    config = _.extend(
-      config,
-      config[dialect],
-      mixin || {},
-      { dialect: dialect }
-    );
+    config = _.extend(config, config[dialect], mixin || {}, {
+      dialect: dialect,
+    });
 
     return config;
   },
@@ -30,7 +27,9 @@ module.exports = {
 
   clearDirectory: function () {
     return through.obj(function (file, encoding, callback) {
-      exec('rm -rf * & rm -rf .sequelizerc', { cwd: file.path }, function (err) {
+      exec('rm -rf * & rm -rf .sequelizerc', { cwd: file.path }, function (
+        err
+      ) {
         callback(err, file);
       });
     });
@@ -50,14 +49,18 @@ module.exports = {
 
     return through.obj(function (file, encoding, callback) {
       var command = support.getCliCommand(file.path, args);
-      var env     = _.extend({}, process.env, options.env);
+      var env = _.extend({}, process.env, options.env);
 
       logToFile(command);
 
-      exec(command, { cwd: file.path, env: env }, function (err, stdout, stderr) {
+      exec(command, { cwd: file.path, env: env }, function (
+        err,
+        stdout,
+        stderr
+      ) {
         var result = file;
 
-        logToFile({err: err, stdout: stdout, stderr: stderr});
+        logToFile({ err: err, stdout: stdout, stderr: stderr });
 
         if (stdout) {
           expect(stdout).to.not.contain('EventEmitter');
@@ -75,7 +78,10 @@ module.exports = {
             expect(err.code).to.equal(1);
             callback(null, result);
           } catch (e) {
-            callback(new Error('Expected cli to exit with a non-zero code'), null);
+            callback(
+              new Error('Expected cli to exit with a non-zero code'),
+              null
+            );
           }
         } else {
           err = options.pipeStderr ? null : err;
@@ -146,9 +152,12 @@ module.exports = {
       var migrationSource = support.resolveSupportPath('assets', 'migrations');
       var migrationTarget = path.resolve(file.path, migrationsFolder);
 
-      exec('cp ' + migrationSource + '/*' + fileName + ' ' + migrationTarget + '/', function (err) {
-        callback(err, file);
-      });
+      exec(
+        'cp ' + migrationSource + '/*' + fileName + ' ' + migrationTarget + '/',
+        function (err) {
+          callback(err, file);
+        }
+      );
     });
   },
 
@@ -159,7 +168,15 @@ module.exports = {
       var seederSource = support.resolveSupportPath('assets', 'seeders');
       var seederTarget = path.resolve(file.path, seedersFolder);
 
-      exec('cp ' + seederSource + '/*' + fileName + ' ' + seederTarget + '/' + fileName,
+      exec(
+        'cp ' +
+          seederSource +
+          '/*' +
+          fileName +
+          ' ' +
+          seederTarget +
+          '/' +
+          fileName,
         function (err) {
           callback(err, file);
         }
@@ -184,33 +201,33 @@ module.exports = {
   },
 
   readSchemas: function (sequelize, callback) {
-    return sequelize
-      .showAllSchemas()
-      .then(function (schemas) {
-        return callback(schemas.sort());
-      });
+    return sequelize.showAllSchemas().then(function (schemas) {
+      return callback(schemas.sort());
+    });
   },
 
   countTable: function (sequelize, table, callback) {
-    var QueryGenerator =  sequelize.getQueryInterface().QueryGenerator;
+    var QueryGenerator = sequelize.getQueryInterface().QueryGenerator;
 
     return sequelize
-      .query('SELECT count(*) as count FROM ' + QueryGenerator.quoteTable(table))
+      .query(
+        'SELECT count(*) as count FROM ' + QueryGenerator.quoteTable(table)
+      )
       .then(function (result) {
-        return callback((result.length === 2) ? result[0] : result );
+        return callback(result.length === 2 ? result[0] : result);
       });
   },
-  execQuery: function(sequelize, sql, options) {
+  execQuery: function (sequelize, sql, options) {
     if (sequelize.query.length === 2) {
       return sequelize.query(sql, options);
     } else {
       return sequelize.query(sql, null, options);
     }
-  }
+  },
 };
 
-function logToFile (thing) {
-  var text = (typeof thing === 'string') ? thing : JSON.stringify(thing);
+function logToFile(thing) {
+  var text = typeof thing === 'string' ? thing : JSON.stringify(thing);
   var logPath = __dirname + '/../../logs';
   var logFile = logPath + '/test.log';
 

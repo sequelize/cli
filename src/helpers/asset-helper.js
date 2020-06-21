@@ -6,8 +6,10 @@ const assets = {
     fs.copySync(path.resolve(__dirname, '..', 'assets', from), to);
   },
 
-  read: assetPath => {
-    return fs.readFileSync(path.resolve(__dirname, '..', 'assets', assetPath)).toString();
+  read: (assetPath) => {
+    return fs
+      .readFileSync(path.resolve(__dirname, '..', 'assets', assetPath))
+      .toString();
   },
 
   write: (targetPath, content) => {
@@ -23,9 +25,9 @@ const assets = {
     this.inject(filePath, '__CONFIG_FILE__', configPath);
   },
 
-  mkdirp: pathToCreate => {
+  mkdirp: (pathToCreate) => {
     fs.mkdirpSync(pathToCreate);
-  }
+  },
 };
 
 module.exports = assets;

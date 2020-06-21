@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
 module.exports = {
   up: function (migration, DataTypes) {
-    return migration.createTable("Person", {
+    return migration.createTable('Person', {
       name: DataTypes.STRING,
       isBetaMember: {
         type: DataTypes.BOOLEAN,
@@ -12,7 +12,7 @@ module.exports = {
     });
   },
 
-  down: function (migration, DataTypes) {
-    return migration.dropTable("Person");
+  down: function (migration) {
+    return migration.dropTable('Person');
   },
 };

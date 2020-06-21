@@ -12,7 +12,7 @@ const api = {
   config: undefined,
   rawConfig: undefined,
   error: undefined,
-  init () {
+  init() {
     return Promise.resolve()
       .then(() => {
         let config;
@@ -28,7 +28,7 @@ const api = {
         }
         return config;
       })
-      .then(config => {
+      .then((config) => {
         if (typeof config === 'object' || config === undefined) {
           return config;
         } else if (config.length === 1) {
@@ -37,7 +37,7 @@ const api = {
           return config();
         }
       })
-      .then(config => {
+      .then((config) => {
         api.rawConfig = config;
       })
       .then(() => {
@@ -45,7 +45,7 @@ const api = {
         return api;
       });
   },
-  getConfigFile () {
+  getConfigFile() {
     if (args.config) {
       return path.resolve(process.cwd(), args.config);
     }
@@ -53,44 +53,52 @@ const api = {
     const defaultPath = path.resolve(process.cwd(), 'config', 'config.json');
     const alternativePath = defaultPath.replace('.json', '.js');
 
-    return helpers.path.existsSync(alternativePath) ? alternativePath : defaultPath;
+    return helpers.path.existsSync(alternativePath)
+      ? alternativePath
+      : defaultPath;
   },
 
-  relativeConfigFile () {
+  relativeConfigFile() {
     return path.relative(process.cwd(), api.getConfigFile());
   },
 
-  configFileExists () {
+  configFileExists() {
     return helpers.path.existsSync(api.getConfigFile());
   },
 
-  getDefaultConfig () {
-    return JSON.stringify({
-      development: {
-        username: 'root',
-        password: null,
-        database: 'database_development',
-        host: '127.0.0.1',
-        dialect: 'mysql'
-      },
-      test: {
-        username: 'root',
-        password: null,
-        database: 'database_test',
-        host: '127.0.0.1',
-        dialect: 'mysql'
-      },
-      production: {
-        username: 'root',
-        password: null,
-        database: 'database_production',
-        host: '127.0.0.1',
-        dialect: 'mysql'
-      }
-    }, undefined, 2) + '\n';
+  getDefaultConfig() {
+    return (
+      JSON.stringify(
+        {
+          development: {
+            username: 'root',
+            password: null,
+            database: 'database_development',
+            host: '127.0.0.1',
+            dialect: 'mysql',
+          },
+          test: {
+            username: 'root',
+            password: null,
+            database: 'database_test',
+            host: '127.0.0.1',
+            dialect: 'mysql',
+          },
+          production: {
+            username: 'root',
+            password: null,
+            database: 'database_production',
+            host: '127.0.0.1',
+            dialect: 'mysql',
+          },
+        },
+        undefined,
+        2
+      ) + '\n'
+    );
   },
 
-  writeDefaultConfig () {
+  writeDefaultConfig() {
     const configPath = path.dirname(api.getConfigFile());
 
     if (!helpers.path.existsSync(configPath)) {
@@ -100,7 +108,7 @@ const api = {
     fs.writeFileSync(api.getConfigFile(), api.getDefaultConfig());
   },
 
-  readConfig () {
+  readConfig() {
     if (!api.config) {
       const env = helpers.generic.getEnvironment();
 
@@ -108,7 +116,8 @@ const api = {
         throw new Error(
           'Error reading "' +
             api.relativeConfigFile() +
-            '". Error: ' + api.error
+            '". Error: ' +
+            api.error
         );
       }
 
@@ -120,9 +129,13 @@ const api = {
       }
 
       if (args.url) {
-        helpers.view.log('Parsed url ' + api.filteredUrl(args.url, api.rawConfig));
+        helpers.view.log(
+          'Parsed url ' + api.filteredUrl(args.url, api.rawConfig)
+        );
       } else {
-        helpers.view.log('Loaded configuration file "' + api.relativeConfigFile() + '".');
+        helpers.view.log(
+          'Loaded configuration file "' + api.relativeConfigFile() + '".'
+        );
       }
 
       if (api.rawConfig[env]) {
@@ -138,7 +151,10 @@ const api = {
 
       // in case url is present - we overwrite the configuration
       if (api.rawConfig.url) {
-        api.rawConfig = _.merge(api.rawConfig, api.parseDbUrl(api.rawConfig.url));
+        api.rawConfig = _.merge(
+          api.rawConfig,
+          api.parseDbUrl(api.rawConfig.url)
+        );
       } else if (api.rawConfig.use_env_variable) {
         api.rawConfig = _.merge(
           api.rawConfig,
@@ -151,26 +167,26 @@ const api = {
     return api.config;
   },
 
-  filteredUrl (uri, config) {
+  filteredUrl(uri, config) {
     const regExp = new RegExp(':?' + _.escapeRegExp(config.password) + '@');
     return uri.replace(regExp, ':*****@');
   },
 
-  urlStringToConfigHash (urlString) {
+  urlStringToConfigHash(urlString) {
     try {
       const urlParts = url.parse(urlString);
-      let result   = {
-        database: urlParts.pathname.replace(/^\//,  ''),
-        host:     urlParts.hostname,
-        port:     urlParts.port,
+      let result = {
+        database: urlParts.pathname.replace(/^\//, ''),
+        host: urlParts.hostname,
+        port: urlParts.port,
         protocol: urlParts.protocol.replace(/:$/, ''),
-        ssl:      urlParts.query ? urlParts.query.indexOf('ssl=true') >= 0 : false
+        ssl: urlParts.query ? urlParts.query.indexOf('ssl=true') >= 0 : false,
       };
 
       if (urlParts.auth) {
         result = _.assign(result, {
           username: urlParts.auth.split(':')[0],
-          password: urlParts.auth.split(':')[1]
+          password: urlParts.auth.split(':')[1],
         });
       }
 
@@ -180,21 +196,24 @@ const api = {
     }
   },
 
-  parseDbUrl (urlString) {
+  parseDbUrl(urlString) {
     let config = api.urlStringToConfigHash(urlString);
 
     config = _.assign(config, {
-      dialect: config.protocol
+      dialect: config.protocol,
     });
 
-    if (config.dialect === 'sqlite' && config.database.indexOf(':memory') !== 0) {
+    if (
+      config.dialect === 'sqlite' &&
+      config.database.indexOf(':memory') !== 0
+    ) {
       config = _.assign(config, {
-        storage: '/' + config.database
+        storage: '/' + config.database,
       });
     }
 
     return config;
-  }
+  },
 };
 
 module.exports = api;

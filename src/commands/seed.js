@@ -4,7 +4,7 @@ import { getMigrator } from '../core/migrator';
 import helpers from '../helpers';
 import _ from 'lodash';
 
-exports.builder = yargs => _baseOptions(yargs).argv;
+exports.builder = (yargs) => _baseOptions(yargs).argv;
 exports.handler = async function (args) {
   const command = args._[0];
 
@@ -24,32 +24,39 @@ exports.handler = async function (args) {
   process.exit(0);
 };
 
-function seedAll (args) {
-  return getMigrator('seeder', args).then(migrator => {
-    return migrator.pending()
-      .then(seeders => {
+function seedAll(args) {
+  return getMigrator('seeder', args)
+    .then((migrator) => {
+      return migrator.pending().then((seeders) => {
         if (seeders.length === 0) {
           helpers.view.log('No seeders found.');
           return;
         }
 
-        return migrator.up({ migrations: _.chain(seeders).map('file').value() });
+        return migrator.up({
+          migrations: _.chain(seeders).map('file').value(),
+        });
       });
-  }).catch(e => helpers.view.error(e));
+    })
+    .catch((e) => helpers.view.error(e));
 }
 
-function seedUndoAll (args) {
-  return getMigrator('seeder', args).then(migrator => {
-    return (
-      helpers.umzug.getStorage('seeder') === 'none' ? migrator.pending() : migrator.executed()
-    )
-      .then(seeders => {
+function seedUndoAll(args) {
+  return getMigrator('seeder', args)
+    .then((migrator) => {
+      return (helpers.umzug.getStorage('seeder') === 'none'
+        ? migrator.pending()
+        : migrator.executed()
+      ).then((seeders) => {
         if (seeders.length === 0) {
           helpers.view.log('No seeders found.');
           return;
         }
 
-        return migrator.down({ migrations: _.chain(seeders).map('file').reverse().value() });
+        return migrator.down({
+          migrations: _.chain(seeders).map('file').reverse().value(),
+        });
       });
-  }).catch(e => helpers.view.error(e));
+    })
+    .catch((e) => helpers.view.error(e));
 }

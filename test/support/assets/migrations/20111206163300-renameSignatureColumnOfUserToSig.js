@@ -1,11 +1,11 @@
-"use strict";
+'use strict';
 
 module.exports = {
-  up: function (migration, DataTypes) {
-    return migration.renameColumn("User", "signature", "sig");
+  up: function (migration) {
+    return migration.renameColumn('User', 'signature', 'sig');
   },
 
-  down: function (migration, DataTypes) {
-    return migration.renameColumn("User", "sig", "signature");
+  down: function (migration) {
+    return migration.renameColumn('User', 'sig', 'signature');
   },
 };

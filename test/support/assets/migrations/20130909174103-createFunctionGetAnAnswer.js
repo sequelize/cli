@@ -1,16 +1,16 @@
-"use strict";
+'use strict';
 
 module.exports = {
-  up: function (migration, DataTypes) {
+  up: function (migration) {
     return migration.createFunction(
-      "get_an_answer",
+      'get_an_answer',
       [],
-      "int",
-      "plpgsql",
-      "RETURN 42;"
+      'int',
+      'plpgsql',
+      'RETURN 42;'
     );
   },
-  down: function (migration, DataTypes) {
-    return migration.dropFunction("get_an_answer", []);
+  down: function (migration) {
+    return migration.dropFunction('get_an_answer', []);
   },
 };

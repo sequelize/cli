@@ -1,19 +1,26 @@
-const expect    = require('expect.js');
-const Support   = require(__dirname + '/support');
-const helpers   = require(__dirname + '/support/helpers');
-const gulp      = require('gulp');
+const expect = require('expect.js');
+const Support = require(__dirname + '/support');
+const helpers = require(__dirname + '/support/helpers');
+const gulp = require('gulp');
 
-[
-  '--url'
-].forEach(flag => {
+['--url'].forEach((flag) => {
   const prepare = function (callback) {
     gulp
       .src(Support.resolveSupportPath('tmp'))
       .pipe(helpers.clearDirectory())
       .pipe(helpers.runCli('init'))
       .pipe(helpers.copyMigration('createPerson.js'))
-      .pipe(helpers.overwriteFile(JSON.stringify(helpers.getTestConfig()), 'config/config.json'))
-      .pipe(helpers.runCli('db:migrate ' + flag + '=' + helpers.getTestUrl(), { pipeStdout: true }))
+      .pipe(
+        helpers.overwriteFile(
+          JSON.stringify(helpers.getTestConfig()),
+          'config/config.json'
+        )
+      )
+      .pipe(
+        helpers.runCli('db:migrate ' + flag + '=' + helpers.getTestUrl(), {
+          pipeStdout: true,
+        })
+      )
       .pipe(helpers.teardown(callback));
   };
 
@@ -26,7 +33,7 @@ const gulp      = require('gulp');
     });
 
     it('creates a SequelizeMeta table', function (done) {
-      helpers.readTables(this.sequelize, tables => {
+      helpers.readTables(this.sequelize, (tables) => {
         expect(tables).to.have.length(2);
         expect(tables).to.contain('SequelizeMeta');
         done();
@@ -34,7 +41,7 @@ const gulp      = require('gulp');
     });
 
     it('creates the respective table via url', function (done) {
-      helpers.readTables(this.sequelize, tables => {
+      helpers.readTables(this.sequelize, (tables) => {
         expect(tables).to.have.length(2);
         expect(tables).to.contain('Person');
         done();
@@ -53,8 +60,15 @@ const gulp      = require('gulp');
       }
 
       expect(this.stdout).to.contain(
-        config.dialect + '://' + config.username + ':*****@' + config.host +
-        ':' + config.port + '/' + config.database
+        config.dialect +
+          '://' +
+          config.username +
+          ':*****@' +
+          config.host +
+          ':' +
+          config.port +
+          '/' +
+          config.database
       );
     });
   });

@@ -14,7 +14,6 @@
     "fs-extra": "^7.0.1",
     "js-beautify": "^1.8.8",
     "lodash": "^4.17.5",
-    "p-try": "^2.2.0",
     "resolve": "^1.5.0",
     "umzug": "^2.3.0",
     "yargs": "^13.1.0"
@@ -26,12 +25,15 @@
     "@babel/register": "^7.10.1",
     "bluebird": "^3.7.2",
     "eslint": "^7.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "expect.js": "^0.3.1",
     "gulp": "^4.0.0",
     "mocha": "^6.0.0",
     "mysql2": "latest",
     "pg": "latest",
     "pg-hstore": "latest",
+    "prettier": "^2.0.5",
     "sequelize": "latest",
     "sqlite3": "latest",
     "through2": "^3.0.0"
@@ -39,16 +41,19 @@
   "options": {
     "mocha": "--require scripts/mocha-bootload.js --bail --check-leaks --exit --timeout 30000 --colors --recursive --reporter spec"
   },
-  "eslintIgnore": [
-    "test/support",
-    "src/assets"
-  ],
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true
+  },
   "scripts": {
     "build": "npm run build-clean && babel src -d lib && npm run build-bin && npm run build-assets",
     "build-bin": "mv ./lib/sequelize.js ./lib/sequelize && chmod +x ./lib/sequelize",
     "build-assets": "cp -R ./src/assets ./lib/",
     "build-clean": "rm -rf ./lib/",
     "lint": "eslint test src",
+    "pretty": "prettier src test --write",
     "prepare": "npm run build",
     "test-raw": "mocha $npm_package_options_mocha 'test/**/*.test.js'",
     "test": "npm run lint && npm run build && npm run test-raw"

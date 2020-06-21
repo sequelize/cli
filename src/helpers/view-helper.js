@@ -6,11 +6,11 @@ import getYArgs from '../core/yargs';
 const args = getYArgs().argv;
 
 module.exports = {
-  teaser () {
+  teaser() {
     const versions = [
       'Node: ' + helpers.version.getNodeVersion(),
-      'CLI: '  + helpers.version.getCliVersion(),
-      'ORM: '  + helpers.version.getOrmVersion()
+      'CLI: ' + helpers.version.getCliVersion(),
+      'ORM: ' + helpers.version.getOrmVersion(),
     ];
 
     this.log();
@@ -18,17 +18,15 @@ module.exports = {
     this.log();
   },
 
-  log () {
+  log() {
     console.log.apply(this, arguments);
   },
 
-  error (error) {
+  error(error) {
     let message = error;
 
     if (error instanceof Error) {
-      message = !args.debug
-        ? error.message
-        : error.stack;
+      message = !args.debug ? error.message : error.stack;
     }
 
     this.log();
@@ -38,18 +36,20 @@ module.exports = {
     process.exit(1);
   },
 
-  warn (message) {
+  warn(message) {
     this.log(`${clc.yellow('WARNING:')} ${message}`);
   },
 
-  notifyAboutExistingFile (file) {
+  notifyAboutExistingFile(file) {
     this.error(
-      'The file ' + clc.blueBright(file) + ' already exists. ' +
-      'Run command with --force to overwrite it.'
+      'The file ' +
+        clc.blueBright(file) +
+        ' already exists. ' +
+        'Run command with --force to overwrite it.'
     );
   },
 
-  pad (s, smth) {
+  pad(s, smth) {
     let margin = smth;
 
     if (_.isObject(margin)) {
@@ -57,11 +57,14 @@ module.exports = {
     }
 
     if (Array.isArray(margin)) {
-      margin = Math.max.apply(null, margin.map(o => {
-        return o.length;
-      }));
+      margin = Math.max.apply(
+        null,
+        margin.map((o) => {
+          return o.length;
+        })
+      );
     }
 
     return s + new Array(margin - s.length + 1).join(' ');
-  }
+  },
 };

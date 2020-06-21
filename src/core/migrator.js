@@ -1,18 +1,17 @@
 import Umzug from 'umzug';
 import _ from 'lodash';
-import pTry from 'p-try';
 
 import helpers from '../helpers/index';
 
 const Sequelize = helpers.generic.getSequelize();
 
-export function logMigrator (s) {
+export function logMigrator(s) {
   if (s.indexOf('Executing') !== 0) {
     helpers.view.log(s);
   }
 }
 
-function getSequelizeInstance () {
+function getSequelizeInstance() {
   let config = null;
 
   try {
@@ -30,51 +29,49 @@ function getSequelizeInstance () {
   }
 }
 
-export function getMigrator (type, args) {
-  return pTry(() => {
-    if (!(helpers.config.configFileExists() || args.url)) {
-      helpers.view.error(`Cannot find "${helpers.config.getConfigFile()}". Have you run "sequelize init"?`);
-      process.exit(1);
-    }
+export async function getMigrator(type, args) {
+  if (!(helpers.config.configFileExists() || args.url)) {
+    helpers.view.error(
+      `Cannot find "${helpers.config.getConfigFile()}". Have you run "sequelize init"?`
+    );
+    process.exit(1);
+  }
 
-    const sequelize = getSequelizeInstance();
-    const migrator = new Umzug({
-      storage: helpers.umzug.getStorage(type),
-      storageOptions: helpers.umzug.getStorageOptions(type, { sequelize }),
-      logging: helpers.view.log,
-      migrations: {
-        params: [sequelize.getQueryInterface(), Sequelize],
-        path: helpers.path.getPath(type),
-        pattern: /\.c?js$/
-      }
-    });
-
-    return sequelize
-      .authenticate()
-      .then(() => {
-        // Check if this is a PostgreSQL run and if there is a custom schema specified, and if there is, check if it's
-        // been created. If not, attempt to create it.
-        if (helpers.version.getDialectName() === 'pg') {
-          const customSchemaName = helpers.umzug.getSchema('migration');
-          if (customSchemaName && customSchemaName !== 'public') {
-            return sequelize.createSchema(customSchemaName);
-          }
-        }
-
-        return Promise.resolve();
-      })
-      .then(() => migrator)
-      .catch(e => helpers.view.error(e));
+  const sequelize = getSequelizeInstance();
+  const migrator = new Umzug({
+    storage: helpers.umzug.getStorage(type),
+    storageOptions: helpers.umzug.getStorageOptions(type, { sequelize }),
+    logging: helpers.view.log,
+    migrations: {
+      params: [sequelize.getQueryInterface(), Sequelize],
+      path: helpers.path.getPath(type),
+      pattern: /\.c?js$/,
+    },
   });
+
+  return sequelize
+    .authenticate()
+    .then(() => {
+      // Check if this is a PostgreSQL run and if there is a custom schema specified, and if there is, check if it's
+      // been created. If not, attempt to create it.
+      if (helpers.version.getDialectName() === 'pg') {
+        const customSchemaName = helpers.umzug.getSchema('migration');
+        if (customSchemaName && customSchemaName !== 'public') {
+          return sequelize.createSchema(customSchemaName);
+        }
+      }
+    })
+    .then(() => migrator)
+    .catch((e) => helpers.view.error(e));
 }
 
-export function ensureCurrentMetaSchema (migrator) {
+export function ensureCurrentMetaSchema(migrator) {
   const queryInterface = migrator.options.storageOptions.sequelize.getQueryInterface();
   const tableName = migrator.options.storageOptions.tableName;
   const columnName = migrator.options.storageOptions.columnName;
 
   return ensureMetaTable(queryInterface, tableName)
-    .then(table => {
+    .then((table) => {
       const columns = Object.keys(table);
 
       if (columns.length === 1 && columns[0] === columnName) {
@@ -86,14 +83,13 @@ export function ensureCurrentMetaSchema (migrator) {
     .catch(() => {});
 }
 
-function ensureMetaTable (queryInterface, tableName) {
-  return queryInterface.showAllTables()
-    .then(tableNames => {
-      if (tableNames.indexOf(tableName) === -1) {
-        throw new Error('No MetaTable table found.');
-      }
-      return queryInterface.describeTable(tableName);
-    });
+function ensureMetaTable(queryInterface, tableName) {
+  return queryInterface.showAllTables().then((tableNames) => {
+    if (tableNames.indexOf(tableName) === -1) {
+      throw new Error('No MetaTable table found.');
+    }
+    return queryInterface.describeTable(tableName);
+  });
 }
 
 /**
@@ -101,42 +97,49 @@ function ensureMetaTable (queryInterface, tableName) {
  *
  * @return {Promise}
  */
-export function addTimestampsToSchema (migrator) {
+export function addTimestampsToSchema(migrator) {
   const sequelize = migrator.options.storageOptions.sequelize;
   const queryInterface = sequelize.getQueryInterface();
   const tableName = migrator.options.storageOptions.tableName;
 
-  return ensureMetaTable(queryInterface, tableName)
-    .then(table => {
-      if (table.createdAt) {
-        return;
-      }
+  return ensureMetaTable(queryInterface, tableName).then((table) => {
+    if (table.createdAt) {
+      return;
+    }
 
-      return ensureCurrentMetaSchema(migrator)
-        .then(() => queryInterface.renameTable(tableName, tableName + 'Backup'))
-        .then(() => {
-          const sql = queryInterface.QueryGenerator.selectQuery(tableName + 'Backup');
-          return helpers.generic.execQuery(sequelize, sql, { type: 'SELECT', raw: true });
-        })
-        .then(result => {
-          const SequelizeMeta = sequelize.define(tableName, {
+    return ensureCurrentMetaSchema(migrator)
+      .then(() => queryInterface.renameTable(tableName, tableName + 'Backup'))
+      .then(() => {
+        const sql = queryInterface.QueryGenerator.selectQuery(
+          tableName + 'Backup'
+        );
+        return helpers.generic.execQuery(sequelize, sql, {
+          type: 'SELECT',
+          raw: true,
+        });
+      })
+      .then((result) => {
+        const SequelizeMeta = sequelize.define(
+          tableName,
+          {
             name: {
               type: Sequelize.STRING,
               allowNull: false,
               unique: true,
               primaryKey: true,
-              autoIncrement: false
-            }
-          }, {
+              autoIncrement: false,
+            },
+          },
+          {
             tableName,
             timestamps: true,
-            schema: helpers.umzug.getSchema()
-          });
+            schema: helpers.umzug.getSchema(),
+          }
+        );
 
-          return SequelizeMeta.sync()
-            .then(() => {
-              return SequelizeMeta.bulkCreate(result);
-            });
+        return SequelizeMeta.sync().then(() => {
+          return SequelizeMeta.bulkCreate(result);
         });
-    });
+      });
+  });
 }

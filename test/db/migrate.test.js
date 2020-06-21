@@ -1,9 +1,9 @@
-const fs        = require('fs');
-const expect    = require('expect.js');
-const Support   = require(__dirname + '/../support');
-const helpers   = require(__dirname + '/../support/helpers');
-const gulp      = require('gulp');
-const _         = require('lodash');
+const fs = require('fs');
+const expect = require('expect.js');
+const Support = require(__dirname + '/../support');
+const helpers = require(__dirname + '/../support/helpers');
+const gulp = require('gulp');
+const _ = require('lodash');
 
 [
   'db:migrate',
@@ -12,31 +12,35 @@ const _         = require('lodash');
   'db:migrate --migrations-path ./migrations',
   'db:migrate --migrations-path ./migrations/',
   'db:migrate --config ../../support/tmp/config/config.json',
-  'db:migrate --config ' + Support.resolveSupportPath('tmp', 'config', 'config.json'),
+  'db:migrate --config ' +
+    Support.resolveSupportPath('tmp', 'config', 'config.json'),
   'db:migrate --config ../../support/tmp/config/config.js',
-  'db:migrate --config ../../support/tmp/config/config-promise.js'
-].forEach(flag => {
+  'db:migrate --config ../../support/tmp/config/config-promise.js',
+].forEach((flag) => {
   const prepare = function (callback, options) {
     options = _.assign({ config: {} }, options || {});
     options.cli = options.cli || {};
     _.defaults(options.cli, { pipeStdout: true });
 
-    let configPath    = 'config/';
+    let configPath = 'config/';
     let migrationFile = options.migrationFile || 'createPerson';
-    const config        = _.assign({}, helpers.getTestConfig(), options.config);
+    const config = _.assign({}, helpers.getTestConfig(), options.config);
     let configContent = JSON.stringify(config);
 
-    if(!migrationFile.match(/\.cjs$/)){
+    if (!migrationFile.match(/\.cjs$/)) {
       migrationFile = migrationFile + '.js';
     }
     if (flag.match(/config\.js$/)) {
-      configPath    = configPath + 'config.js';
+      configPath = configPath + 'config.js';
       configContent = 'module.exports = ' + configContent;
     } else if (flag.match(/config-promise\.js/)) {
-      configPath    = configPath + 'config-promise.js';
-      configContent = '' +
+      configPath = configPath + 'config-promise.js';
+      configContent =
+        '' +
         'var b = require("bluebird");' +
-        'module.exports = b.resolve(' + configContent + ');';
+        'module.exports = b.resolve(' +
+        configContent +
+        ');';
     } else {
       configPath = configPath + 'config.json';
     }
@@ -51,10 +55,10 @@ const _         = require('lodash');
       .pipe(helpers.copyMigration(migrationFile))
       .pipe(helpers.overwriteFile(configContent, configPath))
       .pipe(helpers.runCli(flag, options.cli))
-      .on('error', e => {
+      .on('error', (e) => {
         callback(e);
       })
-      .on('data', data => {
+      .on('data', (data) => {
         result += data.toString();
       })
       .on('end', () => {
@@ -67,7 +71,7 @@ const _         = require('lodash');
       const self = this;
 
       prepare(() => {
-        helpers.readTables(self.sequelize, tables => {
+        helpers.readTables(self.sequelize, (tables) => {
           expect(tables).to.have.length(2);
           expect(tables).to.contain('SequelizeMeta');
           done();
@@ -79,7 +83,7 @@ const _         = require('lodash');
       const self = this;
 
       prepare(() => {
-        helpers.readTables(self.sequelize, tables => {
+        helpers.readTables(self.sequelize, (tables) => {
           expect(tables).to.have.length(2);
           expect(tables).to.contain('Person');
           done();
@@ -87,26 +91,29 @@ const _         = require('lodash');
       });
     });
 
-    it('fails with a not 0 exit code', done => {
+    it('fails with a not 0 exit code', (done) => {
       prepare(done, {
         migrationFile: 'invalid/*createPerson',
-        cli: { exitCode: 1 }
+        cli: { exitCode: 1 },
       });
     });
 
     describe('the logging option', () => {
-      it('does not print sql queries by default', done => {
+      it('does not print sql queries by default', (done) => {
         prepare((__, stdout) => {
           expect(stdout).to.not.contain('Executing');
           done();
         });
       });
 
-      it('interpretes a custom option', done => {
-        prepare((__, stdout) => {
-          expect(stdout).to.contain('Executing');
-          done();
-        }, { config: { logging: true } });
+      it('interpretes a custom option', (done) => {
+        prepare(
+          (__, stdout) => {
+            expect(stdout).to.contain('Executing');
+            done();
+          },
+          { config: { logging: true } }
+        );
       });
     });
 
@@ -114,32 +121,34 @@ const _         = require('lodash');
       it('correctly creates two tables', function (done) {
         const self = this;
 
-        prepare(() => {
-          helpers.readTables(self.sequelize, tables => {
-            expect(tables.sort()).to.eql([
-              'Person',
-              'SequelizeMeta',
-              'Task'
-            ]);
-            done();
-          });
-        }, {
-          migrationFile: 'new/*createPerson'
-        });
+        prepare(
+          () => {
+            helpers.readTables(self.sequelize, (tables) => {
+              expect(tables.sort()).to.eql(['Person', 'SequelizeMeta', 'Task']);
+              done();
+            });
+          },
+          {
+            migrationFile: 'new/*createPerson',
+          }
+        );
       });
     });
 
     describe('migrations with cjs extension', () => {
       it('correctly migrates', function (done) {
         const self = this;
-        prepare(() => {
-          helpers.readTables(self.sequelize, tables => {
-            expect(tables.sort()).to.contain('Comment');
-            done();
-          });
-        }, {
-          migrationFile: 'cjs/*createComment.cjs'
-        });
+        prepare(
+          () => {
+            helpers.readTables(self.sequelize, (tables) => {
+              expect(tables.sort()).to.contain('Comment');
+              done();
+            });
+          },
+          {
+            migrationFile: 'cjs/*createComment.cjs',
+          }
+        );
       });
     });
 
@@ -147,42 +156,56 @@ const _         = require('lodash');
       it('correctly uses the defined table name', function (done) {
         const self = this;
 
-        prepare(() => {
-          helpers.readTables(self.sequelize, tables => {
-            expect(tables.sort()).to.eql(['Person', 'Task', 'sequelize_meta']);
-            done();
-          });
-        }, {
-          migrationFile: 'new/*createPerson',
-          config:        { migrationStorageTableName: 'sequelize_meta' }
-        });
+        prepare(
+          () => {
+            helpers.readTables(self.sequelize, (tables) => {
+              expect(tables.sort()).to.eql([
+                'Person',
+                'Task',
+                'sequelize_meta',
+              ]);
+              done();
+            });
+          },
+          {
+            migrationFile: 'new/*createPerson',
+            config: { migrationStorageTableName: 'sequelize_meta' },
+          }
+        );
       });
     });
 
     describe('custom meta schema', () => {
       it('correctly uses the defined schema', function (done) {
-        prepare(() => {
-          if (Support.dialectIsPostgres()) {
-            helpers.readSchemas(this.sequelize, schemas => {
-              expect(schemas.sort()).to.eql(['sequelize_schema']);
+        prepare(
+          () => {
+            if (Support.dialectIsPostgres()) {
+              helpers.readSchemas(this.sequelize, (schemas) => {
+                expect(schemas.sort()).to.eql(['sequelize_schema']);
 
-              // Tables from public should still be the same.
-              helpers.readTables(this.sequelize, tables => {
-                expect(tables.sort()).to.eql(['Person', 'Task']);
+                // Tables from public should still be the same.
+                helpers.readTables(this.sequelize, (tables) => {
+                  expect(tables.sort()).to.eql(['Person', 'Task']);
+                  done();
+                });
+              });
+            } else {
+              // If not Postgres, the schema option gets prepended to the table name.
+              helpers.readTables(this.sequelize, (tables) => {
+                expect(tables.sort()).to.eql([
+                  'Person',
+                  'Task',
+                  'sequelize_schema.SequelizeMeta',
+                ]);
                 done();
               });
-            });
-          } else {
-            // If not Postgres, the schema option gets prepended to the table name.
-            helpers.readTables(this.sequelize, tables => {
-              expect(tables.sort()).to.eql(['Person', 'Task', 'sequelize_schema.SequelizeMeta']);
-              done();
-            });
+            }
+          },
+          {
+            migrationFile: 'new/*createPerson',
+            config: { migrationStorageTableSchema: 'sequelize_schema' },
           }
-        }, {
-          migrationFile: 'new/*createPerson',
-          config:        { migrationStorageTableSchema: 'sequelize_schema' }
-        });
+        );
       });
     });
   });
@@ -191,9 +214,9 @@ const _         = require('lodash');
 describe(Support.getTestDialectTeaser('db:migrate'), () => {
   describe('with config.js', () => {
     const prepare = function (callback) {
-      const config        = helpers.getTestConfig();
+      const config = helpers.getTestConfig();
       const configContent = 'module.exports = ' + JSON.stringify(config);
-      let result        = '';
+      let result = '';
 
       return gulp
         .src(Support.resolveSupportPath('tmp'))
@@ -203,10 +226,10 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
         .pipe(helpers.copyMigration('createPerson.js'))
         .pipe(helpers.overwriteFile(configContent, 'config/config.js'))
         .pipe(helpers.runCli('db:migrate'))
-        .on('error', e => {
+        .on('error', (e) => {
           callback(e);
         })
-        .on('data', data => {
+        .on('data', (data) => {
           result += data.toString();
         })
         .on('end', () => {
@@ -216,7 +239,7 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
 
     it('creates a SequelizeMeta table', function (done) {
       prepare(() => {
-        helpers.readTables(this.sequelize, tables => {
+        helpers.readTables(this.sequelize, (tables) => {
           expect(tables).to.have.length(2);
           expect(tables).to.contain('SequelizeMeta');
           done();
@@ -226,7 +249,7 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
 
     it('creates the respective table', function (done) {
       prepare(() => {
-        helpers.readTables(this.sequelize, tables => {
+        helpers.readTables(this.sequelize, (tables) => {
           expect(tables).to.have.length(2);
           expect(tables).to.contain('Person');
           done();
@@ -239,9 +262,9 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
 describe(Support.getTestDialectTeaser('db:migrate'), () => {
   describe('with config.json and url option', () => {
     const prepare = function (callback) {
-      const config        = { url: helpers.getTestUrl() };
+      const config = { url: helpers.getTestUrl() };
       const configContent = 'module.exports = ' + JSON.stringify(config);
-      let result        = '';
+      let result = '';
 
       return gulp
         .src(Support.resolveSupportPath('tmp'))
@@ -251,10 +274,10 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
         .pipe(helpers.copyMigration('createPerson.js'))
         .pipe(helpers.overwriteFile(configContent, 'config/config.js'))
         .pipe(helpers.runCli('db:migrate'))
-        .on('error', e => {
+        .on('error', (e) => {
           callback(e);
         })
-        .on('data', data => {
+        .on('data', (data) => {
           result += data.toString();
         })
         .on('end', () => {
@@ -266,7 +289,7 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
       const self = this;
 
       prepare(() => {
-        helpers.readTables(self.sequelize, tables => {
+        helpers.readTables(self.sequelize, (tables) => {
           expect(tables).to.have.length(2);
           expect(tables).to.contain('SequelizeMeta');
           done();
@@ -278,7 +301,7 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
       const self = this;
 
       prepare(() => {
-        helpers.readTables(self.sequelize, tables => {
+        helpers.readTables(self.sequelize, (tables) => {
           expect(tables).to.have.length(2);
           expect(tables).to.contain('Person');
           done();
@@ -291,9 +314,9 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
 describe(Support.getTestDialectTeaser('db:migrate'), () => {
   describe('optional migration parameters', () => {
     const prepare = function (runArgs = '', callback) {
-      const config        = { url: helpers.getTestUrl() };
+      const config = { url: helpers.getTestUrl() };
       const configContent = 'module.exports = ' + JSON.stringify(config);
-      let result        = '';
+      let result = '';
 
       return gulp
         .src(Support.resolveSupportPath('tmp'))
@@ -306,10 +329,10 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
         .pipe(helpers.copyMigration('createPost.js'))
         .pipe(helpers.overwriteFile(configContent, 'config/config.js'))
         .pipe(helpers.runCli('db:migrate ' + runArgs))
-        .on('error', e => {
+        .on('error', (e) => {
           callback(e);
         })
-        .on('data', data => {
+        .on('data', (data) => {
           result += data.toString();
         })
         .on('end', () => {
@@ -324,11 +347,11 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
       return gulp
         .src(Support.resolveSupportPath('tmp'))
         .pipe(helpers.runCli(cliArgs, { pipeStdout: true, exitCode: 0 }))
-        .on('error', e => {
+        .on('error', (e) => {
           done(e);
           done = () => {};
         })
-        .on('data', data => {
+        .on('data', (data) => {
           result += data.toString();
         })
         .on('end', () => {
@@ -340,10 +363,12 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
       const self = this;
       const migrationsPath = Support.resolveSupportPath('assets', 'migrations');
       const migrations = fs.readdirSync(migrationsPath);
-      const createTriggers = migrations.filter(migration => migration.indexOf('createTestTableForTrigger') > -1);
+      const createTriggers = migrations.filter(
+        (migration) => migration.indexOf('createTestTableForTrigger') > -1
+      );
 
       prepare('--to ' + createTriggers, () => {
-        helpers.readTables(self.sequelize, tables => {
+        helpers.readTables(self.sequelize, (tables) => {
           expect(tables).to.have.length(3);
           expect(tables).to.contain('User');
           expect(tables).to.contain('trigger_test');
@@ -356,16 +381,20 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
       const self = this;
       const migrationsPath = Support.resolveSupportPath('assets', 'migrations');
       const migrations = fs.readdirSync(migrationsPath);
-      const createTriggers = migrations.filter(migration => migration.indexOf('createTestTableForTrigger') > -1);
-      const createPost = migrations.filter(migration => migration.indexOf('createPost') > -1);
+      const createTriggers = migrations.filter(
+        (migration) => migration.indexOf('createTestTableForTrigger') > -1
+      );
+      const createPost = migrations.filter(
+        (migration) => migration.indexOf('createPost') > -1
+      );
 
       prepare('--to ' + createTriggers, () => {
-        helpers.readTables(self.sequelize, tables => {
+        helpers.readTables(self.sequelize, (tables) => {
           expect(tables).to.have.length(3);
           expect(tables).to.contain('User');
           expect(tables).to.contain('trigger_test');
           runCli('db:migrate --to ' + createPost, () => {
-            helpers.readTables(self.sequelize, tables => {
+            helpers.readTables(self.sequelize, (tables) => {
               expect(tables).to.have.length(4);
               expect(tables).to.contain('Post');
               done();
@@ -379,14 +408,18 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
       const self = this;
       const migrationsPath = Support.resolveSupportPath('assets', 'migrations');
       const migrations = fs.readdirSync(migrationsPath);
-      const createTriggers = migrations.filter(migration => migration.indexOf('createTestTableForTrigger') > -1);
+      const createTriggers = migrations.filter(
+        (migration) => migration.indexOf('createTestTableForTrigger') > -1
+      );
 
       prepare('--to ' + createTriggers, () => {
-        helpers.readTables(self.sequelize, tables => {
+        helpers.readTables(self.sequelize, (tables) => {
           expect(tables).to.have.length(3);
           expect(tables).to.contain('User');
           runCli('db:migrate --to ' + createTriggers, (err, result) => {
-            expect(result).to.contain('No migrations were executed, database schema was already up to date.');
+            expect(result).to.contain(
+              'No migrations were executed, database schema was already up to date.'
+            );
             done(err);
           });
         });
@@ -397,10 +430,12 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
       const self = this;
       const migrationsPath = Support.resolveSupportPath('assets', 'migrations');
       const migrations = fs.readdirSync(migrationsPath);
-      const createPersonMigration = migrations.filter(migration => migration.indexOf('renamePersonToUser') > -1);
+      const createPersonMigration = migrations.filter(
+        (migration) => migration.indexOf('renamePersonToUser') > -1
+      );
 
       prepare('--from ' + createPersonMigration, () => {
-        helpers.readTables(self.sequelize, tables => {
+        helpers.readTables(self.sequelize, (tables) => {
           expect(tables).to.have.length(3);
           expect(tables).to.contain('Post');
           expect(tables).to.contain('trigger_test');
@@ -413,32 +448,41 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
       const self = this;
       const migrationsPath = Support.resolveSupportPath('assets', 'migrations');
       const migrations = fs.readdirSync(migrationsPath);
-      const createPersonMigration = migrations.filter(migration => migration.indexOf('renamePersonToUser') > -1);
-      const createPost = migrations.filter(migration => migration.indexOf('createPost') > -1);
+      const createPersonMigration = migrations.filter(
+        (migration) => migration.indexOf('renamePersonToUser') > -1
+      );
+      const createPost = migrations.filter(
+        (migration) => migration.indexOf('createPost') > -1
+      );
 
       prepare('--from ' + createPersonMigration, () => {
-        helpers.readTables(self.sequelize, tables => {
+        helpers.readTables(self.sequelize, (tables) => {
           expect(tables).to.have.length(3);
           expect(tables).to.contain('Post');
           expect(tables).to.contain('trigger_test');
           runCli('db:migrate --from ' + createPost, (err, result) => {
-            expect(result).to.contain('No migrations were executed, database schema was already up to date.');
+            expect(result).to.contain(
+              'No migrations were executed, database schema was already up to date.'
+            );
             done(err);
           });
         });
       });
     });
 
-
     it('--to and --from together', function (done) {
       const self = this;
       const migrationsPath = Support.resolveSupportPath('assets', 'migrations');
       const migrations = fs.readdirSync(migrationsPath);
-      const createPersonMigration = migrations.filter(migration => migration.indexOf('renamePersonToUser') > -1);
-      const createPost = migrations.filter(migration => migration.indexOf('createTestTableForTrigger') > -1);
+      const createPersonMigration = migrations.filter(
+        (migration) => migration.indexOf('renamePersonToUser') > -1
+      );
+      const createPost = migrations.filter(
+        (migration) => migration.indexOf('createTestTableForTrigger') > -1
+      );
 
       prepare('--from ' + createPersonMigration + ' --to ' + createPost, () => {
-        helpers.readTables(self.sequelize, tables => {
+        helpers.readTables(self.sequelize, (tables) => {
           expect(tables).to.have.length(2);
           expect(tables).to.contain('trigger_test');
           done();

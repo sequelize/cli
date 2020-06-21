@@ -1,13 +1,9 @@
+const expect = require('expect.js');
+const Support = require(__dirname + '/../../../support');
+const helpers = require(__dirname + '/../../../support/helpers');
+const gulp = require('gulp');
 
-
-const expect    = require('expect.js');
-const Support   = require(__dirname + '/../../../support');
-const helpers   = require(__dirname + '/../../../support/helpers');
-const gulp      = require('gulp');
-
-[
-  'db:migrate:schema:timestamps:add'
-].forEach(flag => {
+['db:migrate:schema:timestamps:add'].forEach((flag) => {
   const prepare = function (config, callback) {
     config = helpers.getTestConfig(config);
 
@@ -35,7 +31,7 @@ const gulp      = require('gulp');
     it('renames the original table', function (done) {
       const self = this;
 
-      helpers.readTables(self.sequelize, tables => {
+      helpers.readTables(self.sequelize, (tables) => {
         expect(tables).to.have.length(3);
         expect(tables.indexOf('SequelizeMeta')).to.be.above(-1);
         expect(tables.indexOf('SequelizeMetaBackup')).to.be.above(-1);
@@ -44,25 +40,28 @@ const gulp      = require('gulp');
     });
 
     it('keeps the data in the original table', function (done) {
-      helpers.execQuery(
-        this.sequelize,
-        this.sequelize.getQueryInterface().QueryGenerator.selectQuery('SequelizeMetaBackup'),
-        { raw: true }
-      ).then(items => {
-        expect(items.length).to.equal(2);
-        done();
-      });
+      helpers
+        .execQuery(
+          this.sequelize,
+          this.sequelize
+            .getQueryInterface()
+            .QueryGenerator.selectQuery('SequelizeMetaBackup'),
+          { raw: true }
+        )
+        .then((items) => {
+          expect(items.length).to.equal(2);
+          done();
+        });
     });
 
     it('keeps the structure of the original table', function (done) {
       const self = this;
 
       helpers.readTables(self.sequelize, () => {
-        return self
-          .sequelize
+        return self.sequelize
           .getQueryInterface()
           .describeTable('SequelizeMetaBackup')
-          .then(fields => {
+          .then((fields) => {
             expect(Object.keys(fields).sort()).to.eql(['name']);
             done();
             return null;
@@ -71,22 +70,33 @@ const gulp      = require('gulp');
     });
 
     it('creates a new SequelizeMeta table with the new structure', function (done) {
-      this.sequelize.getQueryInterface().describeTable('SequelizeMeta').then(fields => {
-        expect(Object.keys(fields).sort()).to.eql(['createdAt', 'name', 'updatedAt']);
-        done();
-      });
+      this.sequelize
+        .getQueryInterface()
+        .describeTable('SequelizeMeta')
+        .then((fields) => {
+          expect(Object.keys(fields).sort()).to.eql([
+            'createdAt',
+            'name',
+            'updatedAt',
+          ]);
+          done();
+        });
     });
 
     it('copies the entries into the new table', function (done) {
-      helpers.execQuery(
-        this.sequelize,
-        this.sequelize.getQueryInterface().QueryGenerator.selectQuery('SequelizeMeta'),
-        { raw: true, type: 'SELECT' }
-      ).then(items => {
-        expect(items[0].name).to.eql('20111117063700-createPerson.js');
-        expect(items[1].name).to.eql('20111205064000-renamePersonToUser.js');
-        done();
-      });
+      helpers
+        .execQuery(
+          this.sequelize,
+          this.sequelize
+            .getQueryInterface()
+            .QueryGenerator.selectQuery('SequelizeMeta'),
+          { raw: true, type: 'SELECT' }
+        )
+        .then((items) => {
+          expect(items[0].name).to.eql('20111117063700-createPerson.js');
+          expect(items[1].name).to.eql('20111205064000-renamePersonToUser.js');
+          done();
+        });
     });
 
     it('is possible to undo one of the already executed migrations', function (done) {
@@ -95,16 +105,22 @@ const gulp      = require('gulp');
       gulp
         .src(Support.resolveSupportPath('tmp'))
         .pipe(helpers.runCli('db:migrate:undo'))
-        .pipe(helpers.teardown(() => {
-          helpers.execQuery(
-            self.sequelize,
-            self.sequelize.getQueryInterface().QueryGenerator.selectQuery('SequelizeMeta'),
-            { raw: true, type: 'SELECT' }
-          ).then(items => {
-            expect(items[0].name).to.eql('20111117063700-createPerson.js');
-            done();
-          });
-        }));
+        .pipe(
+          helpers.teardown(() => {
+            helpers
+              .execQuery(
+                self.sequelize,
+                self.sequelize
+                  .getQueryInterface()
+                  .QueryGenerator.selectQuery('SequelizeMeta'),
+                { raw: true, type: 'SELECT' }
+              )
+              .then((items) => {
+                expect(items[0].name).to.eql('20111117063700-createPerson.js');
+                done();
+              });
+          })
+        );
     });
   });
 });

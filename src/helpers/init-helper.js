@@ -2,12 +2,12 @@ import helpers from './index';
 import path from 'path';
 import fs from 'fs';
 
-function createFolder (folderName, folder, force) {
+function createFolder(folderName, folder, force) {
   if (force && fs.existsSync(folder) === true) {
     helpers.view.log('Deleting the ' + folderName + ' folder. (--force)');
 
     try {
-      fs.readdirSync(folder).forEach(filename => {
+      fs.readdirSync(folder).forEach((filename) => {
         fs.unlinkSync(path.resolve(folder, filename));
       });
     } catch (e) {
@@ -25,31 +25,35 @@ function createFolder (folderName, folder, force) {
   try {
     if (fs.existsSync(folder) === false) {
       helpers.asset.mkdirp(folder);
-      helpers.view.log('Successfully created ' + folderName + ' folder at "' + folder + '".');
+      helpers.view.log(
+        'Successfully created ' + folderName + ' folder at "' + folder + '".'
+      );
     } else {
-      helpers.view.log(folderName + ' folder at "' + folder + '" already exists.');
+      helpers.view.log(
+        folderName + ' folder at "' + folder + '" already exists.'
+      );
     }
   } catch (e) {
     helpers.view.error(e);
   }
-};
+}
 
 const init = {
-  createMigrationsFolder: force => {
+  createMigrationsFolder: (force) => {
     createFolder('migrations', helpers.path.getPath('migration'), force);
   },
 
-  createSeedersFolder: force => {
+  createSeedersFolder: (force) => {
     createFolder('seeders', helpers.path.getPath('seeder'), force);
   },
 
-  createModelsFolder: force => {
+  createModelsFolder: (force) => {
     createFolder('models', helpers.path.getModelsPath(), force);
   },
 
-  createModelsIndexFile: force => {
+  createModelsIndexFile: (force) => {
     const modelsPath = helpers.path.getModelsPath();
-    const indexPath  = path.resolve(
+    const indexPath = path.resolve(
       modelsPath,
       helpers.path.addFileExtension('index')
     );
@@ -66,14 +70,19 @@ const init = {
 
       helpers.asset.write(
         indexPath,
-        helpers.template.render('models/index.js', {
-          configFile: '__dirname + \'/' + relativeConfigPath.replace(/\\/g, '/') + '\''
-        }, {
-          beautify: false
-        })
+        helpers.template.render(
+          'models/index.js',
+          {
+            configFile:
+              "__dirname + '/" + relativeConfigPath.replace(/\\/g, '/') + "'",
+          },
+          {
+            beautify: false,
+          }
+        )
       );
     }
-  }
+  },
 };
 
 module.exports = init;

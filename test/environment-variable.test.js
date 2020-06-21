@@ -1,7 +1,7 @@
-const expect  = require('expect.js');
+const expect = require('expect.js');
 const Support = require(__dirname + '/support');
 const helpers = require(__dirname + '/support/helpers');
-const gulp    = require('gulp');
+const gulp = require('gulp');
 
 const prepare = function (callback) {
   gulp
@@ -15,7 +15,11 @@ const prepare = function (callback) {
         'config/config.json'
       )
     )
-    .pipe(helpers.runCli('db:migrate', { env: { SEQUELIZE_DB_URL: helpers.getTestUrl() } }))
+    .pipe(
+      helpers.runCli('db:migrate', {
+        env: { SEQUELIZE_DB_URL: helpers.getTestUrl() },
+      })
+    )
     .pipe(helpers.teardown(callback));
 };
 
@@ -23,7 +27,7 @@ describe(Support.getTestDialectTeaser('use_env_variable'), () => {
   beforeEach(prepare);
 
   it('correctly runs the migration', function (done) {
-    helpers.readTables(this.sequelize, tables => {
+    helpers.readTables(this.sequelize, (tables) => {
       expect(tables).to.have.length(2);
       expect(tables).to.contain('SequelizeMeta');
       done();

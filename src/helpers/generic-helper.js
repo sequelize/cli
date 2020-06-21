@@ -10,7 +10,7 @@ const generic = {
     return args.env || process.env.NODE_ENV || 'development';
   },
 
-  getSequelize: file => {
+  getSequelize: (file) => {
     const resolvePath = file ? path.join('sequelize', file) : 'sequelize';
     const resolveOptions = { basedir: process.cwd() };
 
@@ -19,6 +19,7 @@ const generic = {
     try {
       sequelizePath = require.resolve(resolvePath, resolveOptions);
     } catch (e) {
+      // ignore error
     }
 
     try {
@@ -37,7 +38,7 @@ const generic = {
     } else {
       return sequelize.query(sql, null, options);
     }
-  }
+  },
 };
 
 module.exports = generic;

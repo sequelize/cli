@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
 module.exports = {
-  up: async function (migration, DataTypes) {},
-  down: async function (migration, DataTypes) {},
+  up: async function () {},
+  down: async function () {},
 };

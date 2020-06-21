@@ -1,15 +1,15 @@
-"use strict";
+'use strict';
 
 module.exports = {
-  up: function (migration, DataTypes) {
-    return migration.bulkInsert("Person", [
+  up: function (migration) {
+    return migration.bulkInsert('Person', [
       {
-        name: "John Doe",
+        name: 'John Doe',
         isBetaMember: false,
       },
     ]);
   },
-  down: function (migration, DataTypes) {
-    return migration.bulkDelete("Person", null, {});
+  down: function (migration) {
+    return migration.bulkDelete('Person', null, {});
   },
 };
