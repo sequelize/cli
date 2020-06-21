@@ -30,7 +30,6 @@ exports.handler = function (args) {
   ensureMigrationsFolder();
   checkModelFileExistence(args);
 
-
   try {
     helpers.model.generateFile(args);
   } catch (err) {

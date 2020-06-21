@@ -4,14 +4,9 @@ var Bluebird  = require('bluebird');
 var Sequelize = require('sequelize');
 
 module.exports = {
-  up: function (db) {
-    return Bluebird
-      .delay(1)
-      .then(function () {
-        return db.createTable('Person', { name: Sequelize.STRING });
-      })
-      .then(function () {
-        return db.createTable('Task', { title: Sequelize.STRING });
-      });
+  up: async (queryInterface) => {
+    await Bluebird.delay(1);
+    await queryInterface.createTable('Person', { name: Sequelize.STRING });
+    await queryInterface.createTable('Task', { title: Sequelize.STRING });
   }
 };
