@@ -111,8 +111,7 @@ const _         = require('lodash');
             done();
           });
         }, {
-          migrationFile: 'new/*createPerson',
-          config:        { promisifyMigrations: false }
+          migrationFile: 'new/*createPerson'
         });
       });
     });

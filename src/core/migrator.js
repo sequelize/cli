@@ -1,6 +1,5 @@
 import Umzug from 'umzug';
 import _ from 'lodash';
-import { promisify } from 'util';
 import pTry from 'p-try';
 
 import helpers from '../helpers/index';
@@ -34,10 +33,7 @@ function getSequelizeInstance () {
 export function getMigrator (type, args) {
   return pTry(() => {
     if (!(helpers.config.configFileExists() || args.url)) {
-      helpers.view.error(
-        'Cannot find "' + helpers.config.getConfigFile() +
-        '". Have you run "sequelize init"?'
-      );
+      helpers.view.error(`Cannot find "${helpers.config.getConfigFile()}". Have you run "sequelize init"?`);
       process.exit(1);
     }
 
@@ -49,14 +45,7 @@ export function getMigrator (type, args) {
       migrations: {
         params: [sequelize.getQueryInterface(), Sequelize],
         path: helpers.path.getPath(type),
-        pattern: /\.c?js$/,
-        wrap: fun => {
-          if (fun.length === 3) {
-            return promisify(fun);
-          } else {
-            return fun;
-          }
-        }
+        pattern: /\.c?js$/
       }
     });
 

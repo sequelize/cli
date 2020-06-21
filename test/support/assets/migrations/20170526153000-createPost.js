@@ -1,17 +1,14 @@
-'use strict';
-
-var nodeify = require('nodeify');
+"use strict";
 
 module.exports = {
-  up: function (migration, DataTypes, done) {
-    nodeify(migration
-      .createTable('Post', {
-        title: DataTypes.STRING,
-        body: DataTypes.TEXT
-      }), done);
+  up: function (migration, DataTypes) {
+    return migration.createTable("Post", {
+      title: DataTypes.STRING,
+      body: DataTypes.TEXT,
+    });
   },
 
-  down: function (migration, DataTypes, done) {
-    nodeify(migration.dropTable('Post'), done);
-  }
+  down: function (migration, DataTypes) {
+    return migration.dropTable("Post");
+  },
 };
