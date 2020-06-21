@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## Future
 
+## v6.0.0-beta.2 - 21st, June 2020
+
+### Fixed
+
+-   `db:seed:undo` now reverts last seed
+
 ## v6.0.0-beta.1 - 7th, June 2020
 
 ### Breaking
