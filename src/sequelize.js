@@ -19,7 +19,7 @@ import helpers from './helpers/index';
 
 helpers.view.teaser();
 
-const cli = yargs
+yargs
   .help()
   .version()
   .command('db:migrate', 'Run pending migrations', migrate)
@@ -42,11 +42,7 @@ const cli = yargs
   .command(['model:generate', 'model:create'], 'Generates a model and its migration', modelGenerate)
   .command(['seed:generate', 'seed:create'], 'Generates a new seed file', seedGenerate)
   .wrap(yargs.terminalWidth())
-  .strict();
-
-const args = cli.argv;
-
-// if no command then show help
-if (!args._[0]) {
-  cli.showHelp();
-}
+  .demandCommand(1, 'Please specify a command')
+  .help()
+  .strict()
+  .argv;
