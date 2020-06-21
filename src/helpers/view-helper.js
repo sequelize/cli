@@ -24,13 +24,21 @@ module.exports = {
 
   error(error) {
     let message = error;
+    const extraMessages = [];
 
     if (error instanceof Error) {
       message = !args.debug ? error.message : error.stack;
     }
 
+    if (args.debug && error.original) {
+      extraMessages.push(error.original.message);
+    }
+
     this.log();
     console.error(`${clc.red('ERROR:')} ${message}`);
+    extraMessages.forEach((message) =>
+      console.error(`${clc.red('EXTRA MESSAGE:')} ${message}`)
+    );
     this.log();
 
     process.exit(1);
