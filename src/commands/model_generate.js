@@ -42,7 +42,11 @@ exports.handler = function (args) {
   );
   helpers.view.log(
     'New migration was created at',
-    clc.blueBright(helpers.path.getMigrationPath(args.name)),
+    clc.blueBright(
+      helpers.path.getMigrationPath(
+        helpers.migration.generateMigrationName(args)
+      )
+    ),
     '.'
   );
 

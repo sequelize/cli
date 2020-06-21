@@ -119,7 +119,8 @@ const _ = require('lodash');
               {
                 flags: { name: 'User', attributes },
               },
-              () => {
+              (err, stdout) => {
+                expect(stdout).to.match(/New model was created at .*user.js/);
                 gulp
                   .src(Support.resolveSupportPath('tmp', 'models'))
                   .pipe(helpers.listFiles())
@@ -162,7 +163,10 @@ const _ = require('lodash');
               {
                 flags: { name: 'User', attributes },
               },
-              () => {
+              (err, stdout) => {
+                expect(stdout).to.match(
+                  /New migration was created at .*create-user.js/
+                );
                 gulp
                   .src(Support.resolveSupportPath('tmp', 'migrations'))
                   .pipe(helpers.listFiles())
