@@ -22,7 +22,6 @@ _But the output was bar!_
 
 _Output, either JSON or SQL_
 
-
 __Dialect:__ mysql / postgres / sqlite / mssql / any
 __Database version:__ XXX
 __Sequelize CLI version:__ XXX
