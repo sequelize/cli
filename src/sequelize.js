@@ -60,4 +60,5 @@ yargs
   .wrap(yargs.terminalWidth())
   .demandCommand(1, 'Please specify a command')
   .help()
-  .strict().argv;
+  .strict()
+  .recommendCommands().argv;
