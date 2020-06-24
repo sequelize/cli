@@ -46,6 +46,10 @@ exports.handler = async function (args) {
     'template',
   ]);
 
+  const queryInterface = sequelize.getQueryInterface();
+  const queryGenerator =
+    queryInterface.queryGenerator || queryInterface.QueryGenerator;
+
   const query = getCreateDatabaseQuery(sequelize, config, options);
 
   switch (command) {
@@ -62,9 +66,9 @@ exports.handler = async function (args) {
     case 'db:drop':
       await sequelize
         .query(
-          `DROP DATABASE IF EXISTS ${sequelize
-            .getQueryInterface()
-            .quoteIdentifier(config.database)}`,
+          `DROP DATABASE IF EXISTS ${queryGenerator.quoteIdentifier(
+            config.database
+          )}`,
           {
             type: sequelize.QueryTypes.RAW,
           }
@@ -80,41 +84,41 @@ exports.handler = async function (args) {
 };
 
 function getCreateDatabaseQuery(sequelize, config, options) {
+  const queryInterface = sequelize.getQueryInterface();
+  const queryGenerator =
+    queryInterface.queryGenerator || queryInterface.QueryGenerator;
+
   switch (config.dialect) {
     case 'postgres':
     case 'postgres-native':
       return (
         'CREATE DATABASE ' +
-        sequelize.getQueryInterface().quoteIdentifier(config.database) +
+        queryGenerator.quoteIdentifier(config.database) +
         (options.encoding
-          ? ' ENCODING = ' +
-            sequelize.getQueryInterface().quoteIdentifier(options.encoding)
+          ? ' ENCODING = ' + queryGenerator.quoteIdentifier(options.encoding)
           : '') +
         (options.collate
-          ? ' LC_COLLATE = ' +
-            sequelize.getQueryInterface().quoteIdentifier(options.collate)
+          ? ' LC_COLLATE = ' + queryGenerator.quoteIdentifier(options.collate)
           : '') +
         (options.ctype
-          ? ' LC_CTYPE = ' +
-            sequelize.getQueryInterface().quoteIdentifier(options.ctype)
+          ? ' LC_CTYPE = ' + queryGenerator.quoteIdentifier(options.ctype)
           : '') +
         (options.template
-          ? ' TEMPLATE = ' +
-            sequelize.getQueryInterface().quoteIdentifier(options.template)
+          ? ' TEMPLATE = ' + queryGenerator.quoteIdentifier(options.template)
           : '')
       );
 
     case 'mysql':
       return (
         'CREATE DATABASE IF NOT EXISTS ' +
-        sequelize.getQueryInterface().quoteIdentifier(config.database) +
+        queryGenerator.quoteIdentifier(config.database) +
         (options.charset
           ? ' DEFAULT CHARACTER SET ' +
-            sequelize.getQueryInterface().quoteIdentifier(options.charset)
+            queryGenerator.quoteIdentifier(options.charset)
           : '') +
         (options.collate
           ? ' DEFAULT COLLATE ' +
-            sequelize.getQueryInterface().quoteIdentifier(options.collate)
+            queryGenerator.quoteIdentifier(options.collate)
           : '')
       );
 
@@ -125,7 +129,7 @@ function getCreateDatabaseQuery(sequelize, config, options) {
         "')" +
         ' BEGIN' +
         ' CREATE DATABASE ' +
-        sequelize.getQueryInterface().quoteIdentifier(config.database) +
+        queryGenerator.quoteIdentifier(config.database) +
         (options.collate ? ' COLLATE ' + options.collate : '') +
         ' END;'
       );
@@ -135,8 +139,7 @@ function getCreateDatabaseQuery(sequelize, config, options) {
         `Dialect ${config.dialect} does not support db:create / db:drop commands`
       );
       return (
-        'CREATE DATABASE ' +
-        sequelize.getQueryInterface().quoteIdentifier(config.database)
+        'CREATE DATABASE ' + queryGenerator.quoteIdentifier(config.database)
       );
   }
 }
