@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## Future
 
+## v6.0.0 - 24th, June 2020
+
+### Fixed
+
+- fix: support for `sequelize@6`
+
 ## v6.0.0-beta.3 - 21st, June 2020
 
 ### Fixed
