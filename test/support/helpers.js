@@ -207,11 +207,13 @@ module.exports = {
   },
 
   countTable: function (sequelize, table, callback) {
-    var QueryGenerator = sequelize.getQueryInterface().QueryGenerator;
+    const queryInterface = sequelize.getQueryInterface();
+    const queryGenerator =
+      queryInterface.QueryGenerator || queryInterface.queryGenerator;
 
     return sequelize
       .query(
-        'SELECT count(*) as count FROM ' + QueryGenerator.quoteTable(table)
+        'SELECT count(*) as count FROM ' + queryGenerator.quoteTable(table)
       )
       .then(function (result) {
         return callback(result.length === 2 ? result[0] : result);

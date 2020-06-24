@@ -107,16 +107,20 @@ var Support = {
             sequelize.modelManager.models = [];
           }
 
-          return sequelize
-            .getQueryInterface()
-            .dropAllEnums()
-            .then(callback)
-            .catch(function (err) {
-              console.log(
-                'Error in support.clearDatabase() dropAllEnums() :: ',
-                err
-              );
-            });
+          if (sequelize.getQueryInterface().dropAllEnums) {
+            return sequelize
+              .getQueryInterface()
+              .dropAllEnums()
+              .then(callback)
+              .catch(function (err) {
+                console.log(
+                  'Error in support.clearDatabase() dropAllEnums() :: ',
+                  err
+                );
+              });
+          } else {
+            return Promise.resolve().then(callback);
+          }
         })
         .catch(function (err) {
           console.log(
