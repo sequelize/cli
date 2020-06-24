@@ -4,17 +4,16 @@ The [Sequelize](https://sequelize.org) Command Line Interface (CLI)
 
 ## Table of Contents
 
--   [Installation](#installation)
--   [Contributing](#contributing)
--   [Documentation](#documentation)
+- [Installation](#installation)
+- [Contributing](#contributing)
+- [Documentation](#documentation)
 
 ## Installation
 
 Make sure you have [Sequelize](https://sequelize.org) installed. Then install the Sequelize CLI to be used in your project with
 
 ```bash
-npm install --save-dev sequelize-cli // will install v5
-npm install --save-dev sequelize-cli@next // will install v6
+npm install --save-dev sequelize-cli
 ```
 
 And then you should be able to run the CLI with
@@ -25,10 +24,10 @@ npx sequelize --help
 
 ### Usage
 
-```
-Sequelize CLI [Node: 10.15.0, CLI: 5.5.0, ORM: 5.11.0]
+```bash
+Sequelize CLI [Node: 10.21.0, CLI: 6.0.0, ORM: 6.1.0]
 
-npx sequelize [command]
+sequelize <command>
 
 Commands:
   sequelize db:migrate                        Run pending migrations
@@ -47,23 +46,25 @@ Commands:
   sequelize init:migrations                   Initializes migrations
   sequelize init:models                       Initializes models
   sequelize init:seeders                      Initializes seeders
-  sequelize migration:generate                Generates a new migration file       [aliases: migration:create]
-  sequelize model:generate                    Generates a model and its migration  [aliases: model:create]
-  sequelize seed:generate                     Generates a new seed file            [aliases: seed:create]
+  sequelize migration:generate                Generates a new migration file      [aliases: migration:create]
+  sequelize model:generate                    Generates a model and its migration [aliases: model:create]
+  sequelize seed:generate                     Generates a new seed file           [aliases: seed:create]
 
 Options:
-  --version  Show version number                                         [boolean]
-  --help     Show help                                                   [boolean]
+  --version  Show version number                                                  [boolean]
+  --help     Show help                                                            [boolean]
+
+Please specify a command
 ```
 
 ## Contributing
 
-Sequelize CLI is always looking for contributions. You can help us by fixing bugs, reporting bugs or improving documentation.
+You can help us by fixing bugs, reporting bugs or improving documentation.
 
 Please read the [contributing guidelines](CONTRIBUTING.md).
 
 ## Documentation
 
--   [Migrations Documentation](https://sequelize.org/master/manual/migrations.html)
--   [CLI Options](docs/README.md)
--   [Frequently Asked Questions](docs/FAQ.md)
+- [Migrations Documentation](https://sequelize.org/master/manual/migrations.html)
+- [CLI Options](docs/README.md)
+- [Frequently Asked Questions](docs/FAQ.md)

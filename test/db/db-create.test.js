@@ -36,6 +36,7 @@ describe(Support.getTestDialectTeaser('db:create'), () => {
               }
             )
             .then((result) => {
+              expect(result).to.have.length(1);
               expect(result[0].exists).to.eql(1);
               done();
             });
@@ -61,6 +62,7 @@ describe(Support.getTestDialectTeaser('db:create'), () => {
               }
             )
             .then((result) => {
+              expect(result).to.have.length(1);
               expect(result[0].exists).to.eql(1);
               done();
             });
@@ -91,6 +93,7 @@ describe(Support.getTestDialectTeaser('db:create'), () => {
               }
             )
             .then((result) => {
+              expect(result).to.have.length(1);
               expect(result[0].exists).to.eql(1);
               expect(result[0].encoding).to.eql('UTF8');
               expect(result[0].collate).to.eql('zh_TW.UTF-8');
@@ -124,6 +127,7 @@ describe(Support.getTestDialectTeaser('db:create'), () => {
               }
             )
             .then((result) => {
+              expect(result).to.have.length(1);
               expect(result[0].exists).to.eql(1);
               expect(result[0].encoding).to.eql('UTF8');
               expect(result[0].collate).to.eql('zh_TW.UTF-8');
@@ -154,6 +158,7 @@ describe(Support.getTestDialectTeaser('db:create'), () => {
               }
             )
             .then((result) => {
+              expect(result).to.have.length(1);
               expect(result[0].found).to.eql(1);
               done();
             });

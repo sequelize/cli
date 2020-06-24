@@ -20,6 +20,10 @@ const gulp = require('gulp');
 
   describe(Support.getTestDialectTeaser(flag), () => {
     beforeEach(function (done) {
+      const queryInterface = this.sequelize.getQueryInterface();
+      this.queryGenerator =
+        queryInterface.queryGenerator || queryInterface.QueryGenerator;
+
       prepare.call(this, null, () => {
         return gulp
           .src(Support.resolveSupportPath('tmp'))
@@ -43,9 +47,7 @@ const gulp = require('gulp');
       helpers
         .execQuery(
           this.sequelize,
-          this.sequelize
-            .getQueryInterface()
-            .QueryGenerator.selectQuery('SequelizeMetaBackup'),
+          this.queryGenerator.selectQuery('SequelizeMetaBackup'),
           { raw: true }
         )
         .then((items) => {
@@ -87,9 +89,7 @@ const gulp = require('gulp');
       helpers
         .execQuery(
           this.sequelize,
-          this.sequelize
-            .getQueryInterface()
-            .QueryGenerator.selectQuery('SequelizeMeta'),
+          this.queryGenerator.selectQuery('SequelizeMeta'),
           { raw: true, type: 'SELECT' }
         )
         .then((items) => {
@@ -100,8 +100,6 @@ const gulp = require('gulp');
     });
 
     it('is possible to undo one of the already executed migrations', function (done) {
-      const self = this;
-
       gulp
         .src(Support.resolveSupportPath('tmp'))
         .pipe(helpers.runCli('db:migrate:undo'))
@@ -109,10 +107,8 @@ const gulp = require('gulp');
           helpers.teardown(() => {
             helpers
               .execQuery(
-                self.sequelize,
-                self.sequelize
-                  .getQueryInterface()
-                  .QueryGenerator.selectQuery('SequelizeMeta'),
+                this.sequelize,
+                this.queryGenerator.selectQuery('SequelizeMeta'),
                 { raw: true, type: 'SELECT' }
               )
               .then((items) => {

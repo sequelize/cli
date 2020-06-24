@@ -110,9 +110,9 @@ export function addTimestampsToSchema(migrator) {
     return ensureCurrentMetaSchema(migrator)
       .then(() => queryInterface.renameTable(tableName, tableName + 'Backup'))
       .then(() => {
-        const sql = queryInterface.QueryGenerator.selectQuery(
-          tableName + 'Backup'
-        );
+        const queryGenerator =
+          queryInterface.QueryGenerator || queryInterface.queryGenerator;
+        const sql = queryGenerator.selectQuery(tableName + 'Backup');
         return helpers.generic.execQuery(sequelize, sql, {
           type: 'SELECT',
           raw: true,

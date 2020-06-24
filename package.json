@@ -34,7 +34,7 @@
     "pg": "latest",
     "pg-hstore": "latest",
     "prettier": "^2.0.5",
-    "sequelize": "latest",
+    "sequelize": "^6.1.0",
     "sqlite3": "latest",
     "through2": "^3.0.0"
   },
