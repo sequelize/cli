@@ -29,3 +29,4 @@ test/support/tmp/*
 package-lock.json
 yarn.lock
 npm-debug.log
+.DS_Store
