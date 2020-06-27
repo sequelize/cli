@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## Future
 
+## v6.1.0 - 27th, June 2020
+
+### Fixed
+
+- fix(timestamps): support for timestamps in migration tables [#899](https://github.com/sequelize/cli/issues/663)
+
 ## v6.0.0 - 24th, June 2020
 
 ### Fixed
