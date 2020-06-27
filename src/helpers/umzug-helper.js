@@ -15,6 +15,8 @@ const storageJsonName = {
   seeder: 'sequelize-data.json',
 };
 
+let timestampsDefault = false;
+
 module.exports = {
   getStorageOption(property, fallback) {
     return helpers.config.readConfig()[property] || fallback;
@@ -41,6 +43,14 @@ module.exports = {
     return this.getStorageOption(type + 'StorageTableSchema', undefined);
   },
 
+  enableTimestamps() {
+    timestampsDefault = true;
+  },
+
+  getTimestamps(type) {
+    return this.getStorageOption(type + 'Timestamps', timestampsDefault);
+  },
+
   getStorageOptions(type, extraOptions) {
     const options = {};
 
@@ -49,6 +59,7 @@ module.exports = {
     } else if (this.getStorage(type) === 'sequelize') {
       options.tableName = this.getTableName(type);
       options.schema = this.getSchema(type);
+      options.timestamps = this.getTimestamps(type);
     }
 
     _.assign(options, extraOptions);
