@@ -59,7 +59,11 @@ Please specify a command
 
 ## Contributing
 
-You can help us by fixing bugs, reporting bugs or improving documentation.
+All contributions are accepted as a PR.
+
+- You can file issues by submitting a PR (with test) as a test case.
+- Implement new feature by submitting a PR
+- Improve documentation by submitting PR to [Sequelize](https://github.com/sequelize/sequelize)
 
 Please read the [contributing guidelines](CONTRIBUTING.md).
 
