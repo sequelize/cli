@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## Future
 
+## v6.2.0 - 5th, July 2020
+
+### Feature
+
+- feat: support migrations files with ts file extension [#915](https://github.com/sequelize/cli/issues/915)
+
 ## v6.1.0 - 27th, June 2020
 
 ### Fixed
