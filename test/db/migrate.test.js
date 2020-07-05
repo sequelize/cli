@@ -27,7 +27,7 @@ const _ = require('lodash');
     const config = _.assign({}, helpers.getTestConfig(), options.config);
     let configContent = JSON.stringify(config);
 
-    if (!migrationFile.match(/\.cjs$/)) {
+    if (!migrationFile.match(/\.(cjs|ts)$/)) {
       migrationFile = migrationFile + '.js';
     }
     if (flag.match(/config\.js$/)) {
@@ -147,6 +147,23 @@ const _ = require('lodash');
           },
           {
             migrationFile: 'cjs/*createComment.cjs',
+          }
+        );
+      });
+    });
+
+    describe('migrations with ts extension', () => {
+      it('correctly migrates', function (done) {
+        const self = this;
+        prepare(
+          () => {
+            helpers.readTables(self.sequelize, (tables) => {
+              expect(tables.sort()).to.contain('Typescript');
+              done();
+            });
+          },
+          {
+            migrationFile: 'ts/*createTypescript.ts',
           }
         );
       });
