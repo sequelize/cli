@@ -1,0 +1,21 @@
+{
+  "extends": ["config:base"],
+  "lockFileMaintenance": { "enabled": true },
+  "rangeStrategy": "replace",
+  "packageRules": [
+    {
+      "updateTypes": ["minor", "patch", "pin", "digest"],
+      "automerge": true
+    },
+    {
+      "depTypeList": ["devDependencies"],
+      "automerge": true
+    },
+    {
+      "depTypeList": ["devDependencies"],
+      "updateTypes": ["patch", "minor"],
+      "automerge": true,
+      "groupName": "devDependencies (non-major)"
+    }
+  ]
+}
