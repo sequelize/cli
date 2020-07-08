@@ -36,7 +36,7 @@
     "prettier": "^2.0.5",
     "sequelize": "^6.1.0",
     "sqlite3": "latest",
-    "through2": "^3.0.0"
+    "through2": "^4.0.0"
   },
   "options": {
     "mocha": "--require scripts/mocha-bootload.js --bail --check-leaks --exit --timeout 30000 --colors --recursive --reporter spec"
