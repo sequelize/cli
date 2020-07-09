@@ -10,7 +10,7 @@
     "lib"
   ],
   "dependencies": {
-    "cli-color": "^1.4.0",
+    "cli-color": "^2.0.0",
     "fs-extra": "^7.0.1",
     "js-beautify": "^1.8.8",
     "lodash": "^4.17.5",
