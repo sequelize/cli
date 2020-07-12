@@ -45,12 +45,11 @@ const gulp = require('gulp');
           .pipe(helpers.readFile('*-' + migrationFile))
           .pipe(
             helpers.expect((stdout) => {
+              expect(stdout).to.contain('up: async (queryInterface) => {');
               expect(stdout).to.contain(
-                'up: async (queryInterface, Sequelize) => {'
+                "import { DataTypes } from 'sequelize';"
               );
-              expect(stdout).to.contain(
-                'down: async (queryInterface, Sequelize) => {'
-              );
+              expect(stdout).to.contain('down: async (queryInterface) => {');
             })
           )
           .pipe(helpers.teardown(done));
