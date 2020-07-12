@@ -8,31 +8,21 @@ For bugs, please fill out the template below.
 -->
 
 ## What you are doing?
-I am trying to use the CLI to generate the model file
+<!-- Post a minimal, self-contained code sample that reproduces the issue, include config and migration file(s) -->
 
 ```js
-npx sequelize-cli model:generate --name users --attributes name:string,email:string,fav_pizza:string,space_invaders:integer
+// code here
 ```
 
 ## What do you expect to happen?
-I expected to create a model file for users with the fields name, email, fav_pizza, space_invaders
+_I wanted Foo!_
 
 ## What is actually happening?
-The model is created but it only has the first field declared after attributes, in this case the name field. If I change the field order, then whatever field is first declared is the only field created in the model file.
+_But the output was bar!_
 
-```
-module.exports = (sequelize, DataTypes) => {
-  const users = sequelize.define('users', {
-    name: DataTypes.STRING
-  }, {});
-  users.associate = function(models) {
-    // associations can be defined here
-  };
-  return users;
-};
-```
+_Output, either JSON or SQL_
 
-__Dialect:__  any
+__Dialect:__ mysql / postgres / sqlite / mssql / any
 __Database version:__ XXX
-__Sequelize CLI version:__ 5.5.1
-__Sequelize version:__ 5.22.3
+__Sequelize CLI version:__ XXX
+__Sequelize version:__ XXX
