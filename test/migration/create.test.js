@@ -47,7 +47,7 @@ const gulp = require('gulp');
             helpers.expect((stdout) => {
               expect(stdout).to.contain('up: async (queryInterface) => {');
               expect(stdout).to.contain(
-                "const DataTypes = require('sequelize');"
+                "const { DataTypes } = require('sequelize');"
               );
               expect(stdout).to.contain('down: async (queryInterface) => {');
             })
