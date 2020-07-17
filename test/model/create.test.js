@@ -213,27 +213,27 @@ const _ = require('lodash');
                         .pipe(helpers.ensureContent(".createTable('Users', {"))
                         .pipe(
                           helpers.ensureContent(
-                            'first_name: {\n        type: Sequelize.STRING\n      },'
+                            'first_name: {\n        type: DataTypes.STRING\n      },'
                           )
                         )
                         .pipe(
                           helpers.ensureContent(
-                            'last_name: {\n        type: Sequelize.STRING\n      },'
+                            'last_name: {\n        type: DataTypes.STRING\n      },'
                           )
                         )
                         .pipe(
                           helpers.ensureContent(
-                            'bio: {\n        type: Sequelize.TEXT\n      },'
+                            'bio: {\n        type: DataTypes.TEXT\n      },'
                           )
                         )
                         .pipe(
                           helpers.ensureContent(
-                            "role: {\n        type: Sequelize.ENUM('Admin', 'Guest User')\n      },"
+                            "role: {\n        type: DataTypes.ENUM('Admin', 'Guest User')\n      },"
                           )
                         )
                         .pipe(
                           helpers.ensureContent(
-                            'reviews: {\n        type: Sequelize.ARRAY(Sequelize.TEXT)\n      },'
+                            'reviews: {\n        type: DataTypes.ARRAY(DataTypes.TEXT)\n      },'
                           )
                         )
                         .pipe(
@@ -243,7 +243,7 @@ const _ = require('lodash');
                               '        allowNull: false,',
                               '        autoIncrement: true,',
                               '        primaryKey: true,',
-                              '        type: Sequelize.INTEGER',
+                              '        type: DataTypes.INTEGER',
                               '      },',
                             ].join('\n')
                           )
@@ -253,7 +253,7 @@ const _ = require('lodash');
                             [
                               '     ' + attrUnd.createdAt + ': {',
                               '        allowNull: false,',
-                              '        type: Sequelize.DATE',
+                              '        type: DataTypes.DATE',
                               '      },',
                             ].join('\n')
                           )
@@ -263,7 +263,7 @@ const _ = require('lodash');
                             [
                               '     ' + attrUnd.updatedAt + ': {',
                               '        allowNull: false,',
-                              '        type: Sequelize.DATE',
+                              '        type: DataTypes.DATE',
                               '      }',
                             ].join('\n')
                           )
