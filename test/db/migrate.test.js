@@ -169,6 +169,23 @@ const _ = require('lodash');
       });
     });
 
+    describe('migrations to not match .d.ts extension', () => {
+      it("doesn't match", function (done) {
+        const self = this;
+        prepare(
+          () => {
+            helpers.readTables(self.sequelize, (tables) => {
+              expect(tables.sort()).to.not.contain('TypescriptDS');
+              done();
+            });
+          },
+          {
+            migrationFile: 'ts/*.d.ts',
+          }
+        );
+      });
+    });
+
     describe('custom meta table name', () => {
       it('correctly uses the defined table name', function (done) {
         const self = this;
