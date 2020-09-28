@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate (models) {
       // define association here
     }
-  };
+  }
 
   <%= name %>.init({
     <% attributes.forEach(function(attribute, index) { %>
