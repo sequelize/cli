@@ -35,6 +35,7 @@ yargs
   .command('db:seed:undo', 'Deletes data from the database', seedOne)
   .command('db:seed:all', 'Run every seeder', seed)
   .command('db:seed:undo:all', 'Deletes data from the database', seed)
+  .command('db:info', 'Return database configuration info', database)
   .command('db:create', 'Create database specified by configuration', database)
   .command('db:drop', 'Drop database specified by configuration', database)
   .command('init', 'Initializes project', init)
