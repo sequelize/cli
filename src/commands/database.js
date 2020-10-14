@@ -53,6 +53,12 @@ exports.handler = async function (args) {
   const query = getCreateDatabaseQuery(sequelize, config, options);
 
   switch (command) {
+    case 'db:info':
+      if (config.password !== null) {
+        config.password = '***';
+      }
+      helpers.view.log('Config', config);
+      break;
     case 'db:create':
       await sequelize
         .query(query, {
