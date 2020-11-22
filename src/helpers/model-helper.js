@@ -27,7 +27,7 @@ function formatAttributes(attribute) {
       dataValues: null,
     };
   } else if (split.length === 3) {
-    const validValues = /^\{(,? ?[A-z0-9 ]+)+\}$/;
+    const validValues = /^\[(,? ?("|')?[A-z0-9 ]+("|')?)+\]$/;
     const isValidFunction =
       validAttributeFunctionType.indexOf(split[1].toLowerCase()) !== -1;
     const isValidValue =
@@ -50,7 +50,7 @@ function formatAttributes(attribute) {
         dataType: split[1],
         dataFunction: null,
         dataValues: split[2]
-          .replace(/(^\{|\}$)/g, '')
+          .replace(/(^'|"|\[|\]$)/g, '')
           .split(/\s*,\s*/)
           .map((s) => `'${s}'`)
           .join(', '),
@@ -65,9 +65,10 @@ module.exports = {
   transformAttributes(flag) {
     /*
       possible flag formats:
-      - first_name:string,last_name:string,bio:text,role:enum:{Admin, 'Guest User'},reviews:array:string
-      - 'first_name:string last_name:string bio:text role:enum:{Admin, Guest User} reviews:array:string'
-      - 'first_name:string, last_name:string, bio:text, role:enum:{Admin, Guest User} reviews:array:string'
+      - first_name:string,last_name:string,bio:text,role:enum:{Admin,"Guest User"},reviews:array:text,
+      - first_name:string,last_name:string,bio:text,role:enum:[Admin, 'Guest User'],reviews:array:string
+      - 'first_name:string last_name:string bio:text role:enum:[Admin, Guest User] reviews:array:string'
+      - 'first_name:string, last_name:string, bio:text, role:enum:[Admin, Guest User] reviews:array:string'
     */
     const attributeStrings = flag
       .split('')
@@ -78,10 +79,10 @@ module.exports = {
             if ((a === ',' || a === ' ') && !openValues) {
               return '  ';
             }
-            if (a === '{') {
+            if (a === '[') {
               openValues = true;
             }
-            if (a === '}') {
+            if (a === ']') {
               openValues = false;
             }
 
