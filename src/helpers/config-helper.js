@@ -20,10 +20,14 @@ const api = {
         if (args.url) {
           config = api.parseDbUrl(args.url);
         } else {
-          try {
-            config = require(api.getConfigFile());
-          } catch (e) {
-            api.error = e;
+          if (typeof args.config === 'object') {
+            config = args.config;
+          } else {
+            try {
+              config = require(api.getConfigFile());
+            } catch (e) {
+              api.error = e;
+            }
           }
         }
         return config;
@@ -46,7 +50,7 @@ const api = {
       });
   },
   getConfigFile() {
-    if (args.config) {
+    if (args.config && typeof args.config !== 'object') {
       return path.resolve(process.cwd(), args.config);
     }
 
