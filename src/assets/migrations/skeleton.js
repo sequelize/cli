@@ -1,6 +1,10 @@
 'use strict';
 
 module.exports = {
+   /**
+   * @param { import('sequelize/lib/query-interface')} sqlQueryInterface
+   * @param { import('sequelize') } Sequelize
+   */
   up: async (queryInterface, Sequelize) => {
     /**
      * Add altering commands here.
@@ -10,6 +14,10 @@ module.exports = {
      */
   },
 
+   /**
+   * @param { import('sequelize/lib/query-interface')} sqlQueryInterface
+   * @param { import('sequelize') } Sequelize
+   */
   down: async (queryInterface, Sequelize) => {
     /**
      * Add reverting commands here.
