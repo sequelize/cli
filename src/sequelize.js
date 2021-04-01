@@ -43,20 +43,23 @@ yargs
   .command('init:models', 'Initializes models', init)
   .command('init:seeders', 'Initializes seeders', init)
   .command(
-    ['migration:generate', 'migration:create'],
+    'migration:create',
     'Generates a new migration file',
     migrationGenerate
   )
   .command(
-    ['model:generate', 'model:create'],
+    'migration:generate',
+    'Generates a new migration file',
+    migrationGenerate
+  )
+  .command('model:create', 'Generates a model and its migration', modelGenerate)
+  .command(
+    'model:generate',
     'Generates a model and its migration',
     modelGenerate
   )
-  .command(
-    ['seed:generate', 'seed:create'],
-    'Generates a new seed file',
-    seedGenerate
-  )
+  .command('seed:create', 'Generates a new seed file', seedGenerate)
+  .command('seed:generate', 'Generates a new seed file', seedGenerate)
   .wrap(yargs.terminalWidth())
   .demandCommand(1, 'Please specify a command')
   .help()
