@@ -28,7 +28,7 @@ module.exports = {
   clearDirectory: function () {
     return through.obj(function (file, encoding, callback) {
       exec(
-        `rm·-rf·*·&·rm·-rf·.sequelizerc`,
+        `rm -rf * & rm -rf .sequelizerc`,
         { cwd: file.path },
         function (err) {
           callback(err, file);
