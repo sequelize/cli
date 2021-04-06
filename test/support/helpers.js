@@ -27,11 +27,13 @@ module.exports = {
 
   clearDirectory: function () {
     return through.obj(function (file, encoding, callback) {
-      exec('rm -rf * & rm -rf .sequelizerc', { cwd: file.path }, function (
-        err
-      ) {
-        callback(err, file);
-      });
+      exec(
+        'rm -rf * & rm -rf .sequelizerc',
+        { cwd: file.path },
+        function (err) {
+          callback(err, file);
+        }
+      );
     });
   },
 
@@ -53,41 +55,41 @@ module.exports = {
 
       logToFile(command);
 
-      exec(command, { cwd: file.path, env: env }, function (
-        err,
-        stdout,
-        stderr
-      ) {
-        var result = file;
+      exec(
+        command,
+        { cwd: file.path, env: env },
+        function (err, stdout, stderr) {
+          var result = file;
 
-        logToFile({ err: err, stdout: stdout, stderr: stderr });
+          logToFile({ err: err, stdout: stdout, stderr: stderr });
 
-        if (stdout) {
-          expect(stdout).to.not.contain('EventEmitter');
-        }
-
-        if (options.pipeStdout) {
-          result = stdout;
-        } else if (options.pipeStderr) {
-          result = stderr;
-        }
-
-        if (options.exitCode) {
-          try {
-            expect(err).to.be.ok();
-            expect(err.code).to.equal(1);
-            callback(null, result);
-          } catch (e) {
-            callback(
-              new Error('Expected cli to exit with a non-zero code'),
-              null
-            );
+          if (stdout) {
+            expect(stdout).to.not.contain('EventEmitter');
           }
-        } else {
-          err = options.pipeStderr ? null : err;
-          callback(err, result);
+
+          if (options.pipeStdout) {
+            result = stdout;
+          } else if (options.pipeStderr) {
+            result = stderr;
+          }
+
+          if (options.exitCode) {
+            try {
+              expect(err).to.be.ok();
+              expect(err.code).to.equal(1);
+              callback(null, result);
+            } catch (e) {
+              callback(
+                new Error('Expected cli to exit with a non-zero code'),
+                null
+              );
+            }
+          } else {
+            err = options.pipeStderr ? null : err;
+            callback(err, result);
+          }
         }
-      });
+      );
     });
   },
 
