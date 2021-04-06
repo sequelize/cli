@@ -23,7 +23,6 @@ exports.handler = function (args) {
   const path = fs.existsSync(`migrations/skeleton.${ext.ts}`)
     ? `migrations/skeleton.${ext.ts}`
     : `migrations/skeleton.${ext.js}`;
-
   fs.writeFileSync(
     helpers.path.getMigrationPath(args.name),
     helpers.template.render(
