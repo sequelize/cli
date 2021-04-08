@@ -1,0 +1,66 @@
+
+name: CI
+on: [push, pull_request]
+
+jobs:
+  test-postgres:
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [10, 12, 14]
+    name: Postgres (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    env:
+      DIALECT: postgres
+      SEQ_PORT: 54320
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+      - run: npm install sequelize@latest
+      - run: npm run build
+      - run: docker-compose up -d ${DIALECT}
+      - run: docker run --link ${DIALECT}:db -e CHECK_PORT=${SEQ_PORT::-1} -e CHECK_HOST=db --net cli_default giorgos/takis
+      - run: npm run test
+  test-mysql:
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [10, 12, 14]
+    name: MySQL (Node ${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    env:
+      DIALECT: mysql
+      SEQ_PORT: 33060
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+      - run: npm install sequelize@latest
+      - run: npm run build
+      - run: docker-compose up -d ${DIALECT}
+      - run: docker run --link ${DIALECT}:db -e CHECK_PORT=${SEQ_PORT::-1} -e CHECK_HOST=db --net cli_default giorgos/takis
+      - run: npm run test
+  test-sqlite:
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [10, 12, 14]
+        sequelize-version: [5, latest]
+    name: SQLite (Node ${{ matrix.node-version }}, Sequelize ${{ matrix.sequelize-version }})
+    runs-on: ubuntu-latest
+    env:
+      DIALECT: sqlite
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: npm install
+      - run: npm install sequelize@${{ matrix.sequelize-version }}
+      - run: npm run build
+      - run: npm run test
