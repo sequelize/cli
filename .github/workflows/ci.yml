@@ -2,7 +2,6 @@
 name: CI
 on: [push, pull_request]
 
-# TODO: How to incorporate before_script
 jobs:
   test-postgres:
     strategy:
@@ -22,6 +21,8 @@ jobs:
       - run: npm install
       - run: npm install sequelize@latest
       - run: npm run build
+      - run: docker-compose up -d ${DIALECT}
+      - run: docker run --link ${DIALECT}:db -e CHECK_PORT=${SEQ_PORT::-1} -e CHECK_HOST=db --net cli_default giorgos/takis
       - run: npm run test
   test-mysql:
     strategy:
@@ -41,6 +42,8 @@ jobs:
       - run: npm install
       - run: npm install sequelize@latest
       - run: npm run build
+      - run: docker-compose up -d ${DIALECT}
+      - run: docker run --link ${DIALECT}:db -e CHECK_PORT=${SEQ_PORT::-1} -e CHECK_HOST=db --net cli_default giorgos/takis
       - run: npm run test
   test-sqlite:
     strategy:
@@ -58,6 +61,6 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
-      - run: npm install sequelize@${{ matrix.sequelize-version }} # TODO: Check if this works
+      - run: npm install sequelize@${{ matrix.sequelize-version }}
       - run: npm run build
       - run: npm run test
