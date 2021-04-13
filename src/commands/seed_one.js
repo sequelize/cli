@@ -28,7 +28,7 @@ exports.handler = async function (args) {
           .filter((name) => name !== 'db:seed' && name !== 'db:seed:undo')
           .map((file) => path.basename(file));
 
-        return migrator.up(seeds);
+        await migrator.up(seeds);
       } catch (e) {
         helpers.view.error(e);
       }
@@ -57,7 +57,7 @@ exports.handler = async function (args) {
           seeders = seeders.slice(-1);
         }
 
-        return migrator.down({
+        await migrator.down({
           migrations: _.chain(seeders).map('file').reverse().value(),
         });
       } catch (e) {
