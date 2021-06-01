@@ -86,7 +86,14 @@ export function ensureCurrentMetaSchema(migrator) {
 }
 
 function ensureMetaTable(queryInterface, tableName) {
-  return queryInterface.showAllTables().then((tableNames) => {
+  return queryInterface.showAllTables()
+  .then((tableNames) => {
+    if (typeof tableNames[0] === 'string') {
+        return tableNames;
+    }
+    return tableNames.map(table => { return table.tableName })
+  })
+  .then((tableNames) => {
     if (tableNames.indexOf(tableName) === -1) {
       throw new Error('No MetaTable table found.');
     }
