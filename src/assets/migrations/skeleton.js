@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-  up: async (queryInterface, Sequelize) => {
+  async up (queryInterface, Sequelize) {
     /**
      * Add altering commands here.
      *
@@ -10,7 +10,7 @@ module.exports = {
      */
   },
 
-  down: async (queryInterface, Sequelize) => {
+  async down (queryInterface, Sequelize) {
     /**
      * Add reverting commands here.
      *
