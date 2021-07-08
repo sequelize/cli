@@ -46,10 +46,10 @@ const gulp = require('gulp');
           .pipe(
             helpers.expect((stdout) => {
               expect(stdout).to.contain(
-                'up: async (queryInterface, Sequelize) => {'
+                'async up (queryInterface, Sequelize) {'
               );
               expect(stdout).to.contain(
-                'down: async (queryInterface, Sequelize) => {'
+                'async down (queryInterface, Sequelize) {'
               );
             })
           )
