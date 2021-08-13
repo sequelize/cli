@@ -14,7 +14,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-- fix(timestamps): support for timestamps in migration tables [#899](https://github.com/sequelize/cli/issues/663)
+- fix(timestamps): support for timestamps in migration tables [#899](https://github.com/sequelize/cli/issues/899)
 
 ## v6.0.0 - 24th, June 2020
 
