@@ -17,7 +17,8 @@ exports.builder = (yargs) =>
         demandOption: true,
       })
       .option('file-name', {
-        describe: 'Specify custom file name for the model created. Default name is model name in lowercase',
+        describe:
+          'Specify custom file name for the model created. Default name is model name in lowercase',
         type: 'string',
         demandOption: false,
       })

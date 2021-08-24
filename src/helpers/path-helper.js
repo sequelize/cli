@@ -39,7 +39,7 @@ module.exports = {
   getFileName(type, name, options) {
     return this.addFileExtension(
       [getCurrentYYYYMMDDHHmms(), name ? name : 'unnamed-' + type].join('-'),
-      options,
+      options
     );
   },
 
@@ -54,7 +54,7 @@ module.exports = {
   getMigrationPath(migrationName) {
     return path.resolve(
       this.getPath('migration'),
-      this.getFileName('migration', migrationName),
+      this.getFileName('migration', migrationName)
     );
   },
 
