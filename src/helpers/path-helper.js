@@ -39,7 +39,7 @@ module.exports = {
   getFileName(type, name, options) {
     return this.addFileExtension(
       [getCurrentYYYYMMDDHHmms(), name ? name : 'unnamed-' + type].join('-'),
-      options
+      options,
     );
   },
 
@@ -54,7 +54,7 @@ module.exports = {
   getMigrationPath(migrationName) {
     return path.resolve(
       this.getPath('migration'),
-      this.getFileName('migration', migrationName)
+      this.getFileName('migration', migrationName),
     );
   },
 
@@ -69,10 +69,10 @@ module.exports = {
     return args.modelsPath || path.resolve(process.cwd(), 'models');
   },
 
-  getModelPath(modelName) {
+  getModelPath(modelName, fileName) {
     return path.resolve(
       this.getModelsPath(),
-      this.addFileExtension(modelName.toLowerCase())
+      this.addFileExtension(fileName ? fileName : modelName.toLowerCase())
     );
   },
 
