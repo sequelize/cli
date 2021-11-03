@@ -66,7 +66,8 @@ export async function getMigrator(type, args) {
 }
 
 export function ensureCurrentMetaSchema(migrator) {
-  const queryInterface = migrator.options.storageOptions.sequelize.getQueryInterface();
+  const queryInterface =
+    migrator.options.storageOptions.sequelize.getQueryInterface();
   const tableName = migrator.options.storageOptions.tableName;
   const columnName = migrator.options.storageOptions.columnName;
 

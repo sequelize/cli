@@ -44,9 +44,10 @@ function seedAll(args) {
 function seedUndoAll(args) {
   return getMigrator('seeder', args)
     .then((migrator) => {
-      return (helpers.umzug.getStorage('seeder') === 'none'
-        ? migrator.pending()
-        : migrator.executed()
+      return (
+        helpers.umzug.getStorage('seeder') === 'none'
+          ? migrator.pending()
+          : migrator.executed()
       ).then((seeders) => {
         if (seeders.length === 0) {
           helpers.view.log('No seeders found.');
