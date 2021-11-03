@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 
 ## Future
 
+## v6.3.0 - Nov 3rd, 2021
+
+### Fixed
+
+- Formatting in documentation
+- Fix linting errors
+
+### Chore
+
+- Update dependencies
+
 ## v6.2.0 - 5th, July 2020
 
 ### Feature
