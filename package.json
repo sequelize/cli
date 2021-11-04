@@ -23,6 +23,8 @@
     "@babel/core": "^7.10.2",
     "@babel/preset-env": "^7.10.2",
     "@babel/register": "^7.10.1",
+    "@commitlint/cli": "^14.1.0",
+    "@commitlint/config-angular": "^14.1.0",
     "bluebird": "^3.7.2",
     "eslint": "^7.2.0",
     "eslint-config-prettier": "^6.11.0",
@@ -87,5 +89,34 @@
   "homepage": "https://github.com/sequelize/cli",
   "engines": {
     "node": ">=10.0.0"
-  }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-angular"
+    ],
+    "rules": {
+      "type-enum": [
+        2,
+        "always",
+        [
+          "build",
+          "ci",
+          "docs",
+          "feat",
+          "fix",
+          "perf",
+          "refactor",
+          "revert",
+          "style",
+          "test",
+          "meta"
+        ]
+      ]
+    }
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
 }
