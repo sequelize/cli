@@ -8,6 +8,7 @@ jobs:
       fail-fast: false
       matrix:
         node-version: [10, 12, 14]
+        sequelize-version: [5, latest]
     name: Postgres (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
     env:
@@ -19,7 +20,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
-      - run: npm install sequelize@latest
+      - run: npm install sequelize@${{ matrix.sequelize-version }}
       - run: npm run build
       - run: docker-compose up -d ${DIALECT}
       - run: docker run --link ${DIALECT}:db -e CHECK_PORT=${SEQ_PORT::-1} -e CHECK_HOST=db --net cli_default giorgos/takis
@@ -29,6 +30,7 @@ jobs:
       fail-fast: false
       matrix:
         node-version: [10, 12, 14]
+        sequelize-version: [5, latest]
     name: MySQL (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
     env:
@@ -40,7 +42,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
-      - run: npm install sequelize@latest
+      - run: npm install sequelize@${{ matrix.sequelize-version }}
       - run: npm run build
       - run: docker-compose up -d ${DIALECT}
       - run: docker run --link ${DIALECT}:db -e CHECK_PORT=${SEQ_PORT::-1} -e CHECK_HOST=db --net cli_default giorgos/takis
