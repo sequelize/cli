@@ -9,7 +9,7 @@ jobs:
       matrix:
         node-version: [10, 12, 14]
         sequelize-version: [5, latest]
-    name: Postgres (Node ${{ matrix.node-version }})
+    name: Postgres (Node ${{ matrix.node-version }}, Sequelize ${{ matrix.sequelize-version }})
     runs-on: ubuntu-latest
     env:
       DIALECT: postgres
@@ -31,7 +31,7 @@ jobs:
       matrix:
         node-version: [10, 12, 14]
         sequelize-version: [5, latest]
-    name: MySQL (Node ${{ matrix.node-version }})
+    name: MySQL (Node ${{ matrix.node-version }}, Sequelize ${{ matrix.sequelize-version }})
     runs-on: ubuntu-latest
     env:
       DIALECT: mysql
