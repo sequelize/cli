@@ -8,7 +8,8 @@ jobs:
       fail-fast: false
       matrix:
         node-version: [10, 12, 14]
-    name: Postgres (Node ${{ matrix.node-version }})
+        sequelize-version: [5, latest]
+    name: Postgres (Node ${{ matrix.node-version }}, Sequelize ${{ matrix.sequelize-version }})
     runs-on: ubuntu-latest
     env:
       DIALECT: postgres
@@ -19,7 +20,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
-      - run: npm install sequelize@latest
+      - run: npm install sequelize@${{ matrix.sequelize-version }}
       - run: npm run build
       - run: docker-compose up -d ${DIALECT}
       - run: docker run --link ${DIALECT}:db -e CHECK_PORT=${SEQ_PORT::-1} -e CHECK_HOST=db --net cli_default giorgos/takis
@@ -29,7 +30,8 @@ jobs:
       fail-fast: false
       matrix:
         node-version: [10, 12, 14]
-    name: MySQL (Node ${{ matrix.node-version }})
+        sequelize-version: [5, latest]
+    name: MySQL (Node ${{ matrix.node-version }}, Sequelize ${{ matrix.sequelize-version }})
     runs-on: ubuntu-latest
     env:
       DIALECT: mysql
@@ -40,7 +42,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm install
-      - run: npm install sequelize@latest
+      - run: npm install sequelize@${{ matrix.sequelize-version }}
       - run: npm run build
       - run: docker-compose up -d ${DIALECT}
       - run: docker run --link ${DIALECT}:db -e CHECK_PORT=${SEQ_PORT::-1} -e CHECK_HOST=db --net cli_default giorgos/takis
@@ -64,3 +66,18 @@ jobs:
       - run: npm install sequelize@${{ matrix.sequelize-version }}
       - run: npm run build
       - run: npm run test
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    needs: [test-sqlite, test-postgres, test-mysql]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/release'
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - run: npm install
+      - run: npx semantic-release
