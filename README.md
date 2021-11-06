@@ -1,4 +1,4 @@
-# sequelize/cli [![npm version](https://badge.fury.io/js/sequelize-cli.svg)](https://npmjs.com/package/sequelize-cli) [![CI](https://github.com/sequelize/cli/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/sequelize/cli/actions/workflows/ci.yml)
+# sequelize/cli [![npm version](https://badge.fury.io/js/sequelize-cli.svg)](https://npmjs.com/package/sequelize-cli) [![CI](https://github.com/sequelize/cli/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/sequelize/cli/actions/workflows/ci.yml)
 
 The [Sequelize](https://sequelize.org) Command Line Interface (CLI)
 
