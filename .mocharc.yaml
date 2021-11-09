@@ -1,0 +1,7 @@
+bail: true
+check-leaks: true
+color: true
+exit: true
+recursive: true
+require: '@babel/register'
+timeout: '30000'
