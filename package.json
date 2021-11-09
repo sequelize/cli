@@ -2,6 +2,7 @@
   "name": "sequelize-cli",
   "version": "6.3.0",
   "description": "The Sequelize CLI",
+  "types": "./types.d.ts",
   "bin": {
     "sequelize": "./lib/sequelize",
     "sequelize-cli": "./lib/sequelize"
