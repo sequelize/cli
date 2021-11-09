@@ -32,8 +32,7 @@ $ git clone https://github.com/sequelize/cli.git # Using HTTPS
 
 Make sure you have all required dependencies, you will need
 
-- Node v4 or above
-- NPM v3 or above
+- Node v12 or above
 
 Now go to cloned repository folder
 
