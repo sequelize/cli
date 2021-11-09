@@ -31,7 +31,8 @@
     "eslint-plugin-prettier": "^3.1.4",
     "expect.js": "^0.3.1",
     "gulp": "^4.0.0",
-    "husky": "^7.0.4",
+    "husky": "^7.0.0",
+    "lint-staged": "^11.2.6",
     "mocha": "^8.0.0",
     "mysql2": "latest",
     "pg": "latest",
@@ -40,9 +41,6 @@
     "sequelize": "^6.1.0",
     "sqlite3": "latest",
     "through2": "^4.0.0"
-  },
-  "options": {
-    "mocha": "--require scripts/mocha-bootload.js --bail --check-leaks --exit --timeout 30000 --colors --recursive --reporter spec"
   },
   "prettier": {
     "trailingComma": "es5",
@@ -57,8 +55,8 @@
     "build-clean": "rm -rf ./lib/",
     "lint": "eslint test src",
     "pretty": "prettier src test --write",
-    "prepare": "npm run build",
-    "test-raw": "mocha $npm_package_options_mocha 'test/**/*.test.js'",
+    "prepare": "husky install && npm run build",
+    "test-raw": "mocha 'test/**/*.test.js'",
     "test": "npm run lint && npm run build && npm run test-raw"
   },
   "repository": {
@@ -115,9 +113,7 @@
       ]
     }
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
+  "lint-staged": {
+    "*.js": "eslint"
   }
 }
