@@ -4,10 +4,10 @@
  * @typedef  { import("sequelize").Sequelize } Sequelize
  * */
 module.exports = {
-  /**
+	/**
 	*  Typed intellesence
+	* @param {QueryInterface} queryInterface 
 	* @param {DataTypes} DataTypes 
-	* @param {Sequelize} Sequelize 
 	*/
   async up (queryInterface, Sequelize) {
     /**
@@ -19,8 +19,8 @@ module.exports = {
   },
 	/**
 	*  Typed intellesence
+	* @param {QueryInterface} queryInterface 
 	* @param {DataTypes} DataTypes 
-	* @param {Sequelize} Sequelize 
 	*/
   async down (queryInterface, DataTypes) {
     /**
