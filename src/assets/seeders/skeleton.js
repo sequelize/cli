@@ -1,7 +1,15 @@
 'use strict';
-
+/** 
+ * @typedef  { import("sequelize").DataTypes } DataTypes
+ * @typedef  { import("sequelize").QueryInterface } QueryInterface
+ * */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  /**
+	*  Typed intellesence
+	* @param {QueryInterface} queryInterface 
+	* @param {DataTypes} DataTypes 
+	*/
+  async up (queryInterface, DataTypes) {
     /**
      * Add seed commands here.
      *
@@ -12,8 +20,12 @@ module.exports = {
      * }], {});
     */
   },
-
-  async down (queryInterface, Sequelize) {
+	/**
+	*  Typed intellesence
+	* @param {QueryInterface} queryInterface 
+	* @param {DataTypes} DataTypes 
+	*/
+  async down (queryInterface, DataTypes) {
     /**
      * Add commands to revert seed here.
      *
