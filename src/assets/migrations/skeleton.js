@@ -1,6 +1,14 @@
 'use strict';
-
+/** 
+ * @typedef  { import("sequelize").DataTypes } DataTypes
+ * @typedef  { import("sequelize").Sequelize } Sequelize
+ * */
 module.exports = {
+  /**
+	*  Typed intellesence
+	* @param {DataTypes} DataTypes 
+	* @param {Sequelize} Sequelize 
+	*/
   async up (queryInterface, Sequelize) {
     /**
      * Add altering commands here.
@@ -9,8 +17,12 @@ module.exports = {
      * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
   },
-
-  async down (queryInterface, Sequelize) {
+	/**
+	*  Typed intellesence
+	* @param {DataTypes} DataTypes 
+	* @param {Sequelize} Sequelize 
+	*/
+  async down (queryInterface, DataTypes) {
     /**
      * Add reverting commands here.
      *
