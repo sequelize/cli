@@ -1,12 +1,10 @@
-import type { QueryInterface } from 'sequelize';
-
 export interface Migration {
   up(
-    queryInterface: QueryInterface,
+    queryInterface: import('sequelize').QueryInterface,
     Sequelize: typeof import('sequelize')
   ): Promise<void>;
   down(
-    queryInterface: QueryInterface,
+    queryInterface: import('sequelize').QueryInterface,
     Sequelize: typeof import('sequelize')
   ): Promise<void>;
 }
