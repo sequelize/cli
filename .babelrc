@@ -10,5 +10,13 @@
   ],
   "ignore": [
     "src/assets"
-  ]
+  ],
+  "overrides": [{
+    "test": "./src/helpers/import-helper.js",
+    "presets": [
+      ["@babel/env", {
+        "exclude": ["proposal-dynamic-import"],
+      }]
+    ],
+  }]
 }

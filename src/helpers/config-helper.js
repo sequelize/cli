@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { promisify } from 'util';
 import helpers from './index';
 import getYArgs from '../core/yargs';
+import importHelper from './import-helper';
 
 const args = getYArgs().argv;
 
@@ -15,18 +16,19 @@ const api = {
   init() {
     return Promise.resolve()
       .then(() => {
-        let config;
-
         if (args.url) {
-          config = api.parseDbUrl(args.url);
+          return api.parseDbUrl(args.url);
         } else {
-          try {
-            config = require(api.getConfigFile());
-          } catch (e) {
-            api.error = e;
-          }
+          return importHelper.importModule(api.getConfigFile());
         }
-        return config;
+      })
+      .then((module) => module.default)
+      .catch(() => {
+        try {
+          return require(api.getConfigFile());
+        } catch (e) {
+          api.error = e;
+        }
       })
       .then((config) => {
         if (typeof config === 'object' || config === undefined) {
