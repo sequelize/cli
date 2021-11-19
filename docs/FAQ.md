@@ -52,3 +52,5 @@ or possibly
 sequelize model:create --name User --attributes role:enum:\{Admin,Guest\}
 ```
 
+## I also want to specify constraints like unique on attributes through model generate command
+
