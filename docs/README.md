@@ -109,7 +109,9 @@ Ensure ssl is specified in both `dialectOptions` and in the base config.
         "dialect":"postgres",
         "ssl": true,
         "dialectOptions": {
-            "ssl": true
+            "ssl": {
+                "require": true
+            }
         }
     }
 }
