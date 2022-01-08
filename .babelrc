@@ -15,6 +15,10 @@
     "test": "./src/helpers/import-helper.js",
     "presets": [
       ["@babel/env", {
+        "targets": {
+          "node": "10.0"
+        },
+        "shippedProposals": true,
         "exclude": ["proposal-dynamic-import"],
       }]
     ],

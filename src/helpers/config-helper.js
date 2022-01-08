@@ -13,39 +13,33 @@ const api = {
   config: undefined,
   rawConfig: undefined,
   error: undefined,
-  init() {
-    return Promise.resolve()
-      .then(() => {
-        if (args.url) {
-          return api.parseDbUrl(args.url);
-        } else {
-          return importHelper.importModule(api.getConfigFile());
-        }
-      })
-      .then((module) => module.default)
-      .catch(() => {
-        try {
-          return require(api.getConfigFile());
-        } catch (e) {
-          api.error = e;
-        }
-      })
-      .then((config) => {
-        if (typeof config === 'object' || config === undefined) {
-          return config;
-        } else if (config.length === 1) {
-          return promisify(config)();
-        } else {
-          return config();
-        }
-      })
-      .then((config) => {
-        api.rawConfig = config;
-      })
-      .then(() => {
-        // Always return the full config api
-        return api;
-      });
+  async init() {
+    let config;
+
+    try {
+      if (args.url) {
+        config = await api.parseDbUrl(args.url);
+      } else {
+        const module = await importHelper.importModule(api.getConfigFile());
+        config = await module.default;
+      }
+    } catch (e) {
+      api.error = e;
+    }
+
+    if (typeof config === 'function') {
+      // accepts callback parameter
+      if (config.length === 1) {
+        config = await promisify(config)();
+      } else {
+        // returns a promise.
+        await config();
+      }
+    }
+
+    api.rawConfig = config;
+
+    return api;
   },
   getConfigFile() {
     if (args.config) {

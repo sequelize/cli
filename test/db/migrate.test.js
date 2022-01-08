@@ -26,7 +26,7 @@ const _ = require('lodash');
     let configPath = 'config/';
     let migrationFile = options.migrationFile || 'createPerson';
     const config = _.assign({}, helpers.getTestConfig(), options.config);
-    let configContent = JSON.stringify(config);
+    let configContent = JSON.stringify(config, null, 2);
 
     if (!migrationFile.match(/\.(cjs|ts)$/)) {
       migrationFile = migrationFile + '.js';
@@ -71,7 +71,11 @@ const _ = require('lodash');
     it('creates a SequelizeMeta table', function (done) {
       const self = this;
 
-      prepare(() => {
+      prepare((e) => {
+        if (e) {
+          return done(e);
+        }
+
         helpers.readTables(self.sequelize, (tables) => {
           expect(tables).to.have.length(2);
           expect(tables).to.contain('SequelizeMeta');
@@ -321,7 +325,11 @@ describeOnlyForESM(Support.getTestDialectTeaser('db:migrate'), () => {
     };
 
     it('creates a SequelizeMeta table', function (done) {
-      prepare(() => {
+      prepare((e) => {
+        if (e) {
+          return done(e);
+        }
+
         helpers.readTables(this.sequelize, (tables) => {
           expect(tables).to.have.length(2);
           expect(tables).to.contain('SequelizeMeta');
