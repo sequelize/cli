@@ -18,7 +18,7 @@ const api = {
 
     try {
       if (args.url) {
-        config = await api.parseDbUrl(args.url);
+        config = api.parseDbUrl(args.url);
       } else {
         const module = await importHelper.importModule(api.getConfigFile());
         config = await module.default;
@@ -33,7 +33,7 @@ const api = {
         config = await promisify(config)();
       } else {
         // returns a promise.
-        await config();
+        config = await config();
       }
     }
 
