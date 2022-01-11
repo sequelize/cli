@@ -5,6 +5,7 @@ import _ from 'lodash';
 import { promisify } from 'util';
 import helpers from './index';
 import getYArgs from '../core/yargs';
+import importHelper from './import-helper';
 
 const args = getYArgs().argv;
 
@@ -12,38 +13,33 @@ const api = {
   config: undefined,
   rawConfig: undefined,
   error: undefined,
-  init() {
-    return Promise.resolve()
-      .then(() => {
-        let config;
+  async init() {
+    let config;
 
-        if (args.url) {
-          config = api.parseDbUrl(args.url);
-        } else {
-          try {
-            config = require(api.getConfigFile());
-          } catch (e) {
-            api.error = e;
-          }
-        }
-        return config;
-      })
-      .then((config) => {
-        if (typeof config === 'object' || config === undefined) {
-          return config;
-        } else if (config.length === 1) {
-          return promisify(config)();
-        } else {
-          return config();
-        }
-      })
-      .then((config) => {
-        api.rawConfig = config;
-      })
-      .then(() => {
-        // Always return the full config api
-        return api;
-      });
+    try {
+      if (args.url) {
+        config = api.parseDbUrl(args.url);
+      } else {
+        const module = await importHelper.importModule(api.getConfigFile());
+        config = await module.default;
+      }
+    } catch (e) {
+      api.error = e;
+    }
+
+    if (typeof config === 'function') {
+      // accepts callback parameter
+      if (config.length === 1) {
+        config = await promisify(config)();
+      } else {
+        // returns a promise.
+        config = await config();
+      }
+    }
+
+    api.rawConfig = config;
+
+    return api;
   },
   getConfigFile() {
     if (args.config) {

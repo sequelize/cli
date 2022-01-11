@@ -3,6 +3,7 @@ const expect = require('expect.js');
 const Support = require(__dirname + '/../support');
 const helpers = require(__dirname + '/../support/helpers');
 const gulp = require('gulp');
+const semver = require('semver');
 const _ = require('lodash');
 
 [
@@ -25,7 +26,7 @@ const _ = require('lodash');
     let configPath = 'config/';
     let migrationFile = options.migrationFile || 'createPerson';
     const config = _.assign({}, helpers.getTestConfig(), options.config);
-    let configContent = JSON.stringify(config);
+    let configContent = JSON.stringify(config, null, 2);
 
     if (!migrationFile.match(/\.(cjs|ts)$/)) {
       migrationFile = migrationFile + '.js';
@@ -70,7 +71,11 @@ const _ = require('lodash');
     it('creates a SequelizeMeta table', function (done) {
       const self = this;
 
-      prepare(() => {
+      prepare((e) => {
+        if (e) {
+          return done(e);
+        }
+
         helpers.readTables(self.sequelize, (tables) => {
           expect(tables).to.have.length(2);
           expect(tables).to.contain('SequelizeMeta');
@@ -273,6 +278,58 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
 
     it('creates a SequelizeMeta table', function (done) {
       prepare(() => {
+        helpers.readTables(this.sequelize, (tables) => {
+          expect(tables).to.have.length(2);
+          expect(tables).to.contain('SequelizeMeta');
+          done();
+        });
+      });
+    });
+
+    it('creates the respective table', function (done) {
+      prepare(() => {
+        helpers.readTables(this.sequelize, (tables) => {
+          expect(tables).to.have.length(2);
+          expect(tables).to.contain('Person');
+          done();
+        });
+      });
+    });
+  });
+});
+
+describeOnlyForESM(Support.getTestDialectTeaser('db:migrate'), () => {
+  describe('with config.mjs', () => {
+    const prepare = function (callback) {
+      const config = helpers.getTestConfig();
+      const configContent = 'export default ' + JSON.stringify(config);
+      let result = '';
+
+      return gulp
+        .src(Support.resolveSupportPath('tmp'))
+        .pipe(helpers.clearDirectory())
+        .pipe(helpers.runCli('init'))
+        .pipe(helpers.removeFile('config/config.json'))
+        .pipe(helpers.copyMigration('createPerson.js'))
+        .pipe(helpers.overwriteFile(configContent, 'config/config.mjs'))
+        .pipe(helpers.runCli('db:migrate --config config/config.mjs'))
+        .on('error', (e) => {
+          callback(e);
+        })
+        .on('data', (data) => {
+          result += data.toString();
+        })
+        .on('end', () => {
+          callback(null, result);
+        });
+    };
+
+    it('creates a SequelizeMeta table', function (done) {
+      prepare((e) => {
+        if (e) {
+          return done(e);
+        }
+
         helpers.readTables(this.sequelize, (tables) => {
           expect(tables).to.have.length(2);
           expect(tables).to.contain('SequelizeMeta');
@@ -525,3 +582,11 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
     });
   });
 });
+
+function describeOnlyForESM(title, fn) {
+  if (semver.satisfies(process.version, '^12.20.0 || ^14.13.1 || >=16.0.0')) {
+    describe(title, fn);
+  } else {
+    describe.skip(title, fn);
+  }
+}
