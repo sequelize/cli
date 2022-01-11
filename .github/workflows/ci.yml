@@ -25,7 +25,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --frozen-lockfile --ignore-engines
-      - run: yarn add sequelize@${{ matrix.sequelize-version }}
+      - run: yarn add sequelize@${{ matrix.sequelize-version }} --ignore-engines
       - run: docker-compose up -d ${DIALECT}
       - run: docker run --link ${DIALECT}:db -e CHECK_PORT=${SEQ_PORT::-1} -e CHECK_HOST=db --net cli_default giorgos/takis
       - run: yarn test
@@ -46,7 +46,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --frozen-lockfile --ignore-engines
-      - run: yarn add sequelize@${{ matrix.sequelize-version }}
+      - run: yarn add sequelize@${{ matrix.sequelize-version }} --ignore-engines
       - run: docker-compose up -d ${DIALECT}
       - run: docker run --link ${DIALECT}:db -e CHECK_PORT=${SEQ_PORT::-1} -e CHECK_HOST=db --net cli_default giorgos/takis
       - run: yarn test
@@ -66,7 +66,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --frozen-lockfile --ignore-engines
-      - run: yarn add sequelize@${{ matrix.sequelize-version }}
+      - run: yarn add sequelize@${{ matrix.sequelize-version }} --ignore-engines
       - run: yarn test
   release:
     name: Release
