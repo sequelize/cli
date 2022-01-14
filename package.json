@@ -133,6 +133,6 @@
     ]
   },
   "publishConfig": {
-    "tag": "alpha"
+    "tag": "latest"
   }
 }
