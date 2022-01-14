@@ -28,5 +28,4 @@ test/support/tmp/*
 
 # Extra files
 package-lock.json
-yarn.lock
 npm-debug.log
