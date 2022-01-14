@@ -116,5 +116,23 @@
   },
   "lint-staged": {
     "*.js": "eslint"
+  },
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/npm",
+      "@semantic-release/github"
+    ],
+    "branches": [
+      "v6",
+      {
+        "name": "v7",
+        "prerelease": "alpha"
+      }
+    ]
+  },
+  "publishConfig": {
+    "tag": "alpha"
   }
 }
