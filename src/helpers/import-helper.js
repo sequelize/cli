@@ -1,3 +1,5 @@
+const url = require('url');
+
 async function supportsDynamicImport() {
   try {
     // imports are cached.
@@ -20,8 +22,13 @@ async function supportsDynamicImport() {
 async function importModule(modulePath) {
   // JSON modules are still behind a flag. Fallback to require for now.
   // https://nodejs.org/api/esm.html#json-modules
-  if (!modulePath.endsWith('.json') && (await supportsDynamicImport())) {
-    return import(modulePath);
+  if (
+    url.pathToFileURL &&
+    !modulePath.endsWith('.json') &&
+    (await supportsDynamicImport())
+  ) {
+    // 'import' expects a URL. (https://github.com/sequelize/cli/issues/994)
+    return import(url.pathToFileURL(modulePath));
   }
 
   // mimics what `import()` would return for
