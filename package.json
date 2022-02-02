@@ -33,7 +33,7 @@
     "gulp": "4.0.2",
     "husky": "7.0.4",
     "lint-staged": "11.2.6",
-    "mocha": "8.4.0",
+    "mocha": "9.2.0",
     "mysql2": "latest",
     "pg": "latest",
     "pg-hstore": "latest",
