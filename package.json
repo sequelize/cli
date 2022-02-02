@@ -20,9 +20,9 @@
   },
   "devDependencies": {
     "@babel/cli": "7.16.8",
-    "@babel/core": "7.16.7",
-    "@babel/preset-env": "7.16.8",
-    "@babel/register": "7.16.8",
+    "@babel/core": "7.16.12",
+    "@babel/preset-env": "7.16.11",
+    "@babel/register": "7.16.9",
     "@commitlint/cli": "14.1.0",
     "@commitlint/config-angular": "14.1.0",
     "bluebird": "3.7.2",
