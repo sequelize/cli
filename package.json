@@ -15,7 +15,7 @@
     "js-beautify": "^1.14.0",
     "lodash": "^4.17.21",
     "resolve": "^1.20.0",
-    "umzug": "^2.3.0",
+    "umzug": "^3.0.0",
     "yargs": "^16.2.0"
   },
   "devDependencies": {
