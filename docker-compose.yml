@@ -3,7 +3,7 @@ version: '2'
 services:
   # PostgreSQL
   postgres:
-    image: sushantdhiman/postgres:10
+    image: sushantdhiman/postgres:12
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
