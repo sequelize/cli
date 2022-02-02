@@ -21,7 +21,7 @@ jobs:
       SEQ_PORT: 54320
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --frozen-lockfile --ignore-engines
@@ -42,7 +42,7 @@ jobs:
       SEQ_PORT: 33060
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --frozen-lockfile --ignore-engines
@@ -62,7 +62,7 @@ jobs:
       DIALECT: sqlite
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
       - run: yarn install --frozen-lockfile --ignore-engines
