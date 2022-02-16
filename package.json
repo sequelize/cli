@@ -19,8 +19,8 @@
     "yargs": "^16.2.0"
   },
   "devDependencies": {
-    "@babel/cli": "7.17.0",
-    "@babel/core": "7.17.2",
+    "@babel/cli": "7.17.3",
+    "@babel/core": "7.17.4",
     "@babel/preset-env": "7.16.11",
     "@babel/register": "7.17.0",
     "@commitlint/cli": "16.2.1",
