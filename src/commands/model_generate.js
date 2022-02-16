@@ -21,6 +21,12 @@ exports.builder = (yargs) =>
         type: 'string',
         demandOption: false,
       })
+      .option('freezetablename', {
+        describe: 'Freeze table name, i.e, do not pluralize',
+        default: false,
+        boolean: true,
+        demandOption: false,
+      })
   ).argv;
 
 exports.handler = function (args) {
