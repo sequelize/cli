@@ -4,13 +4,13 @@ import helpers from './index';
 const Sequelize = helpers.generic.getSequelize();
 
 module.exports = {
-  getTableName(modelName) {
-    return Sequelize.Utils.pluralize(modelName);
+  getTableName(modelName, freezeTableName) {
+    return freezeTableName ? modelName : Sequelize.Utils.pluralize(modelName);
   },
 
   generateTableCreationFileContent(args) {
     return helpers.template.render('migrations/create-table.js', {
-      tableName: this.getTableName(args.name),
+      tableName: this.getTableName(args.name, args.freezetablename),
       attributes: helpers.model.transformAttributes(args.attributes),
       createdAt: args.underscored ? 'created_at' : 'createdAt',
       updatedAt: args.underscored ? 'updated_at' : 'updatedAt',
