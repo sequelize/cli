@@ -17,6 +17,10 @@ exports.builder = (yargs) =>
     .option('from', {
       describe: 'Migration name to start migrations from (excluding)',
       type: 'string',
+    })
+    .option('name', {
+      describe: 'Migration name',
+      type: 'string',
     }).argv;
 
 exports.handler = async function (args) {
@@ -80,7 +84,13 @@ function migrate(args) {
           }
           return options;
         })
-        .then((options) => migrator.up(options));
+        .then((options) => {
+          if (args.name) {
+            return migrator.up(args.name);
+          } else {
+            return migrator.up(options);
+          }
+        });
     })
     .catch((e) => helpers.view.error(e));
 }

@@ -580,6 +580,21 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
         });
       });
     });
+
+    it('--name', function (done) {
+      const migrationsPath = Support.resolveSupportPath('assets', 'migrations');
+      const migrations = fs.readdirSync(migrationsPath);
+      const createPersonMigration = migrations.find((migration) =>
+        migration.includes('createPerson')
+      );
+
+      prepare(`--name ${createPersonMigration}`, () => {
+        helpers.readTables(this.sequelize, (tables) => {
+          expect(tables).to.eql(['Person', 'SequelizeMeta']);
+          done();
+        });
+      });
+    });
   });
 });
 
