@@ -40,7 +40,7 @@
     "pg-hstore": "latest",
     "prettier": "2.5.1",
     "semver": "7.3.5",
-    "sequelize": "6.16.2",
+    "sequelize": "6.16.3",
     "sqlite3": "latest",
     "through2": "4.0.2"
   },
