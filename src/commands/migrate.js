@@ -19,8 +19,10 @@ exports.builder = (yargs) =>
       type: 'string',
     })
     .option('name', {
-      describe: 'Migration name',
+      describe:
+        'Migration name. When specified, only this migration will be run. Mutually exclusive with --to and --from',
       type: 'string',
+      conflicts: ['to', 'from'],
     }).argv;
 
 exports.handler = async function (args) {

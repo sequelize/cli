@@ -595,6 +595,27 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
         });
       });
     });
+
+    it('--name array', function (done) {
+      const migrationsPath = Support.resolveSupportPath('assets', 'migrations');
+      const migrations = fs.readdirSync(migrationsPath);
+      const createPersonMigration = migrations.find((migration) =>
+        migration.includes('createPerson')
+      );
+      const createPostMigration = migrations.find((migration) =>
+        migration.includes('createPost')
+      );
+
+      prepare(
+        `--name ${createPersonMigration} --name ${createPostMigration}`,
+        () => {
+          helpers.readTables(this.sequelize, (tables) => {
+            expect(tables).to.eql(['Person', 'Post', 'SequelizeMeta']);
+            done();
+          });
+        }
+      );
+    });
   });
 });
 
