@@ -4,13 +4,9 @@ import path from 'path';
 
 function loadRCFile(optionsPath) {
   const SEQUELIZERC = '.sequelizerc';
-  const SEQUELIZERC_EXTS = ['', '.json', '.js'];
-
-  const rc = [
-    optionsPath || SEQUELIZERC,
-    ...SEQUELIZERC_EXTS.map((ext) => SEQUELIZERC + ext),
-  ]
-    .map((it) => it && path.resolve(it))
+  const EXTS = ['', '.json', '.js'];
+  const rc = [optionsPath, ...EXTS.map((it) => SEQUELIZERC + it)]
+    .map((it) => (it ? path.resolve(it) : undefined))
     .find((it) => fs.existsSync(it));
 
   return rc ? JSON.parse(JSON.stringify(require(rc))) : {};
