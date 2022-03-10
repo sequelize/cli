@@ -43,7 +43,7 @@ export async function getMigrator(type, args) {
     storageOptions: helpers.umzug.getStorageOptions(type, { sequelize }),
     logging: helpers.view.log,
     migrations: {
-      params: [sequelize.getQueryInterface(), Sequelize],
+      params: [sequelize.getQueryInterface(), sequelize],
       path: helpers.path.getPath(type),
       pattern: /^(?!.*\.d\.ts$).*\.(cjs|js|ts)$/,
     },
