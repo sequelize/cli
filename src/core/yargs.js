@@ -3,11 +3,17 @@ import yargs from 'yargs';
 import path from 'path';
 
 function loadRCFile(optionsPath) {
-  const rcFile = optionsPath || path.resolve(process.cwd(), '.sequelizerc');
-  const rcFileResolved = path.resolve(rcFile);
-  return fs.existsSync(rcFileResolved)
-    ? JSON.parse(JSON.stringify(require(rcFileResolved)))
-    : {};
+  const SEQUELIZERC = '.sequelizerc';
+  const SEQUELIZERC_EXTS = ['', '.json', '.js'];
+
+  const rc = [
+    optionsPath || SEQUELIZERC,
+    ...SEQUELIZERC_EXTS.map((ext) => SEQUELIZERC + ext),
+  ]
+    .map((it) => it && path.resolve(it))
+    .find((it) => fs.existsSync(it));
+
+  return rc ? JSON.parse(JSON.stringify(require(rc))) : {};
 }
 
 const args = yargs
