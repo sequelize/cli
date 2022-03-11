@@ -1,10 +1,20 @@
-export interface Migration {
-  up(
-    queryInterface: import('sequelize').QueryInterface,
-    Sequelize: typeof import('sequelize')
-  ): Promise<void>;
-  down(
-    queryInterface: import('sequelize').QueryInterface,
-    Sequelize: typeof import('sequelize')
-  ): Promise<void>;
+export {};
+
+declare global {
+  namespace SequelizeCLI {
+    type ScriptFunction = (
+      sql: import("sequelize").QueryInterface,
+      sequelize: typeof import("sequelize")
+    ) => Promise<void>;
+
+    interface Migration {
+      up: ScriptFunction;
+      down: ScriptFunction;
+    }
+
+    interface Seeder {
+      up: ScriptFunction;
+      down: ScriptFunction;
+    }
+  }
 }
