@@ -58,6 +58,8 @@
     "lint": "eslint test src",
     "pretty": "prettier src test --write",
     "prepare": "husky install && npm run build",
+    "start-db2": "bash dev/db2/11.5/start.sh",
+    "stop-db2": "bash dev/db2/11.5/stop.sh",
     "test-raw": "mocha 'test/**/*.test.js'",
     "test": "npm run lint && npm run build && npm run test-raw"
   },
