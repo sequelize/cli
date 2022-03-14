@@ -39,8 +39,7 @@ jobs:
       fail-fast: false
       matrix:
         node-version: [10, 16]
-        sequelize-version: latest
-    name: DB2 (Node ${{ matrix.node-version }}, Sequelize ${{ matrix.sequelize-version }})
+    name: DB2 (Node ${{ matrix.node-version }}, Sequelize latest)
     runs-on: ubuntu-latest
     needs: install-and-build
     env:
@@ -59,6 +58,7 @@ jobs:
       - uses: actions/download-artifact@v3
         with:
           name: install-build-artifact-node-${{ matrix.node-version }}
+      - run: npm install --no-save --no-audit sequelize@latest
       - name: Extract artifact
         run: tar -xf install-build-node-${{ matrix.node-version }}.tar
       - name: Install Local DB2 Copy
@@ -132,7 +132,8 @@ jobs:
       [
         test-sqlite,
         test-postgres,
-        test-mysql
+        test-mysql-mariadb,
+        test-mssql,
       ]
     if: github.event_name == 'push' && (github.ref == 'refs/heads/v6' || github.ref == 'refs/heads/v7')
     env:
@@ -143,8 +144,13 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16.x
-      - run: yarn install --frozen-lockfile
-      - run: npx semantic-release
+          cache: yarn
+      - uses: actions/download-artifact@v3
+        with:
+          name: install-build-artifact-node-16
+      - name: Extract artifact
+        run: tar -xf install-build-node-16.tar
+      - run: yarn semantic-release
       - id: sequelize
         uses: sdepold/github-action-get-latest-release@master
         with:
