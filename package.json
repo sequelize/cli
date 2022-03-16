@@ -38,7 +38,7 @@
     "mysql2": "latest",
     "pg": "latest",
     "pg-hstore": "latest",
-    "prettier": "2.5.1",
+    "prettier": "2.6.0",
     "semver": "7.3.5",
     "sequelize": "6.17.0",
     "sqlite3": "latest",
