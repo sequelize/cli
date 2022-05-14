@@ -1,5 +1,7 @@
 {
   "extends": [
-    "config:js-lib"
+    "config:js-lib",
+    ":semanticCommitType(build)",
+    ":maintainLockFilesWeekly"
   ]
 }
