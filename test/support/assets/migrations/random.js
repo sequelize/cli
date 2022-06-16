@@ -1,6 +1,10 @@
-// This is a random file, designed to fail the tests.
+// This is a random file, designed to fail the tests. See #1113 for context
 
-// eslint-disable-next-line no-unused-vars
-function sum(a, b) {
-  return a + b;
-}
+const TableNames = {
+  Users: 'Users',
+  PublicFiles: 'PublicFiles',
+};
+
+module.exports = {
+  TableNames,
+};
