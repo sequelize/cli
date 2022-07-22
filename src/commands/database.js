@@ -29,6 +29,11 @@ exports.builder = (yargs) =>
     .option('template', {
       describe: 'Pass template option to dialect, PostgreSQL only',
       type: 'string',
+    })
+    .option('show-password', {
+      describe: 'Will show password as plain text',
+      type: 'boolean',
+      default: false,
     }).argv;
 
 exports.handler = async function (args) {
@@ -52,13 +57,12 @@ exports.handler = async function (args) {
     queryInterface.queryGenerator || queryInterface.QueryGenerator;
 
   const query = getCreateDatabaseQuery(sequelize, config, options);
+  let configOutput = '';
 
   switch (command) {
     case 'db:info':
-      if (config.password !== null) {
-        config.password = '***';
-      }
-      helpers.view.log('Config', config);
+      configOutput = transformConfigObject(config, args['show-password']);
+      helpers.view.log('Config', configOutput);
       break;
     case 'db:create':
       await sequelize
@@ -187,5 +191,11 @@ function getDatabaseLessSequelize() {
     return new Sequelize(config);
   } catch (e) {
     helpers.view.error(e);
+  }
+}
+
+function transformConfigObject(config, showPassword) {
+  if (config.password !== null && !showPassword) {
+    config.password = '***';
   }
 }
