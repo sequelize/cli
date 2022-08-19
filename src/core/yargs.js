@@ -1,7 +1,7 @@
 import fs from 'fs';
 import yargs from 'yargs';
 import path from 'path';
-import process from 'node:process';
+import process from 'process';
 
 function loadRCFile(optionsPath) {
   const rcFile = optionsPath || path.resolve(process.cwd(), '.sequelizerc');

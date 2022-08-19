@@ -1,6 +1,6 @@
 import path from 'path';
 import helpers from './index';
-import process from 'node:process';
+import process from 'process';
 
 const packageJson = require(path.resolve(
   __dirname,

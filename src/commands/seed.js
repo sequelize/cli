@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import process from 'node:process';
+import process from 'process';
 import { _baseOptions } from '../core/yargs';
 import { getMigrator } from '../core/migrator';
 

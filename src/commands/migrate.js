@@ -1,4 +1,4 @@
-import process from 'node:process';
+import process from 'process';
 import { _baseOptions } from '../core/yargs';
 import {
   getMigrator,
