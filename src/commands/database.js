@@ -1,3 +1,4 @@
+import process from 'node:process';
 import { _baseOptions } from '../core/yargs';
 import { logMigrator } from '../core/migrator';
 

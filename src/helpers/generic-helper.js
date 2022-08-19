@@ -1,4 +1,5 @@
 import path from 'path';
+import process from 'node:process';
 
 const resolve = require('resolve').sync;
 import getYArgs from '../core/yargs';

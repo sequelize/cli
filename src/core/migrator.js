@@ -1,5 +1,6 @@
 import Umzug from 'umzug';
 import _ from 'lodash';
+import process from 'node:process';
 
 import helpers from '../helpers/index';
 

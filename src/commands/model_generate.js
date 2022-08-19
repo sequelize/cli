@@ -1,3 +1,4 @@
+import process from 'node:process';
 import { _baseOptions, _underscoreOption } from '../core/yargs';
 
 import helpers from '../helpers';

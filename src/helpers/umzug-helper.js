@@ -1,6 +1,7 @@
 import path from 'path';
 import _ from 'lodash';
 import helpers from './index';
+import process from 'node:process';
 
 const storage = {
   migration: 'sequelize',

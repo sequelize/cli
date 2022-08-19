@@ -2,6 +2,7 @@ import clc from 'cli-color';
 import _ from 'lodash';
 import helpers from './index';
 import getYArgs from '../core/yargs';
+import process from 'node:process';
 
 const args = getYArgs().argv;
 
