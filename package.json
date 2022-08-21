@@ -89,7 +89,7 @@
   },
   "homepage": "https://github.com/sequelize/cli",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=10.0.0"
   },
   "commitlint": {
     "extends": [
