@@ -1,3 +1,4 @@
+import process from 'process';
 import { _baseOptions } from '../core/yargs';
 import { getMigrator } from '../core/migrator';
 

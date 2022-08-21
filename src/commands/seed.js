@@ -1,8 +1,9 @@
+import _ from 'lodash';
+import process from 'process';
 import { _baseOptions } from '../core/yargs';
 import { getMigrator } from '../core/migrator';
 
 import helpers from '../helpers';
-import _ from 'lodash';
 
 exports.builder = (yargs) => _baseOptions(yargs).argv;
 exports.handler = async function (args) {
