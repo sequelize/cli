@@ -17,7 +17,7 @@
     "lodash": "^4.17.21",
     "resolve": "^1.22.1",
     "umzug": "^2.3.0",
-    "yargs": "^16.2.0"
+    "yargs": "^17.0.0"
   },
   "devDependencies": {
     "@babel/cli": "7.18.10",
