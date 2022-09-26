@@ -27,7 +27,7 @@
     "@commitlint/cli": "17.1.2",
     "@commitlint/config-angular": "17.1.0",
     "bluebird": "3.7.2",
-    "eslint": "7.32.0",
+    "eslint": "8.24.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-prettier": "4.2.1",
     "expect.js": "0.3.1",
