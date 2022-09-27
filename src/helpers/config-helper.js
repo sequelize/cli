@@ -6,6 +6,7 @@ import { promisify } from 'util';
 import helpers from './index';
 import getYArgs from '../core/yargs';
 import importHelper from './import-helper';
+import process from 'process';
 
 const args = getYArgs().argv;
 
