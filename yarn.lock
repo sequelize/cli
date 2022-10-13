@@ -5450,10 +5450,10 @@ sequelize-pool@^7.1.0:
   resolved "https://registry.yarnpkg.com/sequelize-pool/-/sequelize-pool-7.1.0.tgz#210b391af4002762f823188fd6ecfc7413020768"
   integrity sha512-G9c0qlIWQSK29pR/5U2JF5dDQeqqHRragoyahj/Nx4KOOQ3CPPfzxnfqFPCSB7x5UgjOgnZ61nSxz+fjDpRlJg==
 
-sequelize@6.25.0:
-  version "6.25.0"
-  resolved "https://registry.yarnpkg.com/sequelize/-/sequelize-6.25.0.tgz#957c2c7a90a5fcd544cf92903715593e49002c8b"
-  integrity sha512-Bu2V+Yjw/4fwGve0rwk02jmbuA0JGGGD1N7yrfGQXVRD91hg4j9Ecth4NwnK4fX1MQA4R0Cqfx3BaJDAOoaiSA==
+sequelize@6.25.1:
+  version "6.25.1"
+  resolved "https://registry.yarnpkg.com/sequelize/-/sequelize-6.25.1.tgz#bc1af3a3ad441dce5f887f7096ca7d103c09fe5e"
+  integrity sha512-z2oNoGFhQ8FaDLPuL+UKYA4VXsIyd5pHO6LNSRbzIPuOEma8b2bSbLdde6JjeHeaTIrmIwInC7YF34wMHfcngg==
   dependencies:
     "@types/debug" "^4.1.7"
     "@types/validator" "^13.7.1"
