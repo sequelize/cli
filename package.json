@@ -8,7 +8,8 @@
     "sequelize-cli": "./lib/sequelize"
   },
   "files": [
-    "lib"
+    "lib",
+    "types.d.ts"
   ],
   "dependencies": {
     "cli-color": "^2.0.3",
