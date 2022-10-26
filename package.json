@@ -8,7 +8,8 @@
     "sequelize-cli": "./lib/sequelize"
   },
   "files": [
-    "lib"
+    "lib",
+    "types.d.ts"
   ],
   "dependencies": {
     "cli-color": "^2.0.3",
@@ -20,9 +21,9 @@
     "yargs": "^16.2.0"
   },
   "devDependencies": {
-    "@babel/cli": "7.18.10",
-    "@babel/core": "7.19.1",
-    "@babel/preset-env": "7.19.1",
+    "@babel/cli": "7.19.3",
+    "@babel/core": "7.19.6",
+    "@babel/preset-env": "7.19.4",
     "@babel/register": "7.18.9",
     "@commitlint/cli": "17.1.2",
     "@commitlint/config-angular": "17.1.0",
@@ -39,8 +40,8 @@
     "pg": "latest",
     "pg-hstore": "latest",
     "prettier": "2.7.1",
-    "semver": "7.3.7",
-    "sequelize": "6.23.1",
+    "semver": "7.3.8",
+    "sequelize": "6.25.3",
     "sqlite3": "latest",
     "through2": "4.0.2"
   },
