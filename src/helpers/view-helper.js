@@ -37,7 +37,7 @@ module.exports = {
 
     this.log();
     console.error(`${clc.red('ERROR:')} ${message}`);
-    if (error.original.detail) {
+    if (error.original && error.original.detail) {
       console.error(`${clc.red('ERROR DETAIL:')} ${error.original.detail}`);
     }
 
