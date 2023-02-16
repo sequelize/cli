@@ -43,9 +43,13 @@ $ sequelize db:seed:undo:all
 ```
 
 ## I am getting an error when attempting to create a model with an enum type.
-The brackets `{}` likely need to be quoted in your shell
+The brackets `{}` likely need to be quoted in your shell or there needs to be a space between the values
 ```
 sequelize model:create --name User --attributes role:enum:'{Admin,Guest}'
+```
+or
+```
+sequelize model:create --name User --attributes role:enum:'{Admin, Guest}'
 ```
 or possibly
 ```
