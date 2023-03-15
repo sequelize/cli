@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@babel/cli": "7.21.0",
-    "@babel/core": "7.21.0",
+    "@babel/core": "7.21.3",
     "@babel/preset-env": "7.20.2",
     "@babel/register": "7.21.0",
     "@commitlint/cli": "17.4.4",
