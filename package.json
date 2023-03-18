@@ -59,7 +59,8 @@
     "pretty": "prettier src test --write",
     "prepare": "husky install && npm run build",
     "test-raw": "mocha 'test/**/*.test.js'",
-    "test": "npm run lint && npm run build && npm run test-raw"
+    "test": "npm run lint && npm run build && npm run test-raw",
+    "test-one": "mocha 'test/db/db-info.test.js' --timeout 5000"
   },
   "repository": {
     "type": "git",
