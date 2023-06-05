@@ -46,7 +46,7 @@ export async function getMigrator(type, args) {
     migrations: {
       params: [sequelize.getQueryInterface(), Sequelize],
       path: helpers.path.getPath(type),
-      pattern: /^(?!.*\.d\.ts$).*\.(cjs|js|ts)$/,
+      pattern: /^(?!.*\.d\.ts$).*\.(cjs|js|cts|ts)$/,
     },
   });
 
