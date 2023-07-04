@@ -21,9 +21,9 @@
     "yargs": "^16.2.0"
   },
   "devDependencies": {
-    "@babel/cli": "7.22.5",
-    "@babel/core": "7.22.5",
-    "@babel/preset-env": "7.22.5",
+    "@babel/cli": "7.22.6",
+    "@babel/core": "7.22.6",
+    "@babel/preset-env": "7.22.6",
     "@babel/register": "7.22.5",
     "@commitlint/cli": "17.6.6",
     "@commitlint/config-angular": "17.6.6",
