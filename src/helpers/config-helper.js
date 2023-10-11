@@ -181,10 +181,11 @@ const api = {
       };
 
       if (urlParts.auth) {
-        result = _.assign(result, {
-          username: urlParts.auth.split(':')[0],
-          password: urlParts.auth.split(':')[1],
-        });
+        const authParts = urlParts.auth.split(':');
+        result.username = authParts[0];
+        if (authParts.length > 1) {
+          result.password = authParts.slice(1).join(':');
+        }
       }
 
       return result;
