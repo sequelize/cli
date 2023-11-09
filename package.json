@@ -22,8 +22,8 @@
   },
   "devDependencies": {
     "@babel/cli": "7.23.0",
-    "@babel/core": "7.23.2",
-    "@babel/preset-env": "7.23.2",
+    "@babel/core": "7.23.3",
+    "@babel/preset-env": "7.23.3",
     "@babel/register": "7.22.15",
     "@commitlint/cli": "18.2.0",
     "@commitlint/config-angular": "18.1.0",
