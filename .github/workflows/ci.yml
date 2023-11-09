@@ -50,6 +50,27 @@ jobs:
       - run: docker-compose up -d ${DIALECT}
       - run: docker run --link ${DIALECT}:db -e CHECK_PORT=${SEQ_PORT::-1} -e CHECK_HOST=db --net cli_default giorgos/takis
       - run: yarn test
+  test-mariadb:
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [10, 16]
+        sequelize-version: [5, latest]
+    name: MariaDB (Node ${{ matrix.node-version }}, Sequelize ${{ matrix.sequelize-version }})
+    runs-on: ubuntu-latest
+    env:
+      DIALECT: mariadb
+      SEQ_PORT: 33060
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+      - run: yarn install --frozen-lockfile --ignore-engines
+      - run: yarn add sequelize@${{ matrix.sequelize-version }} --ignore-engines
+      - run: docker-compose up -d ${DIALECT}
+      - run: docker run --link ${DIALECT}:db -e CHECK_PORT=${SEQ_PORT::-1} -e CHECK_HOST=db --net cli_default giorgos/takis
+      - run: yarn test
   test-sqlite:
     strategy:
       fail-fast: false

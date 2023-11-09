@@ -25,3 +25,13 @@ services:
     ports:
       - "33060:3306"
     container_name: mysql
+
+  # MariaDB
+  mariadb:
+    image: mariadb:10.3
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_DATABASE: sequelize_test
+    ports:
+      - "33060:3306"
+    container_name: mariadb
