@@ -89,7 +89,10 @@ export function ensureCurrentMetaSchema(migrator) {
     .catch(() => {});
 }
 
-function ensureMetaTable(queryInterface: QueryInterface, tableName: string) {
+function ensureMetaTable(
+  queryInterface: QueryInterface,
+  tableName: string
+): any {
   return queryInterface.showAllTables().then((tableNames) => {
     if (tableNames.indexOf(tableName) === -1) {
       throw new Error('No MetaTable table found.');
