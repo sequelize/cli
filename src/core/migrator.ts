@@ -109,7 +109,7 @@ export function addTimestampsToSchema(migrator) {
   const tableName = migrator.options.storageOptions.tableName;
 
   return ensureMetaTable(queryInterface, tableName).then((table) => {
-    if (table.createdAt) {
+    if (table?.createdAt) {
       return;
     }
 

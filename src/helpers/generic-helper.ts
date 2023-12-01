@@ -2,18 +2,11 @@ import path from 'path';
 import process from 'process';
 const resolve = require('resolve').sync;
 import getYArgs, { _baseOptions } from '../core/yargs';
-import { Sequelize } from 'sequelize';
-
-interface Generic {
-  getEnvironment: () => string;
-  getSequelize: (file?: string) => any;
-  execQuery: (sequelize: Sequelize, sql: string, options: any) => Promise<any>;
-}
 
 const args = _baseOptions(getYArgs()).argv;
 
-export const genericHelper: Generic = {
-  getEnvironment: (): string => {
+export const genericHelper = {
+  getEnvironment: () => {
     return args.env || process.env.NODE_ENV || 'development';
   },
 
@@ -39,7 +32,7 @@ export const genericHelper: Generic = {
     return require(sequelizePath);
   },
 
-  execQuery: (sequelize, sql, options): Promise<any> => {
+  execQuery: (sequelize, sql, options) => {
     if (sequelize.query.length === 2) {
       return sequelize.query(sql, options);
     } else {
