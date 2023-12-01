@@ -3,10 +3,14 @@ import process from 'process';
 import { _baseOptions } from '../core/yargs';
 import { getMigrator } from '../core/migrator';
 
-import helpers from '../helpers';
+import { helpers } from '../helpers';
+import { Argv } from 'yargs';
 
-exports.builder = (yargs) => _baseOptions(yargs).argv;
-exports.handler = async function (args) {
+export const seedBuilder = (yargs: Argv) => _baseOptions(yargs).argv;
+
+type BuilderArgType = ReturnType<typeof seedBuilder>;
+
+export default async function (args: BuilderArgType) {
   const command = args._[0];
 
   // legacy, gulp used to do this
@@ -23,9 +27,9 @@ exports.handler = async function (args) {
   }
 
   process.exit(0);
-};
+}
 
-function seedAll(args) {
+function seedAll(args: BuilderArgType) {
   return getMigrator('seeder', args)
     .then((migrator) => {
       return migrator.pending().then((seeders) => {
@@ -42,7 +46,7 @@ function seedAll(args) {
     .catch((e) => helpers.view.error(e));
 }
 
-function seedUndoAll(args) {
+function seedUndoAll(args: BuilderArgType) {
   return getMigrator('seeder', args)
     .then((migrator) => {
       return (

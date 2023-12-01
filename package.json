@@ -17,6 +17,7 @@
     "js-beautify": "1.14.9",
     "lodash": "^4.17.21",
     "resolve": "^1.22.1",
+    "typescript": "^5.3.2",
     "umzug": "^2.3.0",
     "yargs": "^16.2.0"
   },
@@ -27,10 +28,19 @@
     "@babel/register": "7.22.15",
     "@commitlint/cli": "18.4.3",
     "@commitlint/config-angular": "18.4.3",
+    "@types/cli-color": "^2.0.6",
+    "@types/fs-extra": "^11.0.4",
+    "@types/js-beautify": "^1.14.3",
+    "@types/lodash": "^4.14.202",
+    "@types/resolve": "^1.20.6",
+    "@types/umzug": "^2.3.0",
+    "@types/yargs": "^16.0.4",
+    "@typescript-eslint/eslint-plugin": "^6.13.1",
+    "@typescript-eslint/parser": "^6.13.1",
     "bluebird": "3.7.2",
-    "eslint": "7.32.0",
+    "eslint": "^8.54.0",
     "eslint-config-prettier": "9.0.0",
-    "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-prettier": "5.0.1",
     "expect.js": "0.3.1",
     "gulp": "4.0.2",
     "husky": "8.0.3",
@@ -39,7 +49,7 @@
     "mysql2": "3.2.0",
     "pg": "latest",
     "pg-hstore": "latest",
-    "prettier": "2.8.8",
+    "prettier": "3.1.0",
     "semver": "7.5.4",
     "sequelize": "6.35.1",
     "sqlite3": "latest",
@@ -52,11 +62,11 @@
     "singleQuote": true
   },
   "scripts": {
-    "build": "npm run build-clean && babel src -d lib && npm run build-bin && npm run build-assets",
+    "build": "npm run build-clean && tsc && npm run build-bin && npm run build-assets",
     "build-bin": "mv ./lib/sequelize.js ./lib/sequelize && chmod +x ./lib/sequelize",
     "build-assets": "cp -R ./src/assets ./lib/",
     "build-clean": "rm -rf ./lib/",
-    "lint": "eslint test src",
+    "lint": "eslint",
     "pretty": "prettier src test --write",
     "prepare": "husky install && npm run build",
     "test-raw": "mocha 'test/**/*.test.js'",
@@ -117,7 +127,7 @@
     }
   },
   "lint-staged": {
-    "*.js": "eslint"
+    "*.ts": "eslint"
   },
   "release": {
     "plugins": [

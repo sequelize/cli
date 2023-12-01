@@ -2,17 +2,20 @@ import process from 'process';
 import { _baseOptions } from '../core/yargs';
 import { getMigrator } from '../core/migrator';
 
-import helpers from '../helpers';
+import { helpers } from '../helpers';
 import path from 'path';
 import _ from 'lodash';
+import { Argv } from 'yargs';
 
-exports.builder = (yargs) =>
+export const seedOneBuilder = (yargs: Argv) =>
   _baseOptions(yargs).option('seed', {
     describe: 'List of seed files',
     type: 'array',
   }).argv;
 
-exports.handler = async function (args) {
+type BuilderArgType = ReturnType<typeof seedOneBuilder>;
+
+export default async function (args: BuilderArgType) {
   const command = args._[0];
 
   // legacy, gulp used to do this
@@ -27,11 +30,11 @@ exports.handler = async function (args) {
         // for case like --seeders-path seeders --seed seedPerson.js db:seed
         const seeds = (args.seed || [])
           .filter((name) => name !== 'db:seed' && name !== 'db:seed:undo')
-          .map((file) => path.basename(file));
+          .map((file) => path.basename(String(file)));
 
         await migrator.up(seeds);
       } catch (e) {
-        helpers.view.error(e);
+        helpers.view.error(e as any);
       }
       break;
 
@@ -45,7 +48,7 @@ exports.handler = async function (args) {
 
         if (args.seed) {
           seeders = seeders.filter((seed) => {
-            return args.seed.includes(seed.file);
+            return args?.seed?.includes(seed.file);
           });
         }
 
@@ -62,10 +65,10 @@ exports.handler = async function (args) {
           migrations: _.chain(seeders).map('file').reverse().value(),
         });
       } catch (e) {
-        helpers.view.error(e);
+        helpers.view.error(e as any);
       }
       break;
   }
 
   process.exit(0);
-};
+}

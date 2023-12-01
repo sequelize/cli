@@ -6,11 +6,12 @@ import {
   addTimestampsToSchema,
 } from '../core/migrator';
 
-import helpers from '../helpers';
+import { helpers } from '../helpers';
 import _ from 'lodash';
+import { Argv } from 'yargs';
 
-exports.builder = (yargs) =>
-  _baseOptions(yargs)
+export const migrateBuilder = (yargs: Argv) => {
+  return _baseOptions(yargs)
     .option('to', {
       describe: 'Migration name to run migrations until',
       type: 'string',
@@ -25,8 +26,11 @@ exports.builder = (yargs) =>
       type: 'string',
       conflicts: ['to', 'from'],
     }).argv;
+};
 
-exports.handler = async function (args) {
+type BuilderArgType = ReturnType<typeof migrateBuilder>;
+
+export default async function (args: BuilderArgType) {
   const command = args._[0];
 
   // legacy, gulp used to do this
@@ -45,15 +49,15 @@ exports.handler = async function (args) {
   }
 
   process.exit(0);
-};
+}
 
-function migrate(args) {
+function migrate(args: BuilderArgType) {
   return getMigrator('migration', args)
     .then((migrator) => {
       return ensureCurrentMetaSchema(migrator)
         .then(() => migrator.pending())
         .then((migrations) => {
-          const options = {};
+          const options: any = {};
           if (migrations.length === 0) {
             helpers.view.log(
               'No migrations were executed, database schema was already up to date.'
@@ -98,7 +102,7 @@ function migrate(args) {
     .catch((e) => helpers.view.error(e));
 }
 
-function migrationStatus(args) {
+function migrationStatus(args: BuilderArgType) {
   return getMigrator('migration', args)
     .then((migrator) => {
       return ensureCurrentMetaSchema(migrator)
@@ -118,7 +122,7 @@ function migrationStatus(args) {
     .catch((e) => helpers.view.error(e));
 }
 
-function migrateSchemaTimestampAdd(args) {
+function migrateSchemaTimestampAdd(args: BuilderArgType) {
   return getMigrator('migration', args)
     .then((migrator) => {
       return addTimestampsToSchema(migrator).then((items) => {

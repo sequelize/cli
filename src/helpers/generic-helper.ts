@@ -1,24 +1,30 @@
 import path from 'path';
 import process from 'process';
-
 const resolve = require('resolve').sync;
-import getYArgs from '../core/yargs';
+import getYArgs, { _baseOptions } from '../core/yargs';
+import { Sequelize } from 'sequelize';
 
-const args = getYArgs().argv;
+interface Generic {
+  getEnvironment: () => string;
+  getSequelize: (file?: string) => any;
+  execQuery: (sequelize: Sequelize, sql: string, options: any) => Promise<any>;
+}
 
-const generic = {
-  getEnvironment: () => {
+const args = _baseOptions(getYArgs()).argv;
+
+export const genericHelper: Generic = {
+  getEnvironment: (): string => {
     return args.env || process.env.NODE_ENV || 'development';
   },
 
-  getSequelize: (file) => {
+  getSequelize: (file?: string) => {
     const resolvePath = file ? path.join('sequelize', file) : 'sequelize';
     const resolveOptions = { basedir: process.cwd() };
 
     let sequelizePath;
 
     try {
-      sequelizePath = require.resolve(resolvePath, resolveOptions);
+      sequelizePath = require.resolve(resolvePath, { paths: [process.cwd()] });
     } catch (e) {
       // ignore error
     }
@@ -33,14 +39,11 @@ const generic = {
     return require(sequelizePath);
   },
 
-  execQuery: (sequelize, sql, options) => {
+  execQuery: (sequelize, sql, options): Promise<any> => {
     if (sequelize.query.length === 2) {
       return sequelize.query(sql, options);
     } else {
-      return sequelize.query(sql, null, options);
+      return (sequelize.query as any)(sql, null, options);
     }
   },
 };
-
-module.exports = generic;
-module.exports.default = generic;

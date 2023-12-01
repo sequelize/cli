@@ -1,11 +1,12 @@
 import process from 'process';
 import { _baseOptions, _underscoreOption } from '../core/yargs';
 
-import helpers from '../helpers';
+import { helpers } from '../helpers';
 import fs from 'fs';
 import clc from 'cli-color';
+import { Argv } from 'yargs';
 
-exports.builder = (yargs) =>
+export const migrationGenerateBuilder = (yargs: Argv) =>
   _underscoreOption(
     _baseOptions(yargs).option('name', {
       describe: 'Defines the name of the migration',
@@ -14,7 +15,9 @@ exports.builder = (yargs) =>
     })
   ).argv;
 
-exports.handler = function (args) {
+type BuilderArgType = ReturnType<typeof migrationGenerateBuilder>;
+
+export default async function (args: BuilderArgType) {
   helpers.init.createMigrationsFolder();
 
   fs.writeFileSync(
@@ -35,4 +38,4 @@ exports.handler = function (args) {
   );
 
   process.exit(0);
-};
+}

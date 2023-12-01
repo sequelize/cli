@@ -1,14 +1,13 @@
-import process from 'process';
 import { _baseOptions } from '../core/yargs';
 import { logMigrator } from '../core/migrator';
-
-import helpers from '../helpers';
+import { helpers } from '../helpers';
 import { cloneDeep, defaults, pick } from 'lodash';
 import clc from 'cli-color';
+import { Argv } from 'yargs';
 
 const Sequelize = helpers.generic.getSequelize();
 
-exports.builder = (yargs) =>
+export const databaseBuilder = (yargs: Argv) =>
   _baseOptions(yargs)
     .option('charset', {
       describe: 'Pass charset option to dialect, MYSQL only',
@@ -31,14 +30,18 @@ exports.builder = (yargs) =>
       type: 'string',
     }).argv;
 
-exports.handler = async function (args) {
+type BuilderArgType = ReturnType<typeof databaseBuilder>;
+
+export default async function databaseHandler(args: BuilderArgType) {
   const command = args._[0];
 
   // legacy, gulp used to do this
   await helpers.config.init();
 
   const sequelize = getDatabaseLessSequelize();
+
   const config = helpers.config.readConfig();
+
   const options = pick(args, [
     'charset',
     'collate',
@@ -61,14 +64,18 @@ exports.handler = async function (args) {
         })
         .catch((e) => helpers.view.error(e));
 
-      helpers.view.log('Database', clc.blueBright(config.database), 'created.');
+      helpers.view.log(
+        'Database',
+        clc.blueBright(config?.database),
+        'created.'
+      );
 
       break;
     case 'db:drop':
       await sequelize
         .query(
           `DROP DATABASE IF EXISTS ${queryGenerator.quoteIdentifier(
-            config.database
+            config?.database
           )}`,
           {
             type: sequelize.QueryTypes.RAW,
@@ -76,15 +83,19 @@ exports.handler = async function (args) {
         )
         .catch((e) => helpers.view.error(e));
 
-      helpers.view.log('Database', clc.blueBright(config.database), 'dropped.');
+      helpers.view.log(
+        'Database',
+        clc.blueBright(config?.database),
+        'dropped.'
+      );
 
       break;
   }
 
   process.exit(0);
-};
+}
 
-function getCreateDatabaseQuery(sequelize, config, options) {
+function getCreateDatabaseQuery(sequelize: any, config: any, options: any) {
   const queryInterface = sequelize.getQueryInterface();
   const queryGenerator =
     queryInterface.queryGenerator || queryInterface.QueryGenerator;
@@ -151,7 +162,7 @@ function getDatabaseLessSequelize() {
   try {
     config = helpers.config.readConfig();
   } catch (e) {
-    helpers.view.error(e);
+    helpers.view.error(e as any);
   }
 
   config = cloneDeep(config);
@@ -180,6 +191,6 @@ function getDatabaseLessSequelize() {
   try {
     return new Sequelize(config);
   } catch (e) {
-    helpers.view.error(e);
+    helpers.view.error(e as any);
   }
 }

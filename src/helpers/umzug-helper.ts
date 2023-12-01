@@ -1,46 +1,62 @@
 import path from 'path';
 import _ from 'lodash';
-import helpers from './index';
-import process from 'process';
+import { helpers } from './index';
 
-const storage = {
+interface Storage {
+  migration: string;
+  seeder: string;
+}
+
+interface StorageTableName {
+  migration: string;
+  seeder: string;
+}
+
+interface StorageJsonName {
+  migration: string;
+  seeder: string;
+}
+
+let timestampsDefault: boolean = false;
+
+const storage: Storage = {
   migration: 'sequelize',
   seeder: 'none',
 };
-const storageTableName = {
+
+const storageTableName: StorageTableName = {
   migration: 'SequelizeMeta',
   seeder: 'SequelizeData',
 };
-const storageJsonName = {
+
+const storageJsonName: StorageJsonName = {
   migration: 'sequelize-meta.json',
   seeder: 'sequelize-data.json',
 };
 
-let timestampsDefault = false;
-
-module.exports = {
-  getStorageOption(property, fallback) {
+export const umzugHelper = {
+  getStorageOption(property: string, fallback: any) {
     return helpers.config.readConfig()[property] || fallback;
   },
 
-  getStorage(type) {
+  getStorage(type: string) {
     return this.getStorageOption(type + 'Storage', storage[type]);
   },
 
-  getStoragePath(type) {
+  getStoragePath(type: string) {
     const fallbackPath = path.join(process.cwd(), storageJsonName[type]);
 
     return this.getStorageOption(type + 'StoragePath', fallbackPath);
   },
 
-  getTableName(type) {
+  getTableName(type: string) {
     return this.getStorageOption(
       type + 'StorageTableName',
       storageTableName[type]
     );
   },
 
-  getSchema(type) {
+  getSchema(type?: string) {
     return this.getStorageOption(type + 'StorageTableSchema', undefined);
   },
 
@@ -48,12 +64,12 @@ module.exports = {
     timestampsDefault = true;
   },
 
-  getTimestamps(type) {
+  getTimestamps(type: string) {
     return this.getStorageOption(type + 'Timestamps', timestampsDefault);
   },
 
-  getStorageOptions(type, extraOptions) {
-    const options = {};
+  getStorageOptions(type: string, extraOptions: any) {
+    const options: any = {};
 
     if (this.getStorage(type) === 'json') {
       options.path = this.getStoragePath(type);

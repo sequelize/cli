@@ -1,10 +1,11 @@
 import process from 'process';
 import { _baseOptions, _underscoreOption } from '../core/yargs';
 
-import helpers from '../helpers';
+import { helpers } from '../helpers';
 import clc from 'cli-color';
+import { Argv } from 'yargs';
 
-exports.builder = (yargs) =>
+export const modelGenerateBuilder = (yargs: Argv) =>
   _underscoreOption(
     _baseOptions(yargs)
       .option('name', {
@@ -24,7 +25,9 @@ exports.builder = (yargs) =>
       })
   ).argv;
 
-exports.handler = function (args) {
+type BuilderArgType = ReturnType<typeof modelGenerateBuilder>;
+
+export default function (args: BuilderArgType) {
   ensureModelsFolder();
   ensureMigrationsFolder();
   checkModelFileExistence(args);
@@ -32,7 +35,7 @@ exports.handler = function (args) {
   try {
     helpers.model.generateFile(args);
   } catch (err) {
-    helpers.view.error(err.message);
+    helpers.view.error((err as any).message);
   }
 
   helpers.migration.generateTableCreationFile(args);
@@ -52,7 +55,7 @@ exports.handler = function (args) {
   );
 
   process.exit(0);
-};
+}
 
 function ensureModelsFolder() {
   if (!helpers.path.existsSync(helpers.path.getModelsPath())) {
@@ -78,7 +81,7 @@ function ensureMigrationsFolder() {
   }
 }
 
-function checkModelFileExistence(args) {
+function checkModelFileExistence(args: BuilderArgType) {
   const modelPath = helpers.path.getModelPath(args.name);
 
   if (args.force === undefined && helpers.model.modelFileExists(modelPath)) {

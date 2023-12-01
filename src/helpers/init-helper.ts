@@ -1,24 +1,28 @@
-import helpers from './index';
+import { helpers } from './index';
 import path from 'path';
 import fs from 'fs';
 
-function createFolder(folderName, folder, force) {
+function createFolder(
+  folderName: string,
+  folder: string,
+  force: boolean
+): void {
   if (force && fs.existsSync(folder) === true) {
     helpers.view.log('Deleting the ' + folderName + ' folder. (--force)');
 
     try {
-      fs.readdirSync(folder).forEach((filename) => {
+      fs.readdirSync(folder).forEach((filename: string) => {
         fs.unlinkSync(path.resolve(folder, filename));
       });
     } catch (e) {
-      helpers.view.error(e);
+      helpers.view.error(e as Error);
     }
 
     try {
       fs.rmdirSync(folder);
       helpers.view.log('Successfully deleted the ' + folderName + ' folder.');
     } catch (e) {
-      helpers.view.error(e);
+      helpers.view.error(e as Error);
     }
   }
 
@@ -34,24 +38,24 @@ function createFolder(folderName, folder, force) {
       );
     }
   } catch (e) {
-    helpers.view.error(e);
+    helpers.view.error(e as Error);
   }
 }
 
-const init = {
-  createMigrationsFolder: (force) => {
+export const initHelper = {
+  createMigrationsFolder: (force: boolean = false): void => {
     createFolder('migrations', helpers.path.getPath('migration'), force);
   },
 
-  createSeedersFolder: (force) => {
+  createSeedersFolder: (force = false): void => {
     createFolder('seeders', helpers.path.getPath('seeder'), force);
   },
 
-  createModelsFolder: (force) => {
+  createModelsFolder: (force: boolean): void => {
     createFolder('models', helpers.path.getModelsPath(), force);
   },
 
-  createModelsIndexFile: (force) => {
+  createModelsIndexFile: (force: boolean): void => {
     const modelsPath = helpers.path.getModelsPath();
     const indexPath = path.resolve(
       modelsPath,
@@ -84,6 +88,3 @@ const init = {
     }
   },
 };
-
-module.exports = init;
-module.exports.default = init;

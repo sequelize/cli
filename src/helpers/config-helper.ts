@@ -3,25 +3,37 @@ import fs from 'fs';
 import url from 'url';
 import _ from 'lodash';
 import { promisify } from 'util';
-import helpers from './index';
-import getYArgs from '../core/yargs';
-import importHelper from './import-helper';
-import process from 'process';
+import { helpers } from './index';
+import getYArgs, { _baseOptions } from '../core/yargs';
+import { importModule } from './import-helper';
 
-const args = getYArgs().argv;
+const args = _baseOptions(getYArgs()).argv;
+
+type DataBaseConfig = {
+  database: string;
+  host: string;
+  port: string;
+  protocol: string;
+  ssl: boolean;
+  username?: string;
+  password?: string;
+  dialect?: string;
+};
 
 const api = {
   config: undefined,
   rawConfig: undefined,
   error: undefined,
   async init() {
-    let config;
+    let config: any;
 
     try {
       if (args.url) {
         config = api.parseDbUrl(args.url);
       } else {
-        const module = await importHelper.importModule(api.getConfigFile());
+        const module = (await importModule(api.getConfigFile())) as {
+          default: any;
+        };
         config = await module.default;
       }
     } catch (e) {
@@ -105,9 +117,9 @@ const api = {
     fs.writeFileSync(api.getConfigFile(), api.getDefaultConfig());
   },
 
-  readConfig() {
+  readConfig(): any {
     if (!api.config) {
-      const env = helpers.generic.getEnvironment();
+      const env: string = helpers.generic.getEnvironment();
 
       if (api.rawConfig === undefined) {
         throw new Error(
@@ -142,17 +154,17 @@ const api = {
       }
 
       // The Sequelize library needs a function passed in to its logging option
-      if (api.rawConfig.logging && !_.isFunction(api.rawConfig.logging)) {
+      if (api?.rawConfig?.logging && !_.isFunction(api.rawConfig.logging)) {
         api.rawConfig.logging = console.log;
       }
 
       // in case url is present - we overwrite the configuration
-      if (api.rawConfig.url) {
+      if (api?.rawConfig?.url) {
         api.rawConfig = _.merge(
           api.rawConfig,
           api.parseDbUrl(api.rawConfig.url)
         );
-      } else if (api.rawConfig.use_env_variable) {
+      } else if (api?.rawConfig?.use_env_variable) {
         api.rawConfig = _.merge(
           api.rawConfig,
           api.parseDbUrl(process.env[api.rawConfig.use_env_variable])
@@ -172,11 +184,11 @@ const api = {
   urlStringToConfigHash(urlString) {
     try {
       const urlParts = url.parse(urlString);
-      let result = {
-        database: urlParts.pathname.replace(/^\//, ''),
-        host: urlParts.hostname,
-        port: urlParts.port,
-        protocol: urlParts.protocol.replace(/:$/, ''),
+      const result: DataBaseConfig = {
+        database: urlParts?.pathname?.replace(/^\//, '') ?? '',
+        host: urlParts.hostname ?? '',
+        port: urlParts.port ?? '',
+        protocol: urlParts?.protocol?.replace(/:$/, '') ?? '',
         ssl: urlParts.query ? urlParts.query.indexOf('ssl=true') >= 0 : false,
       };
 
@@ -194,7 +206,7 @@ const api = {
     }
   },
 
-  parseDbUrl(urlString) {
+  parseDbUrl(urlString: string) {
     let config = api.urlStringToConfigHash(urlString);
 
     config = _.assign(config, {
@@ -214,4 +226,4 @@ const api = {
   },
 };
 
-module.exports = api;
+export default api;

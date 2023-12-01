@@ -1,14 +1,13 @@
 import clc from 'cli-color';
-import _ from 'lodash';
-import helpers from './index';
+import { helpers } from './index';
 import getYArgs from '../core/yargs';
 import process from 'process';
 
-const args = getYArgs().argv;
+const args: any = getYArgs().argv;
 
-module.exports = {
-  teaser() {
-    const versions = [
+export const viewHelper = {
+  teaser(): void {
+    const versions: string[] = [
       'Node: ' + helpers.version.getNodeVersion(),
       'CLI: ' + helpers.version.getCliVersion(),
       'ORM: ' + helpers.version.getOrmVersion(),
@@ -19,13 +18,13 @@ module.exports = {
     this.log();
   },
 
-  log() {
-    console.log.apply(this, arguments);
+  log(...args: any[]): void {
+    console.log.apply(this, args);
   },
 
-  error(error) {
-    let message = error;
-    const extraMessages = [];
+  error(error: any): void {
+    let message: Error | string | undefined = error;
+    const extraMessages: string[] = [];
 
     if (error instanceof Error) {
       message = !args.debug ? error.message : error.stack;
@@ -49,35 +48,16 @@ module.exports = {
     process.exit(1);
   },
 
-  warn(message) {
+  warn(message: string): void {
     this.log(`${clc.yellow('WARNING:')} ${message}`);
   },
 
-  notifyAboutExistingFile(file) {
+  notifyAboutExistingFile(file: string): void {
     this.error(
       'The file ' +
         clc.blueBright(file) +
         ' already exists. ' +
         'Run command with --force to overwrite it.'
     );
-  },
-
-  pad(s, smth) {
-    let margin = smth;
-
-    if (_.isObject(margin)) {
-      margin = Object.keys(margin);
-    }
-
-    if (Array.isArray(margin)) {
-      margin = Math.max.apply(
-        null,
-        margin.map((o) => {
-          return o.length;
-        })
-      );
-    }
-
-    return s + new Array(margin - s.length + 1).join(' ');
   },
 };

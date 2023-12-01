@@ -1,12 +1,11 @@
 import Umzug from 'umzug';
 import _ from 'lodash';
-import process from 'process';
-
-import helpers from '../helpers/index';
+import { helpers } from '../helpers/index';
+import { QueryInterface } from 'sequelize';
 
 const Sequelize = helpers.generic.getSequelize();
 
-export function logMigrator(s) {
+export function logMigrator(s: string) {
   if (s.indexOf('Executing') !== 0) {
     helpers.view.log(s);
   }
@@ -30,7 +29,10 @@ function getSequelizeInstance() {
   }
 }
 
-export async function getMigrator(type, args) {
+export async function getMigrator(
+  type: string,
+  args: any
+): Promise<Umzug.Umzug> {
   if (!(helpers.config.configFileExists() || args.url)) {
     helpers.view.error(
       `Cannot find "${helpers.config.getConfigFile()}". Have you run "sequelize init"?`
@@ -87,7 +89,7 @@ export function ensureCurrentMetaSchema(migrator) {
     .catch(() => {});
 }
 
-function ensureMetaTable(queryInterface, tableName) {
+function ensureMetaTable(queryInterface: QueryInterface, tableName: string) {
   return queryInterface.showAllTables().then((tableNames) => {
     if (tableNames.indexOf(tableName) === -1) {
       throw new Error('No MetaTable table found.');

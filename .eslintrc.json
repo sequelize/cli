@@ -1,10 +1,14 @@
 {
-  "plugins": ["prettier"],
-  "extends": ["eslint:recommended", "plugin:prettier/recommended"],
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["prettier", "@typescript-eslint"],
+  "extends": ["eslint:recommended", "plugin:prettier/recommended", "plugin:@typescript-eslint/recommended"],
   "rules": {
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-var-requires": "off"
   },
-  "ignorePatterns": ["test/support/tmp", "src/assets"],
+  "ignorePatterns": ["test/support/tmp", "src/assets", "test/**"],
   "parserOptions": {
     "ecmaVersion": 2020,
     "sourceType": "module"
