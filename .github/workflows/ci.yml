@@ -12,7 +12,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [14, 20]
+        node-version: [10, 20]
         sequelize-version: [5, latest]
     name: Postgres (Node ${{ matrix.node-version }}, Sequelize ${{ matrix.sequelize-version }})
     runs-on: ubuntu-latest
@@ -33,7 +33,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [14, 20]
+        node-version: [10, 20]
         sequelize-version: [5, latest]
     name: MySQL (Node ${{ matrix.node-version }}, Sequelize ${{ matrix.sequelize-version }})
     runs-on: ubuntu-latest
@@ -54,7 +54,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [14, 20]
+        node-version: [10, 20]
         sequelize-version: [5, latest]
     name: SQLite (Node ${{ matrix.node-version }}, Sequelize ${{ matrix.sequelize-version }})
     runs-on: ubuntu-latest
