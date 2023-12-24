@@ -1,6 +1,10 @@
 #!/usr/bin/env node
 
 import getYArgs from './core/yargs';
+import { isTypescriptProject } from './helpers/import-helper';
+
+// enable typescript compatibility if project is based on typescript
+if (isTypescriptProject) require('ts-node/register');
 
 const yargs = getYArgs();
 
