@@ -61,8 +61,8 @@ function formatAttributes(attribute) {
     };
   } else if (split.length === 3) {
     // examples: {'test', values}, {test}, {"test"}
-    // lgtm
     const validValues =
+      // lgtm
       /^\{((('[A-z0-9 ]+')|("[A-z0-9 ]+")|([A-z0-9 ]+)))(, ?(('[A-z0-9 ]+')|("[A-z0-9 ]+")|([A-z0-9 ]+)))*\}$/;
 
     const isValidFunction =
