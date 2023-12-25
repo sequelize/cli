@@ -61,8 +61,9 @@ function formatAttributes(attribute) {
     };
   } else if (split.length === 3) {
     // examples: {'test', values}, {test}, {"test"}
+    // codeql-disable-next-line
     const validValues =
-      /^\{((('[A-z0-9 ]+')|("[A-z0-9 ]+")|([A-z0-9 ]+)))(, ?(('[A-z0-9 ]+')|("[A-z0-9 ]+")|([A-z0-9 ]+)))+\}$/; // noqa
+      /^\{((('[A-z0-9 ]+')|("[A-z0-9 ]+")|([A-z0-9 ]+)))(, ?(('[A-z0-9 ]+')|("[A-z0-9 ]+")|([A-z0-9 ]+)))*\}$/;
 
     const isValidFunction =
       validAttributeFunctionType.indexOf(split[1].toLowerCase()) !== -1;
