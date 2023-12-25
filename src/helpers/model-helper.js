@@ -60,8 +60,9 @@ function formatAttributes(attribute) {
       dataValues: null,
     };
   } else if (split.length === 3) {
+    // examples: {'test', values}, {test}, {"test"}
     const validValues =
-      /^\{((('[A-z0-9 ]+')|("[A-z0-9 ]+")|([A-z0-9 ]+)))(, ?(('[A-z0-9 ]+')|("[A-z0-9 ]+")|([A-z0-9 ]+)))+\}$/;
+      /^\{((('[A-z0-9 ]+')|("[A-z0-9 ]+")|([A-z0-9 ]+)))(, ?(('[A-z0-9 ]+')|("[A-z0-9 ]+")|([A-z0-9 ]+)))+\}$/; // noqa
 
     const isValidFunction =
       validAttributeFunctionType.indexOf(split[1].toLowerCase()) !== -1;
