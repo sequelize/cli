@@ -1,7 +1,11 @@
 'use strict';
 
 import { Model, DataTypes } from 'sequelize';
-const sequelize = require('./connection'); 
+<% if (isTypescriptProject) { %>
+import sequelize from './connection';
+<% }else{ %>
+const sequelize = require('./connection');
+<% } %>
 
 <% if (isTypescriptProject) { %>
 export interface <%= name %>Attributes {
@@ -11,7 +15,7 @@ export interface <%= name %>Attributes {
 }
 <% } %>
 
-class <%= name %> extends Model<%= isTypescriptProject ? '<UserAttributes> implements UserAttributes' : '' %> {
+class <%= name %> extends Model<%= isTypescriptProject ? `<${name}Attributes> implements ${name}Attributes` : '' %> {
 <% if (isTypescriptProject) { %>
   <% attributes.forEach(function(attribute, index) { %>
     <%= attribute.fieldName %><%=isTypescriptProject ? `!: ${attribute.tsType}` : '' %>;
