@@ -17,6 +17,12 @@ exports.builder = (yargs) =>
         type: 'string',
         demandOption: true,
       })
+      .option('file-name', {
+        describe:
+          'Specify custom file name for the model created. Default name is model name in lowercase',
+        type: 'string',
+        demandOption: false,
+      })
       .option('force', {
         describe: 'Forcefully re-creates model with the same name',
         type: 'string',
@@ -38,7 +44,7 @@ exports.handler = function (args) {
   helpers.migration.generateTableCreationFile(args);
   helpers.view.log(
     'New model was created at',
-    clc.blueBright(helpers.path.getModelPath(args.name)),
+    clc.blueBright(helpers.path.getModelPath(args.name, args['file-name'])),
     '.'
   );
   helpers.view.log(
@@ -79,7 +85,7 @@ function ensureMigrationsFolder() {
 }
 
 function checkModelFileExistence(args) {
-  const modelPath = helpers.path.getModelPath(args.name);
+  const modelPath = helpers.path.getModelPath(args.name, args['file-name']);
 
   if (args.force === undefined && helpers.model.modelFileExists(modelPath)) {
     helpers.view.notifyAboutExistingFile(modelPath);
