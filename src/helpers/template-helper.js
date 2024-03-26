@@ -1,6 +1,7 @@
 import _ from 'lodash';
 import beautify from 'js-beautify';
 import helpers from './index';
+import { isTypescriptProject } from './import-helper';
 
 module.exports = {
   render(path, locals, options) {
@@ -14,6 +15,9 @@ module.exports = {
     );
 
     const template = helpers.asset.read(path);
+    locals = locals || {};
+    locals['isTypescriptProject'] = isTypescriptProject;
+
     let content = _.template(template)(locals || {});
 
     if (options.beautify) {
