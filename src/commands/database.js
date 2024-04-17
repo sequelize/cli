@@ -54,7 +54,7 @@ exports.handler = async function (args) {
   ]);
 
   const createQuery = getCreateDatabaseQuery(sequelize, config, options);
-  const dropQuery = getDropDatabaseQuery(sequelize, config, options);
+  const dropQuery = await getDropDatabaseQuery(sequelize, config, options);
 
   switch (command) {
     case 'db:create':
@@ -82,6 +82,13 @@ exports.handler = async function (args) {
   process.exit(0);
 };
 
+/**
+ *
+ * @param sequelize
+ * @param config
+ * @param options
+ * @returns {string}
+ */
 function getCreateDatabaseQuery(sequelize, config, options) {
   const queryInterface = sequelize.getQueryInterface();
   const queryGenerator =
@@ -143,24 +150,62 @@ function getCreateDatabaseQuery(sequelize, config, options) {
   }
 }
 
-function getDropDatabaseQuery(sequelize, config, options) {
+/**
+ *
+ * @param sequelize
+ * @returns {Promise<String|null>}
+ */
+async function getPostgresVersion(sequelize) {
+  try {
+    const [results] = await sequelize.query(
+      `SELECT current_setting('server_version_num')::int AS version`,
+      {
+        type: sequelize.QueryTypes.RAW,
+      }
+    );
+    return results[0]?.version ?? null;
+  } catch (e) {
+    return null;
+  }
+}
+
+/**
+ *
+ * @param sequelize
+ * @param config
+ * @param options
+ * @returns {Promise<string>}
+ */
+async function getDropDatabaseQuery(sequelize, config, options) {
+  // Adds the force option for WITH(FORCE) to drop a database that has connected users, fallback to default drop if version lower
+  // for postgres v13 and above see manual https://www.postgresql.org/docs/current/sql-dropdatabase.html
+
+  const POSTGRES_FORCE_DROP_MIN_VERSION = 130000;
   const queryInterface = sequelize.getQueryInterface();
   const queryGenerator =
     queryInterface.queryGenerator || queryInterface.QueryGenerator;
 
   switch (config.dialect) {
-    // Adds the force option for WITH(FORCE) to drop a database that has connected users, fallback to default drop if version lower
-    // for postgres v13 and above see manual https://www.postgresql.org/docs/current/sql-dropdatabase.html
     case 'postgres':
       if (options.force) {
+        const version = await getPostgresVersion(sequelize);
         helpers.view.log(
           clc.redBright(
-            `WARNING :: Dropping database with force for v13 and above only (this will drop regardless of connected users) `
+            `WARNING :: Force dropping database, version check ${
+              version < POSTGRES_FORCE_DROP_MIN_VERSION
+                ? 'NOT OK!. will ignore --force flag'
+                : 'OK!. will force drop database regardless of connected users'
+            } `
           )
         );
+
         return `DROP DATABASE IF EXISTS ${queryGenerator.quoteIdentifier(
           config.database
-        )} WITH (FORCE)`;
+        )} ${
+          Number(version) >= POSTGRES_FORCE_DROP_MIN_VERSION
+            ? 'WITH (FORCE)'
+            : ''
+        } ;`;
       } else
         return `DROP DATABASE IF EXISTS ${queryGenerator.quoteIdentifier(
           config.database
