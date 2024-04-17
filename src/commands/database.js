@@ -29,6 +29,11 @@ exports.builder = (yargs) =>
     .option('template', {
       describe: 'Pass template option to dialect, PostgreSQL only',
       type: 'string',
+    })
+    .option('force', {
+      describe:
+        'Pass force option to dialect with db:drop, PostgreSQL > v13 only',
+      type: 'boolean',
     }).argv;
 
 exports.handler = async function (args) {
@@ -45,18 +50,16 @@ exports.handler = async function (args) {
     'encoding',
     'ctype',
     'template',
+    'force',
   ]);
 
-  const queryInterface = sequelize.getQueryInterface();
-  const queryGenerator =
-    queryInterface.queryGenerator || queryInterface.QueryGenerator;
-
-  const query = getCreateDatabaseQuery(sequelize, config, options);
+  const createQuery = getCreateDatabaseQuery(sequelize, config, options);
+  const dropQuery = getDropDatabaseQuery(sequelize, config, options);
 
   switch (command) {
     case 'db:create':
       await sequelize
-        .query(query, {
+        .query(createQuery, {
           type: sequelize.QueryTypes.RAW,
         })
         .catch((e) => helpers.view.error(e));
@@ -66,14 +69,9 @@ exports.handler = async function (args) {
       break;
     case 'db:drop':
       await sequelize
-        .query(
-          `DROP DATABASE IF EXISTS ${queryGenerator.quoteIdentifier(
-            config.database
-          )}`,
-          {
-            type: sequelize.QueryTypes.RAW,
-          }
-        )
+        .query(dropQuery, {
+          type: sequelize.QueryTypes.RAW,
+        })
         .catch((e) => helpers.view.error(e));
 
       helpers.view.log('Database', clc.blueBright(config.database), 'dropped.');
@@ -142,6 +140,36 @@ function getCreateDatabaseQuery(sequelize, config, options) {
       return (
         'CREATE DATABASE ' + queryGenerator.quoteIdentifier(config.database)
       );
+  }
+}
+
+function getDropDatabaseQuery(sequelize, config, options) {
+  const queryInterface = sequelize.getQueryInterface();
+  const queryGenerator =
+    queryInterface.queryGenerator || queryInterface.QueryGenerator;
+
+  switch (config.dialect) {
+    // Adds the force option for WITH(FORCE) to drop a database that has connected users, fallback to default drop if version lower
+    // for postgres v13 and above see manual https://www.postgresql.org/docs/current/sql-dropdatabase.html
+    case 'postgres':
+      if (options.force) {
+        helpers.view.log(
+          clc.redBright(
+            `WARNING :: Dropping database with force for v13 and above only (this will drop regardless of connected users) `
+          )
+        );
+        return `DROP DATABASE IF EXISTS ${queryGenerator.quoteIdentifier(
+          config.database
+        )} WITH (FORCE)`;
+      } else
+        return `DROP DATABASE IF EXISTS ${queryGenerator.quoteIdentifier(
+          config.database
+        )}`;
+
+    default:
+      return `DROP DATABASE IF EXISTS ${queryGenerator.quoteIdentifier(
+        config.database
+      )}`;
   }
 }
 
