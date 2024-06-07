@@ -3,7 +3,7 @@ import { _baseOptions, _underscoreOption } from '../core/yargs';
 
 import helpers from '../helpers';
 import fs from 'fs';
-import clc from 'cli-color';
+import { blueBright } from 'ansis';
 
 exports.builder = (yargs) =>
   _underscoreOption(
@@ -30,7 +30,7 @@ exports.handler = function (args) {
 
   helpers.view.log(
     'New migration was created at',
-    clc.blueBright(helpers.path.getMigrationPath(args.name)),
+    blueBright(helpers.path.getMigrationPath(args.name)),
     '.'
   );
 

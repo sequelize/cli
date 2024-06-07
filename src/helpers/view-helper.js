@@ -1,4 +1,4 @@
-import clc from 'cli-color';
+import { blueBright, red, underline, yellow } from 'ansis';
 import _ from 'lodash';
 import helpers from './index';
 import getYArgs from '../core/yargs';
@@ -15,7 +15,7 @@ module.exports = {
     ];
 
     this.log();
-    this.log(clc.underline('Sequelize CLI [' + versions.join(', ') + ']'));
+    this.log(underline('Sequelize CLI [' + versions.join(', ') + ']'));
     this.log();
   },
 
@@ -36,13 +36,13 @@ module.exports = {
     }
 
     this.log();
-    console.error(`${clc.red('ERROR:')} ${message}`);
+    console.error(`${red`ERROR:`} ${message}`);
     if (error.original && error.original.detail) {
-      console.error(`${clc.red('ERROR DETAIL:')} ${error.original.detail}`);
+      console.error(`${red`ERROR DETAIL:`} ${error.original.detail}`);
     }
 
     extraMessages.forEach((message) =>
-      console.error(`${clc.red('EXTRA MESSAGE:')} ${message}`)
+      console.error(`${red`EXTRA MESSAGE:`} ${message}`)
     );
     this.log();
 
@@ -50,13 +50,13 @@ module.exports = {
   },
 
   warn(message) {
-    this.log(`${clc.yellow('WARNING:')} ${message}`);
+    this.log(`${yellow`WARNING:`} ${message}`);
   },
 
   notifyAboutExistingFile(file) {
     this.error(
       'The file ' +
-        clc.blueBright(file) +
+        blueBright(file) +
         ' already exists. ' +
         'Run command with --force to overwrite it.'
     );
