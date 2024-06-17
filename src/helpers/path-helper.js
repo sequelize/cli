@@ -70,10 +70,10 @@ module.exports = {
     return args.modelsPath || path.resolve(process.cwd(), 'models');
   },
 
-  getModelPath(modelName) {
+  getModelPath(modelName, fileName) {
     return path.resolve(
       this.getModelsPath(),
-      this.addFileExtension(modelName.toLowerCase())
+      this.addFileExtension(fileName ? fileName : modelName.toLowerCase())
     );
   },
 

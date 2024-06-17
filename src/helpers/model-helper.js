@@ -116,7 +116,7 @@ module.exports = {
   },
 
   generateFile(args) {
-    const modelPath = helpers.path.getModelPath(args.name);
+    const modelPath = helpers.path.getModelPath(args.name, args['file-name']);
 
     helpers.asset.write(modelPath, this.generateFileContent(args));
   },
