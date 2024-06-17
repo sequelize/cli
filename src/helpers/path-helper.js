@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import process from 'process';
+import { isTypescriptProject } from './import-helper';
 
 const resolve = require('resolve').sync;
 import getYArgs from '../core/yargs';
@@ -45,7 +46,7 @@ module.exports = {
   },
 
   getFileExtension() {
-    return 'js';
+    return isTypescriptProject ? 'ts' : 'js';
   },
 
   addFileExtension(basename, options) {
