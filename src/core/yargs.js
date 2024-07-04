@@ -59,6 +59,16 @@ export function _baseOptions(yargs) {
       describe: 'When available show various debug information',
       default: false,
       type: 'boolean',
+    })
+    .option('paranoid', {
+      describe: 'Enable paranoid mode for soft deletes',
+      default: false,
+      type: 'boolean',
+    })
+    .option('underscored', {
+      describe: "Use snake case for the timestamp's attribute names",
+      default: false,
+      type: 'boolean',
     });
 }
 

@@ -282,8 +282,8 @@ const _ = require('lodash');
                   };
 
                   const targetContent = attrUnd.underscored
-                    ? "modelName: 'User',\n    underscored: true,\n  });"
-                    : "modelName: 'User',\n  });";
+                    ? "modelName: 'User',\n    underscored: true,\n    paranoid: false,\n    timestamps: true\n  });"
+                    : "modelName: 'User',\n    paranoid: false,\n    timestamps: true\n  });";
 
                   if (attrUnd.underscored) {
                     flags.underscored = attrUnd.underscored;
