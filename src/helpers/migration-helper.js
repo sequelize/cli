@@ -14,6 +14,8 @@ module.exports = {
       attributes: helpers.model.transformAttributes(args.attributes),
       createdAt: args.underscored ? 'created_at' : 'createdAt',
       updatedAt: args.underscored ? 'updated_at' : 'updatedAt',
+      paranoid: args.paranoid,
+      underscored: args.underscored,
     });
   },
 

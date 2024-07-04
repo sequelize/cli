@@ -25,7 +25,14 @@ module.exports = {
       <%= updatedAt %>: {
         allowNull: false,
         type: Sequelize.DATE
-      }
+      },
+
+      <% if (paranoid) { %>
+      deletedAt: {
+        type: Sequelize.DATE,
+        allowNull: true
+      },
+      <% } %>
     });
   },
 

@@ -1,8 +1,8 @@
 import process from 'process';
 import { _baseOptions, _underscoreOption } from '../core/yargs';
-
 import helpers from '../helpers';
 import clc from 'cli-color';
+import getYArgs from '../core/yargs';
 
 exports.builder = (yargs) =>
   _underscoreOption(
@@ -21,6 +21,17 @@ exports.builder = (yargs) =>
         describe: 'Forcefully re-creates model with the same name',
         type: 'string',
         demandOption: false,
+      })
+      .option('paranoid', {
+        describe: 'Enable paranoid mode for soft deletes',
+        type: 'boolean',
+        demandOption: false,
+        default: getYArgs().argv.paranoid,
+      })
+      .option('underscored', {
+        describe: "Use snake case for the timestamp's attribute names",
+        type: 'boolean',
+        default: false,
       })
   ).argv;
 
