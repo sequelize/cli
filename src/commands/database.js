@@ -4,7 +4,7 @@ import { logMigrator } from '../core/migrator';
 
 import helpers from '../helpers';
 import { cloneDeep, defaults, pick } from 'lodash';
-import clc from 'cli-color';
+import colors from 'picocolors';
 
 const Sequelize = helpers.generic.getSequelize();
 
@@ -61,7 +61,11 @@ exports.handler = async function (args) {
         })
         .catch((e) => helpers.view.error(e));
 
-      helpers.view.log('Database', clc.blueBright(config.database), 'created.');
+      helpers.view.log(
+        'Database',
+        colors.blueBright(config.database),
+        'created.'
+      );
 
       break;
     case 'db:drop':
@@ -76,7 +80,11 @@ exports.handler = async function (args) {
         )
         .catch((e) => helpers.view.error(e));
 
-      helpers.view.log('Database', clc.blueBright(config.database), 'dropped.');
+      helpers.view.log(
+        'Database',
+        colors.blueBright(config.database),
+        'dropped.'
+      );
 
       break;
   }
