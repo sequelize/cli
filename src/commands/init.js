@@ -52,7 +52,7 @@ function initConfig(args) {
 
 function initModels(args) {
   helpers.init.createModelsFolder(!!args.force);
-  helpers.init.createModelsIndexFile(!!args.force);
+  helpers.init.createConnectionFile(!!args.force);
 }
 
 function initMigrations(args) {

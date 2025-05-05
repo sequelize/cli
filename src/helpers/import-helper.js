@@ -12,6 +12,19 @@ async function supportsDynamicImport() {
   }
 }
 
+function isPackageInstalled(packageName) {
+  try {
+    // Try to require the package
+    require.resolve(packageName);
+    return true;
+  } catch (error) {
+    // If require.resolve throws an error, the package is not installed
+    return false;
+  }
+}
+
+const isTypescriptProject = isPackageInstalled('typescript');
+
 /**
  * Imports a JSON, CommonJS or ESM module
  * based on feature detection.
@@ -39,4 +52,6 @@ async function importModule(modulePath) {
 module.exports = {
   supportsDynamicImport,
   importModule,
+  isPackageInstalled,
+  isTypescriptProject,
 };

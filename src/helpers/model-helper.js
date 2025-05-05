@@ -2,6 +2,27 @@ import helpers from './index';
 
 const Sequelize = helpers.generic.getSequelize();
 const validAttributeFunctionType = ['array', 'enum'];
+const typescriptTypesForDbFieldTypes = {
+  string: 'string',
+  text: 'string',
+  uuid: 'string',
+  CHAR: 'string',
+  number: 'number',
+  float: 'number',
+  integer: 'number',
+  bigint: 'number',
+  mediumint: 'number',
+  tinyint: 'number',
+  smallint: 'number',
+  double: 'number',
+  'double precision': 'number',
+  real: 'number',
+  decimal: 'number',
+  date: 'data',
+  now: 'data',
+  dateonly: 'data',
+  boolean: 'boolean',
+};
 
 /**
  * Check the given dataType actual exists.
@@ -15,6 +36,17 @@ function validateDataType(dataType) {
   return dataType;
 }
 
+function getTsTypeForDbColumnType(db_type, attribute_func, values) {
+  db_type = db_type.toLowerCase();
+  if (attribute_func === 'array') {
+    return `${typescriptTypesForDbFieldTypes[db_type]}[]`;
+  } else if (attribute_func === 'enum') {
+    return values.join(' | ');
+  }
+
+  return typescriptTypesForDbFieldTypes[db_type] || 'any';
+}
+
 function formatAttributes(attribute) {
   let result;
   const split = attribute.split(':');
@@ -24,10 +56,13 @@ function formatAttributes(attribute) {
       fieldName: split[0],
       dataType: split[1],
       dataFunction: null,
+      tsType: getTsTypeForDbColumnType(split[1]),
       dataValues: null,
     };
   } else if (split.length === 3) {
-    const validValues = /^\{(,? ?[A-z0-9 ]+)+\}$/;
+    const validValues =
+      /^\{((('[A-z0-9 ]+')|("[A-z0-9 ]+")|([A-z0-9 ]+)))(, ?(('[A-z0-9 ]+')|("[A-z0-9 ]+")|([A-z0-9 ]+)))*\}$/;
+
     const isValidFunction =
       validAttributeFunctionType.indexOf(split[1].toLowerCase()) !== -1;
     const isValidValue =
@@ -40,20 +75,23 @@ function formatAttributes(attribute) {
         fieldName: split[0],
         dataType: split[2],
         dataFunction: split[1],
+        tsType: getTsTypeForDbColumnType(split[2], split[1]),
         dataValues: null,
       };
     }
 
     if (isValidFunction && !isValidValue && isValidValues) {
+      const values = split[2]
+        .replace(/(^\{|\}$)/g, '')
+        .split(/\s*,\s*/)
+        .map((s) => (s.startsWith('"') || s.startsWith("'") ? s : `'${s}'`));
+
       result = {
         fieldName: split[0],
         dataType: split[1],
+        tsType: getTsTypeForDbColumnType(split[2], split[1], values),
         dataFunction: null,
-        dataValues: split[2]
-          .replace(/(^\{|\}$)/g, '')
-          .split(/\s*,\s*/)
-          .map((s) => `'${s}'`)
-          .join(', '),
+        dataValues: values.join(', '),
       };
     }
   }
