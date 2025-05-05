@@ -3,7 +3,7 @@ import { _baseOptions } from '../core/yargs';
 
 import helpers from '../helpers';
 import fs from 'fs';
-import clc from 'cli-color';
+import colors from 'picocolors';
 
 exports.builder = (yargs) =>
   _baseOptions(yargs).option('name', {
@@ -28,7 +28,7 @@ exports.handler = function (args) {
 
   helpers.view.log(
     'New seed was created at',
-    clc.blueBright(helpers.path.getSeederPath(args.name)),
+    colors.blueBright(helpers.path.getSeederPath(args.name)),
     '.'
   );
 
