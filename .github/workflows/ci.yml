@@ -28,7 +28,7 @@ jobs:
       - run: yarn add sequelize@${{ matrix.sequelize-version }} --ignore-engines
       - run: docker compose up -d ${DIALECT}
       - run: sleep 10
-      - run: docker logs -f --tail 10 ${DIALECT}
+      - run: docker ps
       - run: docker run --link ${DIALECT}:db --net cli_default jwilder/dockerize -wait tcp://${DIALECT}:${SEQ_PORT} -timeout 2m
       - run: yarn test
   test-mysql:
