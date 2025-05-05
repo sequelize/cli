@@ -27,7 +27,7 @@ jobs:
       - run: yarn install --frozen-lockfile --ignore-engines
       - run: yarn add sequelize@${{ matrix.sequelize-version }} --ignore-engines
       - run: docker compose up -d ${DIALECT}
-      - run: docker run --net cli_default jwilder/dockerize -wait tcp://${DIALECT}:${SEQ_PORT::-1} -timeout 2m
+      - run: docker run --link ${DIALECT}:db --net cli_default jwilder/dockerize -wait tcp://${DIALECT}:${SEQ_PORT::-1} -timeout 2m
       - run: yarn test
   test-mysql:
     strategy:
@@ -48,7 +48,7 @@ jobs:
       - run: yarn install --frozen-lockfile --ignore-engines
       - run: yarn add sequelize@${{ matrix.sequelize-version }} --ignore-engines
       - run: docker compose up -d ${DIALECT}
-      - run: docker run --net cli_default jwilder/dockerize -wait tcp://${DIALECT}:${SEQ_PORT::-1} -timeout 2m
+      - run: docker run --link ${DIALECT}:db --net cli_default jwilder/dockerize -wait tcp://${DIALECT}:${SEQ_PORT::-1} -timeout 2m
       - run: yarn test
   test-sqlite:
     strategy:
