@@ -2,7 +2,7 @@ import process from 'process';
 import { _baseOptions, _underscoreOption } from '../core/yargs';
 
 import helpers from '../helpers';
-import clc from 'cli-color';
+import colors from 'picocolors';
 
 exports.builder = (yargs) =>
   _underscoreOption(
@@ -38,12 +38,12 @@ exports.handler = function (args) {
   helpers.migration.generateTableCreationFile(args);
   helpers.view.log(
     'New model was created at',
-    clc.blueBright(helpers.path.getModelPath(args.name)),
+    colors.blueBright(helpers.path.getModelPath(args.name)),
     '.'
   );
   helpers.view.log(
     'New migration was created at',
-    clc.blueBright(
+    colors.blueBright(
       helpers.path.getMigrationPath(
         helpers.migration.generateMigrationName(args)
       )
@@ -60,7 +60,7 @@ function ensureModelsFolder() {
       'Unable to find models path (' +
         helpers.path.getModelsPath() +
         '). Did you run ' +
-        clc.blueBright('sequelize init') +
+        colors.blueBright('sequelize init') +
         '?'
     );
   }
@@ -72,7 +72,7 @@ function ensureMigrationsFolder() {
       'Unable to find migrations path (' +
         helpers.path.getPath('migration') +
         '). Did you run ' +
-        clc.blueBright('sequelize init') +
+        colors.blueBright('sequelize init') +
         '?'
     );
   }
