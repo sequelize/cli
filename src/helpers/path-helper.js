@@ -97,7 +97,7 @@ module.exports = {
   existsSync(pathToCheck) {
     if (fs.accessSync) {
       try {
-        fs.accessSync(pathToCheck, fs.R_OK);
+        fs.accessSync(pathToCheck, fs.constants.R_OK);
         return true;
       } catch (e) {
         return false;
