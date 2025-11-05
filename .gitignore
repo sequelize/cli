@@ -27,5 +27,5 @@ test/support/tmp/*
 !test/support/tmp/.gitkeep
 
 # Extra files
-package-lock.json
+yarn.lock
 npm-debug.log

@@ -1,0 +1,60 @@
+name: Release
+on: workflow_dispatch
+
+permissions:
+  contents: read # for checkout
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # to be able to publish a GitHub release
+      issues: write # to be able to comment on released issues
+      pull-requests: write # to be able to comment on released pull requests
+      id-token: write # to enable use of OIDC for trusted publishing and npm provenance
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 'lts/*'
+      - name: Install dependencies
+        run: npm clean-install
+      - name: Verify the integrity of provenance attestations and registry signatures for installed dependencies
+        run: npm audit signatures
+      - name: Release
+        id: release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run release
+      - name: Post release notes to OpenCollective
+        if: steps.release.outputs.new_release_published == 'true'
+        env:
+          OPENCOLLECTIVE_TOKEN: ${{ secrets.OPEN_COLLECTIVE_KEY }}
+          OPENCOLLECTIVE_SLUG: sequelize
+          RELEASE_VERSION: ${{ steps.release.outputs.new_release_version }}
+          RELEASE_NOTES: ${{ steps.release.outputs.new_release_notes }}
+          PACKAGE_NAME: sequelize-cli
+        run: |
+          curl -X POST "https://api.opencollective.com/graphql/v2" \
+            -H "Content-Type: application/json" \
+            # TODO: use OAuth instead of Personal-Token so we can create the updates from the organization instead of a user
+            -H "Personal-Token: $OPENCOLLECTIVE_TOKEN" \
+            -d "{
+              \"query\": \"mutation CreateUpdate(\$update: UpdateCreateInput!) { createUpdate(update: \$update) { id legacyId slug title html publishedAt } }\",
+              \"variables\": {
+                \"update\": {
+                  \"account\": {
+                    \"slug\": \"$OPENCOLLECTIVE_SLUG\"
+                  },
+                  \"title\": \"Release of $PACKAGE_NAME $RELEASE_VERSION\",
+                  \"html\": \"<h2>Release of $PACKAGE_NAME $RELEASE_VERSION</h2><p>We've just released version $RELEASE_VERSION of $PACKAGE_NAME!</p><h3>Changes:</h3><pre>$RELEASE_NOTES</pre><p>Install it with: <code>npm install $PACKAGE_NAME@$RELEASE_VERSION</code></p>\",
+                  \"isPrivate\": false,
+                  \"notificationAudience\": \"ALL\"
+                }
+              }
+            }"
