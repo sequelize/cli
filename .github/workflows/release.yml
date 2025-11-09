@@ -30,7 +30,7 @@ jobs:
         id: release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npm run release
+        run: npx semantic-release
       - name: Post release notes to OpenCollective
         if: steps.release.outputs.new_release_published == 'true'
         env:
