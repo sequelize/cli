@@ -48,6 +48,30 @@ describe(Support.getTestDialectTeaser('db:drop'), () => {
         }
       );
     });
+    it('correctly drops database with force', function (done) {
+      const databaseName = `my_test_db_${_.random(10000, 99999)}`;
+      prepare(
+        'db:drop --force',
+        () => {
+          this.sequelize
+            .query(
+              `SELECT 1 as exists FROM pg_database WHERE datname = '${databaseName}';`,
+              {
+                type: this.sequelize.QueryTypes.SELECT,
+              }
+            )
+            .then((result) => {
+              expect(result).to.be.empty;
+              done();
+            });
+        },
+        {
+          config: {
+            database: databaseName,
+          },
+        }
+      );
+    });
   }
 
   if (Support.dialectIsMySQL()) {
