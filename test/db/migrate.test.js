@@ -402,6 +402,60 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
   });
 });
 
+describeOnlyForSQLite(Support.getTestDialectTeaser('db:migrate'), () => {
+  ['sqlite:./test.sqlite', 'sqlite:../test.sqlite'].forEach((url) => {
+    describe(`with url option containing relative path to a local storage file: ${url}`, () => {
+      const prepare = function (callback) {
+        const config = { url };
+        const configContent = 'module.exports = ' + JSON.stringify(config);
+        let result = '';
+
+        return gulp
+          .src(Support.resolveSupportPath('tmp'))
+          .pipe(helpers.clearDirectory())
+          .pipe(helpers.runCli('init'))
+          .pipe(helpers.removeFile('config/config.json'))
+          .pipe(helpers.copyMigration('createPerson.js'))
+          .pipe(helpers.overwriteFile(configContent, 'config/config.js'))
+          .pipe(helpers.runCli('db:migrate'))
+          .on('error', (e) => {
+            callback(e);
+          })
+          .on('data', (data) => {
+            result += data.toString();
+          })
+          .on('end', () => {
+            callback(null, result);
+          });
+      };
+
+      it('creates a SequelizeMeta table', function (done) {
+        const self = this;
+
+        prepare(() => {
+          helpers.readTables(self.sequelize, (tables) => {
+            expect(tables).to.have.length(2);
+            expect(tables).to.contain('SequelizeMeta');
+            done();
+          });
+        });
+      });
+
+      it('creates the respective table', function (done) {
+        const self = this;
+
+        prepare(() => {
+          helpers.readTables(self.sequelize, (tables) => {
+            expect(tables).to.have.length(2);
+            expect(tables).to.contain('Person');
+            done();
+          });
+        });
+      });
+    });
+  });
+});
+
 describe(Support.getTestDialectTeaser('db:migrate'), () => {
   describe('optional migration parameters', () => {
     const prepare = function (runArgs = '', callback) {
@@ -621,6 +675,14 @@ describe(Support.getTestDialectTeaser('db:migrate'), () => {
 
 function describeOnlyForESM(title, fn) {
   if (semver.satisfies(process.version, '^12.20.0 || ^14.13.1 || >=16.0.0')) {
+    describe(title, fn);
+  } else {
+    describe.skip(title, fn);
+  }
+}
+
+function describeOnlyForSQLite(title, fn) {
+  if (Support.getTestDialect() === 'sqlite') {
     describe(title, fn);
   } else {
     describe.skip(title, fn);

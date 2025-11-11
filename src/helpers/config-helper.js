@@ -206,7 +206,9 @@ const api = {
       config.database.indexOf(':memory') !== 0
     ) {
       config = _.assign(config, {
-        storage: '/' + config.database,
+        storage: config.host.match(/^\.+$/)
+          ? config.database
+          : '/' + config.database,
       });
     }
 
