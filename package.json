@@ -1,6 +1,6 @@
 {
   "name": "sequelize-cli",
-  "version": "6.3.0",
+  "version": "6.6.3",
   "description": "The Sequelize CLI",
   "types": "./types.d.ts",
   "bin": {
