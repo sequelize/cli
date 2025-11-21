@@ -21,10 +21,10 @@
     "yargs": "^16.2.0"
   },
   "devDependencies": {
-    "@babel/cli": "7.27.1",
-    "@babel/core": "7.27.1",
-    "@babel/preset-env": "7.27.1",
-    "@babel/register": "7.27.1",
+    "@babel/cli": "7.28.3",
+    "@babel/core": "7.28.5",
+    "@babel/preset-env": "7.28.5",
+    "@babel/register": "7.28.3",
     "@commitlint/cli": "20.1.0",
     "@commitlint/config-angular": "20.0.0",
     "bluebird": "3.7.2",
