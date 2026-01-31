@@ -24,6 +24,11 @@ exports.builder = (yargs) =>
         'Migration name. When specified, only this migration will be run. Mutually exclusive with --to and --from',
       type: 'string',
       conflicts: ['to', 'from'],
+    })
+    .option('skip-execution', {
+      describe: 'Mark migration as completed without actually executing it',
+      default: false,
+      type: 'boolean',
     }).argv;
 
 exports.handler = async function (args) {
@@ -85,9 +90,53 @@ function migrate(args) {
             }
             options.from = args.from;
           }
+          if (args['skip-execution']) {
+            let migrationsToRun = migrations;
+
+            if (args.name) {
+              migrationsToRun = [args.name];
+            } else {
+              if (options.from) {
+                const fromIndex = migrations.findIndex(
+                  (m) => m.file === options.from
+                );
+                if (fromIndex !== -1) {
+                  migrationsToRun = migrations.slice(fromIndex + 1);
+                }
+              }
+              if (options.to) {
+                const toIndex = migrationsToRun.findIndex(
+                  (m) => m.file === options.to
+                );
+                if (toIndex !== -1) {
+                  migrationsToRun = migrationsToRun.slice(0, toIndex + 1);
+                }
+              }
+            }
+
+            if (migrationsToRun.length === 0) {
+              helpers.view.log('No migrations to skip.');
+              process.exit(0);
+            }
+
+            return Promise.all(
+              migrationsToRun.map((migration) => {
+                helpers.view.log(
+                  'Marking migration as executed:',
+                  migration.file
+                );
+                return migrator.storage.logMigration(migration.file);
+              })
+            ).then(() => {
+              return { executed: true };
+            });
+          }
+
           return options;
         })
         .then((options) => {
+          if (options && options.executed) return;
+
           if (args.name) {
             return migrator.up(args.name);
           } else {
