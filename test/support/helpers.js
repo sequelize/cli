@@ -6,7 +6,7 @@ var support = require('./index');
 var through = require('through2');
 var expect = require('expect.js');
 var path = require('path');
-var fs = require('fs-extra');
+var fs = require('fs');
 
 module.exports = {
   getTestConfig: function (mixin) {
@@ -95,7 +95,7 @@ module.exports = {
 
   copyFile: function (from, to) {
     return through.obj(function (file, encoding, callback) {
-      fs.copy(from, path.resolve(file.path, to), function (err) {
+      fs.copyFile(from, path.resolve(file.path, to), function (err) {
         callback(err, file);
       });
     });
@@ -235,6 +235,6 @@ function logToFile(thing) {
   var logPath = __dirname + '/../../logs';
   var logFile = logPath + '/test.log';
 
-  fs.mkdirpSync(logPath);
+  fs.mkdirSync(logPath, { recursive: true });
   fs.appendFileSync(logFile, '[' + new Date() + '] ' + text + '\n');
 }
