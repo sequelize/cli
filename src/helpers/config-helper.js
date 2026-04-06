@@ -63,46 +63,51 @@ const api = {
     return helpers.path.existsSync(api.getConfigFile());
   },
 
-  getDefaultConfig() {
-    return (
-      JSON.stringify(
-        {
-          development: {
-            username: 'root',
-            password: null,
-            database: 'database_development',
-            host: '127.0.0.1',
-            dialect: 'mysql',
+  getDefaultConfig(configPath) {
+    if (configPath.endsWith('js')) {
+      return helpers.asset.read('config/dynamic-config.js');
+    } else {
+      return (
+        JSON.stringify(
+          {
+            development: {
+              username: 'root',
+              password: null,
+              database: 'database_development',
+              host: '127.0.0.1',
+              dialect: 'mysql',
+            },
+            test: {
+              username: 'root',
+              password: null,
+              database: 'database_test',
+              host: '127.0.0.1',
+              dialect: 'mysql',
+            },
+            production: {
+              username: 'root',
+              password: null,
+              database: 'database_production',
+              host: '127.0.0.1',
+              dialect: 'mysql',
+            },
           },
-          test: {
-            username: 'root',
-            password: null,
-            database: 'database_test',
-            host: '127.0.0.1',
-            dialect: 'mysql',
-          },
-          production: {
-            username: 'root',
-            password: null,
-            database: 'database_production',
-            host: '127.0.0.1',
-            dialect: 'mysql',
-          },
-        },
-        undefined,
-        2
-      ) + '\n'
-    );
+          undefined,
+          2
+        ) + '\n'
+      );
+    }
   },
 
   writeDefaultConfig() {
-    const configPath = path.dirname(api.getConfigFile());
+    const configFilePath = api.getConfigFile();
+    const configFolderPath = path.dirname(configFilePath);
 
-    if (!helpers.path.existsSync(configPath)) {
-      helpers.asset.mkdirp(configPath);
+    if (!helpers.path.existsSync(configFolderPath)) {
+      helpers.asset.mkdirp(configFolderPath);
     }
 
-    fs.writeFileSync(api.getConfigFile(), api.getDefaultConfig());
+    fs.writeFileSync(configFilePath, api.getDefaultConfig(configFilePath));
   },
 
   readConfig() {
