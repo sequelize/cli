@@ -51,11 +51,11 @@ const init = {
     createFolder('models', helpers.path.getModelsPath(), force);
   },
 
-  createModelsIndexFile: (force) => {
+  createConnectionFile: (force) => {
     const modelsPath = helpers.path.getModelsPath();
     const indexPath = path.resolve(
       modelsPath,
-      helpers.path.addFileExtension('index')
+      helpers.path.addFileExtension('connection')
     );
 
     if (!helpers.path.existsSync(modelsPath)) {
@@ -71,7 +71,7 @@ const init = {
       helpers.asset.write(
         indexPath,
         helpers.template.render(
-          'models/index.js',
+          'models/connection.js',
           {
             configFile:
               "__dirname + '/" + relativeConfigPath.replace(/\\/g, '/') + "'",

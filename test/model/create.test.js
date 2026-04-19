@@ -98,8 +98,8 @@ const _ = require('lodash');
         });
       });
       [
-        'first_name:string,last_name:string,bio:text,role:enum:{Admin,"Guest User"},reviews:array:text',
-        "first_name:string,last_name:string,bio:text,role:enum:{Admin,'Guest User'},reviews:array:text",
+        `'first_name:string,last_name:string,bio:text,role:enum:{Admin,"Guest User"},reviews:array:text'`,
+        `"first_name:string,last_name:string,bio:text,role:enum:{Admin,'Guest User'},reviews:array:text"`,
         "'first_name:string last_name:string bio:text role:enum:{Admin,Guest User} reviews:array:text'",
         "'first_name:string, last_name:string, bio:text, role:enum:{Admin, Guest User}, reviews:array:text'",
       ].forEach((attributes) => {
@@ -145,7 +145,9 @@ const _ = require('lodash');
                   .pipe(helpers.ensureContent('bio: DataTypes.TEXT'))
                   .pipe(
                     helpers.ensureContent(
-                      "role: DataTypes.ENUM('Admin', 'Guest User')"
+                      attributes.includes('"Guest User"')
+                        ? `role: DataTypes.ENUM('Admin', "Guest User")`
+                        : "role: DataTypes.ENUM('Admin', 'Guest User')"
                     )
                   )
                   .pipe(
@@ -228,7 +230,11 @@ const _ = require('lodash');
                         )
                         .pipe(
                           helpers.ensureContent(
-                            "role: {\n        type: Sequelize.ENUM('Admin', 'Guest User')\n      },"
+                            `role: {\n        type: Sequelize.ENUM(${
+                              attributes.includes('"Guest User"')
+                                ? `'Admin', "Guest User"`
+                                : "'Admin', 'Guest User'"
+                            })\n      },`
                           )
                         )
                         .pipe(
@@ -282,8 +288,8 @@ const _ = require('lodash');
                   };
 
                   const targetContent = attrUnd.underscored
-                    ? "modelName: 'User',\n    underscored: true,\n  });"
-                    : "modelName: 'User',\n  });";
+                    ? "modelName: 'User',\n  underscored: true,\n});"
+                    : "modelName: 'User',\n});";
 
                   if (attrUnd.underscored) {
                     flags.underscored = attrUnd.underscored;
@@ -298,7 +304,7 @@ const _ = require('lodash');
                         .src(Support.resolveSupportPath('tmp', 'models'))
                         .pipe(helpers.readFile('user.js'))
                         .pipe(helpers.ensureContent(targetContent))
-                        .pipe(helpers.ensureContent('static associate'))
+                        .pipe(helpers.ensureContent('// Associations'))
                         .pipe(helpers.teardown(done));
                     }
                   );

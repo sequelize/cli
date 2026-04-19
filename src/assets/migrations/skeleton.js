@@ -1,8 +1,9 @@
 'use strict';
+<%= isTypescriptProject ? `import { QueryInterface, DataTypes } from 'sequelize';` : '' %>
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
-  async up (queryInterface, Sequelize) {
+  async up (queryInterface<%= isTypescriptProject ? ': QueryInterface' : '' %>, Sequelize<%= isTypescriptProject ? ': typeof DataTypes' : '' %>) {
     /**
      * Add altering commands here.
      *
@@ -11,7 +12,7 @@ module.exports = {
      */
   },
 
-  async down (queryInterface, Sequelize) {
+  async down (queryInterface<%= isTypescriptProject ? ': QueryInterface' : '' %>, Sequelize<%= isTypescriptProject ? ': typeof DataTypes' : '' %>) {
     /**
      * Add reverting commands here.
      *

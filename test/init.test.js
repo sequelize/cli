@@ -37,7 +37,7 @@ const gulp = require('gulp');
       'config/config.json',
       'migrations',
       'models',
-      'models/index.js',
+      'models/connection.js',
     ]);
 
     it('creates a custom config folder', (done) => {
@@ -86,7 +86,7 @@ const gulp = require('gulp');
         .pipe(helpers.teardown(done));
     });
 
-    describe('models/index.js', () => {
+    describe('models/connection.js', () => {
       it('correctly injects the reference to the default config file', (done) => {
         gulp
           .src(Support.resolveSupportPath('tmp'))
@@ -96,7 +96,7 @@ const gulp = require('gulp');
             helpers.teardown(() => {
               gulp
                 .src(Support.resolveSupportPath('tmp', 'models'))
-                .pipe(helpers.readFile('index.js'))
+                .pipe(helpers.readFile('connection.js'))
                 .pipe(
                   helpers.ensureContent("__dirname + '/../config/config.json'")
                 )
@@ -114,7 +114,7 @@ const gulp = require('gulp');
             helpers.teardown(() => {
               gulp
                 .src(Support.resolveSupportPath('tmp', 'models'))
-                .pipe(helpers.readFile('index.js'))
+                .pipe(helpers.readFile('connection.js'))
                 .pipe(
                   helpers.ensureContent(
                     "__dirname + '/../my/configuration-file.json'"
