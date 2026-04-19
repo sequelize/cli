@@ -29,7 +29,7 @@
     "@commitlint/config-angular": "20.0.0",
     "bluebird": "3.7.2",
     "eslint": "7.32.0",
-    "eslint-config-prettier": "10.1.2",
+    "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "4.2.1",
     "expect.js": "0.3.1",
     "gulp": "4.0.2",
