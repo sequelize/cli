@@ -1,9 +1,22 @@
-import fs from 'fs-extra';
+import fs from 'fs';
 import path from 'path';
+
+function copyRecursiveSync(src, dest) {
+  const stat = fs.statSync(src);
+
+  if (stat.isDirectory()) {
+    fs.mkdirSync(dest, { recursive: true });
+    for (const child of fs.readdirSync(src)) {
+      copyRecursiveSync(path.join(src, child), path.join(dest, child));
+    }
+  } else {
+    fs.copyFileSync(src, dest);
+  }
+}
 
 const assets = {
   copy: (from, to) => {
-    fs.copySync(path.resolve(__dirname, '..', 'assets', from), to);
+    copyRecursiveSync(path.resolve(__dirname, '..', 'assets', from), to);
   },
 
   read: (assetPath) => {
@@ -26,7 +39,7 @@ const assets = {
   },
 
   mkdirp: (pathToCreate) => {
-    fs.mkdirpSync(pathToCreate);
+    fs.mkdirSync(pathToCreate, { recursive: true });
   },
 };
 
