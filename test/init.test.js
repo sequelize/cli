@@ -126,6 +126,23 @@ const gulp = require('gulp');
       });
     });
 
+    it('does not put JSON content in dynamic custom configuration file', (done) => {
+      gulp
+        .src(Support.resolveSupportPath('tmp'))
+        .pipe(helpers.clearDirectory())
+        .pipe(helpers.runCli(flag + ' --config config/database.js'))
+        .pipe(
+          helpers.teardown(() => {
+            gulp
+              .src(Support.resolveSupportPath('tmp', 'config'))
+              .pipe(helpers.readFile('database.js'))
+              .pipe(helpers.ensureContent('module.exports'))
+              .pipe(helpers.ensureContent('process.env'))
+              .pipe(helpers.teardown(done));
+          })
+        );
+    });
+
     it('does not overwrite an existing config.json file', (done) => {
       gulp
         .src(Support.resolveSupportPath('tmp'))
