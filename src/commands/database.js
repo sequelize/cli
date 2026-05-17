@@ -118,6 +118,7 @@ function getCreateDatabaseQuery(sequelize, config, options) {
       );
 
     case 'mysql':
+    case 'mariadb':
       return (
         'CREATE DATABASE IF NOT EXISTS ' +
         queryGenerator.quoteIdentifier(config.database) +
@@ -172,6 +173,7 @@ function getDatabaseLessSequelize() {
       break;
 
     case 'mysql':
+    case 'mariadb':
       delete config.database;
       break;
 
