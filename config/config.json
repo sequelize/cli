@@ -1,0 +1,36 @@
+{
+  "development": {
+    "username": "root",
+    "password": "secret_pass",
+    "database": "database_development",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "pool": {
+      "maxConnections": 1,
+      "some": {
+        "other": {
+          "nested": {
+            "object": "here"
+          }
+        }
+      }
+    }
+  },
+  "env": {
+    "use_env_variable": "postgresql://[user[:password]@][netlocation][:port][/dbname]"
+  },
+  "test": {
+    "username": "root",
+    "password": null,
+    "database": "database_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
